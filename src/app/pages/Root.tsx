@@ -50,7 +50,7 @@ export default function Root() {
         
         {/* Bottom Tab Bar - Mobile Only */}
         <nav 
-          className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-[9999] mobile-bottom-safe"
+          className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-[9999] mobile-bottom-safe mobile-bottom-nav-fixed"
         >
           <div className="flex justify-around items-center h-16 max-w-screen-xl mx-auto">
             {tabs.map((tab) => {
