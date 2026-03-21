@@ -23,6 +23,20 @@ const EMPATHY_SECTION_IMAGE_URL =
   "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/yoga_s.jpeg";
 const POST_SURGERY_CLINIC_IMAGE_URL =
   "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/1533a480-19c6-4888-a70a-5f635655c966.jpg";
+const CHEMO_RADIATION_CARE_IMAGE_URL =
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/headdocimg.png";
+const ADVANCED_CANCER_CARE_IMAGE_URL =
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/clinic_onco.jpeg";
+const LOCATION_RECOVERY_IMAGE_URL =
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/loca.jpeg";
+const HOTEL_ROOM_IMAGE_URL =
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/room_pa.jpeg";
+const CANCER_REHAB_STORY_IMAGE_URL =
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/te_1.jpeg";
+const CEO_STORY_IMAGE_URL =
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/ceo_re.png";
+const DIRECTOR_GREETING_IMAGE_URL =
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/ceo_1.png";
 /** 임시: Vercel 링크테스트용 - 모든 figma:asset 이미지를 yoga_s.jpeg로 대체 */
 const PLACEHOLDER_IMAGE =
   "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/yoga_s.jpeg";
@@ -42,7 +56,7 @@ export default function Home() {
       title: "항암·방사선 치료 집중 관리",
       description: "면역, 백혈구, 부작용, 체력 유지 집중 케어",
       icon: Sparkles,
-      image: PLACEHOLDER_IMAGE,
+      image: CHEMO_RADIATION_CARE_IMAGE_URL,
       featured: true // 가장 강조
     },
     {
@@ -50,7 +64,7 @@ export default function Home() {
       title: "진행성 암 통합 케어",
       description: "통증 관리와 삶의 질 회복",
       icon: Heart,
-      image: PLACEHOLDER_IMAGE
+      image: ADVANCED_CANCER_CARE_IMAGE_URL
     }
   ];
 
@@ -67,30 +81,6 @@ export default function Home() {
     {
       title: "갱년기 여성 케어",
       icon: Sparkles
-    }
-  ];
-
-  // 환경 섹션
-  const recoveryEnvironment = [
-    {
-      title: "국립암센터 차량 20분",
-      subtitle: "치료는 그대로 이어가고, 회복은 집중합니다",
-      image: PLACEHOLDER_IMAGE
-    },
-    {
-      title: "호텔 객실형 입원 환경",
-      subtitle: "고급호텔 리모델링, 프라이빗 공간",
-      image: PLACEHOLDER_IMAGE
-    },
-    {
-      title: "자연 속 회복 환경",
-      subtitle: "도심이 아닌, 회복을 위한 공간",
-      image: PLACEHOLDER_IMAGE
-    },
-    {
-      title: "통합 의료진 시스템",
-      subtitle: "양방·한방·치과 협진 + 20년 이상 경험",
-      image: PLACEHOLDER_IMAGE
     }
   ];
 
@@ -115,22 +105,22 @@ export default function Home() {
     {
       title: "암 치료를 더 건강하게 받고\n암 이후의 삶을 준비하는 재활",
       description: "치료 후유증 예방과 부작용 개선은 기본\n암 이후의 삶을 준비하는 종합적인 재활 프로그램",
-      image: PLACEHOLDER_IMAGE
+      image: CANCER_REHAB_STORY_IMAGE_URL
     },
     {
       title: "고급 호텔을 병원으로 바꾼\n진짜 호텔형 병원",
       description: "도심의 소음과 긴장을 벗어나\n회복과 휴식의 질이 달라지는 공간입니다",
-      image: PLACEHOLDER_IMAGE
+      image: HOTEL_ROOM_IMAGE_URL
     },
     {
       title: "국립암센터와 15분,\n도심이 아닌 자연에서 회복",
       description: "치료는 가까이에서 이어가고,\n회복은 자연 속에서 집중할 수 있습니다",
-      image: PLACEHOLDER_IMAGE
+      image: LOCATION_RECOVERY_IMAGE_URL
     },
     {
       title: "암 치료 경험 20년 이상의\n의료진이 함께합니다",
       description: "20년 암환자 면역 치료 경험의 이형석 병원장\n경희대학교 한의학 박사, 경희대학교 대학원 외래교수 등",
-      image: PLACEHOLDER_IMAGE
+      image: CEO_STORY_IMAGE_URL
     }
   ];
 
@@ -374,43 +364,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4️⃣ 환경 섹션 */}
-      <section className="py-20 px-5">
-        <div className="max-w-screen-xl mx-auto">
-          {/* 섹션 헤더 */}
-          <div className="text-center mb-12">
-            <h2 className="mb-4 text-[#3E5266] leading-tight">
-              왜 많은 환자들이<br className="sm:hidden" /> 20분을 이동해 이곳을 선택할까요?
-            </h2>
-            <p className="text-[#6B7D8C] text-lg">
-              치료는 대학병원에서, 회복은 뷰티풀한방병원에서
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {recoveryEnvironment.map((item, index) => (
-              <div
-                key={index}
-                className="relative h-80 rounded-2xl overflow-hidden group shadow-lg hover:shadow-2xl transition-shadow"
-              >
-                <ImageWithFallback
-                  src={item.image}
-                  alt={item.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                {/* 그라데이션 오버레이 */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#3E5266]/90 via-[#3E5266]/40 to-transparent flex items-end">
-                  <div className="p-6 w-full">
-                    <h3 className="text-white text-xl font-bold mb-2">{item.title}</h3>
-                    <p className="text-white/90 text-sm leading-relaxed">{item.subtitle}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* 5️⃣ 선택 이유 섹션 */}
       <section className="py-20 px-5 bg-[#F8F9FA]">
         <div className="max-w-screen-xl mx-auto">
@@ -462,7 +415,7 @@ export default function Home() {
             {/* 좌측: 원장 프로필 사진 */}
             <div className="relative h-96 lg:h-[500px]">
               <img
-                src={PLACEHOLDER_IMAGE}
+                src={DIRECTOR_GREETING_IMAGE_URL}
                 alt="원장님"
                 className="w-full h-full object-cover"
               />

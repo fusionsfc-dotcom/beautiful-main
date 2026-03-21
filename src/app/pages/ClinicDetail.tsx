@@ -6,6 +6,33 @@ import { ChevronDown } from "lucide-react";
 /** 임시: Vercel 링크테스트용 */
 const PLACEHOLDER_IMAGE =
   "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/yoga_s.jpeg";
+/** 왕뜸·약뜸 치료 카드 이미지 */
+const WANG_MOXA_CLINIC_IMAGE_URL =
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/clinic/dd.jpg";
+/** 효소 찜질 치료 카드 이미지 */
+const ENZYME_STEAM_CLINIC_IMAGE_URL =
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/clinic/jj.png";
+/** 고주파 온열 암 치료 카드 이미지 */
+const RF_HYPERTHERMIA_CLINIC_IMAGE_URL =
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/clinic_onco.jpeg";
+/** 입원 케어 시스템 섹션 이미지 */
+const INPATIENT_CARE_IMAGE_URL =
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/room/room2.jpg";
+/** 이명·난청·어지럼증·두통 클리닉 헤더 섹션 이미지 */
+const TINNITUS_HEADACHE_HEADER_IMAGE_URL =
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/ceo_1.png";
+/** 이명 클리닉 카드 이미지 */
+const TINNITUS_CLINIC_CARD_IMAGE_URL =
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/clinic/lee.png";
+/** 난청 클리닉 카드 이미지 */
+const DEAFNESS_CLINIC_CARD_IMAGE_URL =
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/clinic/nan.png";
+/** 어지럼증 클리닉 카드 이미지 */
+const DIZZINESS_CLINIC_CARD_IMAGE_URL =
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/clinic/ur.png";
+/** 두통 클리닉 카드 이미지 */
+const HEADACHE_CLINIC_CARD_IMAGE_URL =
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/clinic/du.png";
 
 export default function ClinicDetail() {
   const { id } = useParams();
@@ -62,13 +89,13 @@ export default function ClinicDetail() {
               treatments: [
                 {
                   name: "왕뜸 · 약뜸 치료",
-                  image: PLACEHOLDER_IMAGE,
+                  image: WANG_MOXA_CLINIC_IMAGE_URL,
                   description: "열을 전달하여 체내 기혈 순환을 돕고 몸의 기운을 조절하여 면역 균형 회복을 돕는 치료입니다.",
                   effects: ["혈액순환 개선", "면역력 강화", "체력 회복"],
                 },
                 {
                   name: "효소 찜질 치료",
-                  image: PLACEHOLDER_IMAGE,
+                  image: ENZYME_STEAM_CLINIC_IMAGE_URL,
                   description: "자연 발효 과정에서 발생하는 약 70도의 따뜻한 열을 이용하여 몸의 혈액과 기혈 순환을 돕고 체내 노폐물 배출을 촉진합니다.",
                   effects: ["혈액순환 개선", "체온 상승", "피로 회복", "해독 작용"],
                 },
@@ -80,7 +107,7 @@ export default function ClinicDetail() {
               treatments: [
                 {
                   name: "고주파 온열 암 치료",
-                  image: PLACEHOLDER_IMAGE,
+                  image: RF_HYPERTHERMIA_CLINIC_IMAGE_URL,
                   description: "고주파 에너지를 이용하여 암 조직 주변의 온도를 높여 암세포의 성장 환경을 억제하고 면역 반응을 활성화하는 치료입니다.",
                   effects: ["암세포 성장 억제", "면역 활성화", "항암 치료 효과 보조", "통증 완화"],
                   frequency: "주 2~3회, 환자 상태에 맞는 개인 맞춤 프로토콜로 진행합니다.",
@@ -119,7 +146,7 @@ export default function ClinicDetail() {
         {
           title: "암 회복을 위한 입원 케어 시스템",
           description: "환자의 상태에 따라 입원 치료와 외래 치료가 가능합니다.",
-          image: PLACEHOLDER_IMAGE,
+          image: INPATIENT_CARE_IMAGE_URL,
           content: [
             "호텔급 1인실 입원 시설",
             "24시간 의료진 상주 케어",
@@ -278,29 +305,29 @@ export default function ClinicDetail() {
       subtitle: "검사에서는 이상이 없는데 증상이 계속된다면",
       description: "이명, 난청, 어지럼증, 두통은 생명을 위협하지 않지만 수면, 집중, 업무, 인간관계를 무너뜨릴 수 있는 증상입니다. 여러 치료를 받았지만 호전이 더딘 경우 몸의 신호와 순환 통로의 균형을 함께 살펴볼 필요가 있습니다.",
       badge: "신경과 순환 통로의 균형을 함께 점검",
-      headerImage: PLACEHOLDER_IMAGE,
+      headerImage: TINNITUS_HEADACHE_HEADER_IMAGE_URL,
       // 질환 선택 카드 섹션
       hasConditionCards: true,
       conditionCards: [
         {
           title: "이명 클리닉",
           symptoms: ["귀에서 소리가 들림", "삐 소리 지속", "박동성 소리"],
-          image: PLACEHOLDER_IMAGE,
+          image: TINNITUS_CLINIC_CARD_IMAGE_URL,
         },
         {
           title: "난청 클리닉",
           symptoms: ["소리가 작게 들림", "먹먹함", "갑작스러운 청력 저하"],
-          image: PLACEHOLDER_IMAGE,
+          image: DEAFNESS_CLINIC_CARD_IMAGE_URL,
         },
         {
           title: "어지럼증 클리닉",
           symptoms: ["세상이 도는 느낌", "균형 불안", "메니에르/이석증"],
-          image: PLACEHOLDER_IMAGE,
+          image: DIZZINESS_CLINIC_CARD_IMAGE_URL,
         },
         {
           title: "두통 클리닉",
           symptoms: ["머리가 깨질 듯한 통증", "편두통", "긴장형 두통"],
-          image: PLACEHOLDER_IMAGE,
+          image: HEADACHE_CLINIC_CARD_IMAGE_URL,
         },
       ],
       // 증상 자가 체크

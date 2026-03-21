@@ -26,6 +26,18 @@ import { toast } from "sonner";
 /** 임시: Vercel 링크테스트용 */
 const PLACEHOLDER_IMAGE =
   "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/yoga_s.jpeg";
+/** 이형석 병원장 사진 */
+const DIRECTOR_IMAGE_URL =
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/doc/doc1.png";
+  /** 고은상 원장 사진 */
+const DIRECTOR_2_IMAGE_URL =
+"https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/doc/doc2.png";
+/** 장엽섭 원장 사진 */
+const DIRECTOR_3_IMAGE_URL =
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/doc/doc3.png";
+  /** 이하림 원장 사진 */
+const DIRECTOR_4_IMAGE_URL =
+"https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/doc/doc4.png";
 
 type TabType = "intro" | "doctors" | "location" | "guide" | "notices";
 
@@ -129,10 +141,10 @@ function IntroSection() {
       {/* Hero */}
       <section className="text-center py-8">
         <h1 className="text-3xl lg:text-4xl font-semibold text-[#1a2847] mb-4">
-          난치성을 넘어 일상으로
+          더 건강하게 암치료를 받고
         </h1>
         <p className="text-lg text-gray-600">
-          신경계 통합 재활 중심 병원
+          더 행복한 암 이후의 삶을 만듭니다
         </p>
       </section>
 
@@ -268,7 +280,7 @@ function DoctorsSection({ doctors }: { doctors: typeof doctors }) {
           {/* 의사 사진 섹션 */}
           <div className="relative h-64 md:h-80">
             <img 
-              src={PLACEHOLDER_IMAGE} 
+              src={DIRECTOR_IMAGE_URL} 
               alt="이형석 병원장" 
               className="w-full h-full object-cover object-top"
             />
@@ -360,7 +372,7 @@ function DoctorsSection({ doctors }: { doctors: typeof doctors }) {
           {/* 의사 사진 섹션 */}
           <div className="relative h-64 md:h-80">
             <img 
-              src={PLACEHOLDER_IMAGE} 
+              src={DIRECTOR_2_IMAGE_URL} 
               alt="고은상 한의사" 
               className="w-full h-full object-cover object-top"
             />
@@ -440,7 +452,7 @@ function DoctorsSection({ doctors }: { doctors: typeof doctors }) {
           {/* 의사 사진 섹션 */}
           <div className="relative h-64 md:h-80">
             <img 
-              src={PLACEHOLDER_IMAGE} 
+              src={DIRECTOR_3_IMAGE_URL} 
               alt="장영섭 의사" 
               className="w-full h-full object-cover object-top"
             />
@@ -531,7 +543,7 @@ function DoctorsSection({ doctors }: { doctors: typeof doctors }) {
           {/* 의사 사진 섹션 */}
           <div className="relative h-64 md:h-80">
             <img 
-              src={PLACEHOLDER_IMAGE} 
+              src={DIRECTOR_4_IMAGE_URL} 
               alt="이하림 치과의사" 
               className="w-full h-full object-cover object-top"
             />

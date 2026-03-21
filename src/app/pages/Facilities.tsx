@@ -2,7 +2,7 @@ import { useState } from "react";
 import { 
   Bed, 
   Activity, 
-  Leaf, 
+  Leaf,
   UtensilsCrossed,
   Check,
   Clock,
@@ -13,7 +13,80 @@ import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 /** 임시: Vercel 링크테스트용 */
 const PLACEHOLDER_IMAGE =
   "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/yoga_s.jpeg";
+/** 입원·병동 메인 이미지 (편안한 입원 공간) */
+const ROOM_MASTER_IMAGE_URL =
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/room/room_master.jpg";
+/** 입원·병동 1인실 이미지 */
+const ROOM_1_IMAGE_URL =
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/room/room1.jpg";
+  /** 입원·병동 2인실 이미지 */
+const ROOM_2_IMAGE_URL =
+"https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/room/room2.jpg";
+  /** 입원·병동 3~4인실 이미지 */
+  const ROOM_3_IMAGE_URL =
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/room/room3.jpg";
+  /** 입원·병동 스타일러 이미지 */
+  const ROOM_4_IMAGE_URL =
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/room/room_st.jpg";
+  /** 입원·병동 파우더룸 이미지 */
+  const ROOM_5_IMAGE_URL =
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/room_pa.jpeg";
+  /** 입원·병동 욕조화장실 이미지 */
+  const ROOM_6_IMAGE_URL =
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/room/be.jpg";
+  /** 입원·병동 리셉션 이미지 */
+  const ROOM_7_IMAGE_URL =
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/room/re.jpg";
+  /** 입원·병동 뷰티풀 로비 이미지 */
+  const ROOM_8_IMAGE_URL =
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/room/1f_ro.jpeg";
+  /** 입원·병동 입원병동 이미지 */
+  const ROOM_9_IMAGE_URL =
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/room/home_ward.jpeg";
+  /** 치료실 고주파온열 이미지 */
+  const tr_1_IMAGE_URL =
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/room_tr/onco.jpg";
+    /** 치료실 한방요법실 이미지 */
+    const tr_2_IMAGE_URL =
+    "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/room_tr/han.jpeg";  
+    /** 치료실 통증치료실 이미지 */
+    const tr_3_IMAGE_URL =
+    "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/1533a480-19c6-4888-a70a-5f635655c966.jpg";
+    /** 치료실 X-ray 촬영실 이미지 */
+    const tr_4_IMAGE_URL =
+    "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/room_tr/x.jpg";
+    /** 힐링생활 생활공예 이미지 */
+    const heal_1_IMAGE_URL =
+    "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/program/pro1.jpeg";
+    /** 힐링생활 생활공예 이미지 */
+    const heal_2_IMAGE_URL =
+    "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/program/pro2.jpg";
+    /** 힐링생활 생활공예 이미지 */
+    const heal_3_IMAGE_URL =
+    "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/program/pro3.jpg";
+    /** 영양식단 뷰티풀식단 이미지 */
+    const food_1_IMAGE_URL =
+    "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/food/food_1.jpeg";
+    /** 영양식단 뷰티풀식단 이미지 */
+    const food_2_IMAGE_URL =
+    "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/food/food_2.jpeg";
+    /** 영양식단 뷰티풀식단 이미지 */
+    const food_3_IMAGE_URL =
+    "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/food/food_3.jpeg";
+    /** 영양식단 뷰티풀식단 이미지 */
+    const food_4_IMAGE_URL =
+    "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/food/food_4.jpeg";
+    /** 영양식단 뷰티풀식단 이미지 */
+    const food_5_IMAGE_URL =
+    "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/food/food_5.jpeg";
+    /** 영양식단 뷰티풀식단 이미지 */
+    const food_6_IMAGE_URL =
+    "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/food/food_6.jpeg";
+    /** 영양식단 뷰티풀식단 마스터 이미지 */
+    const food_master_IMAGE_URL =
+    "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/food/foodmaster.png";
 
+    
 type TabType = "rooms" | "treatment" | "healing" | "nutrition";
 
 export default function Facilities() {
@@ -103,7 +176,7 @@ function RoomsSection() {
         <div className="lg:col-span-3">
           <div className="relative h-80 lg:h-96 rounded-2xl overflow-hidden shadow-xl">
             <img
-              src={PLACEHOLDER_IMAGE}
+              src={ROOM_MASTER_IMAGE_URL}
               alt="병실 전경"
               className="w-full h-full object-cover"
             />
@@ -130,7 +203,7 @@ function RoomsSection() {
       <div className="grid md:grid-cols-2 gap-6">
         <div className="relative h-64 rounded-xl overflow-hidden shadow-lg">
           <ImageWithFallback
-            src={PLACEHOLDER_IMAGE}
+            src={ROOM_1_IMAGE_URL}
             alt="1인실"
             className="w-full h-full object-cover"
           />
@@ -141,7 +214,7 @@ function RoomsSection() {
         
         <div className="relative h-64 rounded-xl overflow-hidden shadow-lg">
           <ImageWithFallback
-            src={PLACEHOLDER_IMAGE}
+            src={ROOM_2_IMAGE_URL}
             alt="2인실"
             className="w-full h-full object-cover"
           />
@@ -152,7 +225,7 @@ function RoomsSection() {
         
         <div className="relative h-64 rounded-xl overflow-hidden shadow-lg">
           <ImageWithFallback
-            src={PLACEHOLDER_IMAGE}
+            src={ROOM_3_IMAGE_URL}
             alt="3~4인실"
             className="w-full h-full object-cover"
           />
@@ -163,7 +236,7 @@ function RoomsSection() {
         
         <div className="relative h-64 rounded-xl overflow-hidden shadow-lg">
           <ImageWithFallback
-            src={PLACEHOLDER_IMAGE}
+            src={ROOM_4_IMAGE_URL}
             alt="스타일러"
             className="w-full h-full object-cover"
           />
@@ -174,7 +247,7 @@ function RoomsSection() {
         
         <div className="relative h-64 rounded-xl overflow-hidden shadow-lg">
           <ImageWithFallback
-            src={PLACEHOLDER_IMAGE}
+            src={ROOM_5_IMAGE_URL}
             alt="화장실"
             className="w-full h-full object-cover"
           />
@@ -185,7 +258,7 @@ function RoomsSection() {
         
         <div className="relative h-64 rounded-xl overflow-hidden shadow-lg">
           <ImageWithFallback
-            src={PLACEHOLDER_IMAGE}
+            src={ROOM_6_IMAGE_URL}
             alt="화장실"
             className="w-full h-full object-cover"
           />
@@ -196,7 +269,7 @@ function RoomsSection() {
         
         <div className="relative h-64 rounded-xl overflow-hidden shadow-lg">
           <ImageWithFallback
-            src={PLACEHOLDER_IMAGE}
+            src={ROOM_7_IMAGE_URL}
             alt="리셉션"
             className="w-full h-full object-cover"
           />
@@ -207,7 +280,7 @@ function RoomsSection() {
         
         <div className="relative h-64 rounded-xl overflow-hidden shadow-lg">
           <ImageWithFallback
-            src={PLACEHOLDER_IMAGE}
+            src={ROOM_8_IMAGE_URL}
             alt="뷰티풀 로비"
             className="w-full h-full object-cover"
           />
@@ -218,7 +291,7 @@ function RoomsSection() {
         
         <div className="relative h-64 rounded-xl overflow-hidden shadow-lg">
           <ImageWithFallback
-            src={PLACEHOLDER_IMAGE}
+            src={ROOM_9_IMAGE_URL}
             alt="입원병동"
             className="w-full h-full object-cover"
           />
@@ -237,22 +310,22 @@ function TreatmentSection() {
     {
       name: "고주파온열치료실",
       description: "암세포를 선택적으로 공격하고 면역력 상승을 높이는 치료",
-      image: PLACEHOLDER_IMAGE
+      image: tr_1_IMAGE_URL
     },
     {
       name: "통합한방요법실",
       description: "침, 뜸, 약침 등 다양한 한방요법을 통합 적용하는 치료 공간입니다",
-      image: PLACEHOLDER_IMAGE
+      image: tr_2_IMAGE_URL
     },
     {
       name: "통증치료실",
       description: "페인 레이저를 이용해 통증 완화와 조직 회복을 돕는 치료 공간입니다",
-      image: PLACEHOLDER_IMAGE
+      image: tr_3_IMAGE_URL
     },
     {
       name: "X-ray 촬영실",
       description: "정확한 진단을 위한 디지털 X-ray 촬영 시스템",
-      image: PLACEHOLDER_IMAGE
+      image: tr_4_IMAGE_URL
     },
   ];
 
@@ -333,7 +406,7 @@ function HealingSection() {
       <div className="grid md:grid-cols-2 gap-6">
         <div className="relative h-64 rounded-xl overflow-hidden shadow-lg">
           <ImageWithFallback
-            src={PLACEHOLDER_IMAGE}
+            src={heal_1_IMAGE_URL}
             alt="다양한 생활공예프로그램"
             className="w-full h-full object-cover"
           />
@@ -344,7 +417,7 @@ function HealingSection() {
         
         <div className="relative h-64 rounded-xl overflow-hidden shadow-lg">
           <ImageWithFallback
-            src={PLACEHOLDER_IMAGE}
+            src={heal_2_IMAGE_URL}
             alt="다양한 운동프로그램"
             className="w-full h-full object-cover"
           />
@@ -355,7 +428,7 @@ function HealingSection() {
         
         <div className="relative h-64 rounded-xl overflow-hidden shadow-lg">
           <ImageWithFallback
-            src={PLACEHOLDER_IMAGE}
+            src={heal_3_IMAGE_URL}
             alt="다양한 스트레칭 프로그램"
             className="w-full h-full object-cover"
           />
@@ -384,7 +457,7 @@ function NutritionSection() {
         <div className="lg:col-span-3">
           <div className="relative h-80 lg:h-96 rounded-2xl overflow-hidden shadow-xl">
             <ImageWithFallback
-              src={PLACEHOLDER_IMAGE}
+              src={food_master_IMAGE_URL}
               alt="병원 식단"
               className="w-full h-full object-cover"
             />
@@ -416,7 +489,7 @@ function NutritionSection() {
       <div className="grid md:grid-cols-2 gap-6">
         <div className="relative h-96 rounded-xl overflow-hidden shadow-lg">
           <ImageWithFallback
-            src={PLACEHOLDER_IMAGE}
+            src={food_1_IMAGE_URL}
             alt="뷰티풀식단"
             className="w-full h-full object-cover"
           />
@@ -427,7 +500,7 @@ function NutritionSection() {
         
         <div className="relative h-96 rounded-xl overflow-hidden shadow-lg">
           <ImageWithFallback
-            src={PLACEHOLDER_IMAGE}
+            src={food_2_IMAGE_URL}
             alt="뷰티풀식단"
             className="w-full h-full object-cover"
           />
@@ -438,7 +511,7 @@ function NutritionSection() {
         
         <div className="relative h-96 rounded-xl overflow-hidden shadow-lg">
           <ImageWithFallback
-            src={PLACEHOLDER_IMAGE}
+            src={food_3_IMAGE_URL}
             alt="뷰티풀식단"
             className="w-full h-full object-cover"
           />
@@ -449,7 +522,7 @@ function NutritionSection() {
         
         <div className="relative h-96 rounded-xl overflow-hidden shadow-lg">
           <ImageWithFallback
-            src={PLACEHOLDER_IMAGE}
+            src={food_4_IMAGE_URL}
             alt="뷰티풀식단"
             className="w-full h-full object-cover"
           />
@@ -460,7 +533,7 @@ function NutritionSection() {
         
         <div className="relative h-96 rounded-xl overflow-hidden shadow-lg">
           <ImageWithFallback
-            src={PLACEHOLDER_IMAGE}
+            src={food_5_IMAGE_URL}
             alt="뷰티풀식단"
             className="w-full h-full object-cover"
           />
@@ -471,7 +544,7 @@ function NutritionSection() {
         
         <div className="relative h-96 rounded-xl overflow-hidden shadow-lg">
           <ImageWithFallback
-            src={PLACEHOLDER_IMAGE}
+            src={food_6_IMAGE_URL}
             alt="뷰티풀식단"
             className="w-full h-full object-cover"
           />
