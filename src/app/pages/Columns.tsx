@@ -42,7 +42,7 @@ export default function Columns() {
       {/* 페이지 헤더 */}
       <div className="bg-[#F8F9FA] py-16 px-5">
         <div className="max-w-screen-lg mx-auto text-center">
-          <h1 className="mb-4 text-[#3E5266]">치료 가이드</h1>
+          <h1 className="mb-4 text-[#3E5266]">커뮤니티</h1>
           <p className="text-[#6B7D8C] text-lg">
             질환별 전문 정보와 실질적인 가이드를 제공합니다
           </p>

@@ -444,7 +444,7 @@ export default function Home() {
                 to="/columns"
                 className="inline-flex items-center gap-2 text-[#E91E7A] font-medium hover:gap-3 transition-all"
               >
-                치료 가이드 보기
+                커뮤니티 보기
                 <ArrowRight className="w-5 h-5" />
               </Link>
             </div>
