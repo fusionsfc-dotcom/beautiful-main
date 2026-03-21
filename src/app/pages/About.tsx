@@ -30,7 +30,7 @@ const HERO_BG_URL =
   "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/yoga_s.jpeg";
 /** 이형석 병원장 사진 */
 const DIRECTOR_IMAGE_URL =
-  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/doc/doc1.png";
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/doc/doc_ceo.jpeg";
   /** 고은상 원장 사진 */
 const DIRECTOR_2_IMAGE_URL =
 "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/doc/doc2.png";

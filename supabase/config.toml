@@ -1,0 +1,13 @@
+# Supabase 프로젝트 설정
+# Edge Function JWT 검증 비활성화 - 401 Invalid JWT 오류 해결
+# 인증은 각 API 핸들러에서 verifyJWTAndGetUser()로 처리
+#
+# 배포 후 적용하려면: supabase functions deploy <함수명>
+# 대시보드에서 적용: Edge Function → 설정 → "Verify JWT" 끄기
+
+[functions.server]
+verify_jwt = false
+
+[functions.make-server-ee767080]
+verify_jwt = false
+entrypoint = "./functions/make-server-ee767080/index.tsx"

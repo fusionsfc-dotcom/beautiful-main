@@ -1345,13 +1345,16 @@ function QuestionSection() {
     }
   };
 
-  const handleDeleteQuestion = async (questionId: string) => {
+  const handleDeleteQuestion = async (questionId: string, onSuccess?: () => void) => {
     if (!confirm('정말 삭제하시겠습니까?')) return;
 
     try {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        toast.error('로그인이 필요합니다');
+      // 세션 새로고침으로 만료된 토큰 방지
+      const { data: { session } } = await supabase.auth.refreshSession();
+      const currentSession = session ?? (await supabase.auth.getSession()).data.session;
+      
+      if (!currentSession?.access_token) {
+        toast.error('로그인이 필요합니다. 다시 로그인해 주세요.');
         return;
       }
 
@@ -1360,20 +1363,25 @@ function QuestionSection() {
       const response = await fetch(url, {
         method: 'DELETE',
         headers: {
-          'Authorization': `Bearer ${session.access_token}`,
+          'Authorization': `Bearer ${currentSession.access_token}`,
+          'apikey': publicAnonKey,
+          'Content-Type': 'application/json',
         },
       });
 
-      const result = await response.json();
+      const result = await response.json().catch(() => ({}));
       if (result.success) {
         toast.success('삭제되었습니다');
         loadQuestions();
+        onSuccess?.();
       } else {
-        toast.error(result.error || '삭제에 실패했습니다');
+        const errMsg = result.error || result.details || `삭제에 실패했습니다 (${response.status})`;
+        console.error('삭제 실패:', response.status, result);
+        toast.error(errMsg);
       }
     } catch (error: any) {
       console.error('삭제 에러:', error);
-      toast.error('삭제에 실패했습니다');
+      toast.error(error?.message || '삭제에 실패했습니다');
     }
   };
 
@@ -1393,7 +1401,9 @@ function QuestionSection() {
     return (
       <QuestionDetail
         question={selectedQuestion}
+        isAdmin={isAdmin}
         onClose={() => setSelectedQuestion(null)}
+        onDelete={() => handleDeleteQuestion(selectedQuestion.id, () => setSelectedQuestion(null))}
         onAnswerAdded={() => {
           loadQuestions();
           // Refresh the selected question
@@ -1509,14 +1519,14 @@ function QuestionSection() {
                       </div>
                     </div>
 
-                    {/* 삭제 버튼 (작성자 또는 관리자만) */}
-                    {user && (question.author_id === user.id || isAdmin) && (
+                    {/* 삭제 버튼 (로그인 사용자 - 작성자/관리자만 백엔드에서 삭제 가능) */}
+                    {user && (
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
                           handleDeleteQuestion(question.id);
                         }}
-                        className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                        className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors flex-shrink-0"
                         title="삭제"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -1735,12 +1745,14 @@ function QuestionForm({ onClose, onSuccess }: {
 }
 
 // 질문 상세보기 및 답변 작성 컴포넌트
-function QuestionDetail({ question, onClose, onAnswerAdded }: { 
+function QuestionDetail({ question, isAdmin, onClose, onDelete, onAnswerAdded }: { 
   question: any; 
+  isAdmin: boolean;
   onClose: () => void; 
+  onDelete?: () => void;
   onAnswerAdded: () => void;
 }) {
-  const { user, isAdmin } = useAuth();
+  const { user } = useAuth();
   const [formData, setFormData] = useState({
     content: ""
   });
@@ -1797,11 +1809,23 @@ function QuestionDetail({ question, onClose, onAnswerAdded }: {
 
   return (
     <div className="max-w-2xl mx-auto">
-      <div className="text-center mb-8">
-        <h2 className="text-[#3E5266] mb-3">질문 상세보기</h2>
-        <p className="text-[#6B7D8C]">
-          전문의가 직접 답변해 드립니다
-        </p>
+      <div className="relative mb-8">
+        <div className="text-center">
+          <h2 className="text-[#3E5266] mb-3">질문 상세보기</h2>
+          <p className="text-[#6B7D8C]">
+            전문의가 직접 답변해 드립니다
+          </p>
+        </div>
+        {user && onDelete && (
+          <button
+            onClick={onDelete}
+            className="absolute top-0 right-0 flex items-center gap-2 px-4 py-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors border border-red-200"
+            title="질문 삭제"
+          >
+            <Trash2 className="w-4 h-4" />
+            <span className="text-sm font-medium">삭제</span>
+          </button>
+        )}
       </div>
 
       <div className="bg-white border border-gray-200 rounded-xl p-6">

@@ -888,9 +888,10 @@ app.delete("/make-server-ee767080/questions/:id", async (c) => {
     const isAuthor = question.author_id === user.id;
     let isAdmin = false;
     const { isAdmin: profileAdmin, error: adminError } = await isUserAdmin(user.id);
-
+    
     if (adminError) {
       console.warn('⚠️ Profile check failed, trying email fallback:', adminError);
+      // profiles 쿼리 실패 시 이메일 기반 폴백 (Edge Function DB 연결 이슈 대응)
       const adminEmails = (Deno.env.get('ADMIN_EMAILS') || 'admin@beautiful.com').split(',').map((e: string) => e.trim().toLowerCase());
       isAdmin = user.email ? adminEmails.includes(user.email.toLowerCase()) : false;
     } else {
