@@ -61,7 +61,7 @@ function PhilosophySection() {
         
         <p className="text-white/95 text-lg leading-relaxed max-w-3xl mx-auto mb-12">
           뷰티풀한방병원은<br />
-          암, 파킨슨병, 중풍과 같은 중증 질환의 회복 치료부터<br />
+          암환우분들의 회복 치료부터<br />
           이명, 난청, 어지럼증, 두통처럼<br />
           일상을 오래도록 불편하게 만드는 난치성 증상까지<br />
           뇌신경계 기반의 통합 재활 치료를 제공합니다.
