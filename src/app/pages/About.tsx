@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, Link } from "react-router";
 import {
   Building2,
   Users,
@@ -19,12 +19,14 @@ import {
   Edit,
   Trash2,
   Plus,
+  AlertTriangle,
+  ArrowDown,
 } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import { supabase } from "../../lib/supabase";
 import { toast } from "sonner";
-/** 임시: Vercel 링크테스트용 */
-const PLACEHOLDER_IMAGE =
+/** Hero 배경 이미지 (calm hospital) */
+const HERO_BG_URL =
   "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/yoga_s.jpeg";
 /** 이형석 병원장 사진 */
 const DIRECTOR_IMAGE_URL =
@@ -47,29 +49,6 @@ const tabs = [
   { id: "location" as TabType, label: "오시는길" },
   { id: "guide" as TabType, label: "진료안내" },
   { id: "notices" as TabType, label: "공지안내" },
-];
-
-const hospitalStrengths = [
-  {
-    icon: MapPin,
-    title: "국립암센터 인접",
-    description: "암센터와 긴밀한 협력으로 신속한 병행 치료",
-  },
-  {
-    icon: Clock,
-    title: "24시간 의료진",
-    description: "언제든 대응 가능한 전문 의료진 상주",
-  },
-  {
-    icon: Stethoscope,
-    title: "양·한·치과 협진",
-    description: "통합 의료 시스템으로 맞춤 치료 제공",
-  },
-  {
-    icon: Building2,
-    title: "호텔급 입원 시설",
-    description: "쾌적하고 편안한 치료 환경",
-  },
 ];
 
 const doctors = [
@@ -135,110 +114,258 @@ export default function About() {
   );
 }
 
+const whyCards = [
+  {
+    title: "항암, 방사선 치료를 멈추지 않게 만드는 관리",
+    desc1: "체력이 무너지면 치료는 중단됩니다.",
+    desc2: "면역과 체력을 유지하는 것이 치료의 연장입니다.",
+  },
+  {
+    title: "도심이 아닌, 회복에 집중하는 환경",
+    desc1: "병원은 치료하는 곳이지만",
+    desc2: "회복은 환경에서 시작됩니다.",
+  },
+  {
+    title: "입원과 외래를 함께 운영하는 구조",
+    desc1: "상태에 따라 입원과 외래를",
+    desc2: "유연하게 선택할 수 있습니다.",
+  },
+  {
+    title: "양·한·치과 통합 치료",
+    desc1: "한 가지 방법이 아니라",
+    desc2: "여러 치료를 통합해 접근합니다.",
+  },
+];
+
+const problemSignals = [
+  "항암 중 체력이 급격히 떨어지는 경우",
+  "백혈구 수치 저하로 치료가 지연되는 경우",
+  "수술 후 회복이 더딘 경우",
+  "통증과 피로로 일상이 무너진 경우",
+];
+
+const coreSteps = [
+  { step: "신경 긴장 안정", result: "회복 시작" },
+  { step: "순환 회복", result: "기능 정상화" },
+  { step: "압박 해소", result: "통증 감소" },
+];
+
 function IntroSection() {
   return (
-    <div className="space-y-12">
-      {/* Hero */}
-      <section className="text-center py-8">
-        <h1 className="text-3xl lg:text-4xl font-semibold text-[#1a2847] mb-4">
-          더 건강하게 암치료를 받고
-        </h1>
-        <p className="text-lg text-gray-600">
-          더 행복한 암 이후의 삶을 만듭니다
+    <div className="space-y-16 lg:space-y-24 pb-8">
+      {/* 1. HERO SECTION */}
+      <section className="relative -mx-4 sm:-mx-6 lg:-mx-8 overflow-hidden rounded-2xl lg:rounded-3xl min-h-[50vh] flex flex-col items-center justify-center text-center">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${HERO_BG_URL})` }}
+        />
+        <div className="absolute inset-0 bg-[#1a2847]/70" />
+        <div className="relative z-10 px-4 sm:px-6 py-16 lg:py-24 max-w-3xl mx-auto">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight mb-4 lg:mb-5">
+            국립암센터 치료를 이어가면서
+            <br />
+            회복까지 함께 관리하는 병원
+          </h1>
+          <p className="text-base sm:text-lg text-white/90 mb-8 lg:mb-10 leading-relaxed">
+            항암, 방사선치료를 건강하게 받고
+            <br />
+            암 이후의 건강한 삶까지 만드는 공간
+          </p>
+          <div className="flex flex-wrap justify-center gap-3">
+            {[
+              "국립암센터 차량 15분",
+              "호텔 리모델링 입원 환경",
+              "양·한·치과 협진",
+            ].map((badge) => (
+              <span
+                key={badge}
+                className="px-4 py-2 bg-white/20 backdrop-blur-sm text-white text-sm font-medium rounded-full border border-white/30"
+              >
+                {badge}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 2. WHY SECTION */}
+      <section>
+        <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#1a2847] mb-8 lg:mb-12 text-center">
+          왜 국립암센터 환자들이 이곳을 선택할까요?
+        </h2>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {whyCards.map((card, idx) => (
+            <div
+              key={idx}
+              className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md hover:border-[#1a2847]/20 transition-all duration-300"
+            >
+              <h3 className="font-bold text-[#1a2847] text-base lg:text-lg mb-3">
+                {card.title}
+              </h3>
+              <p className="text-sm text-gray-600 leading-relaxed">
+                {card.desc1}
+                <br />
+                {card.desc2}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 3. PROBLEM AWARENESS */}
+      <section className="bg-amber-50/80 border border-amber-200/80 rounded-xl p-6 sm:p-8 lg:p-10">
+        <div className="flex items-start gap-3 mb-6">
+          <AlertTriangle className="w-6 h-6 text-amber-600 flex-shrink-0 mt-0.5" />
+          <h2 className="text-xl sm:text-2xl font-bold text-[#1a2847]">
+            이런 상태라면, 이미 신호입니다
+          </h2>
+        </div>
+        <ul className="space-y-3 mb-6">
+          {problemSignals.map((item, idx) => (
+            <li
+              key={idx}
+              className="flex items-start gap-3 text-gray-700 text-sm sm:text-base"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-600 mt-2 flex-shrink-0" />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+        <p className="font-semibold text-amber-800 text-base sm:text-lg bg-amber-100/80 rounded-lg px-4 py-3">
+          이 상태를 방치하면 치료 자체가 흔들릴 수 있습니다
         </p>
       </section>
 
-      {/* Hospital Strengths */}
+      {/* 4. TREATMENT FLOW */}
       <section>
-        <h2 className="text-2xl font-semibold text-[#1a2847] mb-6 text-center">
-          뷰티풀한방병원의 강점
+        <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#1a2847] mb-8 lg:mb-12 text-center">
+          치료는 병원에서, 회복은 여기서 이어집니다
         </h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {hospitalStrengths.map((strength, idx) => {
-            const Icon = strength.icon;
-            return (
-              <div
-                key={idx}
-                className="bg-white border border-gray-200 rounded-lg p-6 text-center hover:shadow-md transition-shadow"
-              >
-                <div className="w-12 h-12 bg-[#1a2847] rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Icon className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="font-semibold text-[#1a2847] mb-2">
-                  {strength.title}
-                </h3>
-                <p className="text-sm text-gray-600">{strength.description}</p>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* Treatment System */}
-      <section className="bg-[#f5f6f8] rounded-lg p-8">
-        <h2 className="text-2xl font-semibold text-[#1a2847] mb-6 text-center">
-          진료 시스템
-        </h2>
-        <div className="flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-12">
-          <div className="text-center">
-            <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-3 shadow-sm">
-              <Building2 className="w-8 h-8 text-[#1a2847]" />
-            </div>
-            <p className="font-medium text-[#1a2847]">대학병원 치료</p>
-            <p className="text-sm text-gray-600 mt-1">1차 진단 및 치료</p>
+        <div className="flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-8">
+          <div className="flex-1 max-w-xs w-full bg-white border border-gray-200 rounded-xl p-6 text-center shadow-sm">
+            <Building2 className="w-10 h-10 text-[#1a2847] mx-auto mb-3" />
+            <p className="font-semibold text-[#1a2847]">대학병원 치료</p>
+            <p className="text-sm text-gray-600 mt-1">
+              (수술 / 항암 / 방사선)
+            </p>
           </div>
-
-          <div className="hidden lg:block text-gray-400">→</div>
-          <div className="lg:hidden text-gray-400">↓</div>
-
-          <div className="text-center">
-            <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-3 shadow-sm">
-              <Heart className="w-8 h-8 text-[#1a2847]" />
-            </div>
-            <p className="font-medium text-[#1a2847]">병행 재활 치료</p>
-            <p className="text-sm text-gray-600 mt-1">한방 통합 치료</p>
+          <div className="hidden lg:flex items-center text-gray-400">
+            <ArrowDown className="w-8 h-8 rotate-[-90deg]" />
           </div>
-
-          <div className="hidden lg:block text-gray-400">→</div>
-          <div className="lg:hidden text-gray-400">↓</div>
-
-          <div className="text-center">
-            <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-3 shadow-sm">
-              <CheckCircle className="w-8 h-8 text-[#1a2847]" />
-            </div>
-            <p className="font-medium text-[#1a2847]">일상 회복</p>
-            <p className="text-sm text-gray-600 mt-1">삶의 질 개선</p>
+          <div className="lg:hidden text-gray-400">
+            <ArrowDown className="w-8 h-8 mx-auto" />
+          </div>
+          <div className="flex-1 max-w-xs w-full bg-[#1a2847] text-white rounded-xl p-6 text-center shadow-md">
+            <Heart className="w-10 h-10 mx-auto mb-3 text-white" />
+            <p className="font-semibold">뷰티풀한방병원</p>
+            <p className="text-sm text-white/90 mt-1">
+              (면역 / 체력 / 통증 관리)
+            </p>
+          </div>
+          <div className="hidden lg:flex items-center text-gray-400">
+            <ArrowDown className="w-8 h-8 rotate-[-90deg]" />
+          </div>
+          <div className="lg:hidden text-gray-400">
+            <ArrowDown className="w-8 h-8 mx-auto" />
+          </div>
+          <div className="flex-1 max-w-xs w-full bg-white border border-gray-200 rounded-xl p-6 text-center shadow-sm">
+            <CheckCircle className="w-10 h-10 text-green-600 mx-auto mb-3" />
+            <p className="font-semibold text-[#1a2847]">일상 복귀</p>
           </div>
         </div>
       </section>
 
-      {/* Core Technology */}
+      {/* 5. CORE SYSTEM */}
       <section>
-        <h2 className="text-2xl font-semibold text-[#1a2847] mb-4">
-          핵심 치료 체계
+        <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#1a2847] mb-8 lg:mb-12 text-center">
+          몸이 버틸 수 있도록 만드는 치료 구조
         </h2>
-        <div className="bg-white border border-gray-200 rounded-lg p-6">
-          <h3 className="font-semibold text-[#1a2847] mb-3">
-            신경 통로 복원 기반 치료
-          </h3>
-          <p className="text-gray-600 mb-4">
-            손상된 신경 기능의 회복을 돕기 위해 침술, 한약, 추나요법 등을
-            통합적으로 활용하여 환자 개인별 맞춤 치료를 제공합니다.
-          </p>
-          <ul className="space-y-2">
-            <li className="flex items-start gap-2 text-sm text-gray-600">
-              <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-              <span>개인별 증상 분석 및 맞춤 치료 계획 수립</span>
+        <div className="grid sm:grid-cols-3 gap-6">
+          {coreSteps.map((item, idx) => (
+            <div
+              key={idx}
+              className="bg-white border border-gray-200 rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-shadow"
+            >
+              <p className="font-semibold text-[#1a2847]">{item.step}</p>
+              <p className="text-sm text-gray-500 mt-1">→</p>
+              <p className="font-medium text-gray-700 mt-2">{item.result}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 6. ENVIRONMENT */}
+      <section className="bg-[#f5f6f8] rounded-xl p-6 sm:p-8 lg:p-10">
+        <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#1a2847] mb-6 text-center">
+          치료가 아닌 &apos;회복&apos;을 위한 공간
+        </h2>
+        <ul className="space-y-4 mb-6 max-w-2xl mx-auto">
+          {[
+            "고급 호텔을 리모델링한 입원 환경",
+            "조용하고 안정적인 자연 중심 위치",
+            "환자 맞춤 식단 및 생활 관리",
+          ].map((item, idx) => (
+            <li key={idx} className="flex items-center gap-3 text-gray-700">
+              <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
+              <span>{item}</span>
             </li>
-            <li className="flex items-start gap-2 text-sm text-gray-600">
-              <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-              <span>양방·한방 협진을 통한 통합 치료 접근</span>
-            </li>
-            <li className="flex items-start gap-2 text-sm text-gray-600">
-              <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-              <span>지속적인 경과 관찰 및 치료 조정</span>
-            </li>
-          </ul>
+          ))}
+        </ul>
+        <p className="text-center font-medium text-[#1a2847] text-lg">
+          몸이 회복되기 위해 필요한 모든 조건을 갖춘 공간입니다
+        </p>
+      </section>
+
+      {/* 7. SYSTEM SIMPLIFICATION */}
+      <section>
+        <h2 className="text-xl sm:text-2xl font-bold text-[#1a2847] mb-6 text-center">
+          치료를 나누지 않습니다
+          <br />
+          <span className="text-lg font-medium text-gray-600 mt-2 block">
+            하나의 흐름으로 관리합니다
+          </span>
+        </h2>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+          <span className="px-5 py-3 bg-white border border-gray-200 rounded-lg font-medium text-[#1a2847] shadow-sm">
+            대학병원 치료
+          </span>
+          <span className="text-gray-400">→</span>
+          <span className="px-5 py-3 bg-white border border-gray-200 rounded-lg font-medium text-[#1a2847] shadow-sm">
+            회복 관리
+          </span>
+          <span className="text-gray-400">→</span>
+          <span className="px-5 py-3 bg-white border border-gray-200 rounded-lg font-medium text-[#1a2847] shadow-sm">
+            재발 관리
+          </span>
+        </div>
+      </section>
+
+      {/* 8. FINAL CTA */}
+      <section
+        id="about-cta"
+        className="bg-[#1a2847] rounded-xl p-8 sm:p-10 lg:p-12 text-center"
+      >
+        <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">
+          지금 상태라면, 관리가 필요합니다
+        </h2>
+        <p className="text-white/90 mb-8 max-w-xl mx-auto">
+          치료를 계속 이어가기 위해
+          <br />
+          몸의 상태를 먼저 확인해보세요
+        </p>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <Link
+            to="/health-check"
+            className="inline-flex items-center justify-center px-8 py-4 bg-[#E91E7A] text-white font-semibold rounded-lg hover:bg-[#d01a6d] transition-colors shadow-md"
+          >
+            3분 상태 체크
+          </Link>
+          <Link
+            to="/reservation"
+            className="inline-flex items-center justify-center px-8 py-4 bg-white/20 backdrop-blur-sm text-white font-semibold rounded-lg border border-white/40 hover:bg-white/30 transition-colors"
+          >
+            상담 예약
+          </Link>
         </div>
       </section>
     </div>
