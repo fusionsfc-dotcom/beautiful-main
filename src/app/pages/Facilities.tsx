@@ -10,31 +10,9 @@ import {
   Phone
 } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
-import wardImage from "figma:asset/396e7409d3527b266c087cdfc131723c19549daf.png";
-import room1Image from "figma:asset/c1cf4d8fdfba82a05c87acd4d84d073e561f0411.png";
-import room2Image from "figma:asset/fed4d73f9f2c47622de05da37fd96ba302bb7122.png";
-import room3Image from "figma:asset/576ebe983e8f8e332c87283f954b9aecaf24b58c.png";
-import room4Image from "figma:asset/2d6258db2b8cf8eb395b7b6ec6a16458d5907bab.png";
-import bathroom1Image from "figma:asset/483eeccfc384f2416b82710f3062e6d29f0e3788.png";
-import bathroom2Image from "figma:asset/db30cef3becd96d57e4b73b5153ae153a7ac7f27.png";
-import receptionImage from "figma:asset/f0037e9fbf736e45f30bef75650a26f27f20b7d4.png";
-import lobbyImage from "figma:asset/f2f1d5a4e93103f329b0d1a15d5cb4b6ab8aedf6.png";
-import hallwayImage from "figma:asset/1528653f12a63af5bce957c996a34a3103c231a3.png";
-import treatmentImage1 from "figma:asset/6398b4b8bb5aecaae979deb8fe81cf0850d84929.png";
-import treatmentImage2 from "figma:asset/0c3746cb09b7a9a3cab65946bb06a2e0a0443a30.png";
-import treatmentImage3 from "figma:asset/e9ffe0c880f2e7a69d305866cea3fa11afd1708d.png";
-import treatmentImage4 from "figma:asset/4e5ab924073d5683f8014dc7113f8f708f72b55e.png";
-import gardenImage from "figma:asset/055f54ff0e7f332157a4a1b26e50f76983998083.png";
-import healingRoomImage from "figma:asset/c4579d5f99fde89727f10d11b2ead74f6618c348.png";
-import healing1Image from "figma:asset/5b156ee3c3fb36b7f217a74868810b96873e6e0c.png";
-import healing2Image from "figma:asset/a1a9bf7fd917a8a5a08e21ffc9d4a11e92be4cc3.png";
-import healing3Image from "figma:asset/4088a66fe607b72cef53b97cdceaeb581143bbf6.png";
-import food1Image from "figma:asset/c7ef3b62abc1f5feaea0b7a86221ae63232b3fcb.png";
-import food2Image from "figma:asset/c0c70168e661d1984142a31dcffc56c85209034f.png";
-import food3Image from "figma:asset/415bce866a944bda79432e776f37923915ad1b6c.png";
-import food4Image from "figma:asset/56e30cc8994922d8551ec086ab55034e74c23b7c.png";
-import food5Image from "figma:asset/1ae70b57589991b8874fc5abc73aa3c8307ad90c.png";
-import food6Image from "figma:asset/20d56442a8b0d1e3948eca2def262755ffa618f9.png";
+/** 임시: Vercel 링크테스트용 */
+const PLACEHOLDER_IMAGE =
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/yoga_s.jpeg";
 
 type TabType = "rooms" | "treatment" | "healing" | "nutrition";
 
@@ -125,7 +103,7 @@ function RoomsSection() {
         <div className="lg:col-span-3">
           <div className="relative h-80 lg:h-96 rounded-2xl overflow-hidden shadow-xl">
             <img
-              src={wardImage}
+              src={PLACEHOLDER_IMAGE}
               alt="병실 전경"
               className="w-full h-full object-cover"
             />
@@ -152,7 +130,7 @@ function RoomsSection() {
       <div className="grid md:grid-cols-2 gap-6">
         <div className="relative h-64 rounded-xl overflow-hidden shadow-lg">
           <ImageWithFallback
-            src={room1Image}
+            src={PLACEHOLDER_IMAGE}
             alt="1인실"
             className="w-full h-full object-cover"
           />
@@ -163,7 +141,7 @@ function RoomsSection() {
         
         <div className="relative h-64 rounded-xl overflow-hidden shadow-lg">
           <ImageWithFallback
-            src={room2Image}
+            src={PLACEHOLDER_IMAGE}
             alt="2인실"
             className="w-full h-full object-cover"
           />
@@ -174,7 +152,7 @@ function RoomsSection() {
         
         <div className="relative h-64 rounded-xl overflow-hidden shadow-lg">
           <ImageWithFallback
-            src={room3Image}
+            src={PLACEHOLDER_IMAGE}
             alt="3~4인실"
             className="w-full h-full object-cover"
           />
@@ -185,7 +163,7 @@ function RoomsSection() {
         
         <div className="relative h-64 rounded-xl overflow-hidden shadow-lg">
           <ImageWithFallback
-            src={room4Image}
+            src={PLACEHOLDER_IMAGE}
             alt="스타일러"
             className="w-full h-full object-cover"
           />
@@ -196,7 +174,7 @@ function RoomsSection() {
         
         <div className="relative h-64 rounded-xl overflow-hidden shadow-lg">
           <ImageWithFallback
-            src={bathroom1Image}
+            src={PLACEHOLDER_IMAGE}
             alt="화장실"
             className="w-full h-full object-cover"
           />
@@ -207,7 +185,7 @@ function RoomsSection() {
         
         <div className="relative h-64 rounded-xl overflow-hidden shadow-lg">
           <ImageWithFallback
-            src={bathroom2Image}
+            src={PLACEHOLDER_IMAGE}
             alt="화장실"
             className="w-full h-full object-cover"
           />
@@ -218,7 +196,7 @@ function RoomsSection() {
         
         <div className="relative h-64 rounded-xl overflow-hidden shadow-lg">
           <ImageWithFallback
-            src={receptionImage}
+            src={PLACEHOLDER_IMAGE}
             alt="리셉션"
             className="w-full h-full object-cover"
           />
@@ -229,7 +207,7 @@ function RoomsSection() {
         
         <div className="relative h-64 rounded-xl overflow-hidden shadow-lg">
           <ImageWithFallback
-            src={lobbyImage}
+            src={PLACEHOLDER_IMAGE}
             alt="뷰티풀 로비"
             className="w-full h-full object-cover"
           />
@@ -240,7 +218,7 @@ function RoomsSection() {
         
         <div className="relative h-64 rounded-xl overflow-hidden shadow-lg">
           <ImageWithFallback
-            src={hallwayImage}
+            src={PLACEHOLDER_IMAGE}
             alt="입원병동"
             className="w-full h-full object-cover"
           />
@@ -259,22 +237,22 @@ function TreatmentSection() {
     {
       name: "고주파온열치료실",
       description: "암세포를 선택적으로 공격하고 면역력 상승을 높이는 치료",
-      image: treatmentImage1
+      image: PLACEHOLDER_IMAGE
     },
     {
       name: "통합한방요법실",
       description: "침, 뜸, 약침 등 다양한 한방요법을 통합 적용하는 치료 공간입니다",
-      image: treatmentImage2
+      image: PLACEHOLDER_IMAGE
     },
     {
       name: "통증치료실",
       description: "페인 레이저를 이용해 통증 완화와 조직 회복을 돕는 치료 공간입니다",
-      image: treatmentImage3
+      image: PLACEHOLDER_IMAGE
     },
     {
       name: "X-ray 촬영실",
       description: "정확한 진단을 위한 디지털 X-ray 촬영 시스템",
-      image: treatmentImage4
+      image: PLACEHOLDER_IMAGE
     },
   ];
 
@@ -328,7 +306,7 @@ function HealingSection() {
         <div className="lg:col-span-3">
           <div className="relative h-80 lg:h-96 rounded-2xl overflow-hidden shadow-xl">
             <ImageWithFallback
-              src={healingRoomImage}
+              src={PLACEHOLDER_IMAGE}
               alt="힐링생활"
               className="w-full h-full object-cover"
             />
@@ -355,7 +333,7 @@ function HealingSection() {
       <div className="grid md:grid-cols-2 gap-6">
         <div className="relative h-64 rounded-xl overflow-hidden shadow-lg">
           <ImageWithFallback
-            src={healing1Image}
+            src={PLACEHOLDER_IMAGE}
             alt="다양한 생활공예프로그램"
             className="w-full h-full object-cover"
           />
@@ -366,7 +344,7 @@ function HealingSection() {
         
         <div className="relative h-64 rounded-xl overflow-hidden shadow-lg">
           <ImageWithFallback
-            src={healing2Image}
+            src={PLACEHOLDER_IMAGE}
             alt="다양한 운동프로그램"
             className="w-full h-full object-cover"
           />
@@ -377,7 +355,7 @@ function HealingSection() {
         
         <div className="relative h-64 rounded-xl overflow-hidden shadow-lg">
           <ImageWithFallback
-            src={healing3Image}
+            src={PLACEHOLDER_IMAGE}
             alt="다양한 스트레칭 프로그램"
             className="w-full h-full object-cover"
           />
@@ -406,7 +384,7 @@ function NutritionSection() {
         <div className="lg:col-span-3">
           <div className="relative h-80 lg:h-96 rounded-2xl overflow-hidden shadow-xl">
             <ImageWithFallback
-              src={gardenImage}
+              src={PLACEHOLDER_IMAGE}
               alt="병원 식단"
               className="w-full h-full object-cover"
             />
@@ -438,7 +416,7 @@ function NutritionSection() {
       <div className="grid md:grid-cols-2 gap-6">
         <div className="relative h-96 rounded-xl overflow-hidden shadow-lg">
           <ImageWithFallback
-            src={food1Image}
+            src={PLACEHOLDER_IMAGE}
             alt="뷰티풀식단"
             className="w-full h-full object-cover"
           />
@@ -449,7 +427,7 @@ function NutritionSection() {
         
         <div className="relative h-96 rounded-xl overflow-hidden shadow-lg">
           <ImageWithFallback
-            src={food2Image}
+            src={PLACEHOLDER_IMAGE}
             alt="뷰티풀식단"
             className="w-full h-full object-cover"
           />
@@ -460,7 +438,7 @@ function NutritionSection() {
         
         <div className="relative h-96 rounded-xl overflow-hidden shadow-lg">
           <ImageWithFallback
-            src={food3Image}
+            src={PLACEHOLDER_IMAGE}
             alt="뷰티풀식단"
             className="w-full h-full object-cover"
           />
@@ -471,7 +449,7 @@ function NutritionSection() {
         
         <div className="relative h-96 rounded-xl overflow-hidden shadow-lg">
           <ImageWithFallback
-            src={food4Image}
+            src={PLACEHOLDER_IMAGE}
             alt="뷰티풀식단"
             className="w-full h-full object-cover"
           />
@@ -482,7 +460,7 @@ function NutritionSection() {
         
         <div className="relative h-96 rounded-xl overflow-hidden shadow-lg">
           <ImageWithFallback
-            src={food5Image}
+            src={PLACEHOLDER_IMAGE}
             alt="뷰티풀식단"
             className="w-full h-full object-cover"
           />
@@ -493,7 +471,7 @@ function NutritionSection() {
         
         <div className="relative h-96 rounded-xl overflow-hidden shadow-lg">
           <ImageWithFallback
-            src={food6Image}
+            src={PLACEHOLDER_IMAGE}
             alt="뷰티풀식단"
             className="w-full h-full object-cover"
           />

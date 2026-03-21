@@ -23,10 +23,9 @@ import {
 import { useAuth } from "../contexts/AuthContext";
 import { supabase } from "../../lib/supabase";
 import { toast } from "sonner";
-import doctorImage from "figma:asset/86585239ee3f2ef90cfcbb0193fcbb7b5f606e72.png";
-import doctorImage2 from "figma:asset/e2249eef87bcc4f8e85bab6424cacfa30a0bf732.png";
-import doctorImage3 from "figma:asset/07f4773ee11374b82cf07284f521d5400a466efd.png";
-import doctorImage4 from "figma:asset/b1ae5f69a5e667f991a7fd89685886820a92c681.png";
+/** 임시: Vercel 링크테스트용 */
+const PLACEHOLDER_IMAGE =
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/yoga_s.jpeg";
 
 type TabType = "intro" | "doctors" | "location" | "guide" | "notices";
 
@@ -269,7 +268,7 @@ function DoctorsSection({ doctors }: { doctors: typeof doctors }) {
           {/* 의사 사진 섹션 */}
           <div className="relative h-64 md:h-80">
             <img 
-              src={doctorImage} 
+              src={PLACEHOLDER_IMAGE} 
               alt="이형석 병원장" 
               className="w-full h-full object-cover object-top"
             />
@@ -361,7 +360,7 @@ function DoctorsSection({ doctors }: { doctors: typeof doctors }) {
           {/* 의사 사진 섹션 */}
           <div className="relative h-64 md:h-80">
             <img 
-              src={doctorImage2} 
+              src={PLACEHOLDER_IMAGE} 
               alt="고은상 한의사" 
               className="w-full h-full object-cover object-top"
             />
@@ -441,7 +440,7 @@ function DoctorsSection({ doctors }: { doctors: typeof doctors }) {
           {/* 의사 사진 섹션 */}
           <div className="relative h-64 md:h-80">
             <img 
-              src={doctorImage3} 
+              src={PLACEHOLDER_IMAGE} 
               alt="장영섭 의사" 
               className="w-full h-full object-cover object-top"
             />
@@ -532,7 +531,7 @@ function DoctorsSection({ doctors }: { doctors: typeof doctors }) {
           {/* 의사 사진 섹션 */}
           <div className="relative h-64 md:h-80">
             <img 
-              src={doctorImage4} 
+              src={PLACEHOLDER_IMAGE} 
               alt="이하림 치과의사" 
               className="w-full h-full object-cover object-top"
             />

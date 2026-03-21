@@ -3,16 +3,9 @@ import { useState } from "react";
 import { ChevronLeft, Phone, MessageCircle, CheckCircle } from "lucide-react";
 import * as Accordion from "@radix-ui/react-accordion";
 import { ChevronDown } from "lucide-react";
-import cancerHeaderImage from "figma:asset/a3863d6fe9d4f2cf9c6d579dcd2ed1fdba8c8d3a.png";
-import enzymeImage from "figma:asset/ad05fa2478c52bdaf9b87989ab2d1c4533a87ea9.png";
-import moxibustionImage from "figma:asset/22c271f97590d535d8bdce84448972b4190d25c4.png";
-import hyperthermiaImage from "figma:asset/332ffd346d946745d86bee2f14a9945070add039.png";
-import hospitalRoomImage from "figma:asset/fed4d73f9f2c47622de05da37fd96ba302bb7122.png";
-import tinnitusHeaderImage from "figma:asset/438e7aa1fcfa52f2b14a431d504e8ae3f95fe4fe.png";
-import tinnitusClinicImage from "figma:asset/d2ee1022a39cfa5f5e15757992ecd83665f4eb32.png";
-import hearingLossImage from "figma:asset/3b41facd3e9fba1cb18164157a29d6a10ca3b565.png";
-import vertigoImage from "figma:asset/b4610164cd95c098f0c450dc8a4e24a67b6097ea.png";
-import headacheImage from "figma:asset/9e347b1ceb93431df7e15167a97603c0781f884b.png";
+/** 임시: Vercel 링크테스트용 */
+const PLACEHOLDER_IMAGE =
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/yoga_s.jpeg";
 
 export default function ClinicDetail() {
   const { id } = useParams();
@@ -23,7 +16,7 @@ export default function ClinicDetail() {
       subtitle: "국립암센터 병행 치료",
       description: "암 치료는 수술, 항암, 방사선 치료로 끝나는 것이 아니라 그 이후의 회복 관리가 매우 중요합니다. 항암 치료 과정에서는 체력 저하, 면역력 감소, 식욕 저하, 통증과 피로 등 다양한 문제가 발생할 수 있습니다.",
       badge: "항암과 회복을 함께 관리하는 암 통합 회복 클리닉",
-      headerImage: cancerHeaderImage,
+      headerImage: PLACEHOLDER_IMAGE,
       introMessage: "뷰티풀한방병원은 대학병원 치료를 존중하며 항암 치료와 회복 관리를 함께 진행하는 암 통합 면역 치료 프로그램을 운영합니다.",
       sections: [
         {
@@ -69,13 +62,13 @@ export default function ClinicDetail() {
               treatments: [
                 {
                   name: "왕뜸 · 약뜸 치료",
-                  image: moxibustionImage,
+                  image: PLACEHOLDER_IMAGE,
                   description: "열을 전달하여 체내 기혈 순환을 돕고 몸의 기운을 조절하여 면역 균형 회복을 돕는 치료입니다.",
                   effects: ["혈액순환 개선", "면역력 강화", "체력 회복"],
                 },
                 {
                   name: "효소 찜질 치료",
-                  image: enzymeImage,
+                  image: PLACEHOLDER_IMAGE,
                   description: "자연 발효 과정에서 발생하는 약 70도의 따뜻한 열을 이용하여 몸의 혈액과 기혈 순환을 돕고 체내 노폐물 배출을 촉진합니다.",
                   effects: ["혈액순환 개선", "체온 상승", "피로 회복", "해독 작용"],
                 },
@@ -87,7 +80,7 @@ export default function ClinicDetail() {
               treatments: [
                 {
                   name: "고주파 온열 암 치료",
-                  image: hyperthermiaImage,
+                  image: PLACEHOLDER_IMAGE,
                   description: "고주파 에너지를 이용하여 암 조직 주변의 온도를 높여 암세포의 성장 환경을 억제하고 면역 반응을 활성화하는 치료입니다.",
                   effects: ["암세포 성장 억제", "면역 활성화", "항암 치료 효과 보조", "통증 완화"],
                   frequency: "주 2~3회, 환자 상태에 맞는 개인 맞춤 프로토콜로 진행합니다.",
@@ -126,7 +119,7 @@ export default function ClinicDetail() {
         {
           title: "암 회복을 위한 입원 케어 시스템",
           description: "환자의 상태에 따라 입원 치료와 외래 치료가 가능합니다.",
-          image: hospitalRoomImage,
+          image: PLACEHOLDER_IMAGE,
           content: [
             "호텔급 1인실 입원 시설",
             "24시간 의료진 상주 케어",
@@ -285,29 +278,29 @@ export default function ClinicDetail() {
       subtitle: "검사에서는 이상이 없는데 증상이 계속된다면",
       description: "이명, 난청, 어지럼증, 두통은 생명을 위협하지 않지만 수면, 집중, 업무, 인간관계를 무너뜨릴 수 있는 증상입니다. 여러 치료를 받았지만 호전이 더딘 경우 몸의 신호와 순환 통로의 균형을 함께 살펴볼 필요가 있습니다.",
       badge: "신경과 순환 통로의 균형을 함께 점검",
-      headerImage: tinnitusHeaderImage,
+      headerImage: PLACEHOLDER_IMAGE,
       // 질환 선택 카드 섹션
       hasConditionCards: true,
       conditionCards: [
         {
           title: "이명 클리닉",
           symptoms: ["귀에서 소리가 들림", "삐 소리 지속", "박동성 소리"],
-          image: tinnitusClinicImage,
+          image: PLACEHOLDER_IMAGE,
         },
         {
           title: "난청 클리닉",
           symptoms: ["소리가 작게 들림", "먹먹함", "갑작스러운 청력 저하"],
-          image: hearingLossImage,
+          image: PLACEHOLDER_IMAGE,
         },
         {
           title: "어지럼증 클리닉",
           symptoms: ["세상이 도는 느낌", "균형 불안", "메니에르/이석증"],
-          image: vertigoImage,
+          image: PLACEHOLDER_IMAGE,
         },
         {
           title: "두통 클리닉",
           symptoms: ["머리가 깨질 듯한 통증", "편두통", "긴장형 두통"],
-          image: headacheImage,
+          image: PLACEHOLDER_IMAGE,
         },
       ],
       // 증상 자가 체크

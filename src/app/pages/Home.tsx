@@ -23,17 +23,9 @@ const EMPATHY_SECTION_IMAGE_URL =
   "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/yoga_s.jpeg";
 const POST_SURGERY_CLINIC_IMAGE_URL =
   "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/1533a480-19c6-4888-a70a-5f635655c966.jpg";
-import consultationImage from "figma:asset/5253a67444fd75a2337a0e7e6936f97cf8457a7f.png";
-import cancerClinicImage from "figma:asset/b14ff254642aa80a98ffc6c44012b95947ca59f6.png";
-import strokeParkinsonImage from "figma:asset/f31414f92d732c247c0f41a3e0f654ec455d977e.png";
-import tinnitusImage from "figma:asset/3f8d1070d5ff7d9d33161cef77e908af5ebc1e94.png";
-import spineJointImage from "figma:asset/4ad32b1277b92e4434a4778237c3da36ee296fd1.png";
-import directorImage from "figma:asset/4a9233aeb747f29bf2a179149c6bfc6ae5f4afa6.png";
-import hospitalImage from "figma:asset/9800a889f58375dcf549ad0b3ec81b5b489c5ce0.png";
-import hotelRoomImage from "figma:asset/fed4d73f9f2c47622de05da37fd96ba302bb7122.png";
-import naturePathImage from "figma:asset/8a795801d258db41ba5f9bfbe014c897533fa91f.png";
-import nursingStationImage from "figma:asset/e078c177a3955b41233b63103c9d31042cf0e8d5.png";
-import collaborationImage from "figma:asset/b14ff254642aa80a98ffc6c44012b95947ca59f6.png";
+/** 임시: Vercel 링크테스트용 - 모든 figma:asset 이미지를 yoga_s.jpeg로 대체 */
+const PLACEHOLDER_IMAGE =
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/yoga_s.jpeg";
 
 export default function Home() {
   // 메인 클리닉 (암 관련 핵심 3개)
@@ -50,7 +42,7 @@ export default function Home() {
       title: "항암·방사선 치료 집중 관리",
       description: "면역, 백혈구, 부작용, 체력 유지 집중 케어",
       icon: Sparkles,
-      image: consultationImage,
+      image: PLACEHOLDER_IMAGE,
       featured: true // 가장 강조
     },
     {
@@ -58,7 +50,7 @@ export default function Home() {
       title: "진행성 암 통합 케어",
       description: "통증 관리와 삶의 질 회복",
       icon: Heart,
-      image: cancerClinicImage
+      image: PLACEHOLDER_IMAGE
     }
   ];
 
@@ -83,22 +75,22 @@ export default function Home() {
     {
       title: "국립암센터 차량 20분",
       subtitle: "치료는 그대로 이어가고, 회복은 집중합니다",
-      image: hospitalImage
+      image: PLACEHOLDER_IMAGE
     },
     {
       title: "호텔 객실형 입원 환경",
       subtitle: "고급호텔 리모델링, 프라이빗 공간",
-      image: hotelRoomImage
+      image: PLACEHOLDER_IMAGE
     },
     {
       title: "자연 속 회복 환경",
       subtitle: "도심이 아닌, 회복을 위한 공간",
-      image: naturePathImage
+      image: PLACEHOLDER_IMAGE
     },
     {
       title: "통합 의료진 시스템",
       subtitle: "양방·한방·치과 협진 + 20년 이상 경험",
-      image: nursingStationImage
+      image: PLACEHOLDER_IMAGE
     }
   ];
 
@@ -123,22 +115,22 @@ export default function Home() {
     {
       title: "암 치료를 더 건강하게 받고\n암 이후의 삶을 준비하는 재활",
       description: "치료 후유증 예방과 부작용 개선은 기본\n암 이후의 삶을 준비하는 종합적인 재활 프로그램",
-      image: consultationImage
+      image: PLACEHOLDER_IMAGE
     },
     {
       title: "고급 호텔을 병원으로 바꾼\n진짜 호텔형 병원",
       description: "도심의 소음과 긴장을 벗어나\n회복과 휴식의 질이 달라지는 공간입니다",
-      image: hotelRoomImage
+      image: PLACEHOLDER_IMAGE
     },
     {
       title: "국립암센터와 15분,\n도심이 아닌 자연에서 회복",
       description: "치료는 가까이에서 이어가고,\n회복은 자연 속에서 집중할 수 있습니다",
-      image: hospitalImage
+      image: PLACEHOLDER_IMAGE
     },
     {
       title: "암 치료 경험 20년 이상의\n의료진이 함께합니다",
       description: "20년 암환자 면역 치료 경험의 이형석 병원장\n경희대학교 한의학 박사, 경희대학교 대학원 외래교수 등",
-      image: nursingStationImage
+      image: PLACEHOLDER_IMAGE
     }
   ];
 
@@ -470,7 +462,7 @@ export default function Home() {
             {/* 좌측: 원장 프로필 사진 */}
             <div className="relative h-96 lg:h-[500px]">
               <img
-                src={directorImage}
+                src={PLACEHOLDER_IMAGE}
                 alt="원장님"
                 className="w-full h-full object-cover"
               />

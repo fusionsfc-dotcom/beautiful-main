@@ -9,7 +9,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import logoImage from "figma:asset/58a60726c1bb10a3fa680a1d3e644b46fad868b0.png";
+/** 임시: Vercel 링크테스트용 */
+const PLACEHOLDER_IMAGE =
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/yoga_s.jpeg";
 
 export default function GlobalHeader() {
   const [scrolled, setScrolled] = useState(false);
@@ -69,7 +71,7 @@ export default function GlobalHeader() {
         {/* Mobile Header */}
         <div className="lg:hidden h-16 px-4 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
-            <img src={logoImage} alt="뷰티풀한방병원 로고" className="w-8 h-8" />
+            <img src={PLACEHOLDER_IMAGE} alt="뷰티풀한방병원 로고" className="w-8 h-8" />
             <span className="text-lg font-semibold text-[#3E5266]">뷰티풀한방병원</span>
           </Link>
           
@@ -126,7 +128,7 @@ export default function GlobalHeader() {
         <div className="hidden lg:block h-20">
           <div className="max-w-screen-xl mx-auto px-8 h-full flex items-center justify-between">
             <Link to="/" className="flex items-center gap-3">
-              <img src={logoImage} alt="뷰티풀한방병원 로고" className="w-10 h-10" />
+              <img src={PLACEHOLDER_IMAGE} alt="뷰티풀한방병원 로고" className="w-10 h-10" />
               <span className="text-2xl font-semibold text-[#3E5266]">뷰티풀한방병원</span>
             </Link>
             
