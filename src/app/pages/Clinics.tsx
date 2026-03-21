@@ -37,9 +37,9 @@ export default function Clinics() {
 // 1️⃣ 상단 선언 섹션
 function PhilosophySection() {
   const keywords = [
-    { icon: Shield, label: "자율신경 안정화" },
-    { icon: Activity, label: "신경 통로 복원" },
-    { icon: Lightbulb, label: "구조적 압박 해소" }
+    { icon: Shield, label: "암환자 통합 면역치료" },
+    { icon: Activity, label: "생활 난치질환 치료" },
+    { icon: Lightbulb, label: "척추·관절 통증 치료" }
   ];
 
   return (
