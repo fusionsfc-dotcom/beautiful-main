@@ -142,7 +142,7 @@ export default function Home() {
         {/* 텍스트 중앙 배치 */}
         <div className="relative z-10 text-center px-5 max-w-4xl mx-auto">
           <h1 className="text-white mb-4 leading-tight text-3xl sm:text-4xl lg:text-5xl font-bold">
-            국립암센터 치료 효과를 높이기 위한<br />
+            국립암센터 치료 효과를 높이는<br />
             통합 암 면역 회복 프로그램<br />
             뷰티풀한방병원
           </h1>
