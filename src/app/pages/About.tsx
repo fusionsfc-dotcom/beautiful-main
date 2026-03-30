@@ -25,6 +25,7 @@ import {
 import { useAuth } from "../contexts/AuthContext";
 import { supabase } from "../../lib/supabase";
 import { toast } from "sonner";
+import SEOHead from "../../components/seo/SEOHead";
 /** Hero 배경 이미지 (calm hospital) */
 const HERO_BG_URL =
   "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/yoga_s.jpeg";
@@ -81,6 +82,11 @@ export default function About() {
 
   return (
     <div className="min-h-[100dvh] bg-white">
+      <SEOHead
+        title="병원소개 | 뷰티풀한방병원"
+        description="뷰티풀한방병원 소개. 의료진, 진료 철학, 위치 안내."
+        ogUrl="https://www.btful.co.kr/about"
+      />
       {/* Tab Navigation */}
       <div className="sticky top-16 lg:top-20 bg-white border-b border-gray-200 z-40">
         <div className="max-w-6xl mx-auto px-2 sm:px-4">

@@ -23,6 +23,7 @@ import { Link } from "react-router";
 import { supabase, Column, Video, GalleryItem } from "../../lib/supabase";
 import { useAuth } from "../contexts/AuthContext";
 import { toast } from "sonner";
+import SEOHead from "../../components/seo/SEOHead";
 
 type MainTabType = "gallery" | "columns" | "videos" | "faq" | "question";
 type ColumnCategoryType = "cancer" | "stroke" | "tinnitus" | "spine";
@@ -41,6 +42,11 @@ export default function Columns() {
 
   return (
     <div className="min-h-[100dvh] bg-white">
+      <SEOHead
+        title="뷰티풀이야기 · 치료사례 | 뷰티풀한방병원"
+        description="실제 암 환자 치료 사례와 회복 이야기. 뷰티풀한방병원의 통합 치료 결과를 확인하세요."
+        ogUrl="https://www.btful.co.kr/columns"
+      />
       {/* 페이지 헤더 */}
       <div className="bg-[#F8F9FA] py-16 px-5">
         <div className="max-w-screen-lg mx-auto text-center">

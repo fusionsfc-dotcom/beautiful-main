@@ -16,6 +16,7 @@ import {
   Building2
 } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
+import SEOHead from "../../components/seo/SEOHead";
 
 const HERO_IMAGE_URL =
   "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/hero_img.jpeg";
@@ -126,6 +127,11 @@ export default function Home() {
 
   return (
     <div className="min-h-[100dvh] bg-white">
+      <SEOHead
+        title="뷰티풀한방병원 | 국립암센터 인근 통합 암 면역 회복 전문"
+        description="수술·항암·방사선 치료 후 면역과 체력 회복. 국립암센터 차량 15분, 24시간 의료진 상주, 양·한·치과 통합진료."
+        ogUrl="https://www.btful.co.kr/"
+      />
       {/* 1️⃣ 히어로 섹션 */}
       <section className="relative h-[100dvh] min-h-[600px] flex items-center justify-center">
         {/* 배경 이미지 */}

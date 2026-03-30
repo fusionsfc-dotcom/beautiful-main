@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import { ChevronRight, Check, Activity, Shield, Lightbulb } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
+import SEOHead from "../../components/seo/SEOHead";
 /** 클리닉 페이지 히어로 배경 이미지 */
 const CLINICS_HERO_IMAGE_URL =
   "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/headdocimg.png";
@@ -22,6 +23,11 @@ export default function Clinics() {
   console.log("🎨 Compact Clinics Design Loaded - v3.0");
   return (
     <div className="min-h-[100dvh] bg-white">
+      <SEOHead
+        title="암 치료 클리닉 | 뷰티풀한방병원"
+        description="뷰티풀한방병원의 통합 암 치료 클리닉. 면역 강화, 항암 부작용 관리, 한방 복합 치료."
+        ogUrl="https://www.btful.co.kr/clinics"
+      />
       {/* 1️⃣ 상단 선언 섹션 (진료 철학) */}
       <PhilosophySection />
 
