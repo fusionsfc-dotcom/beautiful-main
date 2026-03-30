@@ -694,6 +694,99 @@ app.delete("/make-server-ee767080/cases/:id", async (c) => {
 // Questions Board API (using KV Store)
 // ============================================
 
+// ============================================
+// Beautiful Gallery API (using KV Store)
+// ============================================
+
+// Get gallery items (public read)
+app.get("/make-server-ee767080/gallery", async (c) => {
+  console.log('🖼️ Get gallery request received');
+
+  try {
+    const category = c.req.query('category'); // Optional filter
+    const items = await kv.getByPrefix('gallery_');
+
+    let filtered = items;
+    if (category && category !== 'all') {
+      filtered = items.filter((it: any) => it.category === category);
+    }
+
+    filtered.sort((a: any, b: any) =>
+      new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+    );
+
+    return c.json({ success: true, data: filtered });
+  } catch (error: any) {
+    console.error('❌ Get gallery exception:', error);
+    return c.json({ error: error.message || 'Failed to get gallery' }, 500);
+  }
+});
+
+// Create gallery item (admin only)
+app.post("/make-server-ee767080/gallery", async (c) => {
+  console.log('🖼️ Create gallery item request received');
+
+  try {
+    const token = extractToken(c);
+    if (!token) return c.json({ error: 'Missing or invalid authorization token' }, 401);
+
+    const { user, error: authError } = await verifyJWTAndGetUser(token);
+    if (authError || !user) return c.json({ error: 'Unauthorized' }, 401);
+
+    const { isAdmin, error: adminError } = await isUserAdmin(user.id);
+    if (adminError) return c.json({ error: `Error verifying permissions: ${adminError}` }, 500);
+    if (!isAdmin) return c.json({ error: 'Admin access required' }, 403);
+
+    const body = await c.req.json();
+    const { image_url, category, caption } = body || {};
+
+    if (!image_url || !category) {
+      return c.json({ error: 'image_url and category are required' }, 400);
+    }
+
+    const id = crypto.randomUUID();
+    const item = {
+      id,
+      image_url,
+      category,
+      caption: caption || '',
+      created_at: new Date().toISOString(),
+      author_id: user.id,
+      author_email: user.email,
+    };
+
+    await kv.set(`gallery_${id}`, item);
+    return c.json({ success: true, data: item });
+  } catch (error: any) {
+    console.error('❌ Create gallery exception:', error);
+    return c.json({ error: error.message || 'Failed to create gallery item' }, 500);
+  }
+});
+
+// Delete gallery item (admin only)
+app.delete("/make-server-ee767080/gallery/:id", async (c) => {
+  console.log('🗑️ Delete gallery item request received');
+
+  try {
+    const token = extractToken(c);
+    if (!token) return c.json({ error: 'Missing or invalid authorization token' }, 401);
+
+    const { user, error: authError } = await verifyJWTAndGetUser(token);
+    if (authError || !user) return c.json({ error: 'Unauthorized' }, 401);
+
+    const { isAdmin, error: adminError } = await isUserAdmin(user.id);
+    if (adminError) return c.json({ error: `Error verifying permissions: ${adminError}` }, 500);
+    if (!isAdmin) return c.json({ error: 'Admin access required' }, 403);
+
+    const id = c.req.param('id');
+    await kv.del(`gallery_${id}`);
+    return c.json({ success: true });
+  } catch (error: any) {
+    console.error('❌ Delete gallery exception:', error);
+    return c.json({ error: error.message || 'Failed to delete gallery item' }, 500);
+  }
+});
+
 // Get all questions
 app.get("/make-server-ee767080/questions", async (c) => {
   console.log('📋 Get questions request received');

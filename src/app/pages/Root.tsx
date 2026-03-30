@@ -17,7 +17,7 @@ export default function Root() {
     { path: "/", label: "홈", icon: Home },
     { path: "/clinics", label: "클리닉", icon: Stethoscope },
     { path: "/facilities", label: "치료환경", icon: Building2 },
-    { path: "/columns", label: "커뮤니티", icon: BookOpen },
+    { path: "/columns", label: "뷰티풀이야기", icon: BookOpen },
     { path: "/about", label: "병원소개", icon: Info },
   ];
 

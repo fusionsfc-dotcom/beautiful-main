@@ -58,3 +58,12 @@ export interface Video {
   updated_at: string;
   author?: Profile;
 }
+
+export interface GalleryItem {
+  id: string;
+  image_url: string;
+  category: 'program' | 'diet' | 'environment' | 'event' | 'etc';
+  caption: string | null;
+  created_at: string;
+  author_id: string;
+}

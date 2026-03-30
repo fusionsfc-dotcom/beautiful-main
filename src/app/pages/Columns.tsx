@@ -15,22 +15,24 @@ import {
   Plus,
   Pencil,
   Trash2,
-  X
+  X,
+  Image as ImageIcon,
 } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { Link } from "react-router";
-import { supabase, Column, Video } from "../../lib/supabase";
+import { supabase, Column, Video, GalleryItem } from "../../lib/supabase";
 import { useAuth } from "../contexts/AuthContext";
 import { toast } from "sonner";
 
-type MainTabType = "columns" | "videos" | "faq" | "question";
+type MainTabType = "gallery" | "columns" | "videos" | "faq" | "question";
 type ColumnCategoryType = "cancer" | "stroke" | "tinnitus" | "spine";
 type FaqCategoryType = "cancer" | "stroke" | "tinnitus" | "admission" | "cost";
 
 export default function Columns() {
-  const [activeTab, setActiveTab] = useState<MainTabType>("videos");
+  const [activeTab, setActiveTab] = useState<MainTabType>("gallery");
 
   const mainTabs = [
+    { id: "gallery" as MainTabType, label: "뷰티풀갤러리", icon: ImageIcon },
     { id: "videos" as MainTabType, label: "영상 가이드", icon: VideoIcon },
     { id: "columns" as MainTabType, label: "질환별 칼럼", icon: BookOpen },
     { id: "faq" as MainTabType, label: "자주하는 질문", icon: HelpCircle },
@@ -42,9 +44,9 @@ export default function Columns() {
       {/* 페이지 헤더 */}
       <div className="bg-[#F8F9FA] py-16 px-5">
         <div className="max-w-screen-lg mx-auto text-center">
-          <h1 className="mb-4 text-[#3E5266]">커뮤니티</h1>
+          <h1 className="mb-4 text-[#3E5266]">뷰티풀이야기</h1>
           <p className="text-[#6B7D8C] text-lg">
-            질환별 전문 정보와 실질적인 가이드를 제공합니다
+            건강한 회복을 위한 뷰티풀이야기와 치료정보를 제공합니다
           </p>
         </div>
       </div>
@@ -79,12 +81,289 @@ export default function Columns() {
       {/* 탭 컨텐츠 */}
       <div className="py-12 px-5">
         <div className="max-w-screen-lg mx-auto">
+          {activeTab === "gallery" && <BeautifulGallerySection />}
           {activeTab === "columns" && <ColumnsSection />}
           {activeTab === "videos" && <VideosSection />}
           {activeTab === "faq" && <FaqSection />}
           {activeTab === "question" && <QuestionSection />}
         </div>
       </div>
+    </div>
+  );
+}
+
+type GalleryCategory = "all" | "program" | "diet" | "environment" | "event" | "etc";
+
+const galleryCategories: { id: GalleryCategory; label: string }[] = [
+  { id: "all", label: "전체" },
+  { id: "program", label: "프로그램" },
+  { id: "diet", label: "식단" },
+  { id: "environment", label: "환경" },
+  { id: "event", label: "행사" },
+  { id: "etc", label: "기타" },
+];
+
+function BeautifulGallerySection() {
+  const { user, isAdmin } = useAuth();
+  const [selectedCategory, setSelectedCategory] = useState<GalleryCategory>("all");
+  const [items, setItems] = useState<GalleryItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [showUpload, setShowUpload] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [form, setForm] = useState<{ category: Exclude<GalleryCategory, "all">; caption: string }>({
+    category: "program",
+    caption: "",
+  });
+  const [file, setFile] = useState<File | null>(null);
+  const fileInputId = "beautiful-gallery-file";
+
+  useEffect(() => {
+    loadGallery();
+  }, [selectedCategory]);
+
+  const loadGallery = async () => {
+    try {
+      setLoading(true);
+      let query = supabase
+        .from("gallery")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (selectedCategory !== "all") {
+        query = query.eq("category", selectedCategory);
+      }
+
+      const { data, error } = await query;
+      if (error) throw error;
+      setItems((data as GalleryItem[]) || []);
+    } catch (e) {
+      console.error("갤러리 로드 실패:", e);
+      toast.error("갤러리를 불러오지 못했습니다");
+      setItems([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    if (!confirm("정말 삭제하시겠습니까?")) return;
+    try {
+      const { error } = await supabase.from("gallery").delete().eq("id", id);
+      if (error) throw error;
+      toast.success("삭제되었습니다");
+      loadGallery();
+    } catch (e) {
+      console.error("갤러리 삭제 실패:", e);
+      toast.error("삭제에 실패했습니다");
+    }
+  };
+
+  const handleUpload = async () => {
+    if (!isAdmin) return;
+    if (!file) {
+      toast.error("사진 파일을 선택해 주세요");
+      return;
+    }
+    try {
+      setUploading(true);
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.access_token) {
+        toast.error("로그인이 필요합니다");
+        return;
+      }
+
+      // 1) Upload image directly to Supabase Storage (no Edge Function)
+      const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
+      const fileName = `${crypto.randomUUID()}.${ext}`;
+      const filePath = `gallery/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from("make-ee767080-images")
+        .upload(filePath, file, { upsert: false, contentType: file.type });
+
+      if (uploadError) {
+        throw new Error(uploadError.message || "스토리지 업로드에 실패했습니다");
+      }
+
+      const { data: publicData } = supabase.storage
+        .from("make-ee767080-images")
+        .getPublicUrl(filePath);
+
+      const imageUrl = publicData?.publicUrl;
+      if (!imageUrl) {
+        throw new Error("이미지 URL 생성에 실패했습니다");
+      }
+
+      // 2) Save metadata to DB table gallery
+      const { error: insertError } = await supabase.from("gallery").insert({
+        image_url: imageUrl,
+        category: form.category,
+        caption: form.caption || null,
+        author_id: session.user.id,
+      });
+      if (insertError) throw insertError;
+
+      toast.success("업로드되었습니다");
+      setShowUpload(false);
+      setFile(null);
+      setForm({ category: "program", caption: "" });
+      loadGallery();
+    } catch (e: any) {
+      console.error("갤러리 업로드 실패:", e);
+      toast.error(e?.message || "업로드에 실패했습니다");
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  return (
+    <div className="space-y-8">
+      {/* Filter + Admin upload */}
+      <div className="flex items-center justify-between gap-4 flex-wrap">
+        <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-2 flex-1">
+          {galleryCategories.map((cat) => (
+            <button
+              key={cat.id}
+              onClick={() => setSelectedCategory(cat.id)}
+              className={`px-5 py-2.5 rounded-full whitespace-nowrap font-medium transition-all ${
+                selectedCategory === cat.id
+                  ? "bg-[#E91E7A] text-white shadow-md"
+                  : "bg-[#F8F9FA] text-[#6B7D8C] hover:bg-[#8FA8BA]/20"
+              }`}
+            >
+              {cat.label}
+            </button>
+          ))}
+        </div>
+
+        {isAdmin && (
+          <button
+            onClick={() => setShowUpload(true)}
+            className="flex items-center gap-2 px-5 py-2.5 bg-[#E91E7A] text-white rounded-full hover:bg-[#d11a6d] transition-colors font-medium whitespace-nowrap"
+          >
+            <Plus className="w-5 h-5" />
+            사진 업로드
+          </button>
+        )}
+      </div>
+
+      {/* Upload modal */}
+      {showUpload && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white w-full max-w-lg rounded-2xl overflow-hidden">
+            <div className="p-5 border-b border-gray-200 flex items-center justify-between">
+              <h3 className="text-[#3E5266] font-semibold">뷰티풀갤러리 업로드</h3>
+              <button
+                onClick={() => setShowUpload(false)}
+                className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                aria-label="닫기"
+              >
+                <X className="w-5 h-5 text-gray-500" />
+              </button>
+            </div>
+            <div className="p-5 space-y-4">
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-[#3E5266] mb-2">카테고리</label>
+                  <select
+                    value={form.category}
+                    onChange={(e) => setForm((p) => ({ ...p, category: e.target.value as any }))}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E91E7A]"
+                  >
+                    {galleryCategories.filter((c) => c.id !== "all").map((c) => (
+                      <option key={c.id} value={c.id}>
+                        {c.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#3E5266] mb-2">사진</label>
+                  <div className="flex items-center gap-3">
+                    <input
+                      id={fileInputId}
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+                      className="hidden"
+                    />
+                    <label
+                      htmlFor={fileInputId}
+                      className="inline-flex items-center justify-center px-4 py-3 rounded-xl border border-gray-300 text-[#3E5266] hover:bg-gray-50 transition-colors cursor-pointer whitespace-nowrap"
+                    >
+                      파일 선택
+                    </label>
+                    <div className="flex-1 text-sm text-[#6B7D8C] truncate">
+                      {file ? file.name : "선택된 파일 없음"}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-[#3E5266] mb-2">설명 (선택)</label>
+                <input
+                  type="text"
+                  value={form.caption}
+                  onChange={(e) => setForm((p) => ({ ...p, caption: e.target.value }))}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E91E7A]"
+                  placeholder="예) 항암 환자 맞춤 식단"
+                />
+              </div>
+            </div>
+            <div className="p-5 border-t border-gray-200 flex gap-3 justify-end">
+              <button
+                onClick={() => setShowUpload(false)}
+                className="px-5 py-3 rounded-xl border border-gray-300 text-[#3E5266] hover:bg-gray-50 transition-colors"
+              >
+                취소
+              </button>
+              <button
+                onClick={handleUpload}
+                disabled={uploading}
+                className="px-5 py-3 rounded-xl bg-[#E91E7A] text-white font-semibold hover:bg-[#d11a6d] transition-colors disabled:opacity-60"
+              >
+                {uploading ? "업로드 중..." : "업로드"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Grid */}
+      {loading ? (
+        <div className="text-center py-12 text-[#8FA8BA]">갤러리를 불러오는 중...</div>
+      ) : items.length === 0 ? (
+        <div className="text-center py-12 text-[#8FA8BA]">등록된 사진이 없습니다</div>
+      ) : (
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+          {items.map((it) => (
+            <div key={it.id} className="group relative bg-white border border-gray-200 rounded-2xl overflow-hidden">
+              <div className="aspect-square bg-gray-100">
+                <ImageWithFallback
+                  src={it.image_url}
+                  alt={it.caption || "갤러리 이미지"}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              {(it.caption || isAdmin) && (
+                <div className="p-3">
+                  {it.caption && <p className="text-xs text-[#6B7D8C] line-clamp-2">{it.caption}</p>}
+                </div>
+              )}
+              {isAdmin && (
+                <button
+                  onClick={() => handleDelete(it.id)}
+                  className="absolute top-2 right-2 p-2 rounded-xl bg-white/90 border border-gray-200 text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
+                  title="삭제"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
