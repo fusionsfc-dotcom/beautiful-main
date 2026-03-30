@@ -29,7 +29,10 @@ export default function Root() {
   };
 
   return (
-    <div className="min-h-[100dvh] flex flex-col bg-white pb-20 lg:pb-0">
+    <div
+      className="min-h-[100dvh] flex flex-col bg-white pb-20 lg:pb-0"
+      style={{ paddingBottom: "calc(64px + env(safe-area-inset-bottom, 0px))" }}
+    >
         {/* Global Header - 모든 페이지 상단에 고정 */}
         <GlobalHeader />
 
@@ -49,8 +52,9 @@ export default function Root() {
         <GlobalFooter />
         
         {/* Bottom Tab Bar - Mobile Only */}
-        <nav 
-          className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-[9999] mobile-bottom-safe mobile-bottom-nav-fixed"
+        <nav
+          className="lg:hidden fixed left-0 right-0 bg-white border-t border-gray-200 z-50 mobile-bottom-safe mobile-bottom-nav-fixed"
+          style={{ bottom: 0, paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
         >
           <div className="flex justify-around items-center h-16 max-w-screen-xl mx-auto">
             {tabs.map((tab) => {

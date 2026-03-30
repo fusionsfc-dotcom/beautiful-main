@@ -108,6 +108,9 @@ function BeautifulGallerySection() {
   const [selectedCategory, setSelectedCategory] = useState<GalleryCategory>("all");
   const [items, setItems] = useState<GalleryItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
   const [showUpload, setShowUpload] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [form, setForm] = useState<{ category: Exclude<GalleryCategory, "all">; caption: string }>({
@@ -117,33 +120,70 @@ function BeautifulGallerySection() {
   const [file, setFile] = useState<File | null>(null);
   const fileInputId = "beautiful-gallery-file";
 
+  // PC(lg 이상) 12장 / 모바일 10장
+  useEffect(() => {
+    const mql = window.matchMedia("(min-width: 1024px)");
+    const apply = () => setItemsPerPage(mql.matches ? 12 : 10);
+    apply();
+
+    const handler = () => apply();
+    if (typeof mql.addEventListener === "function") {
+      mql.addEventListener("change", handler);
+      return () => mql.removeEventListener("change", handler);
+    }
+    // Safari 구버전 호환
+    // @ts-expect-error legacy
+    mql.addListener(handler);
+    // @ts-expect-error legacy
+    return () => mql.removeListener(handler);
+  }, []);
+
   useEffect(() => {
     loadGallery();
+  }, [selectedCategory, currentPage, itemsPerPage]);
+
+  // 카테고리 변경 시 페이지를 1로 리셋
+  useEffect(() => {
+    setCurrentPage(1);
   }, [selectedCategory]);
+
+  // 페이지당 개수 변경 시 페이지를 1로 리셋
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [itemsPerPage]);
 
   const loadGallery = async () => {
     try {
       setLoading(true);
       let query = supabase
         .from("gallery")
-        .select("*")
+        .select("*", { count: "exact" })
         .order("created_at", { ascending: false });
 
       if (selectedCategory !== "all") {
         query = query.eq("category", selectedCategory);
       }
 
-      const { data, error } = await query;
+      const from = (currentPage - 1) * itemsPerPage;
+      const to = from + itemsPerPage - 1;
+
+      query = query.range(from, to);
+
+      const { data, error, count } = await query;
       if (error) throw error;
       setItems((data as GalleryItem[]) || []);
+      setTotalCount(count ?? 0);
     } catch (e) {
       console.error("갤러리 로드 실패:", e);
       toast.error("갤러리를 불러오지 못했습니다");
       setItems([]);
+      setTotalCount(0);
     } finally {
       setLoading(false);
     }
   };
+
+  const totalPages = Math.ceil(totalCount / itemsPerPage);
 
   const handleDelete = async (id: string) => {
     if (!confirm("정말 삭제하시겠습니까?")) return;
@@ -151,7 +191,12 @@ function BeautifulGallerySection() {
       const { error } = await supabase.from("gallery").delete().eq("id", id);
       if (error) throw error;
       toast.success("삭제되었습니다");
-      loadGallery();
+      // 마지막 아이템 삭제 후 빈 페이지가 되면 이전 페이지로 이동
+      if (items.length === 1 && currentPage > 1) {
+        setCurrentPage((p) => Math.max(1, p - 1));
+      } else {
+        loadGallery();
+      }
     } catch (e) {
       console.error("갤러리 삭제 실패:", e);
       toast.error("삭제에 실패했습니다");
@@ -336,33 +381,43 @@ function BeautifulGallerySection() {
       ) : items.length === 0 ? (
         <div className="text-center py-12 text-[#8FA8BA]">등록된 사진이 없습니다</div>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-          {items.map((it) => (
-            <div key={it.id} className="group relative bg-white border border-gray-200 rounded-2xl overflow-hidden">
-              <div className="aspect-square bg-gray-100">
-                <ImageWithFallback
-                  src={it.image_url}
-                  alt={it.caption || "갤러리 이미지"}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              {(it.caption || isAdmin) && (
-                <div className="p-3">
-                  {it.caption && <p className="text-xs text-[#6B7D8C] line-clamp-2">{it.caption}</p>}
+        <>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            {items.map((it) => (
+              <div key={it.id} className="group relative bg-white border border-gray-200 rounded-2xl overflow-hidden">
+                <div className="aspect-square bg-gray-100">
+                  <ImageWithFallback
+                    src={it.image_url}
+                    alt={it.caption || "갤러리 이미지"}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
-              )}
-              {isAdmin && (
-                <button
-                  onClick={() => handleDelete(it.id)}
-                  className="absolute top-2 right-2 p-2 rounded-xl bg-white/90 border border-gray-200 text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
-                  title="삭제"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
-              )}
-            </div>
-          ))}
-        </div>
+                {(it.caption || isAdmin) && (
+                  <div className="p-3">
+                    {it.caption && <p className="text-xs text-[#6B7D8C] line-clamp-2">{it.caption}</p>}
+                  </div>
+                )}
+                {isAdmin && (
+                  <button
+                    onClick={() => handleDelete(it.id)}
+                    className="absolute top-2 right-2 p-2 rounded-xl bg-white/90 border border-gray-200 text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
+                    title="삭제"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {totalPages > 1 && (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
+          )}
+        </>
       )}
     </div>
   );

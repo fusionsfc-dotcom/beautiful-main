@@ -106,7 +106,7 @@ export default function GlobalFooter() {
                     치료환경
                   </Link>
                   <Link to="/columns" className="block text-white/80 hover:text-white transition-colors">
-                    커뮤니티
+                    뷰티풀이야기
                   </Link>
                   <Link to="/about" className="block text-white/80 hover:text-white transition-colors">
                     병원소개
