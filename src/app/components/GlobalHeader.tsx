@@ -142,7 +142,7 @@ export default function GlobalHeader() {
                 치료환경
               </Link>
               <Link to="/columns" className="text-[#6B7D8C] hover:text-[#3E5266] transition-colors">
-                커뮤니티
+                뷰티풀이야기
               </Link>
               <Link to="/about" className="text-[#6B7D8C] hover:text-[#3E5266] transition-colors">
                 병원소개
