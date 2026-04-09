@@ -1,4 +1,5 @@
 {
+  "buildCommand": "npm run build:only",
   "rewrites": [
     { "source": "/((?!google1e502d49aef295fd\\.html|robots\\.txt|sitemap\\.xml).*)", "destination": "/index.html" }
   ],
