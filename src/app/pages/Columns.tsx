@@ -29,6 +29,93 @@ type MainTabType = "gallery" | "columns" | "videos" | "faq" | "question";
 type ColumnCategoryType = "cancer" | "stroke" | "tinnitus" | "spine";
 type FaqCategoryType = "cancer" | "stroke" | "tinnitus" | "admission" | "cost";
 
+const faqJsonLdData = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "항암 중에도 한방 치료가 가능한가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "네, 가능합니다. 항암 치료는 계속 진행하시면서 한방 치료를 병행하여 부작용을 줄이고 회복력을 높이는 방식으로 진행됩니다. 대학병원과 협력 체계를 갖추고 있어 안전합니다.",
+      },
+    },
+    {
+      "@type": "Question",
+      "name": "항암 부작용이 심한데 입원이 도움이 될까요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "입원 치료는 24시간 의료진 케어로 부작용을 체계적으로 관리할 수 있습니다. 영양 관리, 통증 조절, 면역력 증진을 통합적으로 진행하여 항암 순응도를 높입니다.",
+      },
+    },
+    {
+      "@type": "Question",
+      "name": "중풍 환자 입원 기간은 얼마나 되나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "환자 상태에 따라 다르지만, 일반적으로 2~4주 정도입니다. 초기 집중 재활 후 상태를 평가하여 추가 입원 여부를 결정합니다.",
+      },
+    },
+    {
+      "@type": "Question",
+      "name": "이명 치료는 얼마나 걸리나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "이명은 원인과 기간에 따라 치료 기간이 다릅니다. 평균 4~8주 정도 치료하며, 경추 및 자율신경 교정을 통해 증상을 완화합니다.",
+      },
+    },
+    {
+      "@type": "Question",
+      "name": "보호자 상주가 필수인가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "24시간 의료진이 상주하므로 보호자 상주는 필수가 아닙니다. 다만, 환자의 심리적 안정을 위해 낮 시간 방문을 권장합니다.",
+      },
+    },
+    {
+      "@type": "Question",
+      "name": "보험 적용이 가능한가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "한방 치료 일부와 검사 항목은 건강보험 적용이 가능합니다. 비급여 항목은 사전에 안내해 드리며, 실손보험 청구도 지원합니다.",
+      },
+    },
+    {
+      "@type": "Question",
+      "name": "국립암센터 근처 암요양병원은 어디가 있나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "뷰티풀한방병원은 국립암센터에서 차량으로 약 15분 거리인 경기도 파주시 중양로 94-9에 위치한 암요양병원입니다. 국립암센터에서 항암·방사선 치료를 받으시면서 한방 통합 면역 치료를 병행할 수 있으며, 호텔 리모델링 입원실과 24시간 의료진 상주 체계를 갖추고 있습니다. 전화: 031-945-2000",
+      },
+    },
+    {
+      "@type": "Question",
+      "name": "파주·일산에서 암요양병원을 찾고 있는데 어떤 병원이 있나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "뷰티풀한방병원은 경기도 파주시에 위치하며 일산·고양 지역에서 접근이 편리한 암요양병원입니다. 양·한·치과 통합진료 체계를 갖추고 있으며, 암환자를 위한 고주파 온열 치료, 왕뜸·약뜸, 효소 찜질 등 면역 회복 프로그램과 입원 케어를 운영합니다.",
+      },
+    },
+    {
+      "@type": "Question",
+      "name": "암요양병원에서는 어떤 치료를 받을 수 있나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "뷰티풀한방병원에서는 수술 후 회복 관리, 항암 치료 중 부작용 완화, 항암 치료 후 면역 회복, 진행성 암 환자 통합 케어를 진행합니다. 주요 치료로는 고주파 온열 암 치료, 왕뜸·약뜸 치료, 효소 찜질, 한약 면역 치료 등이 있으며, 대학병원 항암·방사선 치료와 병행할 수 있습니다.",
+      },
+    },
+    {
+      "@type": "Question",
+      "name": "국립암센터 치료와 뷰티풀한방병원 치료를 동시에 받을 수 있나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "네, 가능합니다. 뷰티풀한방병원은 국립암센터에서 차량 15분 거리에 있어 대학병원 항암·방사선 치료 일정을 유지하면서 한방 면역 치료를 병행할 수 있습니다. 입원 중 국립암센터 통원 치료도 지원하고 있습니다.",
+      },
+    },
+  ],
+};
+
 export default function Columns() {
   const [activeTab, setActiveTab] = useState<MainTabType>("gallery");
 
@@ -45,7 +132,10 @@ export default function Columns() {
       <SEOHead
         title="뷰티풀이야기 · 치료사례 | 뷰티풀한방병원"
         description="실제 암 환자 치료 사례와 회복 이야기. 뷰티풀한방병원의 통합 치료 결과를 확인하세요."
+        keywords="한방치료정보,암치료칼럼,치료사례,자주하는질문,뷰티풀한방병원"
         ogUrl="https://www.btful.co.kr/columns"
+        canonical="https://www.btful.co.kr/columns"
+        jsonLd={faqJsonLdData}
       />
       {/* 페이지 헤더 */}
       <div className="bg-[#F8F9FA] py-16 px-5">
@@ -1543,6 +1633,26 @@ function FaqSection() {
       category: "cost" as FaqCategoryType,
       question: "보험 적용이 가능한가요?",
       answer: "한방 치료 일부와 검사 항목은 건강보험 적용이 가능합니다. 비급여 항목은 사전에 안내해 드리며, 실손보험 청구도 지원합니다."
+    },
+    {
+      category: "cancer" as FaqCategoryType,
+      question: "국립암센터 근처 암요양병원은 어디가 있나요?",
+      answer: "뷰티풀한방병원은 국립암센터에서 차량으로 약 15분 거리인 경기도 파주시 중양로 94-9에 위치한 암요양병원입니다. 국립암센터에서 항암·방사선 치료를 받으시면서 한방 통합 면역 치료를 병행할 수 있으며, 호텔 리모델링 입원실과 24시간 의료진 상주 체계를 갖추고 있습니다. 전화: 031-945-2000"
+    },
+    {
+      category: "cancer" as FaqCategoryType,
+      question: "국립암센터 치료와 뷰티풀한방병원 치료를 동시에 받을 수 있나요?",
+      answer: "네, 가능합니다. 뷰티풀한방병원은 국립암센터에서 차량 15분 거리에 있어 대학병원 항암·방사선 치료 일정을 유지하면서 한방 면역 치료를 병행할 수 있습니다. 입원 중 국립암센터 통원 치료도 지원하고 있습니다."
+    },
+    {
+      category: "cancer" as FaqCategoryType,
+      question: "암요양병원에서는 어떤 치료를 받을 수 있나요?",
+      answer: "뷰티풀한방병원에서는 수술 후 회복 관리, 항암 치료 중 부작용 완화, 항암 치료 후 면역 회복, 진행성 암 환자 통합 케어를 진행합니다. 주요 치료로는 고주파 온열 암 치료, 왕뜸·약뜸 치료, 효소 찜질, 한약 면역 치료 등이 있으며, 대학병원 항암·방사선 치료와 병행할 수 있습니다."
+    },
+    {
+      category: "admission" as FaqCategoryType,
+      question: "파주·일산에서 암요양병원을 찾고 있는데 어떤 병원이 있나요?",
+      answer: "뷰티풀한방병원은 경기도 파주시에 위치하며 일산·고양 지역에서 접근이 편리한 암요양병원입니다. 양·한·치과 통합진료 체계를 갖추고 있으며, 암환자를 위한 고주파 온열 치료, 왕뜸·약뜸, 효소 찜질 등 면역 회복 프로그램과 입원 케어를 운영합니다."
     },
   ];
 

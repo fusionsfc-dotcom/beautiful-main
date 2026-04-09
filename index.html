@@ -6,10 +6,10 @@
     <meta name="theme-color" content="#e91e8c" />
     <meta
       name="description"
-      content="뷰티풀한방병원 | 국립암센터 인근 통합 암 면역 회복 병원"
+      content="국립암센터 차량 15분, 경기도 파주시 암요양병원. 수술·항암·방사선 치료 후 면역과 체력 회복을 돕는 뷰티풀한방병원. 호텔형 입원실, 24시간 의료진 상주, 양·한·치과 통합진료."
     />
     <link rel="canonical" href="https://www.btful.co.kr/" />
-    <title>뷰티풀한방병원</title>
+    <title>뷰티풀한방병원 | 국립암센터 인근 암요양병원</title>
 
     <!-- Open Graph (카카오/페이스북 공유) -->
     <meta property="og:type" content="website" />
@@ -17,11 +17,11 @@
     <meta property="og:locale" content="ko_KR" />
     <meta
       property="og:title"
-      content="뷰티풀한방병원 | 국립암센터 인근 통합 암 면역 회복"
+      content="뷰티풀한방병원 | 국립암센터 인근 암요양병원 · 통합 암 면역 회복"
     />
     <meta
       property="og:description"
-      content="수술·항암·방사선 치료 후 면역과 체력 회복을 돕는 뷰티풀한방병원입니다. 국립암센터 차량 15분, 양·한·치과 통합진료, 24시간 의료진 상주."
+      content="국립암센터 차량 15분, 경기도 파주시 암요양병원. 수술·항암·방사선 치료 후 면역과 체력 회복을 돕는 뷰티풀한방병원. 호텔형 입원실, 24시간 의료진 상주, 양·한·치과 통합진료."
     />
     <meta property="og:image" content="https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/site_img.jpeg" />
     <meta property="og:url" content="https://www.btful.co.kr/" />
@@ -33,11 +33,11 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta
       name="twitter:title"
-      content="뷰티풀한방병원 | 국립암센터 인근 통합 암 면역 회복"
+      content="뷰티풀한방병원 | 국립암센터 인근 암요양병원 · 통합 암 면역 회복"
     />
     <meta
       name="twitter:description"
-      content="수술·항암·방사선 치료 후 면역과 체력 회복을 돕는 뷰티풀한방병원입니다. 국립암센터 차량 15분, 양·한·치과 통합진료, 24시간 의료진 상주."
+      content="국립암센터 차량 15분, 경기도 파주시 암요양병원. 수술·항암·방사선 치료 후 면역과 체력 회복을 돕는 뷰티풀한방병원. 호텔형 입원실, 24시간 의료진 상주, 양·한·치과 통합진료."
     />
     <meta name="twitter:image" content="https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/site_img.jpeg" />
 
@@ -47,31 +47,108 @@
         "@context": "https://schema.org",
         "@type": "Hospital",
         "name": "뷰티풀한방병원",
+        "alternateName": ["Beautiful Korean Medicine Hospital", "뷰티풀 암요양병원", "파주 암요양병원"],
         "url": "https://www.btful.co.kr",
         "logo": "https://www.btful.co.kr/logo.png",
-        "description": "국립암센터 인근 통합 암 면역 회복 전문 한방병원",
+        "image": "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/site_img.jpeg",
+        "description": "국립암센터(일산) 차량 15분 거리에 위치한 암요양병원. 경기도 파주시 소재 통합 암 면역 회복 전문 한방병원으로, 수술·항암·방사선 치료 후 면역과 체력 회복을 돕는 양·한·치과 통합진료 입원 병원입니다. 호텔 리모델링 입원실, 24시간 의료진 상주.",
         "telephone": "031-945-2000",
         "address": {
           "@type": "PostalAddress",
           "addressCountry": "KR",
           "addressRegion": "경기도",
           "addressLocality": "파주시",
-          "streetAddress": "중양로 94-9"
+          "streetAddress": "중양로 94-9",
+          "postalCode": "10814"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": "37.7636",
+          "longitude": "126.7380"
         },
         "hasMap": "https://maps.google.com/?q=%EA%B2%BD%EA%B8%B0%EB%8F%84%20%ED%8C%8C%EC%A3%BC%EC%8B%9C%20%EC%A4%91%EC%96%91%EB%A1%9C%2094-9%20%EB%B7%B0%ED%8B%B0%ED%92%80%ED%95%9C%EB%B0%A9%EB%B3%91%EC%9B%90",
-        "openingHours": "Mo-Su 09:00-18:00",
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+            "opens": "09:00",
+            "closes": "18:00"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": "Saturday",
+            "opens": "09:00",
+            "closes": "13:00"
+          }
+        ],
         "priceRange": "₩₩",
+        "currenciesAccepted": "KRW",
+        "paymentAccepted": "현금, 카드",
         "medicalSpecialty": [
           "한방 암 치료",
           "통합 면역 치료",
-          "항암 후 관리"
+          "항암 후 관리",
+          "중풍·파킨슨병 재활",
+          "이명·난청·어지럼증·두통 치료",
+          "척추·관절 통증 치료"
         ],
         "availableService": [
           "통합 암 면역 치료",
           "항암 부작용 관리",
+          "고주파 온열 암 치료",
+          "왕뜸·약뜸 치료",
+          "효소 찜질 치료",
           "한방 복합 치료",
-          "재활 프로그램"
-        ]
+          "중풍 재활 프로그램",
+          "이명·두통 치료",
+          "척추·관절 추나 치료"
+        ],
+        "department": [
+          {
+            "@type": "MedicalClinic",
+            "name": "암환자 통합 면역 치료 클리닉",
+            "url": "https://www.btful.co.kr/clinics/cancer-immune",
+            "medicalSpecialty": "한방 암 치료"
+          },
+          {
+            "@type": "MedicalClinic",
+            "name": "이명·난청·어지럼증·두통 클리닉",
+            "url": "https://www.btful.co.kr/clinics/tinnitus-headache",
+            "medicalSpecialty": "이비인후과 한방 치료"
+          },
+          {
+            "@type": "MedicalClinic",
+            "name": "중풍·파킨슨병 재활 클리닉",
+            "url": "https://www.btful.co.kr/clinics/stroke-parkinson",
+            "medicalSpecialty": "신경계 한방 재활"
+          },
+          {
+            "@type": "MedicalClinic",
+            "name": "척추·관절 통증 클리닉",
+            "url": "https://www.btful.co.kr/clinics/spine-joint",
+            "medicalSpecialty": "근골격계 한방 치료"
+          }
+        ],
+        "amenityFeature": [
+          { "@type": "LocationFeatureSpecification", "name": "호텔 리모델링 입원실", "value": true },
+          { "@type": "LocationFeatureSpecification", "name": "24시간 의료진 상주", "value": true },
+          { "@type": "LocationFeatureSpecification", "name": "무료 주차", "value": true }
+        ],
+        "areaServed": [
+          { "@type": "City", "name": "파주시" },
+          { "@type": "City", "name": "고양시" },
+          { "@type": "City", "name": "일산" },
+          { "@type": "AdministrativeArea", "name": "경기 북부" }
+        ],
+        "knowsAbout": [
+          "암요양병원",
+          "국립암센터 근처 요양병원",
+          "항암 후 회복",
+          "암환자 면역 치료",
+          "한방 암 치료",
+          "암환자 입원 재활"
+        ],
+        "keywords": "암요양병원, 국립암센터 근처 암요양병원, 파주 암요양병원, 일산 암요양병원, 고양 암요양병원, 경기 암요양병원, 항암후관리, 암면역치료, 한방암치료, 암환자재활, 국립암센터 병행치료"
       }
     </script>
   </head>

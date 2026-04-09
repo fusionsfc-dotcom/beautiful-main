@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { 
-  FileText, 
+import {
+  FileText,
   Plus,
   Pencil,
   Trash2,
@@ -11,6 +11,7 @@ import { supabase, Case } from "../../lib/supabase";
 import { useAuth } from "../contexts/AuthContext";
 import { toast } from "sonner";
 import { projectId, publicAnonKey } from "../../../utils/supabase/info";
+import SEOHead from "../../components/seo/SEOHead";
 
 type CaseCategoryType = "cancer" | "stroke" | "tinnitus" | "spine";
 
@@ -102,6 +103,39 @@ export default function Cases() {
 
   return (
     <div className="min-h-[100dvh] bg-white">
+      <SEOHead
+        title="치료사례 | 뷰티풀한방병원"
+        description="뷰티풀한방병원의 실제 암 회복, 중풍 재활, 이명·두통, 척추·관절 치료사례를 확인하세요. 환자별 맞춤 한방 통합 치료 결과를 소개합니다."
+        keywords="한방치료사례,암치료후기,중풍재활사례,이명치료사례,척추치료후기,뷰티풀한방병원"
+        ogUrl="https://www.btful.co.kr/cases"
+        canonical="https://www.btful.co.kr/cases"
+        jsonLd={cases.length > 0 ? {
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          "name": "치료사례 | 뷰티풀한방병원",
+          "description": "뷰티풀한방병원의 실제 치료사례 모음",
+          "url": "https://www.btful.co.kr/cases",
+          "publisher": {
+            "@type": "Hospital",
+            "name": "뷰티풀한방병원",
+            "url": "https://www.btful.co.kr",
+          },
+          "mainEntity": {
+            "@type": "ItemList",
+            "itemListElement": cases.slice(0, 10).map((c, i) => ({
+              "@type": "ListItem",
+              "position": i + 1,
+              "item": {
+                "@type": "MedicalWebPage",
+                "name": c.title,
+                "datePublished": c.created_at,
+                "description": c.content?.slice(0, 160),
+                ...(c.thumbnail ? { "image": c.thumbnail } : {}),
+              },
+            })),
+          },
+        } : undefined}
+      />
       {/* 페이지 헤더 */}
       <div className="bg-[#F8F9FA] py-16 px-5">
         <div className="max-w-screen-lg mx-auto text-center">

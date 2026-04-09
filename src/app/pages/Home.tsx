@@ -128,9 +128,23 @@ export default function Home() {
   return (
     <div className="min-h-[100dvh] bg-white">
       <SEOHead
-        title="뷰티풀한방병원 | 국립암센터 인근 통합 암 면역 회복 전문"
-        description="수술·항암·방사선 치료 후 면역과 체력 회복. 국립암센터 차량 15분, 24시간 의료진 상주, 양·한·치과 통합진료."
+        title="뷰티풀한방병원 | 국립암센터 인근 암요양병원 · 통합 암 면역 회복"
+        description="국립암센터 차량 15분, 경기도 파주시 암요양병원. 수술·항암·방사선 치료 후 면역과 체력 회복을 돕는 통합 암 면역 회복 전문 한방병원. 호텔형 입원실, 24시간 의료진 상주, 양·한·치과 통합진료."
+        keywords="암요양병원,국립암센터근처암요양병원,파주암요양병원,일산암요양병원,고양암요양병원,경기암요양병원,한방암치료,면역암치료,항암후관리,암회복,뷰티풀한방병원,국립암센터근처병원,통합암치료,암환자재활,암요양,항암부작용관리"
         ogUrl="https://www.btful.co.kr/"
+        canonical="https://www.btful.co.kr/"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": "뷰티풀한방병원",
+          "alternateName": "Beautiful Korean Medicine Hospital",
+          "url": "https://www.btful.co.kr",
+          "publisher": {
+            "@type": "Hospital",
+            "name": "뷰티풀한방병원",
+            "telephone": "031-945-2000",
+          },
+        }}
       />
       {/* 1️⃣ 히어로 섹션 */}
       <section className="relative h-[100dvh] min-h-[600px] flex items-center justify-center">

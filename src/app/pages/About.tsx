@@ -80,12 +80,47 @@ export default function About() {
   const [activeTab, setActiveTab] = useState<TabType>("intro");
   const navigate = useNavigate();
 
+  const doctorImages = [DIRECTOR_IMAGE_URL, DIRECTOR_2_IMAGE_URL, DIRECTOR_3_IMAGE_URL, DIRECTOR_4_IMAGE_URL];
+
+  const aboutJsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "MedicalOrganization",
+      "name": "뷰티풀한방병원",
+      "url": "https://www.btful.co.kr",
+      "telephone": "031-945-2000",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "KR",
+        "addressRegion": "경기도",
+        "addressLocality": "파주시",
+        "streetAddress": "중양로 94-9",
+      },
+      "medicalSpecialty": ["한방 암 치료", "통합 면역 치료", "중풍 재활", "이명 치료", "척추·관절 치료"],
+      "areaServed": ["파주시", "고양시", "일산", "경기 북부"],
+      "knowsAbout": ["암요양병원", "국립암센터 근처 요양병원", "항암 후 회복", "암환자 면역 치료"],
+      "employee": doctors.map((doc, i) => ({
+        "@type": "Physician",
+        "name": doc.name.replace(" 원장", ""),
+        "jobTitle": "원장",
+        "medicalSpecialty": doc.specialty,
+        "description": doc.experience,
+        "alumniOf": doc.education,
+        "memberOf": doc.activities.map((a) => ({ "@type": "Organization", "name": a })),
+        ...(doctorImages[i] ? { "image": doctorImages[i] } : {}),
+      })),
+    },
+  ];
+
   return (
     <div className="min-h-[100dvh] bg-white">
       <SEOHead
-        title="병원소개 | 뷰티풀한방병원"
-        description="뷰티풀한방병원 소개. 의료진, 진료 철학, 위치 안내."
+        title="병원소개 | 뷰티풀한방병원 · 국립암센터 인근 암요양병원"
+        description="경기도 파주시 소재 암요양병원 뷰티풀한방병원 소개. 국립암센터 차량 15분, 일산·고양 인근. 통합 암 면역 회복 전문 한방병원. 의료진, 진료 철학, 위치 안내."
+        keywords="뷰티풀한방병원,암요양병원,파주암요양병원,국립암센터근처암요양병원,일산암요양병원,고양암요양병원,파주한방병원,병원소개,한방의료진"
         ogUrl="https://www.btful.co.kr/about"
+        canonical="https://www.btful.co.kr/about"
+        jsonLd={aboutJsonLd}
       />
       {/* Tab Navigation */}
       <div className="sticky top-16 lg:top-20 bg-white border-b border-gray-200 z-40">

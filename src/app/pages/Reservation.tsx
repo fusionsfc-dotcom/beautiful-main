@@ -4,6 +4,7 @@ import { Phone, MessageCircle } from "lucide-react";
 import { toast } from "sonner";
 import { useNavigate } from "react-router";
 import { projectId, publicAnonKey } from "../../../utils/supabase/info";
+import SEOHead from "../../components/seo/SEOHead";
 
 interface ReservationForm {
   name: string;
@@ -90,6 +91,13 @@ export default function Reservation() {
 
   return (
     <div className="min-h-[100dvh] bg-white">
+      <SEOHead
+        title="예약·상담 | 뷰티풀한방병원"
+        description="뷰티풀한방병원 진료 예약 및 상담 안내. 암 면역 치료, 이명, 중풍 재활 등 전문 상담을 받아보세요. 전화 031-945-2000"
+        keywords="한방병원예약,암치료상담,뷰티풀한방병원예약,파주한방병원상담"
+        ogUrl="https://www.btful.co.kr/reservation"
+        canonical="https://www.btful.co.kr/reservation"
+      />
       <header className="px-5 py-6 border-b border-gray-200">
         <h1>예약 · 상담</h1>
         <p className="mt-2 text-gray-600">

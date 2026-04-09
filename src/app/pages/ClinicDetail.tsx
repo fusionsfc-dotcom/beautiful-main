@@ -3,6 +3,7 @@ import { useState } from "react";
 import { ChevronLeft, Phone, MessageCircle, CheckCircle } from "lucide-react";
 import * as Accordion from "@radix-ui/react-accordion";
 import { ChevronDown } from "lucide-react";
+import SEOHead from "../../components/seo/SEOHead";
 /** 임시: Vercel 링크테스트용 */
 const PLACEHOLDER_IMAGE =
   "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/yoga_s.jpeg";
@@ -629,8 +630,69 @@ export default function ClinicDetail() {
 
   const clinic = clinicData[id || ""] || clinicData["cancer-immune"];
 
+  const seoMeta: Record<string, { title: string; description: string; keywords: string }> = {
+    "cancer-immune": {
+      title: "암환자 통합 면역 치료 클리닉 | 뷰티풀한방병원 · 국립암센터 인근 암요양병원",
+      description: "국립암센터 차량 15분 거리 암요양병원. 항암·수술·방사선 치료 후 면역 회복을 위한 한방 통합 치료 클리닉. 고주파 온열 치료, 왕뜸·약뜸, 효소 찜질 등 맞춤 면역 프로그램 운영. 경기도 파주시, 일산·고양 인근.",
+      keywords: "암요양병원,국립암센터근처암요양병원,파주암요양병원,일산암요양병원,고양암요양병원,암한방치료,항암후관리,면역치료,통합암치료,고주파온열치료,암환자입원,항암부작용관리,경기암요양병원",
+    },
+    "tinnitus-headache": {
+      title: "이명·난청·어지럼증·두통 클리닉 | 뷰티풀한방병원",
+      description: "이명, 난청, 어지럼증, 두통 전문 한방 치료 클리닉. 침, 약침, 한약 등 근본 원인 치료로 신경 안정과 혈류 개선을 돕습니다.",
+      keywords: "이명치료,난청한방치료,어지럼증치료,두통한방,파주이명치료",
+    },
+    "stroke-parkinson": {
+      title: "중풍·파킨슨병 재활 클리닉 | 뷰티풀한방병원",
+      description: "중풍(뇌졸중) 후유증 및 파킨슨병 한방 재활 치료 클리닉. 1:1 집중 재활과 뇌신경계 기반 통합 치료로 일상 복귀를 돕습니다.",
+      keywords: "중풍재활,파킨슨병한방치료,뇌졸중후유증,한방재활,파주중풍치료",
+    },
+    "spine-joint": {
+      title: "척추·관절 통증 클리닉 | 뷰티풀한방병원",
+      description: "반복되는 허리·무릎·어깨 통증, 전신 밸런스 회복이 필요합니다. 추나, 침, 약침 등 통합 치료로 근본 원인을 해결합니다.",
+      keywords: "척추치료,관절통증,허리통증한방,추나치료,파주척추치료,관절한방치료",
+    },
+  };
+
+  const currentSeo = seoMeta[id || ""] || seoMeta["cancer-immune"];
+
+  const clinicJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "MedicalClinic",
+    "name": clinic.title,
+    "description": currentSeo.description,
+    "url": `https://www.btful.co.kr/clinics/${id || "cancer-immune"}`,
+    "medicalSpecialty": clinic.subtitle,
+    "availableService": clinic.sections
+      ?.filter((s: any) => s.subsections?.some((sub: any) => sub.treatments))
+      .flatMap((s: any) =>
+        s.subsections
+          .filter((sub: any) => sub.treatments)
+          .flatMap((sub: any) =>
+            sub.treatments.map((t: any) => ({
+              "@type": "MedicalTherapy",
+              "name": t.name,
+              "description": t.description,
+            }))
+          )
+      ) || [],
+    "isPartOf": {
+      "@type": "Hospital",
+      "name": "뷰티풀한방병원",
+      "url": "https://www.btful.co.kr",
+      "telephone": "031-945-2000",
+    },
+  };
+
   return (
     <div className="min-h-[100dvh] bg-white">
+      <SEOHead
+        title={currentSeo.title}
+        description={currentSeo.description}
+        keywords={currentSeo.keywords}
+        ogUrl={`https://www.btful.co.kr/clinics/${id || "cancer-immune"}`}
+        canonical={`https://www.btful.co.kr/clinics/${id || "cancer-immune"}`}
+        jsonLd={clinicJsonLd}
+      />
       {/* Header */}
       <header className="sticky top-0 bg-white border-b border-gray-200 z-10">
         <div className="flex items-center px-5 py-4">

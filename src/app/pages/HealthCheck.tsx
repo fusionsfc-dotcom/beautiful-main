@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router";
 import { ChevronLeft, ChevronRight, Check, ClipboardCheck, Syringe, Heart, Stethoscope, Home } from "lucide-react";
 import * as Progress from "@radix-ui/react-progress";
+import SEOHead from "../../components/seo/SEOHead";
 
 type TreatmentStage = "pre-treatment" | "post-surgery" | "chemotherapy" | "radiation" | "hospice" | null;
 type StepType = "stage-selection" | "questions" | "result";
@@ -92,14 +93,24 @@ export default function HealthCheck() {
     return 3;
   };
 
+  const seoHead = (
+    <SEOHead
+      title="3분 건강 체크 | 뷰티풀한방병원"
+      description="간단한 자가 건강 체크로 현재 상태를 확인해보세요. 치료 단계별 맞춤 체크리스트를 통해 필요한 관리 방향을 안내합니다."
+      keywords="건강체크,암환자자가진단,항암체크리스트,건강상태확인,뷰티풀한방병원"
+      ogUrl="https://www.btful.co.kr/health-check"
+      canonical="https://www.btful.co.kr/health-check"
+    />
+  );
+
   // STEP 1: 치료 단계 선택 화면
   if (currentStep === "stage-selection") {
-    return <StageSelectionScreen onSelect={handleStageSelect} />;
+    return <>{seoHead}<StageSelectionScreen onSelect={handleStageSelect} /></>;
   }
 
   // STEP 3: 결과 화면
   if (currentStep === "result" && selectedStage) {
-    return <ResultScreen stage={selectedStage} selectedChecks={selectedChecks} />;
+    return <>{seoHead}<ResultScreen stage={selectedStage} selectedChecks={selectedChecks} /></>;
   }
 
   // STEP 2: 체크리스트 화면
@@ -107,6 +118,7 @@ export default function HealthCheck() {
 
   return (
     <div className="min-h-[100dvh] bg-white">
+      {seoHead}
       <header className="sticky top-0 bg-white border-b border-gray-200 z-10">
         <div className="flex items-center px-5 py-4">
           <button onClick={handleBack} className="mr-4">
