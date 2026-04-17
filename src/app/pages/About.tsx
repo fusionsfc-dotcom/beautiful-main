@@ -44,6 +44,16 @@ const DIRECTOR_4_IMAGE_URL =
 
 type TabType = "intro" | "doctors" | "location" | "guide" | "notices";
 
+type NoticeFeeRow = {
+  item: string;
+  price: string;
+};
+
+type NoticeFeeSection = {
+  title: string;
+  rows: NoticeFeeRow[];
+};
+
 const tabs = [
   { id: "intro" as TabType, label: "병원소개" },
   { id: "doctors" as TabType, label: "의료진" },
@@ -75,6 +85,147 @@ const doctors = [
     activities: ["대한침구의학회 정원", "대한추나학회 회원"],
   },
 ];
+
+const NOTICE_PRICE_PATTERN = /^\d[\d,\s~/]*$/;
+
+function parseNoticeFeeSections(content: string): NoticeFeeSection[] | null {
+  const lines = content
+    .split("\n")
+    .map((line) => line.replace(/\r/g, "").trimEnd())
+    .filter((line) => line.trim());
+
+  const sections: NoticeFeeSection[] = [];
+  const sectionByTitle = new Map<string, NoticeFeeSection>();
+  let currentSection: NoticeFeeSection | null = null;
+  let pricedRowCount = 0;
+
+  for (const line of lines) {
+    const rawColumns = line.split(/\t+| {2,}/).map((column) => column.trim());
+    const columns = rawColumns.filter(Boolean);
+
+    if (columns.length < 2) {
+      continue;
+    }
+
+    const price = columns[columns.length - 1];
+    if (!NOTICE_PRICE_PATTERN.test(price)) {
+      continue;
+    }
+
+    const bodyColumns = columns.slice(0, -1);
+    if (bodyColumns.length === 0) {
+      continue;
+    }
+
+    let sectionTitle = currentSection?.title ?? "";
+    let item = "";
+
+    if (bodyColumns.length === 1) {
+      if (!currentSection) {
+        continue;
+      }
+      item = bodyColumns[0];
+    } else {
+      const firstColumn = bodyColumns[0];
+      const remainingColumns = bodyColumns.slice(1).join(" ");
+
+      if (firstColumn.startsWith("(") && currentSection) {
+        const mergedTitle = `${currentSection.title} ${firstColumn}`
+          .replace(/\s+/g, " ")
+          .trim();
+
+        if (mergedTitle !== currentSection.title) {
+          sectionByTitle.delete(currentSection.title);
+          currentSection.title = mergedTitle;
+          sectionByTitle.set(currentSection.title, currentSection);
+        }
+
+        sectionTitle = currentSection.title;
+        item = remainingColumns;
+      } else {
+        sectionTitle = firstColumn;
+        item = remainingColumns;
+      }
+    }
+
+    if (!sectionTitle || !item) {
+      continue;
+    }
+
+    let section = sectionByTitle.get(sectionTitle);
+    if (!section) {
+      section = { title: sectionTitle, rows: [] };
+      sections.push(section);
+      sectionByTitle.set(sectionTitle, section);
+    }
+
+    section.rows.push({ item, price });
+    currentSection = section;
+    pricedRowCount += 1;
+  }
+
+  if (sections.length < 2 || pricedRowCount < 6) {
+    return null;
+  }
+
+  return sections;
+}
+
+function NoticeContent({ content }: { content: string }) {
+  const feeSections = parseNoticeFeeSections(content);
+
+  if (!feeSections) {
+    return (
+      <p className="text-gray-700 whitespace-pre-wrap leading-relaxed">
+        {content}
+      </p>
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      {feeSections.map((section) => (
+        <div
+          key={section.title}
+          className="overflow-hidden rounded-xl border border-gray-200"
+        >
+          <div className="bg-[#1a2847] px-4 py-3">
+            <h4 className="font-semibold text-white">{section.title}</h4>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="min-w-full">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-4 py-3 text-left text-sm font-semibold text-[#1a2847]">
+                    항목
+                  </th>
+                  <th className="px-4 py-3 text-right text-sm font-semibold text-[#1a2847] whitespace-nowrap">
+                    비용(원)
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {section.rows.map((row, index) => (
+                  <tr
+                    key={`${section.title}-${row.item}-${row.price}-${index}`}
+                    className={index % 2 === 0 ? "bg-white" : "bg-gray-50/70"}
+                  >
+                    <td className="px-4 py-3 text-sm text-gray-700">
+                      {row.item}
+                    </td>
+                    <td className="px-4 py-3 text-right text-sm font-semibold text-[#1a2847] whitespace-nowrap">
+                      {row.price}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 export default function About() {
   const [activeTab, setActiveTab] = useState<TabType>("intro");
@@ -1292,9 +1443,7 @@ function NoticesSection() {
                   {isExpanded && (
                     <div className="px-6 pb-6 pt-0 border-t border-gray-100">
                       <div className="mt-4">
-                        <p className="text-gray-700 whitespace-pre-wrap leading-relaxed">
-                          {notice.content}
-                        </p>
+                        <NoticeContent content={notice.content} />
                         <div className="mt-4 flex items-center justify-between">
                           <div className="flex items-center gap-4 text-sm text-gray-500">
                             <span>
