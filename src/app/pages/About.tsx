@@ -45,6 +45,7 @@ const DIRECTOR_4_IMAGE_URL =
 type TabType = "intro" | "doctors" | "location" | "guide" | "notices";
 
 type NoticeFeeRow = {
+  category?: string;
   item: string;
   price: string;
 };
@@ -87,6 +88,73 @@ const doctors = [
 ];
 
 const NOTICE_PRICE_PATTERN = /^\d[\d,\s~/]*$/;
+const NOTICE_SECTION_TITLE_BY_ITEM_PREFIX: Array<{
+  pattern: RegExp;
+  title: string;
+}> = [
+  {
+    pattern: /^고주파온열치료/,
+    title: "방사선온열치료(고주파온열치료)",
+  },
+];
+
+const NOTICE_EXTRA_SECTIONS: NoticeFeeSection[] = [
+  {
+    title: "힐액검진 (GenoPAC)",
+    rows: [
+      {
+        item: "질환(3종) / 남성암(3종) / 여성암(3종)",
+        price: "82,500",
+      },
+      {
+        item: "질환(5종) / 남성암(6종) / 여성암(7종)",
+        price: "96,500",
+      },
+      {
+        item: "질환(10종) / 남성암(11종) / 여성암(12종)",
+        price: "137,500",
+      },
+      {
+        item: "질환(15종)",
+        price: "192,500",
+      },
+      {
+        item: "남성(종합26종) / 여성(종합27종)",
+        price: "300,000",
+      },
+    ],
+  },
+  {
+    title: "치과 비급여 항목",
+    rows: [
+      {
+        category: "치성치료(레진) (1치당)",
+        item: "전치부 (앞니) - 단순",
+        price: "150,000",
+      },
+      {
+        category: "치성치료(레진) (1치당)",
+        item: "전치부 (앞니) - 복잡(파절 등)",
+        price: "200,000",
+      },
+      {
+        category: "치성치료(레진) (1치당)",
+        item: "구치부 (어금니) - 1면",
+        price: "100,000",
+      },
+      {
+        category: "치성치료(레진) (1치당)",
+        item: "구치부 (어금니) - 2면 이상",
+        price: "150,000",
+      },
+      {
+        category: "치경부 마모증",
+        item: "레진 충전 (치아 목 부분)",
+        price: "70,000",
+      },
+    ],
+  },
+];
 
 function parseNoticeFeeSections(content: string): NoticeFeeSection[] | null {
   const lines = content
@@ -117,10 +185,17 @@ function parseNoticeFeeSections(content: string): NoticeFeeSection[] | null {
       continue;
     }
 
+    const inferredSectionTitle = NOTICE_SECTION_TITLE_BY_ITEM_PREFIX.find(
+      ({ pattern }) => pattern.test(bodyColumns[0]),
+    )?.title;
+
     let sectionTitle = currentSection?.title ?? "";
     let item = "";
 
-    if (bodyColumns.length === 1) {
+    if (inferredSectionTitle) {
+      sectionTitle = inferredSectionTitle;
+      item = bodyColumns.join(" ");
+    } else if (bodyColumns.length === 1) {
       if (!currentSection) {
         continue;
       }
@@ -168,6 +243,40 @@ function parseNoticeFeeSections(content: string): NoticeFeeSection[] | null {
     return null;
   }
 
+  const shouldAppendExtraSections = sections.some(
+    (section) => section.title === "상급병실료",
+  );
+
+  if (shouldAppendExtraSections) {
+    const sectionsToInsert = NOTICE_EXTRA_SECTIONS.filter(
+      (extraSection) =>
+        !sections.some((section) => section.title === extraSection.title),
+    );
+
+    if (sectionsToInsert.length > 0) {
+      const koreanTreatmentIndex = sections.findIndex((section) =>
+        section.title.startsWith("한방치료/보조약품"),
+      );
+
+      const dentalSection = sectionsToInsert.find(
+        (section) => section.title === "치과 비급여 항목",
+      );
+      const genoPacSection = sectionsToInsert.find(
+        (section) => section.title === "힐액검진 (GenoPAC)",
+      );
+
+      if (koreanTreatmentIndex >= 0 && genoPacSection) {
+        sections.splice(koreanTreatmentIndex, 0, genoPacSection);
+      } else if (genoPacSection) {
+        sections.push(genoPacSection);
+      }
+
+      if (dentalSection) {
+        sections.push(dentalSection);
+      }
+    }
+  }
+
   return sections;
 }
 
@@ -211,7 +320,16 @@ function NoticeContent({ content }: { content: string }) {
                     className={index % 2 === 0 ? "bg-white" : "bg-gray-50/70"}
                   >
                     <td className="px-4 py-3 text-sm text-gray-700">
-                      {row.item}
+                      {row.category ? (
+                        <div className="space-y-1">
+                          <p className="text-xs font-semibold text-gray-500">
+                            {row.category}
+                          </p>
+                          <p>{row.item}</p>
+                        </div>
+                      ) : (
+                        row.item
+                      )}
                     </td>
                     <td className="px-4 py-3 text-right text-sm font-semibold text-[#1a2847] whitespace-nowrap">
                       {row.price}
