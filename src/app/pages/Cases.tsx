@@ -13,7 +13,7 @@ import { toast } from "sonner";
 import { projectId, publicAnonKey } from "../../../utils/supabase/info";
 import SEOHead from "../../components/seo/SEOHead";
 
-type CaseCategoryType = "cancer" | "stroke" | "tinnitus" | "spine";
+type CaseCategoryType = "cancer" | "post_surgery" | "chemotherapy" | "radiation";
 
 export default function Cases() {
   const { isAdmin } = useAuth();
@@ -25,10 +25,10 @@ export default function Cases() {
 
   const categories = [
     { id: "all" as const, label: "전체" },
-    { id: "cancer" as CaseCategoryType, label: "암 회복 클리닉" },
-    { id: "stroke" as CaseCategoryType, label: "중풍·파킨슨병 클리닉" },
-    { id: "tinnitus" as CaseCategoryType, label: "이명·두통 클리닉" },
-    { id: "spine" as CaseCategoryType, label: "척추·관절 클리닉" },
+    { id: "cancer" as CaseCategoryType, label: "뷰티풀 암케어" },
+    { id: "post_surgery" as CaseCategoryType, label: "수술 후 회복케어" },
+    { id: "chemotherapy" as CaseCategoryType, label: "항암치료 환자 케어" },
+    { id: "radiation" as CaseCategoryType, label: "방사선치료 환자 케어" },
   ];
 
   useEffect(() => {
@@ -443,10 +443,10 @@ function CaseEditor({ case: caseItem, onClose, onSave }: {
               onChange={(e) => setFormData({ ...formData, category: e.target.value as CaseCategoryType })}
               className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E91E7A] focus:border-transparent"
             >
-              <option value="cancer">암 회복 클리닉</option>
-              <option value="stroke">중풍·파킨슨병 클리닉</option>
-              <option value="tinnitus">이명·두통 클리닉</option>
-              <option value="spine">척추·관절 클리닉</option>
+              <option value="cancer">뷰티풀 암케어</option>
+              <option value="post_surgery">수술 후 회복케어</option>
+              <option value="chemotherapy">항암치료 환자 케어</option>
+              <option value="radiation">방사선치료 환자 케어</option>
             </select>
           </div>
 

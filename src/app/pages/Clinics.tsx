@@ -1,56 +1,53 @@
 import { Link } from "react-router";
-import { ChevronRight, Check, Activity, Shield, Lightbulb } from "lucide-react";
+import { ChevronRight, Check, Shield, Activity, HeartPulse, Syringe, Zap } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import SEOHead from "../../components/seo/SEOHead";
+
 /** 클리닉 페이지 히어로 배경 이미지 */
 const CLINICS_HERO_IMAGE_URL =
   "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/headdocimg.png";
-/** 임시: Vercel 링크테스트용 */
-const PLACEHOLDER_IMAGE =
-  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/yoga_s.jpeg";
-/** 암환자 통합 면역 치료 클리닉 카드 이미지 */
-const CANCER_IMMUNE_CLINIC_IMAGE_URL =
-  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/clinic_onco.jpeg";
-/** 이명·난청·어지럼증·두통 클리닉 카드 이미지 */
-const TINNITUS_CLINIC_IMAGE_URL =
-  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/clinic/te_2.png";
-/** 척추·관절 통증 클리닉 카드 이미지 */
-const SPINE_JOINT_CLINIC_IMAGE_URL =
-  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/1533a480-19c6-4888-a70a-5f635655c966.jpg";
 
-// 클리닉 메뉴 메인 페이지 - 컴팩트 카드 형식 v3.0
+/** 뷰티풀 암케어 카드 이미지 */
+const BEAUTIFUL_CANCER_CARE_IMAGE_URL =
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/clinic_onco.jpeg";
+/** 암별 집중케어 카드 이미지 */
+const CANCER_SPECIFIC_CARE_IMAGE_URL =
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/clinic/dd.jpg";
+/** 수술 후 회복케어 카드 이미지 */
+const POST_SURGERY_CARE_IMAGE_URL =
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/room/room2.jpg";
+/** 항암치료 환자 케어 카드 이미지 */
+const CHEMO_CARE_IMAGE_URL =
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/clinic/jj.png";
+/** 방사선치료 환자 케어 카드 이미지 */
+const RADIATION_CARE_IMAGE_URL =
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/clinic/te_2.png";
+
+// 클리닉 메뉴 메인 페이지 - 5대 전문 암케어 클리닉
 export default function Clinics() {
-  console.log("🎨 Compact Clinics Design Loaded - v3.0");
   return (
     <div className="min-h-[100dvh] bg-white">
       <SEOHead
         title="암 치료 클리닉 | 뷰티풀한방병원"
-        description="뷰티풀한방병원의 통합 암 치료 클리닉. 면역 강화, 항암 부작용 관리, 한방 복합 치료."
+        description="뷰티풀한방병원의 5대 전문 암케어 클리닉. 통합 면역치료, 암종별 집중케어, 수술 후 회복, 항암·방사선 부작용 관리."
         ogUrl="https://www.btful.co.kr/clinics"
       />
-      {/* 1️⃣ 상단 선언 섹션 (진료 철학) */}
       <PhilosophySection />
-
-      {/* 2️⃣ 4대 핵심 클리닉 섹션 - 컴팩트 그리드 */}
       <ClinicsSection />
-
-      {/* 3️⃣ 공통 적용 원리 섹션 */}
       <PrinciplesSection />
     </div>
   );
 }
 
-// 1️⃣ 상단 선언 섹션
 function PhilosophySection() {
   const keywords = [
     { icon: Shield, label: "암환자 통합 면역치료" },
-    { icon: Activity, label: "생활 난치질환 치료" },
-    { icon: Lightbulb, label: "척추·관절 통증 치료" }
+    { icon: HeartPulse, label: "수술·항암·방사선 회복" },
+    { icon: Activity, label: "암종별 맞춤 케어" }
   ];
 
   return (
     <section className="relative py-20 px-5 overflow-hidden">
-      {/* 배경 이미지 */}
       <div className="absolute inset-0 z-0">
         <ImageWithFallback
           src={CLINICS_HERO_IMAGE_URL}
@@ -64,16 +61,14 @@ function PhilosophySection() {
         <h1 className="mb-6 text-white leading-tight">
           일상을 되찾는 회복의 시작
         </h1>
-        
+
         <p className="text-white/95 text-lg leading-relaxed max-w-3xl mx-auto mb-12">
           뷰티풀한방병원은<br />
-          암환우분들의 회복 치료부터<br />
-          이명, 난청, 어지럼증, 두통처럼<br />
-          일상을 오래도록 불편하게 만드는 난치성 증상까지<br />
-          뇌신경계 기반의 통합 재활 치료를 제공합니다.
+          암 진단과 치료 이후의 회복까지<br />
+          수술·항암·방사선 치료 전 과정을 함께하며<br />
+          암종별 맞춤 통합 면역 케어 프로그램을 제공합니다.
         </p>
 
-        {/* 하단 키워드 */}
         <div className="flex flex-wrap justify-center gap-4">
           {keywords.map((keyword, index) => {
             const Icon = keyword.icon;
@@ -93,48 +88,61 @@ function PhilosophySection() {
   );
 }
 
-// 2️⃣ 4대 핵심 클리닉 섹션 - 컴팩트 그리드 형식
 function ClinicsSection() {
   const clinics = [
     {
-      id: "cancer-immune",
-      title: "암환자 통합 면역 치료",
-      headline: "항암을 멈추지 않도록 돕는 병원",
-      description: "항암 부작용 관리와 자율신경 정화를 통해 치료 순응도를 높이고 회복 기반을 유지합니다.",
-      goals: ["통증 관리", "수면 개선", "체력 유지"],
-      image: CANCER_IMMUNE_CLINIC_IMAGE_URL
+      id: "beautiful-cancer-care",
+      title: "뷰티풀 암케어",
+      headline: "암 치료의 전 과정을 함께합니다",
+      description: "대학병원 치료와 병행하는 한·양방 통합 면역 케어로, 진단부터 회복까지 환자의 치료 여정을 설계합니다.",
+      goals: ["통합 면역치료", "맞춤 프로토콜", "회복 관리"],
+      image: BEAUTIFUL_CANCER_CARE_IMAGE_URL
     },
     {
-      id: "tinnitus-headache",
-      title: "이명·난청·어지럼증·두통 클리닉",
-      headline: "원인을 찾는 치료",
-      description: "신경 압박과 구조적 불균형을 분석하여 증상의 근본 원인에 접근합니다.",
-      goals: ["증상 빈도 감소", "강도 완화", "재발 관리"],
-      image: TINNITUS_CLINIC_IMAGE_URL
+      id: "cancer-specific-care",
+      title: "암별 집중케어",
+      headline: "암종별 특성에 맞춘 맞춤 치료",
+      description: "유방암·부인암·위대장암·폐암·간암 등 각 암종의 특성과 치료 단계에 최적화된 집중 프로그램입니다.",
+      goals: ["암종별 맞춤", "단계별 관리", "재발 방지"],
+      image: CANCER_SPECIFIC_CARE_IMAGE_URL
     },
     {
-      id: "spine-joint",
-      title: "척추·관절 통증 클리닉",
-      headline: "통증이 아닌 구조를 치료합니다",
-      description: "전신 정렬과 신경 압박 해소를 통해 기능 회복과 재발 방지를 목표로 합니다.",
-      goals: ["통증 완화", "체형 균형", "움직임 회복"],
-      image: SPINE_JOINT_CLINIC_IMAGE_URL
+      id: "post-surgery-recovery",
+      title: "수술 후 회복케어",
+      headline: "수술 이후 빠른 회복의 시작",
+      description: "수술 후 체력 저하, 통증, 부종, 상처 회복을 집중 관리하여 다음 치료로 순조롭게 이어지도록 돕습니다.",
+      goals: ["체력 회복", "통증 관리", "면역 안정"],
+      image: POST_SURGERY_CARE_IMAGE_URL
+    },
+    {
+      id: "chemotherapy-care",
+      title: "항암치료 환자 케어",
+      headline: "항암 치료를 끝까지 받을 수 있도록",
+      description: "오심·구토, 식욕 저하, 백혈구 감소, 말초신경병증 등 항암 부작용을 관리하여 치료 순응도를 높입니다.",
+      goals: ["부작용 완화", "수치 관리", "체력 유지"],
+      image: CHEMO_CARE_IMAGE_URL
+    },
+    {
+      id: "radiation-care",
+      title: "방사선치료 환자 케어",
+      headline: "방사선 부작용을 줄이는 케어",
+      description: "방사선 피부염, 점막 손상, 피로, 부종을 완화하고 치료 후 조직 회복을 돕는 맞춤 프로그램입니다.",
+      goals: ["피부·점막 보호", "피로 개선", "조직 회복"],
+      image: RADIATION_CARE_IMAGE_URL
     }
   ];
 
   return (
     <section className="py-16 px-5">
       <div className="max-w-screen-xl mx-auto">
-        {/* 섹션 타이틀 */}
         <div className="text-center mb-12">
-          <h2 className="text-[#3E5266] mb-3">3대 전문 클리닉</h2>
+          <h2 className="text-[#3E5266] mb-3">5대 전문 클리닉</h2>
           <p className="text-[#6B7D8C] text-base">
-            각 클리닉별 전문화된 치료 프로토콜을 확인하세요
+            치료 단계와 암종별로 특화된 맞춤 케어 프로그램을 확인하세요
           </p>
         </div>
 
-        {/* 컴팩트 그리드 - 2x2 */}
-        <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {clinics.map((clinic, index) => (
             <ClinicCard key={clinic.id} clinic={clinic} index={index} />
           ))}
@@ -144,11 +152,10 @@ function ClinicsSection() {
   );
 }
 
-// 컴팩트 클리닉 카드 컴포넌트
-function ClinicCard({ 
-  clinic, 
-  index 
-}: { 
+function ClinicCard({
+  clinic,
+  index
+}: {
   clinic: {
     id: string;
     title: string;
@@ -161,14 +168,12 @@ function ClinicCard({
 }) {
   return (
     <div className="group bg-white rounded-2xl overflow-hidden border border-gray-200 hover:border-[#E91E7A] hover:shadow-xl transition-all duration-300">
-      {/* 이미지 영역 - 작게 */}
       <div className="relative h-48 overflow-hidden">
         <ImageWithFallback
           src={clinic.image}
           alt={clinic.title}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
-        {/* 번호 배지 */}
         <div className="absolute top-4 right-4 w-10 h-10 bg-[#E91E7A] rounded-full flex items-center justify-center shadow-md">
           <span className="text-white text-sm font-bold">
             {String(index + 1).padStart(2, "0")}
@@ -176,28 +181,23 @@ function ClinicCard({
         </div>
       </div>
 
-      {/* 콘텐츠 영역 */}
       <div className="p-6">
-        {/* 클리닉 타이틀 */}
         <h3 className="text-[#3E5266] font-bold text-lg mb-2 leading-tight">
           {clinic.title}
         </h3>
 
-        {/* 헤드라인 */}
         <p className="text-[#E91E7A] font-medium text-sm mb-3">
           {clinic.headline}
         </p>
 
-        {/* 설명 - 간결하게 */}
         <p className="text-[#6B7D8C] text-sm leading-relaxed mb-4 line-clamp-2">
           {clinic.description}
         </p>
 
-        {/* 핵심 목표 - 컴팩트하게 */}
         <div className="flex flex-wrap gap-2 mb-5">
           {clinic.goals.map((goal, idx) => (
-            <span 
-              key={idx} 
+            <span
+              key={idx}
               className="inline-flex items-center gap-1 px-3 py-1 bg-[#F8F9FA] text-[#6B7D8C] rounded-full text-xs"
             >
               <Check className="w-3 h-3 text-[#E91E7A]" />
@@ -206,7 +206,6 @@ function ClinicCard({
           ))}
         </div>
 
-        {/* 자세히 보기 버튼 */}
         <Link
           to={`/clinics/${clinic.id}`}
           className="flex items-center justify-center gap-2 w-full px-4 py-2.5 bg-[#E91E7A] text-white rounded-lg hover:bg-[#d11a6d] transition-colors text-sm font-medium group-hover:gap-3"
@@ -219,39 +218,36 @@ function ClinicCard({
   );
 }
 
-// 3️⃣ 공통 적용 원리 섹션
 function PrinciplesSection() {
   const principles = [
     {
       number: "01",
-      title: "자율신경 안정화",
-      description: "스트레스 반응을 조절하고 신체 회복 기능을 활성화합니다"
+      title: "면역력 회복과 자율신경 안정",
+      description: "치료 중 저하된 면역과 자율신경을 조절해 회복 기반을 만듭니다"
     },
     {
       number: "02",
-      title: "뇌혈류 및 신경 통로 복원",
-      description: "산소와 영양 공급을 개선하여 신경 재생을 촉진합니다"
+      title: "체력·식욕·수면 관리",
+      description: "환자가 다음 치료를 이어갈 수 있는 기초 체력을 유지합니다"
     },
     {
       number: "03",
-      title: "신경 압박 해소",
-      description: "구조적 불균형을 교정하여 통증과 기능 저하를 개선합니다"
+      title: "부작용·후유증 완화",
+      description: "항암·방사선·수술 후 나타나는 증상을 선제적으로 관리합니다"
     }
   ];
 
   return (
     <section className="py-20 px-5 bg-gradient-to-br from-[#F8F9FA] to-white">
       <div className="max-w-screen-lg mx-auto">
-        {/* 타이틀 */}
         <div className="text-center mb-16">
           <h2 className="text-[#3E5266] mb-4">
-            질환은 달라도,<br />
+            암종과 치료 단계는 달라도,<br />
             회복의 원리는 같습니다.
           </h2>
           <div className="w-16 h-1 bg-[#E91E7A] mx-auto rounded-full"></div>
         </div>
 
-        {/* 3단 구조 다이어그램 */}
         <div className="space-y-6 mb-12">
           {principles.map((principle, index) => (
             <div
@@ -259,19 +255,16 @@ function PrinciplesSection() {
               className="bg-white p-8 rounded-2xl border-2 border-gray-200 hover:border-[#E91E7A] transition-all shadow-sm hover:shadow-lg"
             >
               <div className="flex items-start gap-6">
-                {/* 번호 */}
                 <div className="flex-shrink-0 w-14 h-14 bg-[#E91E7A] rounded-xl flex items-center justify-center">
                   <span className="text-white text-lg font-bold">{principle.number}</span>
                 </div>
 
-                {/* 내용 */}
                 <div className="flex-1">
                   <h3 className="text-[#3E5266] mb-2">{principle.title}</h3>
                   <p className="text-[#6B7D8C] leading-relaxed">{principle.description}</p>
                 </div>
               </div>
 
-              {/* 화살표 (마지막 항목 제외) */}
               {index < principles.length - 1 && (
                 <div className="flex justify-center mt-4">
                   <svg className="w-6 h-6 text-[#E91E7A]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -283,10 +276,9 @@ function PrinciplesSection() {
           ))}
         </div>
 
-        {/* 하단 문구 */}
         <div className="text-center p-6 bg-white rounded-xl border border-[#E91E7A]/20">
           <p className="text-[#6B7D8C] font-medium">
-            이 원리는 모든 클리닉에 적용됩니다.
+            이 원리는 모든 클리닉에 공통으로 적용됩니다.
           </p>
         </div>
       </div>

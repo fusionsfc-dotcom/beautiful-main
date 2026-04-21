@@ -30,3 +30,4 @@ pnpm-debug.log*
 
 # Uploads (optional - remove if you want to track uploads)
 uploads/
+.vercel

@@ -26,7 +26,7 @@ import { toast } from "sonner";
 import SEOHead from "../../components/seo/SEOHead";
 
 type MainTabType = "gallery" | "columns" | "videos" | "faq" | "question";
-type ColumnCategoryType = "cancer" | "stroke" | "tinnitus" | "spine";
+type ColumnCategoryType = "cancer" | "gynecologic_cancer" | "gastro_cancer" | "lung_cancer" | "liver_cancer" | "other_cancer";
 type FaqCategoryType = "cancer" | "stroke" | "tinnitus" | "admission" | "cost";
 
 const faqJsonLdData = {
@@ -533,10 +533,12 @@ function ColumnsSection() {
 
   const categories = [
     { id: "all" as const, label: "전체" },
-    { id: "cancer" as ColumnCategoryType, label: "암 회복 가이드" },
-    { id: "stroke" as ColumnCategoryType, label: "중풍·파킨슨병 재활" },
-    { id: "tinnitus" as ColumnCategoryType, label: "이명·두통" },
-    { id: "spine" as ColumnCategoryType, label: "척추·관절" },
+    { id: "cancer" as ColumnCategoryType, label: "유방암" },
+    { id: "gynecologic_cancer" as ColumnCategoryType, label: "자궁/난소암" },
+    { id: "gastro_cancer" as ColumnCategoryType, label: "위/대장암" },
+    { id: "lung_cancer" as ColumnCategoryType, label: "폐암" },
+    { id: "liver_cancer" as ColumnCategoryType, label: "간암" },
+    { id: "other_cancer" as ColumnCategoryType, label: "기타암" },
   ];
 
   useEffect(() => {
@@ -657,7 +659,7 @@ function ColumnsSection() {
         </div>
       )}
 
-      {/* 카드형 콘텐츠 UI */}
+      {/* 리스트형 게시판 */}
       {!loading && filteredColumns.length === 0 && (
         <div className="text-center py-12 text-[#8FA8BA]">
           작성된 칼럼이 없습니다
@@ -666,78 +668,49 @@ function ColumnsSection() {
 
       {!loading && filteredColumns.length > 0 && (
         <>
-          <div className="grid md:grid-cols-2 gap-6">
-            {currentColumns.map((column) => (
-              <article
+          <div className="border-t border-gray-200">
+            {currentColumns.map((column, index) => (
+              <div
                 key={column.id}
                 onClick={() => setSelectedColumn(column)}
-                className="bg-white rounded-2xl overflow-hidden border border-gray-200 hover:shadow-xl transition-all group cursor-pointer"
+                className="flex items-center gap-4 px-4 py-4 border-b border-gray-100 hover:bg-[#FFF8FB] cursor-pointer group transition-colors"
               >
-                {/* 썸네일 이미지 */}
-                {column.thumbnail && (
-                  <div className="relative aspect-video overflow-hidden">
-                    <ImageWithFallback
-                      src={column.thumbnail}
-                      alt={column.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
+                <span className="w-8 text-center text-sm text-[#8FA8BA] shrink-0">
+                  {(currentPage - 1) * itemsPerPage + index + 1}
+                </span>
+                <span className="shrink-0 px-2.5 py-0.5 bg-[#FFF0F7] text-[#E91E7A] text-xs font-medium rounded-full">
+                  {categories.find(c => c.id === column.category)?.label || column.category}
+                </span>
+                <span className="flex-1 text-[#3E5266] text-sm group-hover:text-[#E91E7A] transition-colors truncate">
+                  {column.title}
+                </span>
+                <span className="shrink-0 text-xs text-[#8FA8BA]">
+                  {new Date(column.created_at).toLocaleDateString('ko-KR')}
+                </span>
+                {isAdmin && (
+                  <div className="flex gap-1 shrink-0">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setEditingColumn(column);
+                        setShowEditor(true);
+                      }}
+                      className="p-1.5 bg-[#3E5266] text-white rounded-lg hover:bg-[#2a3847] transition-colors"
+                    >
+                      <Pencil className="w-3 h-3" />
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDelete(column.id);
+                      }}
+                      className="p-1.5 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+                    >
+                      <Trash2 className="w-3 h-3" />
+                    </button>
                   </div>
                 )}
-
-                {/* 콘텐츠 */}
-                <div className="p-6">
-                  <h3 className="text-[#3E5266] mb-3 line-clamp-2 group-hover:text-[#E91E7A] transition-colors">
-                    {column.title}
-                  </h3>
-                  <p className="text-sm text-[#6B7D8C] mb-4 line-clamp-2 leading-relaxed">
-                    {column.summary}
-                  </p>
-
-                  {/* 메타 정보 */}
-                  <div className="flex items-center justify-between text-xs text-[#8FA8BA] mb-4">
-                    <div className="flex items-center gap-3">
-                      <span>{new Date(column.created_at).toLocaleDateString('ko-KR')}</span>
-                      <span className="flex items-center gap-1">
-                        <Eye className="w-3.5 h-3.5" />
-                        {(column.views || 0).toLocaleString()}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* 관리자 액션 버튼 */}
-                  {isAdmin && (
-                    <div className="flex gap-2 mb-4">
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setEditingColumn(column);
-                          setShowEditor(true);
-                        }}
-                        className="flex items-center gap-1 px-3 py-1.5 bg-[#3E5266] text-white text-xs rounded-lg hover:bg-[#2a3847] transition-colors"
-                      >
-                        <Pencil className="w-3.5 h-3.5" />
-                        수정
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleDelete(column.id);
-                        }}
-                        className="flex items-center gap-1 px-3 py-1.5 bg-red-500 text-white text-xs rounded-lg hover:bg-red-600 transition-colors"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                        삭제
-                      </button>
-                    </div>
-                  )}
-
-                  {/* CTA */}
-                  <button className="flex items-center gap-1 text-[#E91E7A] text-sm font-medium group-hover:gap-2 transition-all">
-                    자세히 보기
-                    <ChevronRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </article>
+              </div>
             ))}
           </div>
 
@@ -989,10 +962,12 @@ function ColumnEditor({ column, onClose, onSave }: {
             onChange={(e) => setFormData({ ...formData, category: e.target.value as ColumnCategoryType })}
             className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E91E7A] focus:border-transparent"
           >
-            <option value="cancer">암 회복 가이드</option>
-            <option value="stroke">중풍·파킨슨병 재활</option>
-            <option value="tinnitus">이명·두통</option>
-            <option value="spine">척추·관절</option>
+            <option value="cancer">유방암</option>
+            <option value="gynecologic_cancer">자궁/난소암</option>
+            <option value="gastro_cancer">위/대장암</option>
+            <option value="lung_cancer">폐암</option>
+            <option value="liver_cancer">간암</option>
+            <option value="other_cancer">기타암</option>
           </select>
         </div>
 
@@ -1222,7 +1197,6 @@ function VideoEditor({ video, onClose, onSave }: {
           >
             <option value="cancer">항암 가이드 영상</option>
             <option value="rehab">재활 운동 영상</option>
-            <option value="tinnitus">이명 설명 영상</option>
             <option value="hospital">병원 소개 영상</option>
           </select>
         </div>
@@ -1298,7 +1272,6 @@ function VideosSection() {
     { id: "all", label: "전체" },
     { id: "cancer", label: "항암 가이드 영상" },
     { id: "rehab", label: "재활 운동 영상" },
-    { id: "tinnitus", label: "이명 설명 영상" },
     { id: "hospital", label: "병원 소개 영상" },
   ];
 

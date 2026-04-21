@@ -1,686 +1,642 @@
 import { useParams, Link } from "react-router";
-import { useState } from "react";
-import { ChevronLeft, Phone, MessageCircle, CheckCircle } from "lucide-react";
+import { ChevronLeft, CheckCircle } from "lucide-react";
 import * as Accordion from "@radix-ui/react-accordion";
 import { ChevronDown } from "lucide-react";
 import SEOHead from "../../components/seo/SEOHead";
-/** 임시: Vercel 링크테스트용 */
+
 const PLACEHOLDER_IMAGE =
   "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/yoga_s.jpeg";
-/** 왕뜸·약뜸 치료 카드 이미지 */
 const WANG_MOXA_CLINIC_IMAGE_URL =
   "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/clinic/dd.jpg";
-/** 효소 찜질 치료 카드 이미지 */
 const ENZYME_STEAM_CLINIC_IMAGE_URL =
   "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/clinic/jj.png";
-/** 고주파 온열 암 치료 카드 이미지 */
 const RF_HYPERTHERMIA_CLINIC_IMAGE_URL =
   "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/clinic_onco.jpeg";
-/** 입원 케어 시스템 섹션 이미지 */
 const INPATIENT_CARE_IMAGE_URL =
   "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/room/room2.jpg";
-/** 이명·난청·어지럼증·두통 클리닉 헤더 섹션 이미지 */
-const TINNITUS_HEADACHE_HEADER_IMAGE_URL =
-  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/ceo_1.png";
-/** 이명 클리닉 카드 이미지 */
-const TINNITUS_CLINIC_CARD_IMAGE_URL =
-  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/clinic/lee.png";
-/** 난청 클리닉 카드 이미지 */
-const DEAFNESS_CLINIC_CARD_IMAGE_URL =
-  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/clinic/nan.png";
-/** 어지럼증 클리닉 카드 이미지 */
-const DIZZINESS_CLINIC_CARD_IMAGE_URL =
-  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/clinic/ur.png";
-/** 두통 클리닉 카드 이미지 */
-const HEADACHE_CLINIC_CARD_IMAGE_URL =
-  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/clinic/du.png";
+const CANCER_TYPE_CARD_IMAGE_URL =
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/clinic/te_2.png";
 
 export default function ClinicDetail() {
   const { id } = useParams();
 
   const clinicData: Record<string, any> = {
-    "cancer-immune": {
-      title: "암환자 통합 면역 치료 클리닉",
-      subtitle: "국립암센터 병행 치료",
-      description: "암 치료는 수술, 항암, 방사선 치료로 끝나는 것이 아니라 그 이후의 회복 관리가 매우 중요합니다. 항암 치료 과정에서는 체력 저하, 면역력 감소, 식욕 저하, 통증과 피로 등 다양한 문제가 발생할 수 있습니다.",
-      badge: "항암과 회복을 함께 관리하는 암 통합 회복 클리닉",
-      headerImage: PLACEHOLDER_IMAGE,
-      introMessage: "뷰티풀한방병원은 대학병원 치료를 존중하며 항암 치료와 회복 관리를 함께 진행하는 암 통합 면역 치료 프로그램을 운영합니다.",
+    // 1) 뷰티풀 암케어
+    "beautiful-cancer-care": {
+      title: "뷰티풀 암케어",
+      subtitle: "암 치료의 전 과정을 함께하는 통합 면역 클리닉",
+      description:
+        "뷰티풀한방병원의 뷰티풀 암케어는 대학병원 치료를 존중하며, 수술·항암·방사선 치료의 전 과정에서 환자의 회복을 돕는 통합 케어 프로그램입니다.",
+      badge: "국립암센터 병행 암 통합 회복 클리닉",
+      headerImage: RF_HYPERTHERMIA_CLINIC_IMAGE_URL,
+      introMessage:
+        "치료와 회복은 분리될 수 없습니다. 진단 직후부터 치료 종료 이후까지, 환자의 면역과 체력·정서 회복을 함께 설계합니다.",
       sections: [
         {
           title: "이런 분들께 도움이 됩니다",
           subsections: [
             {
-              subtitle: "수술 후 회복 단계",
+              subtitle: "치료 순응도를 높이고 싶은 분",
               content: [
-                "암 수술 이후 체력 회복이 더딘 경우",
-                "수술 후 통증과 피로가 지속되는 경우",
-              ],
+                "항암·방사선 부작용으로 치료가 중단될까 걱정인 분",
+                "체력·면역 저하로 다음 치료가 연기된 경험이 있는 분"
+              ]
             },
             {
-              subtitle: "항암 치료 중 관리",
+              subtitle: "치료 후 회복이 더딘 분",
               content: [
-                "항암 치료 중 구토와 식욕 저하로 힘든 경우",
-                "백혈구 수치 저하로 다음 치료가 지연되는 경우",
-              ],
+                "수술·항암 이후 극심한 피로와 통증이 계속되는 분",
+                "면역력 저하로 감염·염증이 반복되는 분"
+              ]
             },
             {
-              subtitle: "항암 치료 후 회복",
+              subtitle: "재발을 예방하고 싶은 분",
               content: [
-                "항암 치료 이후 극심한 피로가 지속되는 경우",
-                "면역력 저하로 감염이 반복되는 경우",
-              ],
-            },
-            {
-              subtitle: "진행성 암 환자 케어",
-              content: [
-                "암 진행으로 통증과 체력 저하가 심한 경우",
-                "삶의 질 개선과 회복 관리가 필요한 경우",
-              ],
-            },
-          ],
+                "치료 종료 후 재발·전이 관리가 필요한 분",
+                "장기적인 면역·생활 관리가 필요한 분"
+              ]
+            }
+          ]
         },
         {
           title: "통합 면역 치료 프로그램",
-          description: "뷰풀한방병원은 한방치료 + 양방치료를 함께 적용하는 통합 면역 치료 프로그램을 운영합니다.",
+          description: "한방 면역 치료와 양방 통합 치료를 함께 적용하는 맞춤형 프로그램입니다.",
           subsections: [
             {
               subtitle: "한방 면역 회복 치료",
-              isPrimary: true,
               treatments: [
                 {
                   name: "왕뜸 · 약뜸 치료",
                   image: WANG_MOXA_CLINIC_IMAGE_URL,
-                  description: "열을 전달하여 체내 기혈 순환을 돕고 몸의 기운을 조절하여 면역 균형 회복을 돕는 치료입니다.",
-                  effects: ["혈액순환 개선", "면역력 강화", "체력 회복"],
+                  description:
+                    "열을 전달하여 체내 기혈 순환을 돕고 몸의 기운을 조절해 면역 균형 회복을 돕습니다.",
+                  effects: ["혈액순환 개선", "면역력 강화", "체력 회복"]
                 },
                 {
                   name: "효소 찜질 치료",
                   image: ENZYME_STEAM_CLINIC_IMAGE_URL,
-                  description: "자연 발효 과정에서 발생하는 약 70도의 따뜻한 열을 이용하여 몸의 혈액과 기혈 순환을 돕고 체내 노폐물 배출을 촉진합니다.",
-                  effects: ["혈액순환 개선", "체온 상승", "피로 회복", "해독 작용"],
-                },
-              ],
+                  description:
+                    "약 70도의 자연 발효열을 이용해 혈액·기혈 순환을 돕고 체내 노폐물 배출을 촉진합니다.",
+                  effects: ["혈액순환 개선", "체온 상승", "피로 회복", "해독 작용"]
+                }
+              ]
             },
             {
               subtitle: "양방 통합 치료",
-              isPrimary: true,
               treatments: [
                 {
                   name: "고주파 온열 암 치료",
                   image: RF_HYPERTHERMIA_CLINIC_IMAGE_URL,
-                  description: "고주파 에너지를 이용하여 암 조직 주변의 온도를 높여 암세포의 성장 환경을 억제하고 면역 반응을 활성화하는 치료입니다.",
-                  effects: ["암세포 성장 억제", "면역 활성화", "항암 치료 효과 보조", "통증 완화"],
-                  frequency: "주 2~3회, 환자 상태에 맞는 개인 맞춤 프로토콜로 진행합니다.",
-                },
-              ],
-            },
-          ],
+                  description:
+                    "고주파 에너지로 암 조직 주변 온도를 높여 암세포의 성장 환경을 억제하고 면역 반응을 활성화합니다.",
+                  effects: ["암세포 성장 억제", "면역 활성화", "항암 효과 보조", "통증 완화"],
+                  frequency: "주 2~3회, 환자 상태에 맞는 개인 맞춤 프로토콜로 진행합니다."
+                }
+              ]
+            }
+          ]
         },
         {
-          title: "암 치료 단계별 회복 관리",
-          description: "환자의 치료 단계에 따라 맞춤 회복 프로그램을 진행합니다.",
+          title: "치료 단계별 회복 관리",
+          description: "치료 시기에 따라 4단계 맞춤 회복 프로그램을 진행합니다.",
           isStages: true,
           stages: [
-            { 
-              stage: "1단계", 
-              title: "수술 후 회복 관리",
-              description: "수술 이후 체력 회복과 면역 안정 관리"
-            },
-            { 
-              stage: "2단계", 
-              title: "항암 치료 중 관리",
-              description: "항암 부작용 완화, 면역 및 체력 유지"
-            },
-            { 
-              stage: "3단계", 
-              title: "항암 치료 이후 회복 관리",
-              description: "면역 회복, 체력 회복 프로그램"
-            },
-            { 
-              stage: "4단계", 
-              title: "진행성 암 환자 관리",
-              description: "통증 관리, 체력 유지, 삶의 질 개선"
-            },
-          ],
+            { stage: "1단계", title: "진단·수술 전후", description: "체력 준비, 수술 후 회복·면역 안정" },
+            { stage: "2단계", title: "항암·방사선 치료 중", description: "부작용 완화, 면역·백혈구 관리" },
+            { stage: "3단계", title: "치료 종료 직후", description: "피로·후유증 회복, 일상 복귀" },
+            { stage: "4단계", title: "장기 관리", description: "재발·전이 예방, 생활 습관 관리" }
+          ]
         },
         {
-          title: "암 회복을 위한 입원 케어 시스템",
-          description: "환자의 상태에 따라 입원 치료와 외래 치료가 가능합니다.",
+          title: "입원 케어 시스템",
+          description: "환자의 상태에 따라 입원 치료와 외래 치료를 선택할 수 있습니다.",
           image: INPATIENT_CARE_IMAGE_URL,
           content: [
             "호텔급 1인실 입원 시설",
             "24시간 의료진 상주 케어",
             "환자 맞춤 영양 식단",
-            "국립암센터 차량 20분 거리",
-          ],
-        },
+            "국립암센터 차량 15분 거리"
+          ]
+        }
       ],
       faqs: [
         {
-          question: "항암 치료와 병행할 수 있나요?",
-          answer: "네. 대학병원 치료와 병행하여 회복 관리 치료를 진행할 수 있습니다.",
+          question: "대학병원 항암 치료와 병행할 수 있나요?",
+          answer: "네. 대학병원 치료를 기본으로 하며, 병행하여 회복과 면역 관리 치료를 진행합니다."
         },
         {
           question: "입원 기간은 얼마나 되나요?",
-          answer: "환자의 상태와 치료 단계에 따라 1주 ~ 수주 단위로 치료 계획을 세웁니다.",
+          answer: "치료 단계와 환자 상태에 따라 1주 ~ 수주 단위로 계획합니다."
         },
         {
           question: "보험 적용이 되나요?",
-          answer: "치료 항목에 따라 보험 적용 여부가 달라질 수 있으며 상담을 통해 자세히 안내드립니다.",
-        },
+          answer: "치료 항목에 따라 보험 적용 여부가 달라지며, 상담 시 자세히 안내드립니다."
+        }
       ],
       finalMessage: {
-        title: "암 치료 이후의 회복은 시간과 관리가 필요합니다.",
-        description: "뷰티풀한방병원은 환자가 다시 일상으로 돌아갈 수 있도록 회복의 과정을 함께합니다.",
-      },
+        title: "암 치료의 여정, 혼자 걷지 않도록 함께합니다.",
+        description:
+          "뷰티풀한방병원은 치료 전부터 회복 이후까지, 환자의 일상 복귀 전 과정을 지원합니다."
+      }
     },
-    "stroke-parkinson": {
-      title: "중풍·파킨슨병 재활 클리닉",
-      subtitle: "막힌 뇌의 통로를 열어, 신경 회복을 돕습니다",
-      description: "1:1 집중 재활과 뇌신경계 기반 통합 치료로 일상 복귀를 목표로 합니다.",
-      badge: "신경계 통합 재활",
-      sections: [
-        {
-          title: "이 병은 '뇌세포가 약해서'만 생기지 않습니다",
-          subsections: [
-            {
-              subtitle: "마르는 나무와 같은 뇌",
-              content: [
-                "중풍 후유증이나 파킨슨은 뇌세포 자체의 문제뿐 아니라",
-                "뇌에 영양을 공급하고 노폐물을 정리하는 '순환 경로'가",
-                "원활하지 않을 때 증상이 오래 지속될 수 있습니다.",
-              ],
-            },
-            {
-              subtitle: "도파민 공장과 공급망",
-              content: [
-                "파킨슨은 '도파민을 만드는 공장'이 멈춘 것처럼 보이지만,",
-                "공장으로 가는 원료(영양·순환)가 막히고",
-                "노폐물(대사 부산물)이 쌓이면 기능이 떨어질 수 있습니다.",
-                "뷰티풀한방병원은 이 '통로' 회복을 치료의 축으로 둡니다.",
-              ],
-            },
-          ],
-        },
-        {
-          title: "우리가 목표로 하는 회복 지표",
-          subsections: [
-            {
-              subtitle: "보행 안정과 균형",
-              content: ["걷기와 균형 감각을 회복하여 안전한 이동을 목표로 합니다"],
-            },
-            {
-              subtitle: "손 기능/미세운동 회복",
-              content: ["일상 생활에 필요한 손의 미세 운동 기능을 개선합니다"],
-            },
-            {
-              subtitle: "삼킴·발성·호흡(필요 시)",
-              content: ["연하 장애, 발성 문제, 호흡 개선이 필요한 경우 집중 관리합니다"],
-            },
-            {
-              subtitle: "피로·수면·통증(신경계 안정)",
-              content: ["신경계 안정화를 통해 피로, 수면 장애, 통증을 관리합니다"],
-            },
-          ],
-        },
-        {
-          title: "중풍·파킨슨 통합 재활 프로그램",
-          subsections: [
-            {
-              subtitle: "1:1 집중 재활",
-              content: [
-                "운동치료/보행훈련/균형훈련/상지 기능훈련",
-                "개인별 목표 설정 → 주간 리포트",
-              ],
-            },
-            {
-              subtitle: "뇌혈류·신경 통로 회복",
-              content: [
-                "턱관절·상부경추 정렬과 신경계 균형을 기반으로",
-                "뇌와 신체 간 신호 전달이 원활해지도록 돕습니다",
-              ],
-            },
-            {
-              subtitle: "한방 재생·회복 프로그램",
-              content: [
-                "뇌신경 회복을 돕는 한약",
-                "순환/피로/수면/식욕 관리",
-              ],
-            },
-            {
-              subtitle: "통증·경직(강직) 관리",
-              content: [
-                "경직 완화, 관절 가동범위 개선",
-                "통증/염증 관리",
-                "자율신경 안정화(불안, 긴장, 수면 불편 등 포함)",
-              ],
-            },
-          ],
-        },
-        {
-          title: "치료는 이렇게 진행됩니다",
-          isStages: true,
-          stages: [
-            { stage: "1단계", title: "초기 평가 - 보행·균형·상지 기능·일상 동작 평가 + 생활패턴 확인" },
-            { stage: "2단계", title: "개인 맞춤 계획 - 목표 설정 + 주간 루틴 설계" },
-            { stage: "3단계", title: "집중 치료 - 1:1 재활 + 신경계 균형 치료 + 피로/수면/영양 관리" },
-            { stage: "4단계", title: "유지·재발 방지 - 퇴원/외래 전환 플랜 + 홈프로그램 안내" },
-          ],
-        },
-        {
-          title: "보호자가 안심할 수 있는 케어 구조",
-          content: [
-            "24시간 의료진 상주",
-            "장기 입원 케어 시스템",
-            "영양 맞춤 식단",
-            "안전한 이동/낙상 예방",
-          ],
-        },
-      ],
-      faqs: [
-        {
-          question: "중풍 재활은 언제 시작하는 게 좋나요?",
-          answer: "급성기가 지나면 가능한 한 빨리 시작하는 것이 좋습니다. 발병 후 3-6개월이 골든타임이며, 이 시기에 집중 재활을 하면 회복 가능성이 높아집니다.",
-        },
-        {
-          question: "파킨슨은 입원 치료가 필요한가요?",
-          answer: "증상 정도에 따라 다르지만, 집중적인 1:1 재활과 신경계 치료를 위해서는 입원 치료가 효과적입니다. 외래 치료도 가능하며, 상태에 따라 상담 후 결정합니다.",
-        },
-        {
-          question: "치료 기간은 얼마나 걸리나요?",
-          answer: "일반적으로 최소 4주에서 12주의 집중 치료를 권장합니다. 환자분의 상태와 회복 목표에 따라 기간이 조정될 수 있습니다.",
-        },
-        {
-          question: "기존 병원 치료와 병행할 수 있나요?",
-          answer: "네, 대학병원의 표준 치료를 존중하며 병행 재활을 설계합니다. 기존 약물 치료는 유지하면서 재활과 신경계 치료를 함께 진행할 수 있습니다.",
-        },
-        {
-          question: "보호자 동반/간병은 어떻게 되나요?",
-          answer: "24시간 의료진이 상주하므로 보호자 간병은 필수가 아닙니다. 다만 가족분이 원하시면 함께 계실 수 있으며, 정기적인 가족 상담과 보호자 교육도 제공합니다.",
-        },
-      ],
-    },
-    "tinnitus-headache": {
-      title: "이명·난청·어지럼증·두통 클리닉",
-      subtitle: "검사에서는 이상이 없는데 증상이 계속된다면",
-      description: "이명, 난청, 어지럼증, 두통은 생명을 위협하지 않지만 수면, 집중, 업무, 인간관계를 무너뜨릴 수 있는 증상입니다. 여러 치료를 받았지만 호전이 더딘 경우 몸의 신호와 순환 통로의 균형을 함께 살펴볼 필요가 있습니다.",
-      badge: "신경과 순환 통로의 균형을 함께 점검",
-      headerImage: TINNITUS_HEADACHE_HEADER_IMAGE_URL,
-      // 질환 선택 카드 섹션
+
+    // 2) 암별 집중케어
+    "cancer-specific-care": {
+      title: "암별 집중케어",
+      subtitle: "암종별 특성에 맞춘 맞춤 프로그램",
+      description:
+        "암은 종류에 따라 치료 방법과 부작용, 회복 방향이 달라집니다. 유방암·부인암·위대장암·폐암·간암 등 각 암종의 특성과 치료 단계에 맞춘 집중 케어를 제공합니다.",
+      badge: "암종별 맞춤 통합 케어",
+      headerImage: WANG_MOXA_CLINIC_IMAGE_URL,
+      introMessage: "같은 암도 환자마다 치료 경과가 다릅니다. 암종·병기·치료 이력에 따라 맞춤 프로토콜을 설계합니다.",
       hasConditionCards: true,
       conditionCards: [
         {
-          title: "이명 클리닉",
-          symptoms: ["귀에서 소리가 들림", "삐 소리 지속", "박동성 소리"],
-          image: TINNITUS_CLINIC_CARD_IMAGE_URL,
+          title: "유방암",
+          image: CANCER_TYPE_CARD_IMAGE_URL,
+          symptoms: [
+            "수술 후 상지 부종·통증 관리",
+            "호르몬 치료 부작용 완화",
+            "방사선 피부염·피로 케어"
+          ]
         },
         {
-          title: "난청 클리닉",
-          symptoms: ["소리가 작게 들림", "먹먹함", "갑작스러운 청력 저하"],
-          image: DEAFNESS_CLINIC_CARD_IMAGE_URL,
+          title: "자궁·난소암",
+          image: CANCER_TYPE_CARD_IMAGE_URL,
+          symptoms: [
+            "수술 후 골반 부종·통증 관리",
+            "항암 후 백혈구·체력 회복",
+            "폐경·호르몬 변화 대응"
+          ]
         },
         {
-          title: "어지럼증 클리닉",
-          symptoms: ["세상이 도는 느낌", "균형 불안", "메니에르/이석증"],
-          image: DIZZINESS_CLINIC_CARD_IMAGE_URL,
+          title: "위·대장암",
+          image: CANCER_TYPE_CARD_IMAGE_URL,
+          symptoms: [
+            "수술 후 소화 기능 회복",
+            "체중·영양 저하 관리",
+            "항암 오심·설사·말초신경 증상 관리"
+          ]
         },
         {
-          title: "두통 클리닉",
-          symptoms: ["머리가 깨질 듯한 통증", "편두통", "긴장형 두통"],
-          image: HEADACHE_CLINIC_CARD_IMAGE_URL,
-        },
-      ],
-      // 증상 자가 체크
-      hasSelfCheck: true,
-      selfCheckQuestions: [
-        {
-          question: "귀에서 삐 소리·매미 소리·기계음 같은 소리가 들리나요?",
-          options: ["자주 있다", "가끔 있다", "없다"],
-          relatedCondition: "이명",
+          title: "폐암",
+          image: CANCER_TYPE_CARD_IMAGE_URL,
+          symptoms: [
+            "호흡 곤란·기침·가래 완화",
+            "방사선 폐렴·폐 기능 회복",
+            "체력·면역 집중 관리"
+          ]
         },
         {
-          question: "소리가 먹먹하게 들리거나 작게 들리나요?",
-          options: ["그렇다", "가끔 그렇다", "아니다"],
-          relatedCondition: "난청",
+          title: "간암",
+          image: CANCER_TYPE_CARD_IMAGE_URL,
+          symptoms: [
+            "간 기능 회복과 피로 개선",
+            "색전술·고주파 치료 후 관리",
+            "식욕·소화 기능 회복"
+          ]
         },
         {
-          question: "가만히 있어도 세상이 도는 느낌, 균형이 흔들리는 느낌이 있나요?",
-          options: ["자주 있다", "가끔 있다", "없다"],
-          relatedCondition: "어지럼증",
-        },
-        {
-          question: "머리가 조여오는 느낌, 깨질 듯한 통증이 반복되나요?",
-          options: ["자주 있다", "가끔 있다", "없다"],
-          relatedCondition: "두통",
-        },
-        {
-          question: "목과 어깨가 자주 뻣뻣한가요?",
-          options: ["자주 그렇다", "가끔 그렇다", "아니다"],
-          relatedCondition: "두통/어지럼/이명",
-        },
+          title: "기타 암",
+          image: CANCER_TYPE_CARD_IMAGE_URL,
+          symptoms: [
+            "두경부·췌장·담도·혈액암 등 개별 맞춤",
+            "희귀암·진행성 암 통합 관리",
+            "전이 관리 및 삶의 질 개선"
+          ]
+        }
       ],
       sections: [
         {
-          title: "왜 같은 증상이 반복될까요?",
-          subtitle: "귀만의 문제가 아니라 신호와 순환 통로 문제일 수 있습니다",
-          isStages: true,
-          isPrinciple: true,
-          stages: [
-            {
-              stage: "STEP 1",
-              title: "신호 전달 문제",
-              description: "뇌 → 신경 → 귀. 신호 전달이 불안정하면 이명, 어지럼이 발생할 수 있습니다.",
-            },
-            {
-              stage: "STEP 2",
-              title: "상부경추 정렬 문제",
-              description: "경추 1번, 2번 정렬이 흐트러지면 신경과 순환 통로가 압박됩니다.",
-            },
-            {
-              stage: "STEP 3",
-              title: "통로 압박",
-              description: "호스가 꺾이면 물이 흐르지 않습니다. 같은 원리로 신경 신호와 순환이 방해받습니다.",
-            },
-          ],
-        },
-        {
-          title: "통로의 균형을 회복하는 치료 접근",
-          description: "신경계 균형을 중심으로 다음 요소들을 함께 관리합니다",
-          isTBTApproach: true,
-          tbtElements: [
-            { label: "턱관절 균형", icon: "balance" },
-            { label: "상부경추 균형", icon: "spine" },
-            { label: "신경 안정", icon: "brain" },
-            { label: "순환 회복", icon: "circulation" },
-          ],
-        },
-        {
-          title: "이런 분들께 도움이 됩니다",
-          content: [
-            "검사에서는 이상이 없는데 이명이 지속되는 경우",
-            "난청과 함께 어지럼이 반복되는 경우",
-            "두통과 목 긴장이 함께 나타나는 경우",
-            "수 장애와 불안이 동반되는 경우",
-            "여러 치료 후에도 호전이 더딘 경우",
-          ],
-        },
-        {
-          title: "치료 프로그램",
+          title: "암종별 접근 원칙",
           subsections: [
             {
-              subtitle: "정밀 평가",
+              subtitle: "암종 특성 분석",
               content: [
-                "증상 패턴 분석",
-                "자세/턱관절/경추 평가",
-              ],
+                "암종별 치료 프로토콜(수술·항암·방사선·표적·호르몬)에 따른 부작용 패턴 분석",
+                "치료 단계(치료 전/중/후)에 따른 회복 우선순위 결정"
+              ]
             },
             {
-              subtitle: "TBT 균형 치료",
+              subtitle: "환자 개별 평가",
               content: [
-                "턱관절 균형",
-                "상부경추 정렬",
-              ],
+                "체력·면역 상태, 기저 질환, 복용 약물 등 종합 평가",
+                "영양·수면·정서 상태를 포함한 전인적 평가"
+              ]
             },
             {
-              subtitle: "자율신경 관리",
+              subtitle: "맞춤 프로토콜 설계",
               content: [
-                "수면·스트레스·피로 관리",
-              ],
-            },
-            {
-              subtitle: "근막/경추 치료",
-              content: [
-                "목·어깨 긴장",
-                "두통 관리",
-              ],
-            },
-          ],
+                "한방 치료(왕뜸·약뜸·한약·침) + 양방 치료(고주파 온열)의 조합 결정",
+                "치료 빈도와 기간을 환자 상태에 맞춰 조정"
+              ]
+            }
+          ]
         },
         {
-          title: "치료 흐름",
+          title: "암종별 주요 케어 포인트",
           isStages: true,
           stages: [
-            {
-              stage: "1단계",
-              title: "초기 평가",
-              description: "30~40분",
-            },
-            {
-              stage: "2단계",
-              title: "개인 맞춤 계획",
-              description: "증상 유형 분석",
-            },
-            {
-              stage: "3단계",
-              title: "집중 치료",
-              description: "주 1~2회",
-            },
-            {
-              stage: "4단계",
-              title: "유지 관리",
-              description: "재발 예방",
-            },
-          ],
-        },
+            { stage: "유방암", title: "상지 부종·호르몬 부작용 관리", description: "림프 부종, 안면 홍조, 관절통 등" },
+            { stage: "부인암", title: "골반 부종·호르몬 변화 관리", description: "하지 부종, 폐경 증상, 골다공증 예방" },
+            { stage: "위·대장암", title: "소화·영양 회복 관리", description: "체중 감소, 영양 결핍, 배변 이상 개선" },
+            { stage: "폐암", title: "호흡기·폐 기능 관리", description: "호흡 곤란, 방사선 폐렴, 기침·가래 완화" },
+            { stage: "간암", title: "간 기능·대사 관리", description: "피로, 복수, 식욕 저하, 황달 관리 보조" }
+          ]
+        }
       ],
       faqs: [
         {
-          question: "귀 검사에서 이상이 없는데 치료 가능한가요?",
-          answer: "네, 가능합니다. 귀 자체에 구조적 이상이 없어도 신경 신호 전달, 순환, 정렬 문제로 증상이 나타날 수 있습니다. 이런 경우 통로의 균형을 회복하는 접근이 도움될 수 있습니다.",
+          question: "어떤 암까지 관리할 수 있나요?",
+          answer: "고형암·혈액암 등 대부분의 암종에 대해 맞춤 케어가 가능합니다. 상담 시 병기와 치료 이력을 토대로 개인 맞춤 프로토콜을 안내드립니다."
         },
         {
-          question: "치료 기간은 얼마나 걸리나요?",
-          answer: "증상의 정도와 만성화 기간에 따라 다르지만, 일반적으로 8-12주 정도의 치료 기간을 권장합니다. 개인별 상태에 따라 조정됩니다.",
+          question: "다른 병원 치료와 병행해도 되나요?",
+          answer: "네. 대학병원·전문병원 치료가 주(主)가 되며, 뷰티풀한방병원은 회복·부작용 관리 역할을 수행합니다."
         },
         {
-          question: "어지럼이 심한 날도 치료 가능한가요?",
-          answer: "어지럼 증상이 심한 경우에는 치료 강도를 조절하여 진행합니다. 상태에 따라 안정을 취한 후 치료를 시작할 수도 있으며, 의료진과 상담 후 결정합니다.",
-        },
-        {
-          question: "두통 유형도 함께 평가하나요?",
-          answer: "네, 초기 평가에서 두통의 패턴, 빈도, 유발 요인을 함께 분석합니다. 긴장형 두통, 편두통 등 유형에 따라 맞춤 치료 계획을 수립합니다.",
-        },
-        {
-          question: "기존 약 복용과 병행 가능한가요?",
-          answer: "네, 가능합니다. 현재 복용 중인 약물이 있다면 상담 시 알려주시면, 기존 치료를 유지하면서 병행할 수 있도록 계획을 조율합니다.",
-        },
+          question: "암종에 따라 치료가 많이 달라지나요?",
+          answer: "네. 부작용 양상과 회복 포인트가 달라 한약 처방, 뜸·침 위치, 고주파 적용 부위 등이 달라집니다."
+        }
       ],
       finalMessage: {
-        title: "증상이 반복된다면 원인을 함께 확인해보세요",
-        description: "뷰티풀한방병원은 증상의 근본 원인을 찾아 통로의 균형을 회복하는 치료를 제공합니다.",
-      },
+        title: "같은 암이라도 환자마다 회복의 길은 다릅니다.",
+        description: "뷰티풀한방병원은 암종과 환자 상태에 맞춘 개별 프로토콜을 설계합니다."
+      }
     },
-    "spine-joint": {
-      title: "척추·관절 통증 클리닉",
-      subtitle: "허리만 고치면 재발합니다.",
-      description: "'꼬인 통로'를 위에서부터 풀어, 전신 밸런스를 회복합니다.",
-      badge: "통합 치료",
+
+    // 3) 수술 후 회복케어
+    "post-surgery-recovery": {
+      title: "수술 후 회복케어",
+      subtitle: "수술 이후 체력·면역 회복의 시작",
+      description:
+        "암 수술 이후 회복 속도는 다음 치료의 순응도를 결정합니다. 체력 저하, 통증, 부종, 상처 회복 지연을 조기에 관리하여 항암·방사선 치료로 순조롭게 이어지도록 돕습니다.",
+      badge: "수술 후 통합 회복 프로그램",
+      headerImage: INPATIENT_CARE_IMAGE_URL,
+      introMessage: "수술은 치료의 한 단계일 뿐입니다. 회복이 늦어지면 다음 치료가 지연되고, 예후에도 영향을 미칩니다.",
       sections: [
         {
-          title: "혹시 이런 패턴이 반복되나요?",
-          content: [
-            "치료받을 때는 좋아졌다가 다시 아프다",
-            "허리/골반/무릎/어깨 통증이 번갈아 나타난다",
-            "자세가 한쪽으로 기울고 다리 길이 차이를 느낀다",
-            "목·어깨 긴장과 두통이 함께 있다",
-            "오래 앉거나 걸으면 통증이 심해진다",
-          ],
-          note: "통증의 원인은 다양하며, 정확한 평가는 개인별로 필요합니다.",
-        },
-        {
-          title: "통증이 반복되는 이유",
-          subsections: [
-            {
-              subtitle: "1. 척추는 머리부터 골반까지 연결된 '긴 통로'입니다",
-              content: [
-                "머리 끝에서 골반까지 이어지는 척추 구조는 신경 신호, 근막(근육의 막), 순환의 흐름이 한 덩어리처럼 연결된 시스템입니다.",
-                "중간(허리·무릎)만 반복적으로 치료해도, '통로의 입구'에서 꼬임이 유지되면 보상 패턴이 다시 생길 수 있습니다.",
-              ],
-            },
-            {
-              subtitle: "2. '입구'가 비틀리면, 몸은 넘어지지 않기 위해 아래를 비틀어 보상합니다",
-              content: [
-                "보상작용의 도미노: 경추 중심축이 흔들리면 몸은 균형을 유지하려고 흉추·요추를 반대 방향으로 비틀어 자세를 '버팁니다'.",
-                "골반의 왜곡: 보상이 오래 지속되면 골반 높이·회전이 달라지고 한쪽 다리로 체중이 실리며 만성 통증이 생길 수 있습니다.",
-                "관절의 과부하: 무릎·고관절·어깨 같은 관절은 정렬이 틀어진 상태에서 반복 사용되며 염증/통증이 악화될 수 있습니다.",
-              ],
-              note: "입구가 꼬여 있는데, 아래만 잡아당기면 왜 통증이 반복될까요?",
-            },
-            {
-              subtitle: "3. TBT 기반 접근: 윗부분을 풀면, 아래의 긴장이 줄어듭니다",
-              content: [
-                "경막/근막 긴장 완화 관점: 상부 정렬이 안정되면 전신 연결막의 과긴장이 줄어들 수 있습니다.",
-                "신경 신호의 안정(과흥분 완화): 꼬임이 줄면 신경계 과흥분이 완화되어 통증 민감도가 낮아질 수 있습니다.",
-                "스스로 정렬되는 자세 패턴(보상 감소): 억지로 맞추기보다 '버티던 자세'가 풀리며 움직임이 편해지는 것을 목표로 합니다.",
-              ],
-              description: "TBT(턱관절 균형 접근)는 허리를 억지로 '교정'하기보다, 상부의 균형(턱관절·상부경추)을 통해 전신 긴장 패턴이 완화되도록 돕는 방식입니다.",
-              note: "개선 정도는 개인의 상태와 원인에 따라 다를 수 있습니다.",
-            },
-          ],
-        },
-        {
           title: "이런 분들께 도움이 됩니다",
-          content: [
-            "만성 허리통증/좌골신경통(저림 동반 포함)",
-            "목·어깨 결림과 두통이 함께 있는 경우",
-            "골반 틀어짐/자세 비대칭이 느껴지는 경우",
-            "무릎·고관절 통증이 반복되는 경우",
-            "어깨 통증(가동범위 제한)과 등 통증이 함께 있 경우",
-            "수술/주사 이후에도 통증이 남아 회복 관리가 필요한 경우",
-          ],
-        },
-        {
-          title: "척추·관절 통증 통합 프로그램",
           subsections: [
             {
-              subtitle: "A. 정밀 평가(원인 지도 만들기)",
+              subtitle: "수술 직후 회복이 필요한 분",
               content: [
-                "통증 위치/방사통/저림 패턴 문진",
-                "자세/보행/골반 높이/체중 부하 평가",
-                "경추·턱관절·어깨·고관절 가동성 체크",
-                "생활 습관(앉는 시간/운동/수면) 분석",
-              ],
+                "수술 후 극심한 피로와 무기력이 지속되는 분",
+                "절개 부위 통증·부종이 오래 지속되는 분",
+                "마취 후 소화 장애·변비가 심한 분"
+              ]
             },
             {
-              subtitle: "B. TBT 기반 균형 치료(핵심 축)",
+              subtitle: "다음 치료를 준비해야 하는 분",
               content: [
-                "턱관절 균형 평가 및 맞춤 치료",
-                "상부경추 중심축 안정화 접근",
-                "전신 긴장 패턴 완화 목표",
-              ],
-            },
-            {
-              subtitle: "C. 척추·관절 통증 집중 치료(국소 + 연결)",
-              content: [
-                "경추/흉추/요추 통증 관리",
-                "관절 주변 염증/부종/근막 긴장 관리",
-                "가동범위 회복 및 통증 완화 목표",
-              ],
-            },
-            {
-              subtitle: "D. 회복·유지 프로그램(재 관리)",
-              content: [
-                "운동/스트레칭 처방(집에서 가능한 루틴)",
-                "자세 교정 습관 가이드(앉기/걷기/수면)",
-                "단계별 재평가 + 목표 업데이트",
-              ],
-            },
-          ],
+                "항암·방사선 치료를 앞두고 체력이 부족한 분",
+                "면역·영양 상태가 낮아 치료가 연기될 가능성이 있는 분"
+              ]
+            }
+          ]
         },
         {
-          title: "치료는 이렇게 진행됩니다",
+          title: "수술 후 회복 프로그램",
+          subsections: [
+            {
+              subtitle: "한방 회복 치료",
+              treatments: [
+                {
+                  name: "왕뜸·약뜸 치료",
+                  image: WANG_MOXA_CLINIC_IMAGE_URL,
+                  description: "복부·허리 등 수술 부위 주변 혈류를 개선하여 회복을 촉진합니다.",
+                  effects: ["혈액순환 개선", "통증·부종 완화", "체온 회복"]
+                },
+                {
+                  name: "효소 찜질",
+                  image: ENZYME_STEAM_CLINIC_IMAGE_URL,
+                  description: "체내 노폐물을 배출하고 전신 순환을 도와 피로를 개선합니다.",
+                  effects: ["피로 회복", "해독 작용", "수면 개선"]
+                }
+              ]
+            },
+            {
+              subtitle: "맞춤 한약 처방",
+              content: [
+                "수술 후 기력 회복을 위한 보기·보혈 처방",
+                "장 기능·소화 회복을 위한 개별 맞춤 한약",
+                "면역 안정·수면 개선 처방"
+              ]
+            }
+          ]
+        },
+        {
+          title: "회복 단계별 관리",
           isStages: true,
           stages: [
-            { stage: "1단계", title: "초기 평가: 통증 패턴/정렬/가동성 체크" },
-            { stage: "2단계", title: "맞춤 계획: 우선순위(상부 균형 → 보상 패턴 → 국소 통증) 설정" },
-            { stage: "3단계", title: "집중 치료: 주 1~2회(개인별) + 홈루틴 병행" },
-            { stage: "4단계", title: "유지 관리: 통증 재발 요인 점검 + 생활루틴 고정" },
-          ],
+            { stage: "0~2주", title: "초기 회복", description: "통증·부종 관리, 기초 체력 유지" },
+            { stage: "3~4주", title: "기능 회복", description: "소화·수면 개선, 면역 안정" },
+            { stage: "5~8주", title: "다음 치료 준비", description: "체력·영양 회복, 항암·방사선 치료 대비" }
+          ]
         },
+        {
+          title: "입원 회복 환경",
+          description: "안정적인 회복을 위해 전용 입원 환경을 제공합니다.",
+          image: INPATIENT_CARE_IMAGE_URL,
+          content: [
+            "호텔급 1인실 입원 시설",
+            "맞춤 회복 식단 제공",
+            "24시간 의료진 상주",
+            "보호자 동반 가능"
+          ]
+        }
       ],
       faqs: [
         {
-          question: "허리 디스크가 있어도 치료를 받을 수 있나요?",
-          answer: "네, 가능합니다. 디스크 진단을 받으셨다면 초기 평가에서 상태를 확인하고, 무리한 자극 없이 진행할 수 있는 치료 방법을 선택합니다. TBT 접근은 강한 물리적 힘보다는 전신 균형을 통해 부담을 줄이는 방식입니다.",
+          question: "수술 후 얼마 만에 입원 가능한가요?",
+          answer: "수술 상처와 전신 상태에 따라 다르며, 보통 퇴원 직후부터 입원 회복 프로그램을 진행할 수 있습니다."
         },
         {
-          question: "무릎 통증인데 왜 턱관절/목을 보나요?",
-          answer: "무릎 통증의 원인이 무릎 자체가 아니라 골반 틀어짐이나 자세 불균형에서 올 수 있기 때문입니다. 상부(턱관절·경추)의 불균형이 보상 패턴을 만들어 무릎에 과부하를 줄 수 있어, 전체적인 평가가 필요합니다.",
+          question: "외래로도 가능한가요?",
+          answer: "네. 거리·상태에 따라 외래 치료로도 진행 가능합니다."
         },
         {
-          question: "치료 기간은 보통 어느 정도인가요?",
-          answer: "통증의 정도와 만성화 기간에 따라 다르지만, 일반적으로 8-12주 정도의 치료 기간을 권장합니다. 주 1-2회 내원하며, 초기 평가 후 개인별 목표와 기간을 설정합니다.",
-        },
-        {
-          question: "치료 중 운동은 해야 하나요?",
-          answer: "네, 권장됩니다. 치료 과정에서 개인별 상태에 맞는 스트레칭과 운동을 처방하며, 집에서 실천할 수 있는 루틴을 함께 안내합니다. 운동은 재발 방지와 회복 속도에 중요한 역할을 합니다.",
-        },
-        {
-          question: "주사/수술 치료와 병행이 가능한가요?",
-          answer: "네, 가능합니다. 현재 받고 계신 치료가 있다면 상담 시 알려주시면, 병행 가능 여부와 치료 순서를 함께 조율합니다. 필요시 의뢰 기관과 협진할 수도 있습니다.",
-        },
-        {
-          question: "재발을 줄이려면 무엇이 가장 중요하나요?",
-          answer: "생활 습관과 자세 관리가 가장 중요합니다. 치료로 통증이 완화되어도 이전의 습관(장시간 앉기, 불균형한 자세 등)이 유지되면 재발할 수 있습니다. 개인별 맞춤 운동과 생활 가이드를 꾸준히 실천하는 것이 핵심입니다.",
-        },
+          question: "수술 이력을 꼭 알려드려야 하나요?",
+          answer: "네. 수술 부위와 날짜, 병기·조직 소견을 알려주시면 맞춤 프로토콜을 설계할 수 있습니다."
+        }
       ],
+      finalMessage: {
+        title: "수술 이후의 회복이 다음 치료의 성패를 좌우합니다.",
+        description: "뷰티풀한방병원은 수술 직후부터 안정적인 회복 환경을 제공합니다."
+      }
     },
+
+    // 4) 항암치료 환자 케어
+    "chemotherapy-care": {
+      title: "항암치료 환자 케어",
+      subtitle: "항암 치료를 끝까지 받을 수 있도록",
+      description:
+        "항암 치료 중 나타나는 오심·구토, 식욕 저하, 백혈구 감소, 말초신경병증, 구내염 등 다양한 부작용을 관리하여 치료 순응도를 높이고 다음 항암으로 이어지도록 돕습니다.",
+      badge: "항암 부작용 집중 관리",
+      headerImage: ENZYME_STEAM_CLINIC_IMAGE_URL,
+      introMessage: "항암 치료의 성공은 '예정된 일정대로 끝까지 받는 것'입니다. 부작용 관리가 그 열쇠입니다.",
+      sections: [
+        {
+          title: "이런 항암 부작용을 관리합니다",
+          subsections: [
+            {
+              subtitle: "소화기 증상",
+              content: [
+                "오심·구토, 식욕 저하",
+                "구내염·미각 변화",
+                "설사·변비 등 배변 이상"
+              ]
+            },
+            {
+              subtitle: "혈액·면역 관련",
+              content: [
+                "백혈구·호중구 감소",
+                "빈혈, 극심한 피로",
+                "반복되는 감염·염증"
+              ]
+            },
+            {
+              subtitle: "신경·기타",
+              content: [
+                "손발 저림·감각 저하(말초신경병증)",
+                "탈모·피부 건조",
+                "수면 장애·정서 불안"
+              ]
+            }
+          ]
+        },
+        {
+          title: "항암 부작용 케어 프로그램",
+          subsections: [
+            {
+              subtitle: "한방 치료",
+              treatments: [
+                {
+                  name: "왕뜸·약뜸",
+                  image: WANG_MOXA_CLINIC_IMAGE_URL,
+                  description: "체온 저하와 면역 저하를 완화하고 기혈 순환을 회복시킵니다.",
+                  effects: ["백혈구 회복 보조", "체온 상승", "피로 완화"]
+                },
+                {
+                  name: "효소 찜질",
+                  image: ENZYME_STEAM_CLINIC_IMAGE_URL,
+                  description: "체내 해독과 순환을 돕고 수면·피로를 개선합니다.",
+                  effects: ["피로 회복", "수면 개선", "순환 촉진"]
+                }
+              ]
+            },
+            {
+              subtitle: "증상별 맞춤 한약",
+              content: [
+                "오심·식욕 저하 완화 처방",
+                "백혈구·면역 회복 처방",
+                "말초신경병증·통증 완화 처방",
+                "수면·불안 안정 처방"
+              ]
+            }
+          ]
+        },
+        {
+          title: "항암 주기별 관리",
+          description: "항암 주기에 맞춰 부작용 관리 스케줄을 조정합니다.",
+          isStages: true,
+          stages: [
+            { stage: "항암 전", title: "체력·면역 준비", description: "컨디션을 끌어올려 부작용을 예방" },
+            { stage: "항암 중", title: "급성 부작용 관리", description: "오심·식욕 저하·구내염 등 즉각 대응" },
+            { stage: "항암 후 1~2주", title: "수치·체력 회복", description: "백혈구 저하기, 감염 예방·회복" },
+            { stage: "다음 항암 전", title: "다음 치료 준비", description: "수치·체력 점검, 컨디션 재정비" }
+          ]
+        }
+      ],
+      faqs: [
+        {
+          question: "항암 도중에 뜸이나 한약을 써도 되나요?",
+          answer: "네. 항암제와 상호작용을 고려해 시기와 용량을 조절하며, 종양내과 진료 일정에 맞춰 진행합니다."
+        },
+        {
+          question: "백혈구가 낮으면 어떻게 하나요?",
+          answer: "수치가 낮은 시기에 적합한 보조 치료와 한약을 선택하여 회복을 돕습니다. 심한 경우 치료를 조정할 수 있습니다."
+        },
+        {
+          question: "말초신경병증 증상도 관리되나요?",
+          answer: "네. 침·뜸·한약 복합 치료로 손발 저림·감각 저하를 완화할 수 있습니다."
+        }
+      ],
+      finalMessage: {
+        title: "항암의 끝까지 함께하는 케어",
+        description: "부작용 때문에 치료가 흔들리지 않도록, 다음 항암 주기를 지켜드립니다."
+      }
+    },
+
+    // 5) 방사선치료 환자 케어
+    "radiation-care": {
+      title: "방사선치료 환자 케어",
+      subtitle: "방사선 부작용을 줄이고 조직 회복을 돕습니다",
+      description:
+        "방사선 치료 중·후 나타나는 피부염, 점막 손상, 피로, 부종, 방사선 폐렴 등을 관리하여 예정된 치료를 끝까지 받을 수 있도록 돕고 치료 후 조직 회복을 촉진합니다.",
+      badge: "방사선 부작용 집중 관리",
+      headerImage: CANCER_TYPE_CARD_IMAGE_URL,
+      introMessage: "방사선 치료는 부위별로 부작용이 다릅니다. 각 치료 부위의 특성에 맞춘 케어가 필요합니다.",
+      sections: [
+        {
+          title: "이런 방사선 부작용을 관리합니다",
+          subsections: [
+            {
+              subtitle: "피부·점막 관련",
+              content: [
+                "방사선 피부염(홍반·건조·벗겨짐)",
+                "점막염·구내염(두경부 방사선 시)",
+                "질·직장 점막 염증(골반 방사선 시)"
+              ]
+            },
+            {
+              subtitle: "장기·조직 관련",
+              content: [
+                "방사선 폐렴·마른기침(흉부 방사선)",
+                "방광염·배뇨 이상(골반 방사선)",
+                "설사·소화 장애(복부 방사선)"
+              ]
+            },
+            {
+              subtitle: "전신 증상",
+              content: [
+                "극심한 피로와 무기력",
+                "식욕 저하·체중 감소",
+                "수면 장애·정서 불안"
+              ]
+            }
+          ]
+        },
+        {
+          title: "방사선 치료 케어 프로그램",
+          subsections: [
+            {
+              subtitle: "조직 회복 치료",
+              treatments: [
+                {
+                  name: "효소 찜질",
+                  image: ENZYME_STEAM_CLINIC_IMAGE_URL,
+                  description: "방사선 치료 부위를 직접 자극하지 않는 선에서 전신 순환과 해독을 돕습니다.",
+                  effects: ["순환 촉진", "피로 개선", "해독 작용"]
+                },
+                {
+                  name: "왕뜸·약뜸 치료",
+                  image: WANG_MOXA_CLINIC_IMAGE_URL,
+                  description: "치료 부위를 피해 체력·면역 회복 포인트에 시술하여 회복을 촉진합니다.",
+                  effects: ["면역 회복", "체력 보강", "피로 완화"]
+                }
+              ]
+            },
+            {
+              subtitle: "맞춤 한약 처방",
+              content: [
+                "방사선 피부염 회복 처방(외용·내복)",
+                "점막 보호 및 구내염 완화 처방",
+                "폐·기관지 보호 처방(흉부 방사선 시)",
+                "피로·식욕 저하 회복 처방"
+              ]
+            }
+          ]
+        },
+        {
+          title: "방사선 치료 단계별 관리",
+          isStages: true,
+          stages: [
+            { stage: "치료 전", title: "조직 준비", description: "체력 강화, 피부·점막 기초 관리" },
+            { stage: "치료 중", title: "부작용 실시간 관리", description: "피부염·점막염·피로 완화" },
+            { stage: "치료 직후", title: "급성 반응 회복", description: "조직 재생 촉진, 염증 관리" },
+            { stage: "치료 후 장기", title: "후유증 관리", description: "섬유화·기능 저하 예방 관리" }
+          ]
+        }
+      ],
+      faqs: [
+        {
+          question: "방사선 치료 중에도 한방 치료가 가능한가요?",
+          answer: "네. 단, 치료 부위에 직접 자극을 주지 않도록 시술 부위·방법을 조정합니다. 방사선 종양학과 일정에 맞춰 진행합니다."
+        },
+        {
+          question: "피부염이 생겼는데 어떻게 해야 하나요?",
+          answer: "상태에 따라 외용 한약·연고와 내복약을 병행하여 회복을 돕습니다. 증상이 심할 경우 치료를 일시 조정할 수 있습니다."
+        },
+        {
+          question: "방사선 치료가 끝난 후에도 관리가 필요한가요?",
+          answer: "네. 조직 섬유화·기능 저하는 수개월~수년에 걸쳐 진행될 수 있어 장기 관리가 권장됩니다."
+        }
+      ],
+      finalMessage: {
+        title: "방사선 치료가 끝나도 회복은 계속됩니다.",
+        description: "급성 반응부터 장기 후유증까지, 조직 회복의 전 과정을 돕습니다."
+      }
+    }
   };
 
-  const clinic = clinicData[id || ""] || clinicData["cancer-immune"];
+  const defaultId = "beautiful-cancer-care";
+  const clinic = clinicData[id || ""] || clinicData[defaultId];
 
   const seoMeta: Record<string, { title: string; description: string; keywords: string }> = {
-    "cancer-immune": {
-      title: "암환자 통합 면역 치료 클리닉 | 뷰티풀한방병원 · 국립암센터 인근 암요양병원",
-      description: "국립암센터 차량 15분 거리 암요양병원. 항암·수술·방사선 치료 후 면역 회복을 위한 한방 통합 치료 클리닉. 고주파 온열 치료, 왕뜸·약뜸, 효소 찜질 등 맞춤 면역 프로그램 운영. 경기도 파주시, 일산·고양 인근.",
-      keywords: "암요양병원,국립암센터근처암요양병원,파주암요양병원,일산암요양병원,고양암요양병원,암한방치료,항암후관리,면역치료,통합암치료,고주파온열치료,암환자입원,항암부작용관리,경기암요양병원",
+    "beautiful-cancer-care": {
+      title: "뷰티풀 암케어 | 뷰티풀한방병원 · 국립암센터 인근 암요양병원",
+      description:
+        "수술·항암·방사선 치료 전 과정의 회복을 돕는 통합 면역 케어. 국립암센터 차량 15분 거리, 호텔급 입원 시설.",
+      keywords:
+        "암요양병원,통합암치료,면역치료,한방암치료,항암부작용관리,고주파온열치료,파주암요양병원,일산암요양병원,고양암요양병원"
     },
-    "tinnitus-headache": {
-      title: "이명·난청·어지럼증·두통 클리닉 | 뷰티풀한방병원",
-      description: "이명, 난청, 어지럼증, 두통 전문 한방 치료 클리닉. 침, 약침, 한약 등 근본 원인 치료로 신경 안정과 혈류 개선을 돕습니다.",
-      keywords: "이명치료,난청한방치료,어지럼증치료,두통한방,파주이명치료",
+    "cancer-specific-care": {
+      title: "암별 집중케어 | 유방암·부인암·위대장암·폐암·간암 맞춤 한방 치료",
+      description:
+        "암종별 특성과 치료 단계에 맞춘 맞춤 프로그램. 유방암·부인암·위대장암·폐암·간암 등의 집중 케어.",
+      keywords:
+        "유방암한방,부인암,자궁암,난소암,위암,대장암,폐암,간암,암종별맞춤치료,암종별관리"
     },
-    "stroke-parkinson": {
-      title: "중풍·파킨슨병 재활 클리닉 | 뷰티풀한방병원",
-      description: "중풍(뇌졸중) 후유증 및 파킨슨병 한방 재활 치료 클리닉. 1:1 집중 재활과 뇌신경계 기반 통합 치료로 일상 복귀를 돕습니다.",
-      keywords: "중풍재활,파킨슨병한방치료,뇌졸중후유증,한방재활,파주중풍치료",
+    "post-surgery-recovery": {
+      title: "수술 후 회복케어 | 암 수술 후 체력·면역 회복 한방 프로그램",
+      description:
+        "암 수술 이후 체력 회복, 통증·부종 관리, 다음 치료 준비를 돕는 통합 회복 프로그램.",
+      keywords: "수술후회복,암수술회복,수술후한방,수술후입원,수술후부종,회복프로그램"
     },
-    "spine-joint": {
-      title: "척추·관절 통증 클리닉 | 뷰티풀한방병원",
-      description: "반복되는 허리·무릎·어깨 통증, 전신 밸런스 회복이 필요합니다. 추나, 침, 약침 등 통합 치료로 근본 원인을 해결합니다.",
-      keywords: "척추치료,관절통증,허리통증한방,추나치료,파주척추치료,관절한방치료",
+    "chemotherapy-care": {
+      title: "항암치료 환자 케어 | 항암 부작용 관리 한방 클리닉",
+      description:
+        "오심·구토·백혈구 감소·말초신경병증 등 항암 부작용을 관리하여 치료 순응도를 높입니다.",
+      keywords: "항암부작용,백혈구관리,항암한방,말초신경병증,항암오심,항암피로"
     },
+    "radiation-care": {
+      title: "방사선치료 환자 케어 | 방사선 부작용 완화 한방 치료",
+      description:
+        "방사선 피부염·점막염·피로·방사선 폐렴을 완화하고 조직 회복을 돕는 맞춤 프로그램.",
+      keywords: "방사선부작용,방사선피부염,방사선폐렴,점막염,방사선한방,조직회복"
+    }
   };
 
-  const currentSeo = seoMeta[id || ""] || seoMeta["cancer-immune"];
+  const currentSeo = seoMeta[id || ""] || seoMeta[defaultId];
 
   const clinicJsonLd = {
     "@context": "https://schema.org",
     "@type": "MedicalClinic",
-    "name": clinic.title,
-    "description": currentSeo.description,
-    "url": `https://www.btful.co.kr/clinics/${id || "cancer-immune"}`,
-    "medicalSpecialty": clinic.subtitle,
-    "availableService": clinic.sections
-      ?.filter((s: any) => s.subsections?.some((sub: any) => sub.treatments))
-      .flatMap((s: any) =>
-        s.subsections
-          .filter((sub: any) => sub.treatments)
-          .flatMap((sub: any) =>
-            sub.treatments.map((t: any) => ({
-              "@type": "MedicalTherapy",
-              "name": t.name,
-              "description": t.description,
-            }))
-          )
-      ) || [],
-    "isPartOf": {
+    name: clinic.title,
+    description: currentSeo.description,
+    url: `https://www.btful.co.kr/clinics/${id || defaultId}`,
+    medicalSpecialty: clinic.subtitle,
+    availableService:
+      clinic.sections
+        ?.filter((s: any) => s.subsections?.some((sub: any) => sub.treatments))
+        .flatMap((s: any) =>
+          s.subsections
+            .filter((sub: any) => sub.treatments)
+            .flatMap((sub: any) =>
+              sub.treatments.map((t: any) => ({
+                "@type": "MedicalTherapy",
+                name: t.name,
+                description: t.description
+              }))
+            )
+        ) || [],
+    isPartOf: {
       "@type": "Hospital",
-      "name": "뷰티풀한방병원",
-      "url": "https://www.btful.co.kr",
-      "telephone": "031-945-2000",
-    },
+      name: "뷰티풀한방병원",
+      url: "https://www.btful.co.kr",
+      telephone: "031-945-2000"
+    }
   };
 
   return (
@@ -689,10 +645,11 @@ export default function ClinicDetail() {
         title={currentSeo.title}
         description={currentSeo.description}
         keywords={currentSeo.keywords}
-        ogUrl={`https://www.btful.co.kr/clinics/${id || "cancer-immune"}`}
-        canonical={`https://www.btful.co.kr/clinics/${id || "cancer-immune"}`}
+        ogUrl={`https://www.btful.co.kr/clinics/${id || defaultId}`}
+        canonical={`https://www.btful.co.kr/clinics/${id || defaultId}`}
         jsonLd={clinicJsonLd}
       />
+
       {/* Header */}
       <header className="sticky top-0 bg-white border-b border-gray-200 z-10">
         <div className="flex items-center px-5 py-4">
@@ -723,25 +680,28 @@ export default function ClinicDetail() {
         )}
         {clinic.headerImage && (
           <div className="mt-6 rounded-xl overflow-hidden">
-            <img 
-              src={clinic.headerImage} 
-              alt="클리닉 이미지" 
+            <img
+              src={clinic.headerImage}
+              alt="클리닉 이미지"
               className="w-full h-48 object-cover"
             />
           </div>
         )}
       </div>
 
-      {/* 질환 선택 카드 (이명·난청·어지럼증·두통 전용) */}
+      {/* 암종별 카드 (암별 집중케어 전용) */}
       {clinic.hasConditionCards && clinic.conditionCards && (
         <div className="px-5 py-12 bg-white">
-          <h2 className="text-center mb-8 text-[#3E5266]">증상별 클리닉</h2>
-          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          <h2 className="text-center mb-8 text-[#3E5266]">암종별 집중 케어</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {clinic.conditionCards.map((card: any, index: number) => (
-              <div key={index} className="bg-white rounded-xl overflow-hidden border-2 border-gray-200 hover:border-[#E91E7A] transition-all shadow-sm hover:shadow-lg">
+              <div
+                key={index}
+                className="bg-white rounded-xl overflow-hidden border-2 border-gray-200 hover:border-[#E91E7A] transition-all shadow-sm hover:shadow-lg"
+              >
                 <div className="h-40 overflow-hidden">
-                  <img 
-                    src={card.image} 
+                  <img
+                    src={card.image}
                     alt={card.title}
                     className="w-full h-full object-cover"
                   />
@@ -749,7 +709,7 @@ export default function ClinicDetail() {
                 <div className="p-6">
                   <h3 className="text-[#3E5266] font-bold text-lg mb-4">{card.title}</h3>
                   <div className="space-y-2 mb-4">
-                    <p className="text-sm text-[#6B7D8C] font-semibold mb-2">대표 증상</p>
+                    <p className="text-sm text-[#6B7D8C] font-semibold mb-2">주요 케어 포인트</p>
                     {card.symptoms.map((symptom: string, sIndex: number) => (
                       <div key={sIndex} className="flex items-start gap-2">
                         <CheckCircle className="w-4 h-4 text-[#E91E7A] mt-0.5 flex-shrink-0" />
@@ -764,11 +724,6 @@ export default function ClinicDetail() {
         </div>
       )}
 
-      {/* 증상 자가 체크 (이명·난청·어지럼증·두통 전용) */}
-      {clinic.hasSelfCheck && clinic.selfCheckQuestions && (
-        <SelfCheckSection questions={clinic.selfCheckQuestions} />
-      )}
-
       {/* Sections */}
       <div className="px-5 py-8 space-y-12">
         {clinic.sections.map((section: any, index: number) => (
@@ -777,21 +732,24 @@ export default function ClinicDetail() {
             {section.description && (
               <p className="text-[#6B7D8C] mb-6 leading-relaxed">{section.description}</p>
             )}
-            
-            {/* 단계별 구조인 경우 */}
+
             {section.isStages ? (
               <div className="space-y-4">
                 {section.stages.map((stage: any, stageIndex: number) => (
                   <div key={stageIndex} className="relative">
                     <div className="bg-white p-6 rounded-xl border-l-4 border-[#E91E7A] shadow-sm">
                       <div className="flex items-start gap-4">
-                        <div className="flex-shrink-0 w-12 h-12 rounded-full bg-[#E91E7A]/10 flex items-center justify-center">
-                          <span className="text-[#E91E7A] font-bold text-sm">{stage.stage}</span>
+                        <div className="flex-shrink-0 px-3 h-12 min-w-[3rem] rounded-full bg-[#E91E7A]/10 flex items-center justify-center">
+                          <span className="text-[#E91E7A] font-bold text-sm whitespace-nowrap">
+                            {stage.stage}
+                          </span>
                         </div>
                         <div className="flex-1">
                           <p className="text-[#3E5266] font-semibold mb-1">{stage.title}</p>
                           {stage.description && (
-                            <p className="text-[#6B7D8C] text-sm leading-relaxed">{stage.description}</p>
+                            <p className="text-[#6B7D8C] text-sm leading-relaxed">
+                              {stage.description}
+                            </p>
                           )}
                         </div>
                       </div>
@@ -805,36 +763,41 @@ export default function ClinicDetail() {
                 ))}
               </div>
             ) : section.subsections ? (
-              /* 서브섹션이 있는 경우 */
               <div className="space-y-6">
                 {section.subsections.map((subsection: any, subIndex: number) => (
                   <div key={subIndex}>
                     <h3 className="text-[#3E5266] font-semibold mb-4">{subsection.subtitle}</h3>
-                    
-                    {/* 치료 프로그램 카드 (treatments) */}
+
                     {subsection.treatments ? (
                       <div className="space-y-6">
                         {subsection.treatments.map((treatment: any, tIndex: number) => (
-                          <div key={tIndex} className="bg-white rounded-xl overflow-hidden border border-gray-200 shadow-sm">
+                          <div
+                            key={tIndex}
+                            className="bg-white rounded-xl overflow-hidden border border-gray-200 shadow-sm"
+                          >
                             {treatment.image && (
                               <div className="h-40 overflow-hidden">
-                                <img 
-                                  src={treatment.image} 
+                                <img
+                                  src={treatment.image}
                                   alt={treatment.name}
                                   className="w-full h-full object-cover"
                                 />
                               </div>
                             )}
                             <div className="p-6">
-                              <h4 className="text-[#3E5266] font-bold text-lg mb-3">{treatment.name}</h4>
-                              <p className="text-[#6B7D8C] mb-4 leading-relaxed">{treatment.description}</p>
-                              
+                              <h4 className="text-[#3E5266] font-bold text-lg mb-3">
+                                {treatment.name}
+                              </h4>
+                              <p className="text-[#6B7D8C] mb-4 leading-relaxed">
+                                {treatment.description}
+                              </p>
+
                               {treatment.effects && (
                                 <div className="mb-4">
                                   <p className="text-sm text-[#3E5266] font-semibold mb-2">효과</p>
                                   <div className="flex flex-wrap gap-2">
                                     {treatment.effects.map((effect: string, eIndex: number) => (
-                                      <span 
+                                      <span
                                         key={eIndex}
                                         className="px-3 py-1 bg-[#E91E7A]/10 text-[#E91E7A] text-sm rounded-full"
                                       >
@@ -844,7 +807,7 @@ export default function ClinicDetail() {
                                   </div>
                                 </div>
                               )}
-                              
+
                               {treatment.frequency && (
                                 <p className="text-sm text-[#6B7D8C] italic">{treatment.frequency}</p>
                               )}
@@ -853,10 +816,11 @@ export default function ClinicDetail() {
                         ))}
                       </div>
                     ) : (
-                      /* 일반 서브섹션 */
                       <div className="bg-[#F8F9FA] p-6 rounded-xl">
                         {subsection.description && (
-                          <p className="text-[#6B7D8C] mb-4 leading-relaxed">{subsection.description}</p>
+                          <p className="text-[#6B7D8C] mb-4 leading-relaxed">
+                            {subsection.description}
+                          </p>
                         )}
                         <ul className="space-y-3">
                           {subsection.content.map((item: string, itemIndex: number) => (
@@ -866,24 +830,17 @@ export default function ClinicDetail() {
                             </li>
                           ))}
                         </ul>
-                        {subsection.note && (
-                          <p className="text-xs text-[#8FA8BA] mt-4 italic">{subsection.note}</p>
-                        )}
                       </div>
                     )}
                   </div>
                 ))}
-                {section.note && (
-                  <p className="text-xs text-[#8FA8BA] italic mt-4">{section.note}</p>
-                )}
               </div>
             ) : section.content ? (
-              /* 일반 리스트 또는 이미지 포함 */
               <div>
                 {section.image && (
                   <div className="mb-6 rounded-xl overflow-hidden">
-                    <img 
-                      src={section.image} 
+                    <img
+                      src={section.image}
                       alt={section.title}
                       className="w-full h-48 object-cover"
                     />
@@ -897,9 +854,6 @@ export default function ClinicDetail() {
                     </li>
                   ))}
                 </ul>
-                {section.note && (
-                  <p className="text-xs text-[#8FA8BA] italic mt-4">{section.note}</p>
-                )}
               </div>
             ) : null}
           </div>
@@ -909,7 +863,7 @@ export default function ClinicDetail() {
       {/* FAQ */}
       <div className="px-5 py-8 bg-[#f5f6f8]">
         <h2 className="mb-6">자주 묻는 질문</h2>
-        
+
         <Accordion.Root type="single" collapsible className="space-y-3">
           {clinic.faqs.map((faq: any, index: number) => (
             <Accordion.Item
@@ -933,7 +887,6 @@ export default function ClinicDetail() {
 
       {/* CTA */}
       <div className="px-5 py-8">
-        {/* 마지막 메시지 */}
         {clinic.finalMessage && (
           <div className="p-8 bg-gradient-to-br from-[#E91E7A]/5 to-[#3E5266]/5 rounded-2xl border-l-4 border-[#E91E7A]">
             <p className="text-[#3E5266] text-lg font-semibold mb-3 leading-relaxed">
@@ -942,119 +895,6 @@ export default function ClinicDetail() {
             <p className="text-[#6B7D8C] leading-relaxed">
               {clinic.finalMessage.description}
             </p>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
-// 자가 체크 섹션 컴포넌트
-function SelfCheckSection({ questions }: { questions: any[] }) {
-  const [answers, setAnswers] = useState<Record<number, string>>({});
-  const [showResult, setShowResult] = useState(false);
-
-  const handleAnswer = (questionIndex: number, answer: string) => {
-    setAnswers(prev => ({ ...prev, [questionIndex]: answer }));
-  };
-
-  const handleSubmit = () => {
-    if (Object.keys(answers).length === questions.length) {
-      setShowResult(true);
-    }
-  };
-
-  const getRecommendations = () => {
-    const conditions = new Set<string>();
-    Object.entries(answers).forEach(([index, answer]) => {
-      // "자주 있다" 또는 "그렇다" 선택 시 당 질환 추가
-      if (answer === "자주 있다" || answer === "그렇다" || answer === "가끔 있다" || answer === "가끔 그렇다") {
-        conditions.add(questions[Number(index)].relatedCondition);
-      }
-    });
-    return Array.from(conditions);
-  };
-
-  return (
-    <div className="px-5 py-12 bg-gradient-to-b from-[#F8F9FA] to-white">
-      <div className="max-w-3xl mx-auto">
-        <h2 className="text-center mb-3 text-[#3E5266]">간단한 증상 체크</h2>
-        <p className="text-center text-[#6B7D8C] mb-8">
-          몇 가지 질문으로 어떤 클리닉이 도움될 수 있는지 확인해보세요
-        </p>
-
-        {!showResult ? (
-          <div className="space-y-6">
-            {questions.map((q: any, index: number) => (
-              <div key={index} className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                <p className="text-[#3E5266] font-semibold mb-4">
-                  {index + 1}. {q.question}
-                </p>
-                <div className="flex flex-wrap gap-3">
-                  {q.options.map((option: string, optionIndex: number) => (
-                    <button
-                      key={optionIndex}
-                      onClick={() => handleAnswer(index, option)}
-                      className={`px-4 py-2 rounded-lg border-2 transition-all ${
-                        answers[index] === option
-                          ? "border-[#E91E7A] bg-[#E91E7A]/10 text-[#E91E7A] font-semibold"
-                          : "border-gray-200 hover:border-[#E91E7A]/30"
-                      }`}
-                    >
-                      {option}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            ))}
-
-            <div className="flex justify-center mt-8">
-              <button
-                onClick={handleSubmit}
-                disabled={Object.keys(answers).length !== questions.length}
-                className={`px-8 py-3 rounded-xl font-semibold transition-all ${
-                  Object.keys(answers).length === questions.length
-                    ? "bg-[#E91E7A] text-white hover:bg-[#d11a6d] shadow-lg"
-                    : "bg-gray-200 text-gray-400 cursor-not-allowed"
-                }`}
-              >
-                결과 확인하기
-              </button>
-            </div>
-          </div>
-        ) : (
-          <div className="bg-white p-8 rounded-xl border-2 border-[#E91E7A] shadow-lg">
-            <h3 className="text-[#3E5266] font-bold text-xl mb-4 text-center">
-              추천 클리닉
-            </h3>
-            <div className="space-y-3 mb-6">
-              {getRecommendations().map((condition: string, index: number) => (
-                <div key={index} className="flex items-center gap-3 p-4 bg-[#E91E7A]/5 rounded-lg">
-                  <CheckCircle className="w-6 h-6 text-[#E91E7A] flex-shrink-0" />
-                  <span className="text-[#3E5266] font-semibold">{condition} 클리닉</span>
-                </div>
-              ))}
-            </div>
-            <p className="text-center text-[#6B7D8C] mb-6">
-              위 증상에 해당하시는 경우 상담을 통해 더 자세한 평가를 받아보세요
-            </p>
-            <div className="flex justify-center gap-4">
-              <button
-                onClick={() => {
-                  setAnswers({});
-                  setShowResult(false);
-                }}
-                className="px-6 py-3 border-2 border-gray-300 text-[#3E5266] rounded-xl hover:bg-gray-50 transition-colors font-semibold"
-              >
-                다시 체크하기
-              </button>
-              <Link
-                to="/reservation"
-                className="px-6 py-3 bg-[#E91E7A] text-white rounded-xl hover:bg-[#d11a6d] transition-colors font-semibold"
-              >
-                진료 상담 예약
-              </Link>
-            </div>
           </div>
         )}
       </div>

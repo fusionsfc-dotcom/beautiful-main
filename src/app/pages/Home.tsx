@@ -3,7 +3,6 @@ import {
   Heart,
   Activity,
   Brain,
-  Zap,
   Users,
   Sparkles,
   Wind,
@@ -47,41 +46,39 @@ export default function Home() {
   const mainClinics = [
     {
       id: "post-surgery-recovery",
-      title: "수술 후 회복 클리닉",
+      title: "수술 후 회복케어",
       description: "수술 이후 체력 회복과 통증 관리",
       icon: Heart,
       image: POST_SURGERY_CLINIC_IMAGE_URL
     },
     {
-      id: "chemo-radiation-care",
-      title: "항암·방사선 치료 집중 관리",
-      description: "면역, 백혈구, 부작용, 체력 유지 집중 케어",
+      id: "chemotherapy-care",
+      title: "항암치료 환자 케어",
+      description: "면역·백혈구·부작용·체력 유지 집중 관리",
       icon: Sparkles,
       image: CHEMO_RADIATION_CARE_IMAGE_URL,
-      featured: true // 가장 강조
+      featured: true
     },
     {
-      id: "advanced-cancer-care",
-      title: "진행성 암 통합 케어",
-      description: "통증 관리와 삶의 질 회복",
+      id: "radiation-care",
+      title: "방사선치료 환자 케어",
+      description: "방사선 피부염·점막염·조직 회복 케어",
       icon: Heart,
       image: ADVANCED_CANCER_CARE_IMAGE_URL
     }
   ];
 
-  // 서브 클리닉 (기타 증상)
+  // 서브 클리닉 (암 통합 프로그램)
   const subClinics = [
     {
-      title: "이명·난청·어지럼증·두통",
-      icon: Brain
-    },
-    {
-      title: "척추·관절 통증",
-      icon: Zap
-    },
-    {
-      title: "갱년기 여성 케어",
+      id: "beautiful-cancer-care",
+      title: "뷰티풀 암케어",
       icon: Sparkles
+    },
+    {
+      id: "cancer-specific-care",
+      title: "암별 집중케어",
+      icon: Brain
     }
   ];
 
@@ -315,7 +312,7 @@ export default function Home() {
               return (
                 <Link
                   key={clinic.id}
-                  to="/clinics/cancer-immune-clinic"
+                  to={`/clinics/${clinic.id}`}
                   className={`bg-white rounded-2xl overflow-hidden hover:shadow-xl transition-all group border-2 ${
                     clinic.featured ? 'border-[#E91E7A]' : 'border-[#8FA8BA]/20'
                   }`}
@@ -362,21 +359,22 @@ export default function Home() {
           {/* 서브 클리닉 (작게 표시) */}
           <div className="bg-white rounded-2xl p-8 shadow-sm">
             <h3 className="text-[#3E5266] text-lg font-semibold mb-6 text-center">
-              암 환자가 함께 겪는 다른 증상도 관리합니다
+              암 치료의 전 과정을 함께하는 통합 케어
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {subClinics.map((clinic, index) => {
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {subClinics.map((clinic) => {
                 const Icon = clinic.icon;
                 return (
-                  <div
-                    key={index}
+                  <Link
+                    key={clinic.id}
+                    to={`/clinics/${clinic.id}`}
                     className="flex items-center gap-3 p-4 bg-[#F8F9FA] rounded-xl hover:bg-[#E91E7A]/5 transition-colors"
                   >
                     <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center flex-shrink-0">
                       <Icon className="w-5 h-5 text-[#3E5266]" />
                     </div>
                     <span className="text-[#3E5266] font-medium text-sm">{clinic.title}</span>
-                  </div>
+                  </Link>
                 );
               })}
             </div>

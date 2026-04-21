@@ -37,7 +37,7 @@ export interface Column {
   title: string;
   summary: string;
   content: string;
-  category: 'cancer' | 'stroke' | 'tinnitus' | 'spine';
+  category: 'cancer' | 'gynecologic_cancer' | 'gastro_cancer' | 'lung_cancer' | 'liver_cancer' | 'other_cancer';
   thumbnail: string | null;
   views?: number;
   author_id: string;
