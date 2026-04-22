@@ -59,6 +59,17 @@ export interface Video {
   author?: Profile;
 }
 
+export interface Faq {
+  id: string;
+  question: string;
+  answer: string;
+  category: 'cancer' | 'gynecologic_cancer' | 'gastro_cancer' | 'lung_cancer' | 'liver_cancer' | 'other_cancer';
+  author_id: string;
+  created_at: string;
+  updated_at: string;
+  author?: Profile;
+}
+
 export interface GalleryItem {
   id: string;
   image_url: string;

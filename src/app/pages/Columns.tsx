@@ -20,7 +20,7 @@ import {
 } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { Link } from "react-router";
-import { supabase, Column, Video, GalleryItem } from "../../lib/supabase";
+import { supabase, Column, Video, GalleryItem, Faq } from "../../lib/supabase";
 import { useAuth } from "../contexts/AuthContext";
 import { toast } from "sonner";
 import SEOHead from "../../components/seo/SEOHead";
@@ -1542,161 +1542,260 @@ function VideosSection() {
   );
 }
 
-// 3️⃣ 자주하는 질문 (FAQ) 섹션
+// 3️⃣ 자주하는 질문 (FAQ) 섹션 (Supabase 연동)
 function FaqSection() {
-  const [selectedCategory, setSelectedCategory] = useState<FaqCategoryType | "all">("all");
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const { isAdmin } = useAuth();
+  const [selectedCategory, setSelectedCategory] = useState<ColumnCategoryType | "all">("all");
+  const [faqs, setFaqs] = useState<Faq[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [showEditor, setShowEditor] = useState(false);
+  const [editingFaq, setEditingFaq] = useState<Faq | null>(null);
+  const [selectedFaq, setSelectedFaq] = useState<Faq | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
   const categories = [
     { id: "all" as const, label: "전체" },
-    { id: "cancer" as FaqCategoryType, label: "암" },
-    { id: "stroke" as FaqCategoryType, label: "중풍" },
-    { id: "tinnitus" as FaqCategoryType, label: "이명" },
-    { id: "admission" as FaqCategoryType, label: "입원" },
-    { id: "cost" as FaqCategoryType, label: "비용" },
+    { id: "cancer" as ColumnCategoryType, label: "유방암" },
+    { id: "gynecologic_cancer" as ColumnCategoryType, label: "자궁/난소암" },
+    { id: "gastro_cancer" as ColumnCategoryType, label: "위/대장암" },
+    { id: "lung_cancer" as ColumnCategoryType, label: "폐암" },
+    { id: "liver_cancer" as ColumnCategoryType, label: "간암" },
+    { id: "other_cancer" as ColumnCategoryType, label: "기타암" },
   ];
 
-  const faqs = [
-    {
-      category: "cancer" as FaqCategoryType,
-      question: "항암 중에도 치료가 가능한가요?",
-      answer: "네, 가능합니다. 항암 치료는 계속 진행하시면서 한방 치료를 병행하여 부작용을 줄이고 회복력을 높이는 방식으로 진행됩니다. 대학병원과 협력 체계를 갖추고 있어 안전합니다."
-    },
-    {
-      category: "cancer" as FaqCategoryType,
-      question: "항암 부작용이 심한데 입원이 도움이 될까요?",
-      answer: "입원 치료는 24시간 의료진 케어로 부작용을 체계적으로 관리할 수 있습니다. 영양 관리, 통증 조절, 면역력 증진을 통합적으로 진행하여 항암 순응도를 높입니다."
-    },
-    {
-      category: "stroke" as FaqCategoryType,
-      question: "중풍 환자 입원 기간은 얼마나 되나요?",
-      answer: "환자 상태에 따라 다르지만, 일반적으로 2~4주 정도입니다. 초기 집중 재활 후 상태를 평가하여 추가 입원 여부를 결정합니다."
-    },
-    {
-      category: "stroke" as FaqCategoryType,
-      question: "파킨슨병도 재활 치료가 효과가 있나요?",
-      answer: "파킨슨병은 완치는 어렵지만, 적절한 재활 치료로 증상 진행을 늦추고 일상생활 기능을 유지하는 데 도움이 됩니다. 운동 기능과 균형 감각 개선에 집중합니다."
-    },
-    {
-      category: "tinnitus" as FaqCategoryType,
-      question: "이명 치료는 얼마나 걸리나요?",
-      answer: "이명은 원인과 기간에 따라 치료 기간이 다릅니다. 평균 4~8주 정도 치료하며, 경추 및 자율신경 교정을 통해 증상을 완화합니다."
-    },
-    {
-      category: "tinnitus" as FaqCategoryType,
-      question: "두통약 없이 두통을 없앨 수 있나요?",
-      answer: "약물에 의존하지 않고 근본 원인을 치료하는 접근이 가능합니다. 경추 교정, 자율신경 안정화, 혈류 개선 등을 통해 두통을 줄여갑니다."
-    },
-    {
-      category: "admission" as FaqCategoryType,
-      question: "입원 시 필요한 준비물은 무엇인가요?",
-      answer: "개인 세면도구, 편한 옷가지, 복용 중인 약 처방전이 필요합니다. 병실에는 기본 생활용품이 구비되어 있습니다."
-    },
-    {
-      category: "admission" as FaqCategoryType,
-      question: "보호자 상주가 필수인가요?",
-      answer: "24시간 의료진이 상주하므로 보호자 상주는 필수가 아닙니다. 다만, 환자의 심리적 안정을 위해 낮 시간 방문을 권장합니다."
-    },
-    {
-      category: "cost" as FaqCategoryType,
-      question: "입원 비용은 어떻게 되나요?",
-      answer: "병실 등급과 치료 내용에 따라 다릅니다. 상담 시 환자 상태를 확인 후 정확한 비용을 안내해 드립니다. 일부 항목은 보험 적용이 가능합니다."
-    },
-    {
-      category: "cost" as FaqCategoryType,
-      question: "보험 적용이 가능한가요?",
-      answer: "한방 치료 일부와 검사 항목은 건강보험 적용이 가능합니다. 비급여 항목은 사전에 안내해 드리며, 실손보험 청구도 지원합니다."
-    },
-    {
-      category: "cancer" as FaqCategoryType,
-      question: "국립암센터 근처 암요양병원은 어디가 있나요?",
-      answer: "뷰티풀한방병원은 국립암센터에서 차량으로 약 15분 거리인 경기도 파주시 중양로 94-9에 위치한 암요양병원입니다. 국립암센터에서 항암·방사선 치료를 받으시면서 한방 통합 면역 치료를 병행할 수 있으며, 호텔 리모델링 입원실과 24시간 의료진 상주 체계를 갖추고 있습니다. 전화: 031-945-2000"
-    },
-    {
-      category: "cancer" as FaqCategoryType,
-      question: "국립암센터 치료와 뷰티풀한방병원 치료를 동시에 받을 수 있나요?",
-      answer: "네, 가능합니다. 뷰티풀한방병원은 국립암센터에서 차량 15분 거리에 있어 대학병원 항암·방사선 치료 일정을 유지하면서 한방 면역 치료를 병행할 수 있습니다. 입원 중 국립암센터 통원 치료도 지원하고 있습니다."
-    },
-    {
-      category: "cancer" as FaqCategoryType,
-      question: "암요양병원에서는 어떤 치료를 받을 수 있나요?",
-      answer: "뷰티풀한방병원에서는 수술 후 회복 관리, 항암 치료 중 부작용 완화, 항암 치료 후 면역 회복, 진행성 암 환자 통합 케어를 진행합니다. 주요 치료로는 고주파 온열 암 치료, 왕뜸·약뜸 치료, 효소 찜질, 한약 면역 치료 등이 있으며, 대학병원 항암·방사선 치료와 병행할 수 있습니다."
-    },
-    {
-      category: "admission" as FaqCategoryType,
-      question: "파주·일산에서 암요양병원을 찾고 있는데 어떤 병원이 있나요?",
-      answer: "뷰티풀한방병원은 경기도 파주시에 위치하며 일산·고양 지역에서 접근이 편리한 암요양병원입니다. 양·한·치과 통합진료 체계를 갖추고 있으며, 암환자를 위한 고주파 온열 치료, 왕뜸·약뜸, 효소 찜질 등 면역 회복 프로그램과 입원 케어를 운영합니다."
-    },
-  ];
+  useEffect(() => {
+    loadFaqs();
+  }, []);
+
+  const loadFaqs = async () => {
+    try {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('faqs')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      setFaqs(data || []);
+    } catch (error) {
+      console.error('FAQ 로드 실패:', error);
+      toast.error('FAQ를 불러오는데 실패했습니다');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    if (!confirm('정말 삭제하시겠습니까?')) return;
+
+    try {
+      const { error } = await supabase
+        .from('faqs')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+      toast.success('삭제되었습니다');
+      loadFaqs();
+    } catch (error) {
+      console.error('삭제 실패:', error);
+      toast.error('삭제에 실패했습니다');
+    }
+  };
 
   const filteredFaqs = selectedCategory === "all"
     ? faqs
     : faqs.filter(faq => faq.category === selectedCategory);
 
+  // 페이지네이션 계산
+  const totalPages = Math.ceil(filteredFaqs.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentFaqs = filteredFaqs.slice(startIndex, endIndex);
+
+  // 카테고리 변경 시 페이지를 1로 리셋
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedCategory]);
+
+  // 에디터 뷰
+  if (showEditor) {
+    return (
+      <FaqEditor
+        faq={editingFaq}
+        onClose={() => {
+          setShowEditor(false);
+          setEditingFaq(null);
+        }}
+        onSave={() => {
+          setShowEditor(false);
+          setEditingFaq(null);
+          loadFaqs();
+        }}
+      />
+    );
+  }
+
+  // FAQ 상세 뷰
+  if (selectedFaq) {
+    return (
+      <div className="max-w-4xl mx-auto">
+        {/* 뒤로가기 버튼 */}
+        <button
+          onClick={() => setSelectedFaq(null)}
+          className="flex items-center gap-2 text-[#6B7D8C] hover:text-[#3E5266] mb-6 transition-colors"
+        >
+          <ChevronRight className="w-5 h-5 rotate-180" />
+          목록으로 돌아가기
+        </button>
+
+        {/* FAQ 헤더 */}
+        <div className="mb-8">
+          <div className="flex items-center gap-2 mb-4">
+            <span className="px-2.5 py-0.5 bg-[#FFF0F7] text-[#E91E7A] text-xs font-medium rounded-full">
+              {categories.find(c => c.id === selectedFaq.category)?.label || selectedFaq.category}
+            </span>
+          </div>
+          <h1 className="text-[#3E5266] mb-4">{selectedFaq.question}</h1>
+          <div className="flex items-center gap-4 text-sm text-[#8FA8BA]">
+            <span>{new Date(selectedFaq.created_at).toLocaleDateString('ko-KR')}</span>
+          </div>
+        </div>
+
+        {/* 본문 */}
+        <div className="prose prose-lg max-w-none mb-12">
+          <div className="text-[#3E5266] leading-relaxed whitespace-pre-wrap">
+            {selectedFaq.answer}
+          </div>
+        </div>
+
+        {/* 하단 CTA */}
+        <div className="border-t border-gray-200 pt-8">
+          <div className="bg-gradient-to-br from-[#E91E7A]/5 to-[#3E5266]/5 rounded-2xl p-8 text-center">
+            <h3 className="text-[#3E5266] mb-3">더 자세한 상담이 필요하신가요?</h3>
+            <p className="text-[#6B7D8C] mb-6">
+              전문의와 1:1 상담을 통해 맞춤 치료 계획을 수립해보세요
+            </p>
+            <Link
+              to="/reservation"
+              className="inline-flex items-center gap-2 px-8 py-3 bg-[#E91E7A] text-white rounded-xl hover:bg-[#d11a6d] transition-colors font-medium"
+            >
+              진료 상담 예약하기
+              <ChevronRight className="w-5 h-5" />
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8">
-      {/* 카테고리 필터 */}
-      <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-2">
-        {categories.map((cat) => (
+      {/* 상단 필터 및 작성 버튼 */}
+      <div className="flex items-center justify-between gap-4 flex-wrap">
+        <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-2 flex-1">
+          {categories.map((cat) => (
+            <button
+              key={cat.id}
+              onClick={() => setSelectedCategory(cat.id)}
+              className={`px-5 py-2.5 rounded-full whitespace-nowrap font-medium transition-all ${
+                selectedCategory === cat.id
+                  ? "bg-[#E91E7A] text-white shadow-md"
+                  : "bg-[#F8F9FA] text-[#6B7D8C] hover:bg-[#8FA8BA]/20"
+              }`}
+            >
+              {cat.label}
+            </button>
+          ))}
+        </div>
+
+        {isAdmin && (
           <button
-            key={cat.id}
-            onClick={() => setSelectedCategory(cat.id)}
-            className={`px-5 py-2.5 rounded-full whitespace-nowrap font-medium transition-all ${
-              selectedCategory === cat.id
-                ? "bg-[#E91E7A] text-white shadow-md"
-                : "bg-[#F8F9FA] text-[#6B7D8C] hover:bg-[#8FA8BA]/20"
-            }`}
+            onClick={() => {
+              setEditingFaq(null);
+              setShowEditor(true);
+            }}
+            className="flex items-center gap-2 px-5 py-2.5 bg-[#E91E7A] text-white rounded-full hover:bg-[#d11a6d] transition-colors font-medium whitespace-nowrap"
           >
-            {cat.label}
+            <Plus className="w-5 h-5" />
+            새 질문 작성
           </button>
-        ))}
+        )}
       </div>
 
-      {/* 아코디언 UI */}
-      <div className="space-y-3">
-        {filteredFaqs.map((faq, index) => {
-          const isOpen = openIndex === index;
-          
-          return (
-            <div
-              key={index}
-              className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-md transition-shadow"
-            >
-              <button
-                onClick={() => setOpenIndex(isOpen ? null : index)}
-                className="w-full px-6 py-5 flex items-start justify-between gap-4 text-left hover:bg-[#F8F9FA] transition-colors"
+      {/* 로딩 상태 */}
+      {loading && (
+        <div className="text-center py-12 text-[#8FA8BA]">
+          FAQ를 불러오는 중...
+        </div>
+      )}
+
+      {/* 리스트형 게시판 */}
+      {!loading && filteredFaqs.length === 0 && (
+        <div className="text-center py-12 text-[#8FA8BA]">
+          등록된 질문이 없습니다
+        </div>
+      )}
+
+      {!loading && filteredFaqs.length > 0 && (
+        <>
+          <div className="border-t border-gray-200">
+            {currentFaqs.map((faq, index) => (
+              <div
+                key={faq.id}
+                onClick={() => setSelectedFaq(faq)}
+                className="flex items-center gap-4 px-4 py-4 border-b border-gray-100 hover:bg-[#FFF8FB] cursor-pointer group transition-colors"
               >
-                <div className="flex items-start gap-3 flex-1">
-                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-[#E91E7A]/10 flex items-center justify-center mt-0.5">
-                    <span className="text-[#E91E7A] text-sm font-bold">Q</span>
+                <span className="w-8 text-center text-sm text-[#8FA8BA] shrink-0">
+                  {startIndex + index + 1}
+                </span>
+                <span className="shrink-0 px-2.5 py-0.5 bg-[#FFF0F7] text-[#E91E7A] text-xs font-medium rounded-full">
+                  {categories.find(c => c.id === faq.category)?.label || faq.category}
+                </span>
+                <span className="flex-1 text-[#3E5266] text-sm group-hover:text-[#E91E7A] transition-colors truncate">
+                  {faq.question}
+                </span>
+                <span className="shrink-0 text-xs text-[#8FA8BA]">
+                  {new Date(faq.created_at).toLocaleDateString('ko-KR')}
+                </span>
+                {isAdmin && (
+                  <div className="flex gap-1 shrink-0">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setEditingFaq(faq);
+                        setShowEditor(true);
+                      }}
+                      className="p-1.5 bg-[#3E5266] text-white rounded-lg hover:bg-[#2a3847] transition-colors"
+                    >
+                      <Pencil className="w-3 h-3" />
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDelete(faq.id);
+                      }}
+                      className="p-1.5 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+                    >
+                      <Trash2 className="w-3 h-3" />
+                    </button>
                   </div>
-                  <span className="text-[#3E5266] font-medium leading-relaxed">
-                    {faq.question}
-                  </span>
-                </div>
-                <ChevronDown
-                  className={`w-5 h-5 text-[#8FA8BA] flex-shrink-0 transition-transform ${
-                    isOpen ? "rotate-180" : ""
-                  }`}
-                />
-              </button>
-              
-              {isOpen && (
-                <div className="px-6 pb-5">
-                  <div className="pl-9 pt-2 border-t border-gray-100">
-                    <div className="flex items-start gap-3 pt-4">
-                      <div className="flex-shrink-0 w-6 h-6 rounded-full bg-[#3E5266]/10 flex items-center justify-center mt-0.5">
-                        <span className="text-[#3E5266] text-sm font-bold">A</span>
-                      </div>
-                      <p className="text-[#6B7D8C] leading-relaxed">{faq.answer}</p>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* 페이지네이션 */}
+          {totalPages > 1 && (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
+          )}
+        </>
+      )}
 
       {/* 하단 상담 CTA */}
       <div className="mt-12 p-8 bg-[#F8F9FA] rounded-2xl text-center">
@@ -1714,10 +1813,153 @@ function FaqSection() {
   );
 }
 
+// FAQ 에디터 컴포넌트
+function FaqEditor({ faq, onClose, onSave }: {
+  faq: Faq | null;
+  onClose: () => void;
+  onSave: () => void;
+}) {
+  const { user } = useAuth();
+  const [formData, setFormData] = useState({
+    question: faq?.question || '',
+    answer: faq?.answer || '',
+    category: faq?.category || 'cancer' as ColumnCategoryType,
+  });
+  const [saving, setSaving] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!user) {
+      toast.error('로그인이 필요합니다');
+      return;
+    }
+
+    try {
+      setSaving(true);
+
+      if (faq) {
+        const { error } = await supabase
+          .from('faqs')
+          .update({
+            ...formData,
+            updated_at: new Date().toISOString(),
+          })
+          .eq('id', faq.id);
+
+        if (error) throw error;
+        toast.success('수정되었습니다');
+      } else {
+        const { error } = await supabase
+          .from('faqs')
+          .insert({
+            ...formData,
+            author_id: user.id,
+          });
+
+        if (error) throw error;
+        toast.success('작성되었습니다');
+      }
+
+      onSave();
+    } catch (error: any) {
+      console.error('저장 실패:', error);
+      toast.error(error.message || '저장에 실패했습니다');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <div className="max-w-3xl mx-auto">
+      <div className="flex items-center justify-between mb-8">
+        <h2 className="text-[#3E5266]">
+          {faq ? 'FAQ 수정' : '새 FAQ 작성'}
+        </h2>
+        <button
+          onClick={onClose}
+          className="px-4 py-2 text-[#6B7D8C] hover:text-[#3E5266] transition-colors"
+        >
+          취소
+        </button>
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {/* 카테고리 */}
+        <div>
+          <label className="block text-sm font-medium text-[#3E5266] mb-2">
+            카테고리 <span className="text-[#E91E7A]">*</span>
+          </label>
+          <select
+            required
+            value={formData.category}
+            onChange={(e) => setFormData({ ...formData, category: e.target.value as ColumnCategoryType })}
+            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E91E7A] focus:border-transparent"
+          >
+            <option value="cancer">유방암</option>
+            <option value="gynecologic_cancer">자궁/난소암</option>
+            <option value="gastro_cancer">위/대장암</option>
+            <option value="lung_cancer">폐암</option>
+            <option value="liver_cancer">간암</option>
+            <option value="other_cancer">기타암</option>
+          </select>
+        </div>
+
+        {/* 질문 */}
+        <div>
+          <label className="block text-sm font-medium text-[#3E5266] mb-2">
+            질문 <span className="text-[#E91E7A]">*</span>
+          </label>
+          <input
+            type="text"
+            required
+            value={formData.question}
+            onChange={(e) => setFormData({ ...formData, question: e.target.value })}
+            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E91E7A] focus:border-transparent"
+            placeholder="질문을 입력하세요"
+          />
+        </div>
+
+        {/* 답변 */}
+        <div>
+          <label className="block text-sm font-medium text-[#3E5266] mb-2">
+            답변 <span className="text-[#E91E7A]">*</span>
+          </label>
+          <textarea
+            required
+            value={formData.answer}
+            onChange={(e) => setFormData({ ...formData, answer: e.target.value })}
+            rows={10}
+            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E91E7A] focus:border-transparent resize-none"
+            placeholder="답변을 입력하세요"
+          />
+        </div>
+
+        {/* 제출 버튼 */}
+        <div className="flex gap-3">
+          <button
+            type="submit"
+            disabled={saving}
+            className="flex-1 py-4 bg-[#E91E7A] text-white rounded-xl font-medium hover:bg-[#d11a6d] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {saving ? '저장 중...' : (faq ? '수정 완료' : '작성 완료')}
+          </button>
+          <button
+            type="button"
+            onClick={onClose}
+            className="px-8 py-4 bg-[#F8F9FA] text-[#6B7D8C] rounded-xl font-medium hover:bg-[#8FA8BA]/20 transition-colors"
+          >
+            취소
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+}
+
 // 4️⃣ 질문하기 섹션 - 게시판 형식
 function QuestionSection() {
   const { user, isAdmin } = useAuth();
-  const [selectedCategory, setSelectedCategory] = useState<'all' | 'cancer' | 'stroke' | 'tinnitus' | 'spine'>('all');
+  const [selectedCategory, setSelectedCategory] = useState<'all' | 'cancer' | 'gynecologic_cancer' | 'gastro_cancer' | 'lung_cancer' | 'liver_cancer' | 'other_cancer'>('all');
   const [questions, setQuestions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [showQuestionForm, setShowQuestionForm] = useState(false);
@@ -1728,10 +1970,12 @@ function QuestionSection() {
 
   const categories = [
     { id: 'all' as const, label: '전체' },
-    { id: 'cancer' as const, label: '암 회복' },
-    { id: 'stroke' as const, label: '중풍·파킨슨병' },
-    { id: 'tinnitus' as const, label: '이명·두통' },
-    { id: 'spine' as const, label: '척추·관절' },
+    { id: 'cancer' as const, label: '유방암' },
+    { id: 'gynecologic_cancer' as const, label: '자궁/난소암' },
+    { id: 'gastro_cancer' as const, label: '위/대장암' },
+    { id: 'lung_cancer' as const, label: '폐암' },
+    { id: 'liver_cancer' as const, label: '간암' },
+    { id: 'other_cancer' as const, label: '기타암' },
   ];
 
   useEffect(() => {
@@ -1984,7 +2228,7 @@ function QuestionForm({ onClose, onSuccess }: {
   const [formData, setFormData] = useState({
     title: "",
     content: "",
-    category: "cancer" as 'cancer' | 'stroke' | 'tinnitus' | 'spine',
+    category: "cancer" as 'cancer' | 'gynecologic_cancer' | 'gastro_cancer' | 'lung_cancer' | 'liver_cancer' | 'other_cancer',
     isPrivate: false,
     agreePrivacy: false
   });
@@ -2075,13 +2319,15 @@ function QuestionForm({ onClose, onSuccess }: {
           <select
             required
             value={formData.category}
-            onChange={(e) => setFormData({ ...formData, category: e.target.value as 'cancer' | 'stroke' | 'tinnitus' | 'spine' })}
+            onChange={(e) => setFormData({ ...formData, category: e.target.value as 'cancer' | 'gynecologic_cancer' | 'gastro_cancer' | 'lung_cancer' | 'liver_cancer' | 'other_cancer' })}
             className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E91E7A] focus:border-transparent"
           >
-            <option value="cancer">암 회복</option>
-            <option value="stroke">중풍·파킨슨병</option>
-            <option value="tinnitus">이명·두통</option>
-            <option value="spine">척추·관절</option>
+            <option value="cancer">유방암</option>
+            <option value="gynecologic_cancer">자궁/난소암</option>
+            <option value="gastro_cancer">위/대장암</option>
+            <option value="lung_cancer">폐암</option>
+            <option value="liver_cancer">간암</option>
+            <option value="other_cancer">기타암</option>
           </select>
         </div>
 
