@@ -5,6 +5,15 @@
 
 ---
 
+## 의료진 데이터 단일화 완료 (2026-04-26)
+
+- **문제**: `About.tsx` 내 가짜 `doctors` 배열("김한의", "이한의", "박한의")이 JSON-LD Physician 스키마에 노출
+- **처리**: `src/data/physicians.ts` 생성 → DoctorsSection JSX + JSON-LD 양쪽 동일 소스 사용
+- **의료진 4명 확정**: 이형석(한의사), 고은상(한의사), 장영섭(일반외과 전문의), 이하림(통합치의학과 전문의)
+- **검증**: `dist/about/index.html` 가짜 이름 0건 / 실제 의료진 4명 JSON-LD 정상 확인
+
+---
+
 ## 결정 1: cancer-specific-care 페이지 구조
 
 ### 현황
@@ -31,6 +40,18 @@
 ### 결정 기준
 After 측정에서 condition 카테고리가 **50% 미만**이면 옵션 B 검토.
 **50% 이상**이면 옵션 A 유지.
+
+---
+
+## 메모: /about 페이지 E-E-A-T 약함 (Step 3에서 처리)
+
+- prerender 후 dist/about/index.html에서 "이형석" **1회** 등장
+- AI 크롤러 입장에서 의료진 신뢰도 정보가 극히 부족
+- **Step 3 Physician Schema 작업 시 반드시 보강:**
+  - 이형석 원장 학력, 자격(한의사 면허), 임상경력 → 사용자에게 확인 필요
+  - `/about` 페이지 Physician JSON-LD 추가
+  - 의료진 소개 텍스트에 원장명·자격·경력 반복 노출 확보
+  - E-E-A-T 목표: "이형석" 등장 횟수 5회 이상, 자격 명시
 
 ---
 

@@ -26,21 +26,10 @@ import { useAuth } from "../contexts/AuthContext";
 import { supabase } from "../../lib/supabase";
 import { toast } from "sonner";
 import SEOHead from "../../components/seo/SEOHead";
-/** Hero 배경 이미지 (calm hospital) */
+import { PHYSICIANS, toPhysicianJsonLd } from "../../data/physicians";
+
 const HERO_BG_URL =
   "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/yoga_s.jpeg";
-/** 이형석 병원장 사진 */
-const DIRECTOR_IMAGE_URL =
-  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/doc/doc_ceo.jpeg";
-  /** 고은상 원장 사진 */
-const DIRECTOR_2_IMAGE_URL =
-"https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/doc/doc2.png";
-/** 장엽섭 원장 사진 */
-const DIRECTOR_3_IMAGE_URL =
-  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/doc/doc3.png";
-  /** 이하림 원장 사진 */
-const DIRECTOR_4_IMAGE_URL =
-"https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/doc/doc4.png";
 
 type TabType = "intro" | "doctors" | "location" | "guide" | "notices";
 
@@ -61,30 +50,6 @@ const tabs = [
   { id: "location" as TabType, label: "오시는길" },
   { id: "guide" as TabType, label: "진료안내" },
   { id: "notices" as TabType, label: "공지안내" },
-];
-
-const doctors = [
-  {
-    name: "김한의 원장",
-    specialty: "암 치료 및 면역 관리",
-    experience: "20년 이상의 임상 경험",
-    education: "경희대학교 한의과대학 졸업",
-    activities: ["대한한방종양학회 정회원", "대한암한의학회 이사"],
-  },
-  {
-    name: "이한의 원장",
-    specialty: "중풍·파킨슨병 재활",
-    experience: "15년 이상의 신경계 치료 경력",
-    education: "동국대학교 한의과대학 졸업",
-    activities: ["대한한방신경정신과학회 정회원", "대한중풍학회 회원"],
-  },
-  {
-    name: "박한의 원장",
-    specialty: "척추·관절 통증 치료",
-    experience: "18년 이상의 근골격계 치료 경력",
-    education: "원광대학교 한의과대학 졸업",
-    activities: ["대한침구의학회 정원", "대한추나학회 회원"],
-  },
 ];
 
 const NOTICE_PRICE_PATTERN = /^\d[\d,\s~/]*$/;
@@ -349,12 +314,11 @@ export default function About() {
   const [activeTab, setActiveTab] = useState<TabType>("intro");
   const navigate = useNavigate();
 
-  const doctorImages = [DIRECTOR_IMAGE_URL, DIRECTOR_2_IMAGE_URL, DIRECTOR_3_IMAGE_URL, DIRECTOR_4_IMAGE_URL];
-
   const aboutJsonLd = [
     {
       "@context": "https://schema.org",
       "@type": "MedicalOrganization",
+      "@id": "https://www.btful.co.kr/#hospital",
       "name": "뷰티풀한방병원",
       "url": "https://www.btful.co.kr",
       "telephone": "031-945-2000",
@@ -365,19 +329,10 @@ export default function About() {
         "addressLocality": "파주시",
         "streetAddress": "중양로 94-9",
       },
-      "medicalSpecialty": ["한방 암 치료", "통합 면역 치료", "중풍 재활", "이명 치료", "척추·관절 치료"],
+      "medicalSpecialty": ["한방 암 치료", "통합 면역 치료", "암환자 면역 회복", "항암 부작용 관리", "방사선 부작용 관리"],
       "areaServed": ["파주시", "고양시", "일산", "경기 북부"],
       "knowsAbout": ["암요양병원", "국립암센터 근처 요양병원", "항암 후 회복", "암환자 면역 치료"],
-      "employee": doctors.map((doc, i) => ({
-        "@type": "Physician",
-        "name": doc.name.replace(" 원장", ""),
-        "jobTitle": "원장",
-        "medicalSpecialty": doc.specialty,
-        "description": doc.experience,
-        "alumniOf": doc.education,
-        "memberOf": doc.activities.map((a) => ({ "@type": "Organization", "name": a })),
-        ...(doctorImages[i] ? { "image": doctorImages[i] } : {}),
-      })),
+      "employee": PHYSICIANS.map(toPhysicianJsonLd),
     },
   ];
 
@@ -415,7 +370,7 @@ export default function About() {
       {/* Content */}
       <div className="max-w-6xl mx-auto px-4 py-8 lg:py-12">
         {activeTab === "intro" && <IntroSection />}
-        {activeTab === "doctors" && <DoctorsSection doctors={doctors} />}
+        {activeTab === "doctors" && <DoctorsSection />}
         {activeTab === "location" && <LocationSection />}
         {activeTab === "guide" && <GuideSection />}
         {activeTab === "notices" && <NoticesSection />}
@@ -682,10 +637,84 @@ function IntroSection() {
   );
 }
 
-function DoctorsSection({ doctors }: { doctors: typeof doctors }) {
+function PhysicianCard({ physician }: { physician: (typeof PHYSICIANS)[number] }) {
+  return (
+    <div className="bg-white border-2 border-gray-200 rounded-xl overflow-hidden shadow-lg mb-8">
+      <div className="relative h-64 md:h-80">
+        <img
+          src={physician.imageUrl}
+          alt={physician.imageAlt}
+          className="w-full h-full object-cover object-top"
+        />
+      </div>
+      <div className="p-6 md:p-8">
+        <div className="mb-6">
+          <h3 className="text-2xl font-bold text-[#3E5266] mb-2">
+            {physician.honorificPrefix
+              ? `${physician.name} ${physician.honorificPrefix}`
+              : physician.name}
+          </h3>
+          <p className="text-[#E91E7A] font-semibold text-lg">{physician.jobTitle}</p>
+        </div>
+
+        <div className="mb-6">
+          <h4 className="text-sm font-semibold text-[#6B7D8C] mb-3">학력</h4>
+          <ul className="space-y-2">
+            {physician.education.map((item, i) => (
+              <li key={i} className="flex items-start gap-2 text-[#3E5266]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#E91E7A] mt-2 flex-shrink-0" />
+                <span>{item.text}</span>
+              </li>
+            ))}
+          </ul>
+          {physician.memberships.length > 0 && (
+            <>
+              <div className="h-4" />
+              <ul className="space-y-2">
+                {physician.memberships.map((item, i) => (
+                  <li key={i} className="flex items-start gap-2 text-[#3E5266]">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#E91E7A] mt-2 flex-shrink-0" />
+                    <span>{item.text}</span>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+        </div>
+
+        <div className={physician.papers ? "mb-6" : ""}>
+          <h4 className="text-sm font-semibold text-[#6B7D8C] mb-3">경력</h4>
+          <ul className="space-y-2">
+            {physician.career.map((item, i) => (
+              <li key={i} className="flex items-start gap-2 text-[#3E5266]">
+                <Star className="w-4 h-4 text-[#E91E7A] mt-0.5 flex-shrink-0" />
+                <span>{item.text}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {physician.papers && physician.papers.length > 0 && (
+          <div>
+            <h4 className="text-sm font-semibold text-[#6B7D8C] mb-3">논문</h4>
+            <ul className="space-y-3">
+              {physician.papers.map((paper, i) => (
+                <li key={i} className="bg-[#F8F9FA] p-4 rounded-lg">
+                  <p className="text-xs text-[#8FA8BA] mb-1">{paper.year}</p>
+                  <p className="text-sm text-[#3E5266] leading-relaxed">{paper.text}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function DoctorsSection() {
   return (
     <div className="space-y-12">
-      {/* Director's Message */}
       <section className="bg-[#f5f6f8] rounded-lg p-8">
         <div className="flex items-start gap-4 mb-4">
           <Shield className="w-8 h-8 text-[#1a2847] flex-shrink-0" />
@@ -706,395 +735,14 @@ function DoctorsSection({ doctors }: { doctors: typeof doctors }) {
         </div>
       </section>
 
-      {/* Doctors List */}
       <section>
         <h2 className="text-2xl font-semibold text-[#1a2847] mb-6">
           의료진 소개
         </h2>
         
-        {/* 이형복 원장 */}
-        <div className="bg-white border-2 border-gray-200 rounded-xl overflow-hidden shadow-lg mb-8">
-          {/* 의사 사진 섹션 */}
-          <div className="relative h-64 md:h-80">
-            <img 
-              src={DIRECTOR_IMAGE_URL} 
-              alt="이형석 병원장" 
-              className="w-full h-full object-cover object-top"
-            />
-          </div>
-          
-          {/* 정보 섹션 */}
-          <div className="p-6 md:p-8">
-            {/* 이름과 전문분야 */}
-            <div className="mb-6">
-              <h3 className="text-2xl font-bold text-[#3E5266] mb-2">이형석 병원장</h3>
-              <p className="text-[#E91E7A] font-semibold text-lg">한의사</p>
-            </div>
-            
-            {/* 학력 */}
-            <div className="mb-6">
-              <h4 className="text-sm font-semibold text-[#6B7D8C] mb-3">학력</h4>
-              <ul className="space-y-2">
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E91E7A] mt-2 flex-shrink-0" />
-                  <span>경희대학교 한의과대학 졸업</span>
-                </li>
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E91E7A] mt-2 flex-shrink-0" />
-                  <span>경희대학교 한의학 박사(면역학)</span>
-                </li>
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E91E7A] mt-2 flex-shrink-0" />
-                  <span>경희대학교 한의원 석사</span>
-                </li>
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E91E7A] mt-2 flex-shrink-0" />
-                  <span>경희대학교 대학원 동서의학과 외래교수</span>
-                </li>
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E91E7A] mt-2 flex-shrink-0" />
-                  <span>노아자연학교 이사장</span>
-                </li>
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E91E7A] mt-2 flex-shrink-0" />
-                  <span>예장생활협동조합 교육이사</span>
-                </li>
-              </ul>
-            </div>
-            
-            {/* 경력 */}
-            <div className="mb-6">
-              <h4 className="text-sm font-semibold text-[#6B7D8C] mb-3">경력</h4>
-              <ul className="space-y-2">
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <Star className="w-4 h-4 text-[#E91E7A] mt-0.5 flex-shrink-0" />
-                  <span>전) 효소앤한의원 원장</span>
-                </li>
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <Star className="w-4 h-4 text-[#E91E7A] mt-0.5 flex-shrink-0" />
-                  <span>전) 경희대성의원 원장</span>
-                </li>
-              </ul>
-            </div>
-            
-            {/* 논문 */}
-            <div>
-              <h4 className="text-sm font-semibold text-[#6B7D8C] mb-3">논문</h4>
-              <ul className="space-y-3">
-                <li className="bg-[#F8F9FA] p-4 rounded-lg">
-                  <p className="text-xs text-[#8FA8BA] mb-1">2008</p>
-                  <p className="text-sm text-[#3E5266] leading-relaxed">
-                    The bark of Betula platyphylla var. japonica inhibits the development of atopic dermatitis-like skin lesions in NC/Nga mice J Ethnopharmacol
-                  </p>
-                </li>
-                <li className="bg-[#F8F9FA] p-4 rounded-lg">
-                  <p className="text-xs text-[#8FA8BA] mb-1">2008</p>
-                  <p className="text-sm text-[#3E5266] leading-relaxed">
-                    Inhibitory Effects of Saururus chinensis (LOUR.) BAILL on the Development of Atopic Dermatitis-Like Skin Lesions in NC/Nga Mice(Pharmacology) Biol Pharm Bull
-                  </p>
-                </li>
-                <li className="bg-[#F8F9FA] p-4 rounded-lg">
-                  <p className="text-xs text-[#8FA8BA] mb-1">2006</p>
-                  <p className="text-sm text-[#3E5266] leading-relaxed">
-                    Inhibitory effects of Rumex japonicus Houtt. on the development of atopic dermatitis-like skin lesions in NC/Nga mice. Br J Dermatol
-                  </p>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        
-        {/* 고은상 한의사 */}
-        <div className="bg-white border-2 border-gray-200 rounded-xl overflow-hidden shadow-lg mb-8">
-          {/* 의사 사진 섹션 */}
-          <div className="relative h-64 md:h-80">
-            <img 
-              src={DIRECTOR_2_IMAGE_URL} 
-              alt="고은상 한의사" 
-              className="w-full h-full object-cover object-top"
-            />
-          </div>
-          
-          {/* 정보 섹션 */}
-          <div className="p-6 md:p-8">
-            {/* 이름과 전문분야 */}
-            <div className="mb-6">
-              <h3 className="text-2xl font-bold text-[#3E5266] mb-2">고은상</h3>
-              <p className="text-[#E91E7A] font-semibold text-lg">한의사</p>
-            </div>
-            
-            {/* 학력 */}
-            <div className="mb-6">
-              <h4 className="text-sm font-semibold text-[#6B7D8C] mb-3">학력</h4>
-              <ul className="space-y-2">
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E91E7A] mt-2 flex-shrink-0" />
-                  <span>경희대학교 한의학과 졸업</span>
-                </li>
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E91E7A] mt-2 flex-shrink-0" />
-                  <span>경희대학교 대학원 동서의학과 한의학 석사</span>
-                </li>
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E91E7A] mt-2 flex-shrink-0" />
-                  <span>경희대학교 대학원 동서의학과 박사</span>
-                </li>
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E91E7A] mt-2 flex-shrink-0" />
-                  <span>동수원 한방병원 내과 전문수련의</span>
-                </li>
-              </ul>
-              
-              <div className="h-4"></div>
-              
-              <ul className="space-y-2">
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E91E7A] mt-2 flex-shrink-0" />
-                  <span>추나학회 정직원</span>
-                </li>
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E91E7A] mt-2 flex-shrink-0" />
-                  <span>미국 응용근신경학 전문의</span>
-                </li>
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E91E7A] mt-2 flex-shrink-0" />
-                  <span>미국 응용근신경학회 임상강사</span>
-                </li>
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E91E7A] mt-2 flex-shrink-0" />
-                  <span>한국 응용근신경학회 총무이사</span>
-                </li>
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E91E7A] mt-2 flex-shrink-0" />
-                  <span>한의기능영양학회 기술이사</span>
-                </li>
-              </ul>
-            </div>
-            
-            {/* 경력 */}
-            <div className="mb-6">
-              <h4 className="text-sm font-semibold text-[#6B7D8C] mb-3">경력</h4>
-              <ul className="space-y-2">
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <Star className="w-4 h-4 text-[#E91E7A] mt-0.5 flex-shrink-0" />
-                  <span>전) 가산의료재단 광동병원 센터장</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        
-        {/* 이형복 한의사 */}
-        <div className="bg-white border-2 border-gray-200 rounded-xl overflow-hidden shadow-lg mb-8">
-          {/* 의사 사진 섹션 */}
-          <div className="relative h-64 md:h-80">
-            <img 
-              src={DIRECTOR_3_IMAGE_URL} 
-              alt="장영섭 의사" 
-              className="w-full h-full object-cover object-top"
-            />
-          </div>
-          
-          {/* 정보 섹션 */}
-          <div className="p-6 md:p-8">
-            {/* 이름과 전문분야 */}
-            <div className="mb-6">
-              <h3 className="text-2xl font-bold text-[#3E5266] mb-2">장영섭</h3>
-              <p className="text-[#E91E7A] font-semibold text-lg">의사 (일반외과 전문의)</p>
-            </div>
-            
-            {/* 학력 */}
-            <div className="mb-6">
-              <h4 className="text-sm font-semibold text-[#6B7D8C] mb-3">학력</h4>
-              <ul className="space-y-2">
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E91E7A] mt-2 flex-shrink-0" />
-                  <span>전남대학교 의과대학 졸업</span>
-                </li>
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E91E7A] mt-2 flex-shrink-0" />
-                  <span>전주예수병원 일반외과 수료</span>
-                </li>
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E91E7A] mt-2 flex-shrink-0" />
-                  <span>일반외과 전문의 자격증 취득</span>
-                </li>
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E91E7A] mt-2 flex-shrink-0" />
-                  <span>육군 군의관 소령 예편</span>
-                </li>
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E91E7A] mt-2 flex-shrink-0" />
-                  <span>서울시 의사회 의무이사</span>
-                </li>
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E91E7A] mt-2 flex-shrink-0" />
-                  <span>일본 소화의과대학 의학박사 취득</span>
-                </li>
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E91E7A] mt-2 flex-shrink-0" />
-                  <span>대한임상노인학회 평생회원</span>
-                </li>
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E91E7A] mt-2 flex-shrink-0" />
-                  <span>IMS 회원 및 자격증 취득</span>
-                </li>
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E91E7A] mt-2 flex-shrink-0" />
-                  <span>치매특별등급 연수교육 수료</span>
-                </li>
-              </ul>
-            </div>
-            
-            {/* 경력 */}
-            <div className="mb-6">
-              <h4 className="text-sm font-semibold text-[#6B7D8C] mb-3">경력</h4>
-              <ul className="space-y-2">
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <Star className="w-4 h-4 text-[#E91E7A] mt-0.5 flex-shrink-0" />
-                  <span>전) 경기도 고양시 일산동구 일산로 123 뷰티풀한방병원 개원</span>
-                </li>
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <Star className="w-4 h-4 text-[#E91E7A] mt-0.5 flex-shrink-0" />
-                  <span>전) 경남 밀양시 영남종합병원 일반외과 및 응급실 실장</span>
-                </li>
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <Star className="w-4 h-4 text-[#E91E7A] mt-0.5 flex-shrink-0" />
-                  <span>전) 인천시 영종도 화림요양병원 양방원장</span>
-                </li>
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <Star className="w-4 h-4 text-[#E91E7A] mt-0.5 flex-shrink-0" />
-                  <span>전) 김포시 김포청심실버요양병원 원장</span>
-                </li>
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <Star className="w-4 h-4 text-[#E91E7A] mt-0.5 flex-shrink-0" />
-                  <span>전) 인천 계양 경의병원 원장</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        
-        {/* 이하림 치과의사 */}
-        <div className="bg-white border-2 border-gray-200 rounded-xl overflow-hidden shadow-lg mb-8">
-          {/* 의사 사진 섹션 */}
-          <div className="relative h-64 md:h-80">
-            <img 
-              src={DIRECTOR_4_IMAGE_URL} 
-              alt="이하림 치과의사" 
-              className="w-full h-full object-cover object-top"
-            />
-          </div>
-          
-          {/* 정보 섹션 */}
-          <div className="p-6 md:p-8">
-            {/* 이름과 전문분야 */}
-            <div className="mb-6">
-              <h3 className="text-2xl font-bold text-[#3E5266] mb-2">이하림</h3>
-              <p className="text-[#E91E7A] font-semibold text-lg">치과의사 (보건복지부인증 통합치의학과 전문의)</p>
-            </div>
-            
-            {/* 학력 */}
-            <div className="mb-6">
-              <h4 className="text-sm font-semibold text-[#6B7D8C] mb-3">학력</h4>
-              <ul className="space-y-2">
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E91E7A] mt-2 flex-shrink-0" />
-                  <span>이화여자대학교 졸업</span>
-                </li>
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E91E7A] mt-2 flex-shrink-0" />
-                  <span>원광대학교 치과대학 졸업</span>
-                </li>
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E91E7A] mt-2 flex-shrink-0" />
-                  <span>고려대학교 임상치의학대학원 교정학과 석사</span>
-                </li>
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E91E7A] mt-2 flex-shrink-0" />
-                  <span>대한치과교정학회 회원</span>
-                </li>
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E91E7A] mt-2 flex-shrink-0" />
-                  <span>연세대학교 Orthodontic Mini Residency Course 수료</span>
-                </li>
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E91E7A] mt-2 flex-shrink-0" />
-                  <span>Dr.Kosujin Clinical Orthodontic Course 수료</span>
-                </li>
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E91E7A] mt-2 flex-shrink-0" />
-                  <span>Mini-Tube Appliance Orthodontic Course 수료</span>
-                </li>
-              </ul>
-            </div>
-            
-            {/* 경력 */}
-            <div className="mb-6">
-              <h4 className="text-sm font-semibold text-[#6B7D8C] mb-3">경력</h4>
-              <ul className="space-y-2">
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <Star className="w-4 h-4 text-[#E91E7A] mt-0.5 flex-shrink-0" />
-                  <span>전) 분당형치과 교정과장</span>
-                </li>
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <Star className="w-4 h-4 text-[#E91E7A] mt-0.5 flex-shrink-0" />
-                  <span>전) 강북디자인치과 교정과장</span>
-                </li>
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <Star className="w-4 h-4 text-[#E91E7A] mt-0.5 flex-shrink-0" />
-                  <span>전) 선한치과 교정대표원장</span>
-                </li>
-                <li className="flex items-start gap-2 text-[#3E5266]">
-                  <Star className="w-4 h-4 text-[#E91E7A] mt-0.5 flex-shrink-0" />
-                  <span>부평치과 디지털해피스치과 교정과장</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        
-        {/* 기존 의료진 카드들 (필요시) */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {doctors.slice(0, 0).map((doctor, idx) => (
-            <div
-              key={idx}
-              className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow"
-            >
-              <div className="bg-gradient-to-br from-[#1a2847] to-[#2d3f5f] h-32 flex items-center justify-center">
-                <Users className="w-16 h-16 text-white/20" />
-              </div>
-              <div className="p-6">
-                <h3 className="text-lg font-semibold text-[#1a2847] mb-1">
-                  {doctor.name}
-                </h3>
-                <p className="text-sm text-gray-600 mb-4">{doctor.specialty}</p>
-
-                <div className="space-y-3 text-sm">
-                  <div>
-                    <p className="text-gray-500 mb-1">경력</p>
-                    <p className="text-gray-700">{doctor.experience}</p>
-                  </div>
-                  <div>
-                    <p className="text-gray-500 mb-1">학력</p>
-                    <p className="text-gray-700">{doctor.education}</p>
-                  </div>
-                  <div>
-                    <p className="text-gray-500 mb-1">학회 활동</p>
-                    <ul className="space-y-1">
-                      {doctor.activities.map((activity, i) => (
-                        <li key={i} className="text-gray-700 flex items-start gap-2">
-                          <Star className="w-3 h-3 text-[#1a2847] flex-shrink-0 mt-1" />
-                          <span className="text-xs">{activity}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        {PHYSICIANS.map((physician) => (
+          <PhysicianCard key={physician.id} physician={physician} />
+        ))}
       </section>
     </div>
   );
