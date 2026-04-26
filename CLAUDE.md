@@ -59,12 +59,15 @@
 
 ## 4. 진료 서비스 구조 (클리닉)
 
-1. **뷰티풀 암케어** — 통합 암 면역 치료
-2. **암별 집중케어** — 암종별 집중 케어
-   - 유방암 / 부인암 / 위암 / 폐암 / 간암
-3. **수술 후 회복케어** — 수술 후 체력·면역 회복
-4. **항암치료 환자 케어** — 항암 부작용 관리
-5. **방사선치료 환자 케어** — 방사선 부작용 관리
+1. **뷰티풀 암케어** — 통합 암 면역 치료 · 라우트 ID: `beautiful-cancer-care`
+2. **암별 집중케어** — 암종별 집중 케어 · 라우트 ID: `cancer-specific-care`
+3. **수술 후 회복케어** — 수술 후 체력·면역 회복 · 라우트 ID: `post-surgery-recovery`
+4. **항암치료 환자 케어** — 항암 부작용 관리 · 라우트 ID: `chemotherapy-care`
+5. **방사선치료 환자 케어** — 방사선 부작용 관리 · 라우트 ID: `radiation-care`
+
+> ⚠️ **실제 클리닉 라우트 (ClinicDetail.tsx 확인)**: 총 5개 페이지
+> prerender 대상: `/clinics/beautiful-cancer-care`, `/clinics/cancer-specific-care`, `/clinics/post-surgery-recovery`, `/clinics/chemotherapy-care`, `/clinics/radiation-care`
+> 기존 prerender.mjs의 tinnitus/stroke/spine 라우트는 구 버전 — 수정 필요
 
 ---
 

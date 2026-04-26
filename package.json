@@ -9,7 +9,9 @@
     "dev": "vite",
     "prerender": "node scripts/prerender.mjs",
     "upload-images": "node scripts/upload-images.mjs",
-    "setup-storage": "node scripts/setup-supabase-storage.mjs"
+    "setup-storage": "node scripts/setup-supabase-storage.mjs",
+    "geo:measure": "npx tsx scripts/geo-monitoring/measure.ts",
+    "geo:compare": "npx tsx scripts/geo-monitoring/compare.ts"
   },
   "dependencies": {
     "@emotion/react": "11.14.0",
