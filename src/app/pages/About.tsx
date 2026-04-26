@@ -27,6 +27,7 @@ import { supabase } from "../../lib/supabase";
 import { toast } from "sonner";
 import SEOHead from "../../components/seo/SEOHead";
 import { PHYSICIANS, toPhysicianJsonLd } from "../../data/physicians";
+import { makeBreadcrumbList } from "../../lib/schema/breadcrumb";
 
 const HERO_BG_URL =
   "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/yoga_s.jpeg";
@@ -344,7 +345,7 @@ export default function About() {
         keywords="뷰티풀한방병원,암요양병원,파주암요양병원,국립암센터근처암요양병원,일산암요양병원,고양암요양병원,파주한방병원,병원소개,한방의료진"
         ogUrl="https://www.btful.co.kr/about"
         canonical="https://www.btful.co.kr/about"
-        jsonLd={aboutJsonLd}
+        jsonLd={[...aboutJsonLd, makeBreadcrumbList([{ name: "병원소개", path: "/about" }])]}
       />
       {/* Tab Navigation */}
       <div className="sticky top-16 lg:top-20 bg-white border-b border-gray-200 z-40">

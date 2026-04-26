@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import SEOHead from "../../components/seo/SEOHead";
+import { makeBreadcrumbList } from "../../lib/schema/breadcrumb";
 /** 임시: Vercel 링크테스트용 */
 const PLACEHOLDER_IMAGE =
   "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/yoga_s.jpeg";
@@ -106,6 +107,8 @@ export default function Facilities() {
         title="치료환경 | 호텔 리모델링 시설 · 자연환경 | 뷰티풀한방병원"
         description="호텔에서 리모델링한 쾌적한 입원 시설과 자연 속 재활 환경. 암 환자를 위한 프리미엄 치료 공간."
         ogUrl="https://www.btful.co.kr/facilities"
+        canonical="https://www.btful.co.kr/facilities"
+        jsonLd={makeBreadcrumbList([{ name: "치료환경", path: "/facilities" }])}
       />
       {/* 페이지 헤더 */}
       <div className="bg-[#F8F9FA] py-16 px-5">

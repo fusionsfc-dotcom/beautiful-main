@@ -3,6 +3,8 @@ import { ChevronLeft, CheckCircle } from "lucide-react";
 import * as Accordion from "@radix-ui/react-accordion";
 import { ChevronDown } from "lucide-react";
 import SEOHead from "../../components/seo/SEOHead";
+import { makeBreadcrumbList } from "../../lib/schema/breadcrumb";
+import { makeCancerConditionsJsonLd } from "../../lib/schema/conditions";
 
 const PLACEHOLDER_IMAGE =
   "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/yoga_s.jpeg";
@@ -610,12 +612,14 @@ export default function ClinicDetail() {
 
   const currentSeo = seoMeta[id || ""] || seoMeta[defaultId];
 
+  const clinicId = id || defaultId;
+
   const clinicJsonLd = {
     "@context": "https://schema.org",
     "@type": "MedicalClinic",
     name: clinic.title,
     description: currentSeo.description,
-    url: `https://www.btful.co.kr/clinics/${id || defaultId}`,
+    url: `https://www.btful.co.kr/clinics/${clinicId}`,
     medicalSpecialty: clinic.subtitle,
     availableService:
       clinic.sections
@@ -631,13 +635,25 @@ export default function ClinicDetail() {
               }))
             )
         ) || [],
-    isPartOf: {
-      "@type": "Hospital",
-      name: "뷰티풀한방병원",
-      url: "https://www.btful.co.kr",
-      telephone: "031-945-2000"
-    }
+    isPartOf: { "@id": "https://www.btful.co.kr/#hospital" },
   };
+
+  const clinicNames: Record<string, string> = {
+    "beautiful-cancer-care": "뷰티풀 암케어",
+    "cancer-specific-care": "암별 집중케어",
+    "post-surgery-recovery": "수술 후 회복케어",
+    "chemotherapy-care": "항암치료 환자 케어",
+    "radiation-care": "방사선치료 환자 케어",
+  };
+
+  const jsonLdSchemas: object[] = [
+    clinicJsonLd,
+    makeBreadcrumbList([
+      { name: "암 치료 클리닉", path: "/clinics" },
+      { name: clinicNames[clinicId] ?? clinic.title, path: `/clinics/${clinicId}` },
+    ]),
+    ...(clinicId === "cancer-specific-care" ? makeCancerConditionsJsonLd() : []),
+  ];
 
   return (
     <div className="min-h-[100dvh] bg-white">
@@ -645,9 +661,9 @@ export default function ClinicDetail() {
         title={currentSeo.title}
         description={currentSeo.description}
         keywords={currentSeo.keywords}
-        ogUrl={`https://www.btful.co.kr/clinics/${id || defaultId}`}
-        canonical={`https://www.btful.co.kr/clinics/${id || defaultId}`}
-        jsonLd={clinicJsonLd}
+        ogUrl={`https://www.btful.co.kr/clinics/${clinicId}`}
+        canonical={`https://www.btful.co.kr/clinics/${clinicId}`}
+        jsonLd={jsonLdSchemas}
       />
 
       {/* Header */}

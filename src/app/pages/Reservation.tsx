@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { useNavigate } from "react-router";
 import { projectId, publicAnonKey } from "../../../utils/supabase/info";
 import SEOHead from "../../components/seo/SEOHead";
+import { makeBreadcrumbList } from "../../lib/schema/breadcrumb";
 
 interface ReservationForm {
   name: string;
@@ -97,6 +98,7 @@ export default function Reservation() {
         keywords="한방병원예약,암치료상담,뷰티풀한방병원예약,파주한방병원상담"
         ogUrl="https://www.btful.co.kr/reservation"
         canonical="https://www.btful.co.kr/reservation"
+        jsonLd={makeBreadcrumbList([{ name: "예약·상담", path: "/reservation" }])}
       />
       <header className="px-5 py-6 border-b border-gray-200">
         <h1>예약 · 상담</h1>

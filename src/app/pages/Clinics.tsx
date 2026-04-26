@@ -2,6 +2,7 @@ import { Link } from "react-router";
 import { ChevronRight, Check, Shield, Activity, HeartPulse, Syringe, Zap } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import SEOHead from "../../components/seo/SEOHead";
+import { makeBreadcrumbList } from "../../lib/schema/breadcrumb";
 
 /** 클리닉 페이지 히어로 배경 이미지 */
 const CLINICS_HERO_IMAGE_URL =
@@ -31,6 +32,22 @@ export default function Clinics() {
         title="암 치료 클리닉 | 뷰티풀한방병원"
         description="뷰티풀한방병원의 5대 전문 암케어 클리닉. 통합 면역치료, 암종별 집중케어, 수술 후 회복, 항암·방사선 부작용 관리."
         ogUrl="https://www.btful.co.kr/clinics"
+        canonical="https://www.btful.co.kr/clinics"
+        jsonLd={[
+          makeBreadcrumbList([{ name: "암 치료 클리닉", path: "/clinics" }]),
+          {
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            name: "뷰티풀한방병원 5대 암케어 클리닉",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "뷰티풀 암케어", url: "https://www.btful.co.kr/clinics/beautiful-cancer-care" },
+              { "@type": "ListItem", position: 2, name: "암별 집중케어", url: "https://www.btful.co.kr/clinics/cancer-specific-care" },
+              { "@type": "ListItem", position: 3, name: "수술 후 회복케어", url: "https://www.btful.co.kr/clinics/post-surgery-recovery" },
+              { "@type": "ListItem", position: 4, name: "항암치료 환자 케어", url: "https://www.btful.co.kr/clinics/chemotherapy-care" },
+              { "@type": "ListItem", position: 5, name: "방사선치료 환자 케어", url: "https://www.btful.co.kr/clinics/radiation-care" },
+            ],
+          },
+        ]}
       />
       <PhilosophySection />
       <ClinicsSection />

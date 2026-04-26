@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import { ChevronLeft, ChevronRight, Check, ClipboardCheck, Syringe, Heart, Stethoscope, Home } from "lucide-react";
 import * as Progress from "@radix-ui/react-progress";
 import SEOHead from "../../components/seo/SEOHead";
+import { makeBreadcrumbList } from "../../lib/schema/breadcrumb";
 
 type TreatmentStage = "pre-treatment" | "post-surgery" | "chemotherapy" | "radiation" | "hospice" | null;
 type StepType = "stage-selection" | "questions" | "result";
@@ -100,6 +101,7 @@ export default function HealthCheck() {
       keywords="건강체크,암환자자가진단,항암체크리스트,건강상태확인,뷰티풀한방병원"
       ogUrl="https://www.btful.co.kr/health-check"
       canonical="https://www.btful.co.kr/health-check"
+      jsonLd={makeBreadcrumbList([{ name: "3분 건강 체크", path: "/health-check" }])}
     />
   );
 

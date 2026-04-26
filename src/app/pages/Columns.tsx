@@ -24,6 +24,7 @@ import { supabase, Column, Video, GalleryItem, Faq } from "../../lib/supabase";
 import { useAuth } from "../contexts/AuthContext";
 import { toast } from "sonner";
 import SEOHead from "../../components/seo/SEOHead";
+import { makeBreadcrumbList } from "../../lib/schema/breadcrumb";
 
 type MainTabType = "gallery" | "columns" | "videos" | "faq" | "question";
 type ColumnCategoryType = "cancer" | "gynecologic_cancer" | "gastro_cancer" | "lung_cancer" | "liver_cancer" | "other_cancer";
@@ -135,7 +136,7 @@ export default function Columns() {
         keywords="한방치료정보,암치료칼럼,치료사례,자주하는질문,뷰티풀한방병원"
         ogUrl="https://www.btful.co.kr/columns"
         canonical="https://www.btful.co.kr/columns"
-        jsonLd={faqJsonLdData}
+        jsonLd={[faqJsonLdData, makeBreadcrumbList([{ name: "뷰티풀이야기", path: "/columns" }])]}
       />
       {/* 페이지 헤더 */}
       <div className="bg-[#F8F9FA] py-16 px-5">

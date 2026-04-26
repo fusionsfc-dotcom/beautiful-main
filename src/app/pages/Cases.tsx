@@ -12,6 +12,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { toast } from "sonner";
 import { projectId, publicAnonKey } from "../../../utils/supabase/info";
 import SEOHead from "../../components/seo/SEOHead";
+import { makeBreadcrumbList } from "../../lib/schema/breadcrumb";
 
 type CaseCategoryType = "cancer" | "post_surgery" | "chemotherapy" | "radiation";
 
@@ -109,32 +110,31 @@ export default function Cases() {
         keywords="한방치료사례,암치료후기,중풍재활사례,이명치료사례,척추치료후기,뷰티풀한방병원"
         ogUrl="https://www.btful.co.kr/cases"
         canonical="https://www.btful.co.kr/cases"
-        jsonLd={cases.length > 0 ? {
-          "@context": "https://schema.org",
-          "@type": "CollectionPage",
-          "name": "치료사례 | 뷰티풀한방병원",
-          "description": "뷰티풀한방병원의 실제 치료사례 모음",
-          "url": "https://www.btful.co.kr/cases",
-          "publisher": {
-            "@type": "Hospital",
-            "name": "뷰티풀한방병원",
-            "url": "https://www.btful.co.kr",
-          },
-          "mainEntity": {
-            "@type": "ItemList",
-            "itemListElement": cases.slice(0, 10).map((c, i) => ({
-              "@type": "ListItem",
-              "position": i + 1,
-              "item": {
-                "@type": "MedicalWebPage",
-                "name": c.title,
-                "datePublished": c.created_at,
-                "description": c.content?.slice(0, 160),
-                ...(c.thumbnail ? { "image": c.thumbnail } : {}),
-              },
-            })),
-          },
-        } : undefined}
+        jsonLd={[
+          makeBreadcrumbList([{ name: "치료사례", path: "/cases" }]),
+          ...(cases.length > 0 ? [{
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            "name": "치료사례 | 뷰티풀한방병원",
+            "description": "뷰티풀한방병원의 실제 치료사례 모음",
+            "url": "https://www.btful.co.kr/cases",
+            "publisher": { "@id": "https://www.btful.co.kr/#hospital" },
+            "mainEntity": {
+              "@type": "ItemList",
+              "itemListElement": cases.slice(0, 10).map((c, i) => ({
+                "@type": "ListItem",
+                "position": i + 1,
+                "item": {
+                  "@type": "MedicalWebPage",
+                  "name": c.title,
+                  "datePublished": c.created_at,
+                  "description": c.content?.slice(0, 160),
+                  ...(c.thumbnail ? { "image": c.thumbnail } : {}),
+                },
+              })),
+            },
+          }] : []),
+        ]}
       />
       {/* 페이지 헤더 */}
       <div className="bg-[#F8F9FA] py-16 px-5">
