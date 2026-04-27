@@ -4,6 +4,7 @@ import FloatingConsultButton from "../components/FloatingConsultButton";
 import GlobalHeader from "../components/GlobalHeader";
 import GlobalFooter from "../components/GlobalFooter";
 import { useEffect } from "react";
+import { createPortal } from "react-dom";
 
 export default function Root() {
   const location = useLocation();
@@ -51,36 +52,34 @@ export default function Root() {
         {/* Global Footer - 모든 페이지 하단에 공통 적용 */}
         <GlobalFooter />
         
-        {/* Bottom Tab Bar - Mobile Only */}
-        <nav
-          className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50"
-          style={{
-            paddingBottom: "env(safe-area-inset-bottom, 0px)",
-            transform: "translateZ(0)",
-            WebkitTransform: "translateZ(0)",
-            willChange: "transform",
-          }}
-        >
-          <div className="flex justify-around items-center h-16 max-w-screen-xl mx-auto">
-            {tabs.map((tab) => {
-              const Icon = tab.icon;
-              const active = isActive(tab.path);
-              
-              return (
-                <Link
-                  key={tab.path}
-                  to={tab.path}
-                  className={`flex flex-col items-center justify-center flex-1 h-full transition-colors ${
-                    active ? "text-[#E91E7A]" : "text-[#8FA8BA]"
-                  }`}
-                >
-                  <Icon className="w-5 h-5 mb-1" strokeWidth={active ? 2 : 1.5} />
-                  <span className="text-xs">{tab.label}</span>
-                </Link>
-              );
-            })}
-          </div>
-        </nav>
+        {/* Bottom Tab Bar - Mobile Only (Portal로 body에 직접 렌더링) */}
+        {typeof document !== "undefined" && createPortal(
+          <nav
+            className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50"
+            style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
+          >
+            <div className="flex justify-around items-center h-16 max-w-screen-xl mx-auto">
+              {tabs.map((tab) => {
+                const Icon = tab.icon;
+                const active = isActive(tab.path);
+
+                return (
+                  <Link
+                    key={tab.path}
+                    to={tab.path}
+                    className={`flex flex-col items-center justify-center flex-1 h-full transition-colors ${
+                      active ? "text-[#E91E7A]" : "text-[#8FA8BA]"
+                    }`}
+                  >
+                    <Icon className="w-5 h-5 mb-1" strokeWidth={active ? 2 : 1.5} />
+                    <span className="text-xs">{tab.label}</span>
+                  </Link>
+                );
+              })}
+            </div>
+          </nav>,
+          document.body
+        )}
       </div>
   );
 }
