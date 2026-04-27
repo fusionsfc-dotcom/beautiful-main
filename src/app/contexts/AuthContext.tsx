@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { supabase } from "../../lib/supabase";
 import { User, Session } from "@supabase/supabase-js";
+import { projectId, publicAnonKey } from "../../../utils/supabase/info";
 
 interface AuthContextType {
   user: User | null;
@@ -79,7 +80,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           console.log('🔧 프로필이 없습니다. 자동 생성 시도...');
           
           try {
-            const { projectId } = await import('/utils/supabase/info');
             const response = await fetch(
               `https://${projectId}.supabase.co/functions/v1/make-server-ee767080/ensure-profile`,
               {
@@ -121,9 +121,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signUp = async (email: string, password: string, name: string) => {
     try {
       console.log('📝 회원가입 시도:', email);
-      
-      // Use server-side signup endpoint instead of client-side
-      const { projectId, publicAnonKey } = await import('/utils/supabase/info');
       
       const response = await fetch(
         `https://${projectId}.supabase.co/functions/v1/make-server-ee767080/signup`,
