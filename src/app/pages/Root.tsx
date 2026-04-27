@@ -54,7 +54,13 @@ export default function Root() {
         {/* Bottom Tab Bar - Mobile Only */}
         <nav
           className="lg:hidden fixed left-0 right-0 bg-white border-t border-gray-200 z-50 mobile-bottom-safe mobile-bottom-nav-fixed"
-          style={{ bottom: 0, paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
+          style={{
+            bottom: 0,
+            paddingBottom: "env(safe-area-inset-bottom, 0px)",
+            transform: "translateZ(0)",
+            willChange: "transform",
+            WebkitTransform: "translateZ(0)",
+          }}
         >
           <div className="flex justify-around items-center h-16 max-w-screen-xl mx-auto">
             {tabs.map((tab) => {

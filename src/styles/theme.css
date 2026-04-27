@@ -1,5 +1,22 @@
 @custom-variant solid (&:is(.dark *));
 
+/* ── 모바일 뷰포트 높이 고정 ── */
+html {
+  height: -webkit-fill-available;
+}
+
+body {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  min-height: 100dvh;
+}
+
+#root {
+  min-height: 100vh;
+  min-height: 100dvh;
+  position: relative;
+}
+
 :root {
   --font-size: 16px;
   --background: #F8F9FA;
