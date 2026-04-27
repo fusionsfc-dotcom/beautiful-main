@@ -13,6 +13,75 @@ export default function Root() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
+
+  useEffect(() => {
+    document.getElementById("__debug")?.remove();
+
+    const box = document.createElement("div");
+    box.id = "__debug";
+    box.style.cssText = `
+      position: fixed;
+      top: 60px;
+      right: 4px;
+      background: yellow;
+      color: black;
+      font-size: 10px;
+      font-family: monospace;
+      z-index: 99999;
+      padding: 6px 8px;
+      border-radius: 4px;
+      line-height: 1.4;
+      max-width: 200px;
+      white-space: pre-wrap;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    `;
+    document.body.appendChild(box);
+
+    const update = () => {
+      const nav = document.querySelector("nav.lg\\:hidden");
+      if (!nav) {
+        box.textContent = "NAV 없음";
+        return;
+      }
+
+      const c = getComputedStyle(nav);
+      const r = nav.getBoundingClientRect();
+      const parent = nav.parentElement;
+
+      let transformAncestor = "없음";
+      let el = nav.parentElement;
+      while (el && el !== document.body) {
+        const s = getComputedStyle(el);
+        if (s.transform !== "none" || s.willChange.includes("transform") || s.filter !== "none") {
+          transformAncestor = `${el.tagName}.${el.className.split(" ")[0]} → ${s.transform !== "none" ? "tr" : ""}${s.willChange.includes("transform") ? " wc" : ""}${s.filter !== "none" ? " fl" : ""}`;
+          break;
+        }
+        el = el.parentElement;
+      }
+
+      box.textContent =
+        `pos: ${c.position}\n` +
+        `bot: ${c.bottom}\n` +
+        `nav.top: ${r.top.toFixed(0)}\n` +
+        `nav.bot: ${r.bottom.toFixed(0)}\n` +
+        `winH: ${innerHeight}\n` +
+        `vvH: ${window.visualViewport?.height?.toFixed(0) ?? "-"}\n` +
+        `gap: ${(innerHeight - r.bottom).toFixed(0)}\n` +
+        `parent: ${parent?.tagName}\n` +
+        `tr조상: ${transformAncestor}`;
+    };
+
+    update();
+    const i = setInterval(update, 200);
+    window.addEventListener("scroll", update, true);
+    window.addEventListener("resize", update);
+    window.visualViewport?.addEventListener("resize", update);
+
+    return () => {
+      clearInterval(i);
+      box.remove();
+    };
+  }, []);
   
   const tabs = [
     { path: "/", label: "홈", icon: Home },
