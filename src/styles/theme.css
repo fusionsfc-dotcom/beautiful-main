@@ -1,22 +1,5 @@
 @custom-variant solid (&:is(.dark *));
 
-/* ── 모바일 뷰포트 높이 고정 ── */
-html {
-  height: -webkit-fill-available;
-}
-
-body {
-  min-height: 100vh;
-  min-height: -webkit-fill-available;
-  min-height: 100dvh;
-}
-
-#root {
-  min-height: 100vh;
-  min-height: 100dvh;
-  position: relative;
-}
-
 :root {
   --font-size: 16px;
   --background: #F8F9FA;
@@ -175,25 +158,11 @@ body {
     min-height: 100%;
   }
 
-  /* Mobile Bottom Navigation Support - 모바일 브라우저 UI 대응 */
-  .mobile-bottom-safe {
-    padding-bottom: max(env(safe-area-inset-bottom), 0px);
-  }
-  
-  @supports (height: 100dvh) {
-    .mobile-bottom-safe {
-      /* 동적 viewport height를 지원하는 브라우저에서 추가 안전 영역 확보 */
-      padding-bottom: max(env(safe-area-inset-bottom), 0px);
+  /* 데스크탑에서 하단 네비게이션 패딩 초기화 */
+  @media (min-width: 1024px) {
+    .root-wrapper {
+      padding-bottom: 0 !important;
     }
-  }
-
-  /* 모바일 Chrome: fixed 하단바가 스크롤 시 바닥에서 떨어지는 버그 수정 */
-  .mobile-bottom-nav-fixed {
-    /* GPU 레이어 분리로 viewport 변경 시 재계산 유도 */
-    transform: translateZ(0);
-    -webkit-transform: translateZ(0);
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
   }
 
   /* Scrollbar hiding for swipe UI */
