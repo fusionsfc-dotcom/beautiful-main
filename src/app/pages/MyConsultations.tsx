@@ -45,7 +45,7 @@ export default function MyConsultations() {
     <div className="min-h-[100dvh] bg-white py-8 px-4">
       <div className="max-w-4xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-2xl lg:text-3xl font-semibold text-[#1a2847] mb-2">
+          <h1 className="text-2xl lg:text-3xl font-semibold text-[#2A1F18] mb-2">
             내 상담 내역
           </h1>
           <p className="text-gray-600">지금까지의 상담 기록을 확인하세요</p>
@@ -68,7 +68,7 @@ export default function MyConsultations() {
                   >
                     {consultation.status}
                   </span>
-                  <h3 className="font-semibold text-[#1a2847] mb-1">
+                  <h3 className="font-semibold text-[#2A1F18] mb-1">
                     {consultation.type}
                   </h3>
                   <p className="text-sm text-gray-600">{consultation.doctor}</p>
@@ -92,7 +92,7 @@ export default function MyConsultations() {
 
               {consultation.status === "예정" && (
                 <div className="mt-4 pt-4 border-t border-gray-100 flex gap-2">
-                  <button className="flex-1 bg-[#1a2847] text-white py-2 rounded-md text-sm hover:bg-[#243554] transition-colors">
+                  <button className="flex-1 bg-[#2A1F18] text-white py-2 rounded-md text-sm hover:bg-[#243554] transition-colors">
                     상담 변경
                   </button>
                   <button className="px-4 border border-gray-300 text-gray-600 py-2 rounded-md text-sm hover:bg-gray-50 transition-colors">
@@ -107,7 +107,7 @@ export default function MyConsultations() {
         <div className="mt-8 text-center">
           <button
             onClick={() => navigate("/reservation")}
-            className="bg-[#1a2847] text-white px-6 py-2.5 rounded-md hover:bg-[#243554] transition-colors"
+            className="bg-[#2A1F18] text-white px-6 py-2.5 rounded-md hover:bg-[#243554] transition-colors"
           >
             새 상담 예약하기
           </button>

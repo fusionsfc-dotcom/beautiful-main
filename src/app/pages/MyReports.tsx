@@ -41,7 +41,7 @@ export default function MyReports() {
     <div className="min-h-[100dvh] bg-white py-8 px-4">
       <div className="max-w-4xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-2xl lg:text-3xl font-semibold text-[#1a2847] mb-2">
+          <h1 className="text-2xl lg:text-3xl font-semibold text-[#2A1F18] mb-2">
             치료 경과 리포트
           </h1>
           <p className="text-gray-600">치료 진행 상황을 확인하세요</p>
@@ -56,8 +56,8 @@ export default function MyReports() {
               <div className="flex items-start justify-between mb-4">
                 <div>
                   <div className="flex items-center gap-2 mb-2">
-                    <Activity className="w-5 h-5 text-[#1a2847]" />
-                    <h3 className="font-semibold text-[#1a2847]">
+                    <Activity className="w-5 h-5 text-[#2A1F18]" />
+                    <h3 className="font-semibold text-[#2A1F18]">
                       {report.period} 경과 리포트
                     </h3>
                   </div>
@@ -74,13 +74,13 @@ export default function MyReports() {
                   <span className="text-sm font-medium text-gray-700">
                     전체 진행도
                   </span>
-                  <span className="text-sm font-semibold text-[#1a2847]">
+                  <span className="text-sm font-semibold text-[#2A1F18]">
                     {report.progress}%
                   </span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2">
                   <div
-                    className="bg-[#1a2847] h-2 rounded-full transition-all duration-500"
+                    className="bg-[#2A1F18] h-2 rounded-full transition-all duration-500"
                     style={{ width: `${report.progress}%` }}
                   ></div>
                 </div>
@@ -119,7 +119,7 @@ export default function MyReports() {
           </p>
           <button
             onClick={() => navigate("/reservation")}
-            className="bg-[#1a2847] text-white px-6 py-2.5 rounded-md hover:bg-[#243554] transition-colors"
+            className="bg-[#2A1F18] text-white px-6 py-2.5 rounded-md hover:bg-[#243554] transition-colors"
           >
             상담 예약하기
           </button>

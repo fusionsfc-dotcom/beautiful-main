@@ -52,6 +52,18 @@
   --silver-gray: #6B7D8C;
   --navy: #3E5266;
   --soft-gray: #F8F9FA;
+
+  /* ── Redesign: 한방 프리미엄 컬러 시스템 ── */
+  --hb-bg-primary: #FAF6EE;
+  --hb-bg-card: #F5EEE0;
+  --hb-brand-dark: #3D2817;
+  --hb-brand-deep: #5B3A1F;
+  --hb-brand-accent: #8B2A1F;
+  --hb-brand-gold: #C9A567;
+  --hb-text-primary: #2A1F18;
+  --hb-text-secondary: #6B5547;
+  --hb-line: #E8DCC8;
+  --hb-handwriting-bg: #F8E8D4;
 }
 
 .dark {
@@ -130,6 +142,21 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  /* ── Redesign 컬러 Tailwind 유틸리티 ── */
+  --color-hb-bg-primary: var(--hb-bg-primary);
+  --color-hb-bg-card: var(--hb-bg-card);
+  --color-hb-brand-dark: var(--hb-brand-dark);
+  --color-hb-brand-deep: var(--hb-brand-deep);
+  --color-hb-brand-accent: var(--hb-brand-accent);
+  --color-hb-brand-gold: var(--hb-brand-gold);
+  --color-hb-text-primary: var(--hb-text-primary);
+  --color-hb-text-secondary: var(--hb-text-secondary);
+  --color-hb-line: var(--hb-line);
+  --color-hb-handwriting-bg: var(--hb-handwriting-bg);
+
+  /* 손글씨 폰트 유틸리티 */
+  --font-handwriting: 'Nanum Pen Script', cursive;
 }
 
 @layer base {

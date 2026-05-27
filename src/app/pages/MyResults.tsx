@@ -34,7 +34,7 @@ export default function MyResults() {
     <div className="min-h-[100dvh] bg-white py-8 px-4">
       <div className="max-w-4xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-2xl lg:text-3xl font-semibold text-[#1a2847] mb-2">
+          <h1 className="text-2xl lg:text-3xl font-semibold text-[#2A1F18] mb-2">
             내 검사 결과
           </h1>
           <p className="text-gray-600">최근 검사 결과를 확인하세요</p>
@@ -49,8 +49,8 @@ export default function MyResults() {
               <div className="flex items-start justify-between mb-4">
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-2">
-                    <FileText className="w-5 h-5 text-[#1a2847]" />
-                    <h3 className="font-semibold text-[#1a2847]">
+                    <FileText className="w-5 h-5 text-[#2A1F18]" />
+                    <h3 className="font-semibold text-[#2A1F18]">
                       {result.type}
                     </h3>
                   </div>
@@ -60,7 +60,7 @@ export default function MyResults() {
                     <span>{result.date}</span>
                   </div>
                 </div>
-                <button className="p-2 text-[#1a2847] hover:bg-gray-50 rounded-md transition-colors">
+                <button className="p-2 text-[#2A1F18] hover:bg-gray-50 rounded-md transition-colors">
                   <Download className="w-5 h-5" />
                 </button>
               </div>
@@ -76,7 +76,7 @@ export default function MyResults() {
                 <ul className="space-y-1">
                   {result.details.map((detail, idx) => (
                     <li key={idx} className="text-sm text-gray-600 flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 bg-[#1a2847] rounded-full"></span>
+                      <span className="w-1.5 h-1.5 bg-[#2A1F18] rounded-full"></span>
                       {detail}
                     </li>
                   ))}
@@ -92,7 +92,7 @@ export default function MyResults() {
           </p>
           <button
             onClick={() => navigate("/reservation")}
-            className="bg-[#1a2847] text-white px-6 py-2.5 rounded-md hover:bg-[#243554] transition-colors"
+            className="bg-[#2A1F18] text-white px-6 py-2.5 rounded-md hover:bg-[#243554] transition-colors"
           >
             검사 예약하기
           </button>

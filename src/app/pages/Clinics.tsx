@@ -71,7 +71,7 @@ function PhilosophySection() {
           alt=""
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-[#3E5266] opacity-50" />
+        <div className="absolute inset-0 bg-[#3D2817] opacity-50" />
       </div>
 
       <div className="relative z-10 max-w-screen-lg mx-auto text-center">
@@ -92,10 +92,10 @@ function PhilosophySection() {
             return (
               <div
                 key={index}
-                className="flex items-center gap-2 px-6 py-3 bg-white/95 backdrop-blur-sm rounded-full border border-[#E91E7A]/30 shadow-lg"
+                className="flex items-center gap-2 px-6 py-3 bg-white/95 backdrop-blur-sm rounded-full border border-[#C9A567]/30 shadow-lg"
               >
-                <Icon className="w-5 h-5 text-[#E91E7A]" />
-                <span className="text-[#3E5266] font-medium">{keyword.label}</span>
+                <Icon className="w-5 h-5 text-[#C9A567]" />
+                <span className="text-[#3D2817] font-medium">{keyword.label}</span>
               </div>
             );
           })}
@@ -153,8 +153,8 @@ function ClinicsSection() {
     <section className="py-16 px-5">
       <div className="max-w-screen-xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-[#3E5266] mb-3">5대 전문 클리닉</h2>
-          <p className="text-[#6B7D8C] text-base">
+          <h2 className="text-[#3D2817] mb-3">5대 전문 클리닉</h2>
+          <p className="text-[#6B5547] text-base">
             치료 단계와 암종별로 특화된 맞춤 케어 프로그램을 확인하세요
           </p>
         </div>
@@ -184,14 +184,14 @@ function ClinicCard({
   index: number;
 }) {
   return (
-    <div className="group bg-white rounded-2xl overflow-hidden border border-gray-200 hover:border-[#E91E7A] hover:shadow-xl transition-all duration-300">
+    <div className="group bg-white rounded-2xl overflow-hidden border border-gray-200 hover:border-[#C9A567] hover:shadow-xl transition-all duration-300">
       <div className="relative h-48 overflow-hidden">
         <ImageWithFallback
           src={clinic.image}
           alt={clinic.title}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
-        <div className="absolute top-4 right-4 w-10 h-10 bg-[#E91E7A] rounded-full flex items-center justify-center shadow-md">
+        <div className="absolute top-4 right-4 w-10 h-10 bg-[#3D2817] rounded-full flex items-center justify-center shadow-md">
           <span className="text-white text-sm font-bold">
             {String(index + 1).padStart(2, "0")}
           </span>
@@ -199,15 +199,15 @@ function ClinicCard({
       </div>
 
       <div className="p-6">
-        <h3 className="text-[#3E5266] font-bold text-lg mb-2 leading-tight">
+        <h3 className="text-[#3D2817] font-bold text-lg mb-2 leading-tight">
           {clinic.title}
         </h3>
 
-        <p className="text-[#E91E7A] font-medium text-sm mb-3">
+        <p className="text-[#C9A567] font-medium text-sm mb-3">
           {clinic.headline}
         </p>
 
-        <p className="text-[#6B7D8C] text-sm leading-relaxed mb-4 line-clamp-2">
+        <p className="text-[#6B5547] text-sm leading-relaxed mb-4 line-clamp-2">
           {clinic.description}
         </p>
 
@@ -215,9 +215,9 @@ function ClinicCard({
           {clinic.goals.map((goal, idx) => (
             <span
               key={idx}
-              className="inline-flex items-center gap-1 px-3 py-1 bg-[#F8F9FA] text-[#6B7D8C] rounded-full text-xs"
+              className="inline-flex items-center gap-1 px-3 py-1 bg-[#F8F9FA] text-[#6B5547] rounded-full text-xs"
             >
-              <Check className="w-3 h-3 text-[#E91E7A]" />
+              <Check className="w-3 h-3 text-[#C9A567]" />
               {goal}
             </span>
           ))}
@@ -225,7 +225,7 @@ function ClinicCard({
 
         <Link
           to={`/clinics/${clinic.id}`}
-          className="flex items-center justify-center gap-2 w-full px-4 py-2.5 bg-[#E91E7A] text-white rounded-lg hover:bg-[#d11a6d] transition-colors text-sm font-medium group-hover:gap-3"
+          className="flex items-center justify-center gap-2 w-full px-4 py-2.5 bg-[#3D2817] text-white rounded-lg hover:bg-[#d11a6d] transition-colors text-sm font-medium group-hover:gap-3"
         >
           <span>자세히 보기</span>
           <ChevronRight className="w-4 h-4" />
@@ -258,33 +258,33 @@ function PrinciplesSection() {
     <section className="py-20 px-5 bg-gradient-to-br from-[#F8F9FA] to-white">
       <div className="max-w-screen-lg mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-[#3E5266] mb-4">
+          <h2 className="text-[#3D2817] mb-4">
             암종과 치료 단계는 달라도,<br />
             회복의 원리는 같습니다.
           </h2>
-          <div className="w-16 h-1 bg-[#E91E7A] mx-auto rounded-full"></div>
+          <div className="w-16 h-1 bg-[#3D2817] mx-auto rounded-full"></div>
         </div>
 
         <div className="space-y-6 mb-12">
           {principles.map((principle, index) => (
             <div
               key={index}
-              className="bg-white p-8 rounded-2xl border-2 border-gray-200 hover:border-[#E91E7A] transition-all shadow-sm hover:shadow-lg"
+              className="bg-white p-8 rounded-2xl border-2 border-gray-200 hover:border-[#C9A567] transition-all shadow-sm hover:shadow-lg"
             >
               <div className="flex items-start gap-6">
-                <div className="flex-shrink-0 w-14 h-14 bg-[#E91E7A] rounded-xl flex items-center justify-center">
+                <div className="flex-shrink-0 w-14 h-14 bg-[#3D2817] rounded-xl flex items-center justify-center">
                   <span className="text-white text-lg font-bold">{principle.number}</span>
                 </div>
 
                 <div className="flex-1">
-                  <h3 className="text-[#3E5266] mb-2">{principle.title}</h3>
-                  <p className="text-[#6B7D8C] leading-relaxed">{principle.description}</p>
+                  <h3 className="text-[#3D2817] mb-2">{principle.title}</h3>
+                  <p className="text-[#6B5547] leading-relaxed">{principle.description}</p>
                 </div>
               </div>
 
               {index < principles.length - 1 && (
                 <div className="flex justify-center mt-4">
-                  <svg className="w-6 h-6 text-[#E91E7A]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-6 h-6 text-[#C9A567]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 </div>
@@ -293,8 +293,8 @@ function PrinciplesSection() {
           ))}
         </div>
 
-        <div className="text-center p-6 bg-white rounded-xl border border-[#E91E7A]/20">
-          <p className="text-[#6B7D8C] font-medium">
+        <div className="text-center p-6 bg-white rounded-xl border border-[#C9A567]/20">
+          <p className="text-[#6B5547] font-medium">
             이 원리는 모든 클리닉에 공통으로 적용됩니다.
           </p>
         </div>

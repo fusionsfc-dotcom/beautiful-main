@@ -100,22 +100,22 @@ export default function LoginModal({ isOpen, onClose, purpose = "general" }: Log
 
         <div className="p-6 lg:p-8">
           <div className="mb-6">
-            <h2 className="text-2xl font-semibold text-[#3E5266] mb-2">
+            <h2 className="text-2xl font-semibold text-[#3D2817] mb-2">
               {mode === 'login' ? '로그인' : '회원가입'}
             </h2>
             {purpose === "cases" ? (
-              <div className="flex items-start gap-2 text-sm text-[#6B7D8C] bg-[#8FA8BA]/10 p-3 rounded-md mb-3">
-                <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0 text-[#8FA8BA]" />
+              <div className="flex items-start gap-2 text-sm text-[#6B5547] bg-[#A08060]/10 p-3 rounded-md mb-3">
+                <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0 text-[#A08060]" />
                 <p>{getMessage()}</p>
               </div>
             ) : null}
             {mode === 'signup' && (
-              <div className="bg-gradient-to-r from-[#E91E7A]/5 to-[#8FA8BA]/5 border-l-4 border-[#E91E7A] p-4 rounded-r-md mb-4">
-                <p className="text-[#E91E7A] font-semibold text-base mb-1">
+              <div className="bg-gradient-to-r from-[#3D2817]/5 to-[#A08060]/5 border-l-4 border-[#C9A567] p-4 rounded-r-md mb-4">
+                <p className="text-[#C9A567] font-semibold text-base mb-1">
                   ✨ 간편하게 3초만에 가입하세요!
                 </p>
-                <p className="text-sm text-[#6B7D8C]">
-                  회원가입 후 <span className="font-medium text-[#3E5266]">실제 치료사례</span>를 확인하실 수 있습니다.
+                <p className="text-sm text-[#6B5547]">
+                  회원가입 후 <span className="font-medium text-[#3D2817]">실제 치료사례</span>를 확인하실 수 있습니다.
                 </p>
               </div>
             )}
@@ -124,7 +124,7 @@ export default function LoginModal({ isOpen, onClose, purpose = "general" }: Log
           <form onSubmit={handleSubmit} className="space-y-4">
             {mode === 'signup' && (
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-[#3E5266] mb-1">
+                <label htmlFor="name" className="block text-sm font-medium text-[#3D2817] mb-1">
                   이름
                 </label>
                 <input
@@ -132,14 +132,14 @@ export default function LoginModal({ isOpen, onClose, purpose = "general" }: Log
                   id="name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#E91E7A] focus:border-transparent bg-white text-[#3E5266]"
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#C9A567] focus:border-transparent bg-white text-[#3D2817]"
                   placeholder="홍길동"
                 />
               </div>
             )}
 
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-[#3E5266] mb-1">
+              <label htmlFor="email" className="block text-sm font-medium text-[#3D2817] mb-1">
                 이메일
               </label>
               <input
@@ -147,13 +147,13 @@ export default function LoginModal({ isOpen, onClose, purpose = "general" }: Log
                 id="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#E91E7A] focus:border-transparent bg-white text-[#3E5266]"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#C9A567] focus:border-transparent bg-white text-[#3D2817]"
                 placeholder="example@email.com"
               />
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-[#3E5266] mb-1">
+              <label htmlFor="password" className="block text-sm font-medium text-[#3D2817] mb-1">
                 비밀번호
               </label>
               <input
@@ -161,7 +161,7 @@ export default function LoginModal({ isOpen, onClose, purpose = "general" }: Log
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#E91E7A] focus:border-transparent bg-white text-[#3E5266]"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#C9A567] focus:border-transparent bg-white text-[#3D2817]"
                 placeholder="비밀번호를 입력하세요"
               />
             </div>
@@ -176,21 +176,21 @@ export default function LoginModal({ isOpen, onClose, purpose = "general" }: Log
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#E91E7A] text-white py-2.5 rounded-md hover:bg-[#D81869] transition-colors font-medium disabled:opacity-50"
+              className="w-full bg-[#3D2817] text-white py-2.5 rounded-md hover:bg-[#5B3A1F] transition-colors font-medium disabled:opacity-50"
             >
               {loading ? '처리 중...' : mode === 'login' ? '로그인' : '회원가입'}
             </button>
           </form>
 
           <div className="mt-6 text-center">
-            <p className="text-sm text-[#6B7D8C]">
+            <p className="text-sm text-[#6B5547]">
               {mode === 'login' ? '계정이 없으신가요?' : '이미 계정이 있으신가요?'}{" "}
               <button 
                 onClick={() => {
                   setMode(mode === 'login' ? 'signup' : 'login');
                   setError("");
                 }}
-                className="text-[#E91E7A] font-medium hover:underline"
+                className="text-[#C9A567] font-medium hover:underline"
               >
                 {mode === 'login' ? '회원가입 (간편하게 3초)' : '로그인'}
               </button>
