@@ -19,6 +19,9 @@ const REVIEW_NOTES = [
 const REVIEW_BG_IMAGE =
   "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/te_1.jpeg";
 
+const NAVER_REVIEWS_URL =
+  "https://map.naver.com/p/entry/place/1468544622?placePath=/review?additionalHeight=76&entry=plt&fromPanelNum=1&locale=ko&svcName=map_pcv5&timestamp=202605300822&fromPanelNum=1&additionalHeight=76&timestamp=202605300822&locale=ko&svcName=map_pcv5&from=map&searchType=place&lng=126.7934673&lat=37.7516697&c=15.00,0,0,2,dh";
+
 const BADGES = [
   "치료 효과",
   "식단 만족",
@@ -89,7 +92,9 @@ export default function HandwrittenReviews() {
               </div>
 
               <a
-                href="/about"
+                href={NAVER_REVIEWS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 bg-[#9A856D] text-white text-[12px] sm:text-sm font-bold px-4 sm:px-6 py-2.5 sm:py-3 rounded-full hover:bg-[#7C654F] transition-colors"
               >
                 전체 후기 보기
