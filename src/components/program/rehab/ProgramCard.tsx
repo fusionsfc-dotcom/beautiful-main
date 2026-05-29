@@ -16,7 +16,7 @@ export default function ProgramCard({ program }: ProgramCardProps) {
   };
 
   return (
-    <div className="bg-[#FBF5E9] rounded-2xl overflow-hidden shadow-sm flex flex-col md:flex-row">
+    <div className="bg-[#FFFFFF] rounded-2xl overflow-hidden shadow-sm flex flex-col md:flex-row">
       {/* 이미지 영역 (모바일: 상단 전체폭 / 데스크탑: 좌 40%) */}
       <div className="relative w-full md:w-[40%] md:flex-shrink-0 aspect-[4/3] md:aspect-auto md:min-h-[220px]">
         {/* TODO: 실제 사진 교체 필요 (/public/images/redesign/rehab-card-{number}.jpg) */}
@@ -27,7 +27,7 @@ export default function ProgramCard({ program }: ProgramCardProps) {
         />
 
         {/* 번호 뱃지 (좌상단) */}
-        <div className="absolute top-3 left-3 w-8 h-8 rounded-full bg-[#3D2817] flex items-center justify-center shadow">
+        <div className="absolute top-3 left-3 w-8 h-8 rounded-full bg-[#6A5542] flex items-center justify-center shadow">
           <span className="text-[11px] font-bold text-white leading-none">
             {program.number}
           </span>
@@ -44,7 +44,7 @@ export default function ProgramCard({ program }: ProgramCardProps) {
               width="18"
               height="18"
               viewBox="0 0 24 24"
-              fill="#3D2817"
+              fill="#6A5542"
               className="ml-0.5"
             >
               <path d="M8 5v14l11-7z" />
@@ -57,11 +57,11 @@ export default function ProgramCard({ program }: ProgramCardProps) {
       <div className="flex-1 p-5 md:p-6 flex flex-col justify-between gap-4">
         {/* 프로그램명 */}
         <div>
-          <h3 className="text-[17px] md:text-[19px] font-extrabold text-[#2A1F18] leading-snug">
+          <h3 className="text-[17px] md:text-[19px] font-extrabold text-[#2F2A26] leading-snug">
             {program.name}
           </h3>
           {program.subname && (
-            <p className="text-[13px] text-[#6B5547] mt-0.5">{program.subname}</p>
+            <p className="text-[13px] text-[#756A60] mt-0.5">{program.subname}</p>
           )}
         </div>
 

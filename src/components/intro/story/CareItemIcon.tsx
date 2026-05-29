@@ -9,7 +9,7 @@ interface CareItemIconProps {
   size?: number;
 }
 
-const C = "#5B3A1F";
+const C = "#9A856D";
 
 export default function CareItemIcon({ icon, size = 26 }: CareItemIconProps) {
   const p = { size, color: C, strokeWidth: 1.8 };

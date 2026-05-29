@@ -25,7 +25,7 @@ export type CoreValue = {
 // TODO: 실제 사진으로 교체 필요
 const IMG_BASE = "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/";
 
-export const STORY_HERO_IMAGE = `${IMG_BASE}room_pa.jpeg`;
+export const STORY_HERO_IMAGE = `${IMG_BASE}te_1.jpeg`;
 
 export const coreValues: CoreValue[] = [
   { icon: "shield-plus",    title: "전문 의료진",    subtitle: "27년 암 치료 경험" },
@@ -70,7 +70,7 @@ export const journeyStages: JourneyStage[] = [
     number: "02",
     title: ["항암 치료가", "힘들까 봐 걱정됩니다"],
     subtitle: ["부작용은 줄이고,", "치료는 이어갈 수 있도록 돕겠습니다."],
-    image: `${IMG_BASE}te_1.jpeg`,
+    image: `${IMG_BASE}clinic/dd.jpg`,
     imageAlt: "치료 중에도 평온한 일상",
     cares: [
       {
@@ -107,7 +107,7 @@ export const journeyStages: JourneyStage[] = [
       "불안에 머무르지 않도록,",
       "체계적인 관리 시스템으로 바꾸겠습니다.",
     ],
-    image: `${IMG_BASE}hero_img.jpeg`,
+    image: `${IMG_BASE}food/food_3.jpeg`,
     imageAlt: "자연 속에서 함께하는 노부부의 평온",
     cares: [
       {

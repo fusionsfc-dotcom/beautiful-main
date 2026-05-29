@@ -49,24 +49,24 @@ export default function TreatmentCarousel({ group }: TreatmentCarouselProps) {
               >
                 {group.badgeLabel}
               </span>
-              <h2 className="text-[20px] lg:text-[24px] font-extrabold text-[#2A1F18] leading-snug">
+              <h2 className="text-[20px] lg:text-[24px] font-extrabold text-[#2F2A26] leading-snug">
                 {group.title}
               </h2>
             </div>
           </div>
-          <p className="text-[13px] text-[#6B5547] lg:max-w-xs lg:text-right leading-relaxed">
+          <p className="text-[13px] text-[#756A60] lg:max-w-xs lg:text-right leading-relaxed">
             {group.subtitle}
           </p>
         </div>
 
         {/* 캐러셀 */}
         <div className="overflow-hidden" ref={emblaRef}>
-          <div className="flex gap-4">
+          <div className="flex -ml-4">
             {group.treatments.map((t) => (
               <div
-                key={t.name}
+                key={t.slug}
                 // 모바일: 85% 폭 (peek), 데스크탑: 1/3
-                className="flex-[0_0_85%] md:flex-[0_0_calc(33.333%-11px)] min-w-0"
+                className="flex-[0_0_85%] md:flex-[0_0_33.333%] min-w-0 pl-4"
               >
                 <TreatmentCard treatment={t} theme={group.theme} />
               </div>
@@ -110,7 +110,7 @@ export default function TreatmentCarousel({ group }: TreatmentCarouselProps) {
                 style={{
                   width: i === selected ? 24 : 10,
                   height: 10,
-                  backgroundColor: i === selected ? color.main : "#E8DCC8",
+                  backgroundColor: i === selected ? color.main : "#D8CDBE",
                 }}
               />
             ))}

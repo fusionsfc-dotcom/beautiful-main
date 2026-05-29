@@ -14,7 +14,7 @@ export const noeshinkyungTtumData: TreatmentDetail = {
     "건강을 되찾아 드립니다.",
   ],
   subtitleHighlight: "기혈순환",
-  heroImage: `${BASE}te_1.jpeg`,     // TODO: 실제 뇌신경뜸 시술 사진으로 교체
+  heroImage: `${BASE}clinic/han_DD.png`,
   heroVideoUrl: "",
   heroVideoLabel: "뇌신경뜸 소개 영상 보기",
 
@@ -49,19 +49,19 @@ export const noeshinkyungTtumData: TreatmentDetail = {
       number: "01",
       title: "뇌 기능 활성화",
       subtitle: "뇌 혈류 개선 및 신경세포 활성화로\n기억력과 집중력 향상",
-      image: `${BASE}yoga_s.jpeg`,    // TODO: 실제 뇌 비주얼 이미지로 교체
+      image: `${BASE}clinic/dd_care/dd2_1.jpeg`,
     },
     {
       number: "02",
       title: "스트레스 & 불면 개선",
       subtitle: "긴장 완화 및 자율신경 안정으로\n스트레스 해소와 숙면 도움",
-      image: `${BASE}hero_img.jpeg`,  // TODO: 실제 이미지로 교체
+      image: `${BASE}clinic/dd_care/dd2_2.jpeg`,
     },
     {
       number: "03",
       title: "면역력 향상",
       subtitle: "면역 세포 활성화 및\n자연치유력 강화",
-      image: `${BASE}room_pa.jpeg`,   // TODO: 실제 이미지로 교체
+      image: `${BASE}clinic/dd_care/dd2_3.jpeg`,
     },
   ],
   visualCardsCarousel: true,  // 캐러셀 모드 활성화

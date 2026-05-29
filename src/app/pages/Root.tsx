@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Outlet, useLocation } from "react-router";
-import FloatingConsultButton from "../components/FloatingConsultButton";
 import GlobalHeader from "../components/GlobalHeader";
 import GlobalFooter from "../components/GlobalFooter";
 import HamburgerMenu from "../../components/menu/HamburgerMenu";
@@ -17,7 +16,7 @@ export default function Root() {
   }, [location.pathname]);
 
   return (
-    <div className="min-h-[100dvh] flex flex-col bg-[#FAF6EE] root-wrapper">
+    <div className="min-h-[100dvh] flex flex-col bg-[#F8F3EA] root-wrapper">
       {/* 모든 페이지 공통 헤더 */}
       <GlobalHeader onMenuOpen={() => setMenuOpen(true)} />
 
@@ -33,17 +32,12 @@ export default function Root() {
         /* 기타 페이지: 사이드바 + 푸터 레이아웃 */
         <>
           <div
-            className="flex-1 lg:flex max-w-screen-xl mx-auto w-full gap-8"
+            className="flex-1 max-w-screen-xl mx-auto w-full"
             style={{ paddingBottom: "calc(56px + env(safe-area-inset-bottom, 0px))" }}
           >
-            <main className="flex-1 bg-white">
+            <main className="bg-white">
               <Outlet />
             </main>
-
-            {/* Desktop Sidebar */}
-            <aside className="w-80 flex-shrink-0 lg:p-8">
-              <FloatingConsultButton />
-            </aside>
           </div>
 
           <GlobalFooter />

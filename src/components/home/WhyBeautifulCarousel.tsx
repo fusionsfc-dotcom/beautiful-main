@@ -17,7 +17,7 @@ const SLIDES = [
     ],
     // TODO: 실제 사진 교체 필요 — 1인실 침대 이미지 (창문, 베이지 톤)
     image:
-      "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/room_pa.jpeg",
+      "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/room/room1.jpg",
   },
   {
     number: "2",
@@ -84,27 +84,25 @@ export default function WhyBeautifulCarousel() {
   }, [emblaApi]);
 
   return (
-    <section className="bg-[#FAF6EE] py-14 lg:py-20">
+    <section className="bg-[#F8F3EA] py-8 lg:py-16">
       {/* 헤더 */}
-      <div className="px-5 lg:max-w-6xl lg:mx-auto lg:px-8 mb-8">
+      <div className="px-5 lg:max-w-6xl lg:mx-auto lg:px-8 mb-5 lg:mb-8">
         <div className="flex items-start justify-between">
           <div>
-            <p className="text-xs text-[#C9A567] tracking-widest mb-2 uppercase">
+            <p className="text-xs text-[#9A856D] tracking-widest mb-1.5 uppercase">
               Why Beautiful
             </p>
-            <h2 className="text-2xl lg:text-3xl font-extrabold text-[#2A1F18] leading-snug">
-              왜 뷰티풀이어야
-              <br />
-              하나요?
+            <h2 className="text-[22px] sm:text-2xl lg:text-3xl font-extrabold text-[#2F2A26] leading-snug whitespace-nowrap">
+              왜 뷰티풀이어야 하나요?
             </h2>
-            <p className="text-sm text-[#6B5547] mt-2">
+            <p className="text-sm text-[#756A60] mt-1.5">
               암 환자를 위한 특별한 4가지 이유
             </p>
           </div>
           {/* 페이지 인디케이터 */}
-          <span className="text-lg font-bold text-[#3D2817] mt-1">
+          <span className="text-lg font-bold text-[#6A5542] mt-1">
             {selectedIndex + 1}{" "}
-            <span className="text-[#E8DCC8] font-normal">/ {SLIDES.length}</span>
+            <span className="text-[#D8CDBE] font-normal">/ {SLIDES.length}</span>
           </span>
         </div>
       </div>
@@ -117,30 +115,21 @@ export default function WhyBeautifulCarousel() {
               key={slide.number}
               className="flex-[0_0_100%] min-w-0 px-5 lg:max-w-6xl lg:mx-auto lg:px-8"
             >
-              <div className="bg-[#F5EEE0] rounded-2xl overflow-hidden flex flex-col lg:flex-row lg:items-stretch">
+              <div className="bg-[#EFE7DC] rounded-2xl overflow-hidden flex flex-col lg:flex-row lg:items-stretch">
                 {/* 텍스트 영역 */}
                 <div className="flex-1 p-6 lg:p-10 flex flex-col justify-between">
                   <div>
-                    {/* 번호 */}
-                    <div className="w-12 h-12 rounded-full border-2 border-[#3D2817] flex items-center justify-center mb-5">
-                      <span className="text-xl font-extrabold text-[#3D2817]">
-                        {slide.number}
-                      </span>
-                    </div>
-                    <h3 className="text-xl lg:text-2xl font-extrabold text-[#2A1F18] leading-snug mb-3 whitespace-pre-line">
+                    <h3 className="text-xl lg:text-2xl font-extrabold text-[#2F2A26] leading-snug mb-3 whitespace-pre-line">
                       {slide.title}
                     </h3>
-                    <p className="text-sm text-[#6B5547] leading-relaxed mb-6 whitespace-pre-line">
-                      {slide.description}
-                    </p>
                   </div>
 
-                  {/* 특징 아이콘 3개 */}
+                  {/* 특징 리스트 — 이모지 대신 단색 말머리로 통일 */}
                   <div className="flex flex-col gap-2.5">
                     {slide.features.map((f) => (
                       <div key={f.text} className="flex items-center gap-3">
-                        <span className="text-lg leading-none">{f.icon}</span>
-                        <span className="text-sm text-[#3D2817] font-medium">
+                        <span className="w-2 h-2 rounded-full bg-[#9A856D] flex-shrink-0" />
+                        <span className="text-sm text-[#6A5542] font-medium">
                           {f.text}
                         </span>
                       </div>
@@ -170,7 +159,7 @@ export default function WhyBeautifulCarousel() {
           <button
             onClick={scrollPrev}
             aria-label="이전"
-            className="w-10 h-10 rounded-full bg-[#3D2817] text-white flex items-center justify-center hover:bg-[#5B3A1F] transition-colors"
+            className="w-10 h-10 rounded-full bg-[#9A856D] text-white flex items-center justify-center hover:bg-[#7C654F] transition-colors"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
               <path d="M15 18l-6-6 6-6" />
@@ -179,7 +168,7 @@ export default function WhyBeautifulCarousel() {
           <button
             onClick={scrollNext}
             aria-label="다음"
-            className="w-10 h-10 rounded-full bg-[#3D2817] text-white flex items-center justify-center hover:bg-[#5B3A1F] transition-colors"
+            className="w-10 h-10 rounded-full bg-[#9A856D] text-white flex items-center justify-center hover:bg-[#7C654F] transition-colors"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
               <path d="M9 18l6-6-6-6" />
@@ -196,8 +185,8 @@ export default function WhyBeautifulCarousel() {
               aria-label={`${i + 1}번 슬라이드`}
               className={`rounded-full transition-all duration-300 ${
                 i === selectedIndex
-                  ? "w-6 h-2.5 bg-[#3D2817]"
-                  : "w-2.5 h-2.5 bg-[#E8DCC8]"
+                  ? "w-6 h-2.5 bg-[#9A856D]"
+                  : "w-2.5 h-2.5 bg-[#D8CDBE]"
               }`}
             />
           ))}

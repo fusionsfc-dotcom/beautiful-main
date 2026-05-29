@@ -48,10 +48,10 @@ export default function ProgramFeature({
   if (compact) {
     return (
       <div className="flex items-center gap-1.5 min-w-0">
-        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-[#F5EEE0] flex items-center justify-center">
-          <Icon size={12} color="#5B3A1F" strokeWidth={1.8} />
+        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-[#EFE7DC] flex items-center justify-center">
+          <Icon size={12} color="#9A856D" strokeWidth={1.8} />
         </div>
-        <span className="text-[12px] text-[#5B3A1F] font-medium leading-tight truncate">
+        <span className="text-[12px] text-[#9A856D] font-medium leading-tight truncate">
           {title}
         </span>
       </div>
@@ -60,15 +60,15 @@ export default function ProgramFeature({
 
   return (
     <div className="flex flex-col items-center gap-2 text-center">
-      <div className="w-10 h-10 rounded-full bg-[#F5EEE0] flex items-center justify-center">
-        <Icon size={18} color="#5B3A1F" strokeWidth={1.8} />
+      <div className="w-10 h-10 rounded-full bg-[#EFE7DC] flex items-center justify-center">
+        <Icon size={18} color="#9A856D" strokeWidth={1.8} />
       </div>
       <div>
-        <p className="text-[13px] font-semibold text-[#2A1F18] leading-tight">
+        <p className="text-[13px] font-semibold text-[#2F2A26] leading-tight">
           {title}
         </p>
         {subtitle && (
-          <p className="text-[11px] text-[#6B5547] leading-tight mt-0.5">
+          <p className="text-[11px] text-[#756A60] leading-tight mt-0.5">
             {subtitle}
           </p>
         )}

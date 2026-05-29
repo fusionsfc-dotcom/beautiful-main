@@ -19,7 +19,7 @@ export default function IntegratedCare() {
         />
       </Helmet>
 
-      <div className="bg-[#FAF6EE] min-h-screen">
+      <div className="bg-[#F8F3EA] min-h-screen">
         {/* Section 1 — 히어로 */}
         <IntegratedHero />
 
@@ -30,19 +30,19 @@ export default function IntegratedCare() {
         <SystemSectionHeader />
 
         {/* 구분선 */}
-        <div className="border-t border-[#E8DCC8] mx-5 lg:mx-auto lg:max-w-6xl" />
+        <div className="border-t border-[#D8CDBE] mx-5 lg:mx-auto lg:max-w-6xl" />
 
         {/* Section 4 — 한방 치료 캐러셀 (그린) */}
         <TreatmentCarousel group={koreanTreatments} />
 
         {/* 구분선 */}
-        <div className="border-t border-[#E8DCC8] mx-5 lg:mx-auto lg:max-w-6xl" />
+        <div className="border-t border-[#D8CDBE] mx-5 lg:mx-auto lg:max-w-6xl" />
 
         {/* Section 5 — 양방 치료 캐러셀 (블루) */}
         <TreatmentCarousel group={westernTreatments} />
 
         {/* 구분선 */}
-        <div className="border-t border-[#E8DCC8] mx-5 lg:mx-auto lg:max-w-6xl" />
+        <div className="border-t border-[#D8CDBE] mx-5 lg:mx-auto lg:max-w-6xl" />
 
         {/* Section 6 — 치과 관리 그리드 (퍼플) */}
         <DentalGridSection group={dentalCares} />

@@ -72,8 +72,8 @@ export const menuCategories: MenuCategory[] = [
     title: "암 정보",
     icon: "calendar",
     items: [
-      { label: "영상 (유튜브)", href: "/info/youtube" },
-      { label: "의료 칼럼", href: "/columns" },
+      { label: "영상 (유튜브)", href: "/columns?tab=videos" },
+      { label: "의료 칼럼", href: "/columns?tab=columns" },
     ],
   },
   {
@@ -81,6 +81,8 @@ export const menuCategories: MenuCategory[] = [
     number: 6,
     title: "자주 묻는 질문 (FAQ)",
     icon: "question",
-    items: [],
+    items: [
+      { label: "자주하는 질문", href: "/columns?tab=faq" },
+    ],
   },
 ];

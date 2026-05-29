@@ -14,7 +14,7 @@ export const customOralData: TreatmentDetail = {
     "치료 전·중·후 구강 관리를 진행합니다.",
   ],
   subtitleHighlight: "치료 전·중·후",
-  heroImage: `${BASE}ceo_re.png`,  // TODO: 실제 맞춤 구강 케어 사진
+  heroImage: `${BASE}clinic/c_3.jpeg`,
   heroVideoUrl: "",
   heroVideoLabel: "맞춤 구강 케어 안내 영상",
 

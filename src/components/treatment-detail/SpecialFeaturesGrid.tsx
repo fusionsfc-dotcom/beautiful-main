@@ -43,7 +43,7 @@ export default function SpecialFeaturesGrid({
   colors,
 }: SpecialFeaturesGridProps) {
   return (
-    <div className="bg-[#FBF5E9] rounded-2xl shadow-sm px-6 py-7 mt-4">
+    <div className="bg-[#FFFFFF] rounded-2xl shadow-sm px-6 py-7 mt-4">
       {/* 03 번호 뱃지 + 타이틀 */}
       <div
         className="flex items-center gap-4 mb-7 pb-5"
@@ -55,7 +55,7 @@ export default function SpecialFeaturesGrid({
         >
           <span className="text-white text-[15px] font-extrabold">03</span>
         </div>
-        <h3 className="text-[17px] sm:text-[19px] font-extrabold text-[#2A1F18] leading-snug">
+        <h3 className="text-[17px] sm:text-[19px] font-extrabold text-[#2F2A26] leading-snug">
           {title ?? "뷰티풀 한방병원 특별함"}
         </h3>
       </div>
@@ -70,7 +70,7 @@ export default function SpecialFeaturesGrid({
             >
               <FeatureIcon icon={feat.icon} color={colors.main} />
             </div>
-            <p className="text-[13px] font-bold text-[#2A1F18] leading-snug">
+            <p className="text-[13px] font-bold text-[#2F2A26] leading-snug">
               {feat.title.map((line, j) => (
                 <span key={j} className="block">{line}</span>
               ))}

@@ -121,13 +121,13 @@ export default function HealthCheck() {
   return (
     <div className="min-h-[100dvh] bg-white">
       {seoHead}
-      <header className="sticky top-0 bg-white border-b border-gray-200 z-10">
+      <header className="sticky top-0 bg-white border-b border-[#D8CDBE] z-10">
         <div className="flex items-center px-5 py-4">
           <button onClick={handleBack} className="mr-4">
-            <ChevronLeft className="w-6 h-6 text-[#3D2817]" />
+            <ChevronLeft className="w-6 h-6 text-[#6A5542]" />
           </button>
           <div className="flex-1">
-            <h2 className="text-[#3D2817] text-lg font-semibold">상태 체크</h2>
+            <h2 className="text-[#6A5542] text-lg font-semibold">상태 체크</h2>
           </div>
         </div>
       </header>
@@ -137,19 +137,19 @@ export default function HealthCheck() {
           {/* Progress Bar */}
           <div className="mb-8">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-sm text-[#6B5547] font-medium">
+              <span className="text-sm text-[#756A60] font-medium">
                 Step {getStepNumber()} of 3
               </span>
-              <span className="text-sm text-[#C9A567] font-semibold">
+              <span className="text-sm text-[#9A856D] font-semibold">
                 {Math.round((getStepNumber() / 3) * 100)}%
               </span>
             </div>
             <Progress.Root
               value={(getStepNumber() / 3) * 100}
-              className="h-2 bg-[#F8F9FA] rounded-full overflow-hidden"
+              className="h-2 bg-[#F8F3EA] rounded-full overflow-hidden"
             >
               <Progress.Indicator
-                className="h-full bg-[#3D2817] transition-all duration-300 ease-out"
+                className="h-full bg-[#6A5542] transition-all duration-300 ease-out"
                 style={{ width: `${(getStepNumber() / 3) * 100}%` }}
               />
             </Progress.Root>
@@ -157,10 +157,10 @@ export default function HealthCheck() {
 
           {/* Question Title */}
           <div className="mb-8">
-            <h2 className="text-[#3D2817] text-2xl font-bold mb-3 leading-tight">
+            <h2 className="text-[#6A5542] text-2xl font-bold mb-3 leading-tight">
               현재 상태를 선택해주세요
             </h2>
-            <p className="text-[#6B5547] text-base leading-relaxed">
+            <p className="text-[#756A60] text-base leading-relaxed">
               해당되는 항목을 모두 선택해주시면<br />
               맞춤 관리 방향을 안내해드립니다
             </p>
@@ -174,16 +174,16 @@ export default function HealthCheck() {
                 onClick={() => handleCheckToggle(item.id)}
                 className={`w-full p-5 rounded-xl text-left transition-all border-2 ${
                   selectedChecks.includes(item.id)
-                    ? "bg-[#3D2817]/5 border-[#C9A567] shadow-md"
-                    : "bg-[#F8F9FA] border-transparent hover:border-[#A08060]"
+                    ? "bg-[#F5EFE6] border-[#9A856D] shadow-md"
+                    : "bg-[#F8F3EA] border-transparent hover:border-[#9A856D]"
                 }`}
               >
                 <div className="flex items-center gap-4">
                   <div
                     className={`flex-shrink-0 w-6 h-6 rounded-md border-2 flex items-center justify-center transition-all ${
                       selectedChecks.includes(item.id)
-                        ? "bg-[#3D2817] border-[#C9A567]"
-                        : "bg-white border-[#A08060]"
+                        ? "bg-[#6A5542] border-[#9A856D]"
+                        : "bg-white border-[#9A856D]"
                     }`}
                   >
                     {selectedChecks.includes(item.id) && (
@@ -192,8 +192,8 @@ export default function HealthCheck() {
                   </div>
                   <span className={`text-base leading-relaxed ${
                     selectedChecks.includes(item.id)
-                      ? "text-[#3D2817] font-semibold"
-                      : "text-[#3D2817]"
+                      ? "text-[#6A5542] font-semibold"
+                      : "text-[#6A5542]"
                   }`}>
                     {item.label}
                   </span>
@@ -208,8 +208,8 @@ export default function HealthCheck() {
             disabled={selectedChecks.length === 0}
             className={`w-full py-4 rounded-xl text-center font-semibold transition-all ${
               selectedChecks.length > 0
-                ? "bg-[#3D2817] text-white hover:bg-[#d11a6d] shadow-lg"
-                : "bg-[#F8F9FA] text-[#A08060] cursor-not-allowed"
+                ? "bg-[#8BC31F] text-white hover:bg-[#75A915] shadow-lg"
+                : "bg-[#F8F3EA] text-[#9A856D] cursor-not-allowed"
             }`}
           >
             다음 단계
@@ -217,7 +217,7 @@ export default function HealthCheck() {
 
           {/* Helper Text */}
           {selectedChecks.length === 0 && (
-            <p className="text-center text-sm text-[#A08060] mt-4">
+            <p className="text-center text-sm text-[#9A856D] mt-4">
               최소 1개 이상 선택해주세요
             </p>
           )}
@@ -264,13 +264,13 @@ function StageSelectionScreen({ onSelect }: { onSelect: (stage: Exclude<Treatmen
 
   return (
     <div className="min-h-[100dvh] bg-white">
-      <header className="sticky top-0 bg-white border-b border-gray-200 z-10">
+      <header className="sticky top-0 bg-white border-b border-[#D8CDBE] z-10">
         <div className="flex items-center px-5 py-4">
           <Link to="/" className="mr-4">
-            <ChevronLeft className="w-6 h-6 text-[#3D2817]" />
+            <ChevronLeft className="w-6 h-6 text-[#6A5542]" />
           </Link>
           <div className="flex-1">
-            <h2 className="text-[#3D2817] text-lg font-semibold">상태 체크</h2>
+            <h2 className="text-[#6A5542] text-lg font-semibold">상태 체크</h2>
           </div>
         </div>
       </header>
@@ -279,11 +279,11 @@ function StageSelectionScreen({ onSelect }: { onSelect: (stage: Exclude<Treatmen
         <div className="max-w-4xl mx-auto">
           {/* HERO / INTRO */}
           <div className="text-center mb-12">
-            <h1 className="text-[#3D2817] text-3xl md:text-4xl font-bold mb-4 leading-tight">
+            <h1 className="text-[#6A5542] text-3xl md:text-4xl font-bold mb-4 leading-tight">
               지금 치료 단계에 따라<br />
               필요한 관리가 달라집니다
             </h1>
-            <p className="text-[#6B5547] text-lg leading-relaxed">
+            <p className="text-[#756A60] text-lg leading-relaxed">
               암 치료는 단계별로 몸의 상태와 필요한 관리가 다릅니다<br />
               현재 상태를 선택하시면 맞춤 관리 방향을 안내해드립니다
             </p>
@@ -291,7 +291,7 @@ function StageSelectionScreen({ onSelect }: { onSelect: (stage: Exclude<Treatmen
 
           {/* Progress indicator */}
           <div className="text-center mb-10">
-            <span className="inline-block text-sm text-[#6B5547] font-medium px-5 py-2 bg-[#F8F9FA] rounded-full border border-[#C9A567]/20">
+            <span className="inline-block text-sm text-[#756A60] font-medium px-5 py-2 bg-[#F8F3EA] rounded-full border border-[#9A856D]/20">
               Step 1 of 3
             </span>
           </div>
@@ -305,23 +305,23 @@ function StageSelectionScreen({ onSelect }: { onSelect: (stage: Exclude<Treatmen
                 <button
                   key={stage.id}
                   onClick={() => onSelect(stage.id)}
-                  className="bg-white border-2 border-gray-200 rounded-2xl p-6 hover:border-[#C9A567] hover:shadow-xl transition-all group text-left"
+                  className="bg-white border-2 border-[#D8CDBE] rounded-2xl p-6 hover:border-[#9A856D] hover:shadow-xl transition-all group text-left"
                 >
                   {/* Icon */}
-                  <div className="w-14 h-14 bg-[#F8F9FA] rounded-xl flex items-center justify-center mb-4 group-hover:bg-[#3D2817]/10 transition-colors">
-                    <Icon className="w-7 h-7 text-[#3D2817] group-hover:text-[#C9A567] transition-colors" />
+                  <div className="w-14 h-14 bg-[#F8F3EA] rounded-xl flex items-center justify-center mb-4 group-hover:bg-[#F5EFE6] transition-colors">
+                    <Icon className="w-7 h-7 text-[#6A5542] group-hover:text-[#9A856D] transition-colors" />
                   </div>
 
                   {/* Content */}
-                  <h3 className="text-[#3D2817] text-lg font-bold mb-2 leading-tight group-hover:text-[#C9A567] transition-colors">
+                  <h3 className="text-[#6A5542] text-lg font-bold mb-2 leading-tight group-hover:text-[#9A856D] transition-colors">
                     {stage.title}
                   </h3>
-                  <p className="text-[#6B5547] text-sm leading-relaxed mb-4">
+                  <p className="text-[#756A60] text-sm leading-relaxed mb-4">
                     {stage.description}
                   </p>
 
                   {/* CTA */}
-                  <div className="flex items-center gap-2 text-[#C9A567] text-sm font-semibold">
+                  <div className="flex items-center gap-2 text-[#9A856D] text-sm font-semibold">
                     <span>선택하기</span>
                     <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </div>
@@ -331,9 +331,9 @@ function StageSelectionScreen({ onSelect }: { onSelect: (stage: Exclude<Treatmen
           </div>
 
           {/* 안내 메시지 */}
-          <div className="mt-10 p-6 bg-[#F8F9FA] rounded-2xl text-center border border-[#C9A567]/10">
-            <p className="text-sm text-[#6B5547] leading-relaxed">
-              간단한 체크만으로 <span className="text-[#C9A567] font-semibold">맞춤 관리 방향</span>을 안내해드립니다<br />
+          <div className="mt-10 p-6 bg-[#F8F3EA] rounded-2xl text-center border border-[#9A856D]/10">
+            <p className="text-sm text-[#756A60] leading-relaxed">
+              간단한 체크만으로 <span className="text-[#9A856D] font-semibold">맞춤 관리 방향</span>을 안내해드립니다<br />
               2-3분이면 충분합니다
             </p>
           </div>
@@ -414,12 +414,12 @@ function ResultScreen({ stage, selectedChecks }: { stage: Exclude<TreatmentStage
 
   return (
     <div className="min-h-[100dvh] bg-white">
-      <header className="sticky top-0 bg-white border-b border-gray-200 z-10">
+      <header className="sticky top-0 bg-white border-b border-[#D8CDBE] z-10">
         <div className="flex items-center px-5 py-4">
           <Link to="/" className="mr-4">
-            <ChevronLeft className="w-6 h-6 text-[#3D2817]" />
+            <ChevronLeft className="w-6 h-6 text-[#6A5542]" />
           </Link>
-          <h2 className="text-[#3D2817] text-lg font-semibold">체크 결과</h2>
+          <h2 className="text-[#6A5542] text-lg font-semibold">체크 결과</h2>
         </div>
       </header>
 
@@ -427,96 +427,80 @@ function ResultScreen({ stage, selectedChecks }: { stage: Exclude<TreatmentStage
         <div className="max-w-2xl mx-auto">
           {/* 완료 아이콘 */}
           <div className="text-center mb-8">
-            <div className="w-20 h-20 bg-[#3D2817] rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+            <div className="w-20 h-20 bg-[#6A5542] rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
               <Check className="w-10 h-10 text-white" />
             </div>
-            <div className="inline-block px-5 py-2 bg-[#3D2817]/10 text-[#C9A567] rounded-full text-sm font-semibold mb-3">
+            <div className="inline-block px-5 py-2 bg-[#F5EFE6] text-[#9A856D] rounded-full text-sm font-semibold mb-3">
               분석 완료
             </div>
           </div>
 
           {/* 결과 타이틀 */}
           <div className="mb-6">
-            <h1 className="text-[#3D2817] text-2xl md:text-3xl font-bold mb-4 leading-tight text-center">
+            <h1 className="text-[#6A5542] text-2xl md:text-3xl font-bold mb-4 leading-tight text-center">
               {result.title}
             </h1>
           </div>
 
           {/* 핵심 메시지 (강조 박스) */}
-          <div className="p-6 bg-gradient-to-r from-[#3D2817]/10 to-[#3D2817]/5 rounded-2xl mb-6 border-2 border-[#C9A567]/20">
+          <div className="p-6 bg-gradient-to-r from-[#6A5542]/10 to-[#6A5542]/5 rounded-2xl mb-6 border-2 border-[#9A856D]/20">
             <div className="flex items-start gap-3">
-              <div className="flex-shrink-0 w-6 h-6 bg-[#3D2817] rounded-full flex items-center justify-center mt-1">
+              <div className="flex-shrink-0 w-6 h-6 bg-[#6A5542] rounded-full flex items-center justify-center mt-1">
                 <span className="text-white text-xs font-bold">!</span>
               </div>
-              <p className="text-[#C9A567] font-bold text-lg leading-relaxed">
+              <p className="text-[#9A856D] font-bold text-lg leading-relaxed">
                 {result.highlight}
               </p>
             </div>
           </div>
 
           {/* 상세 설명 */}
-          <div className="p-6 bg-white rounded-2xl border border-gray-200 mb-6 shadow-sm">
-            <p className="text-[#6B5547] leading-relaxed mb-6">
+          <div className="p-6 bg-white rounded-2xl border border-[#D8CDBE] mb-6 shadow-sm">
+            <p className="text-[#756A60] leading-relaxed mb-6">
               {result.description}
             </p>
 
             {/* 관리 포인트 리스트 */}
             <div className="space-y-3">
-              <h3 className="text-[#3D2817] font-semibold mb-3 flex items-center gap-2">
-                <div className="w-1 h-5 bg-[#3D2817] rounded-full"></div>
+              <h3 className="text-[#6A5542] font-semibold mb-3 flex items-center gap-2">
+                <div className="w-1 h-5 bg-[#6A5542] rounded-full"></div>
                 필요한 관리 항목
               </h3>
               {result.managementPoints.map((point, index) => (
-                <div key={index} className="flex items-start gap-3 p-3 bg-[#F8F9FA] rounded-xl">
-                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-[#3D2817]/10 flex items-center justify-center mt-0.5">
-                    <Check className="w-4 h-4 text-[#C9A567]" />
+                <div key={index} className="flex items-start gap-3 p-3 bg-[#F8F3EA] rounded-xl">
+                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-[#F5EFE6] flex items-center justify-center mt-0.5">
+                    <Check className="w-4 h-4 text-[#9A856D]" />
                   </div>
-                  <span className="text-[#3D2817] leading-relaxed">{point}</span>
+                  <span className="text-[#6A5542] leading-relaxed">{point}</span>
                 </div>
               ))}
             </div>
           </div>
 
           {/* 보조 메시지 */}
-          <div className="p-5 bg-[#3D2817] rounded-2xl mb-8 text-center">
+          <div className="p-5 bg-[#6A5542] rounded-2xl mb-8 text-center">
             <p className="text-white font-bold text-lg leading-relaxed">
               지금 관리가 다음 치료를 결정합니다
             </p>
           </div>
 
           {/* CTA 섹션 */}
-          <div className="p-8 bg-gradient-to-br from-[#F8F9FA] to-white rounded-2xl border-2 border-[#C9A567]/20 mb-6">
-            <h3 className="text-[#3D2817] text-xl font-bold mb-3 text-center leading-tight">
+          <div className="p-8 bg-gradient-to-br from-[#F8F3EA] to-white rounded-2xl border-2 border-[#9A856D]/20 mb-6">
+            <h3 className="text-[#6A5542] text-xl font-bold mb-3 text-center leading-tight">
               지금 상태에 맞는 관리가<br />
               회복 속도를 바꿉니다
             </h3>
-            <p className="text-[#6B5547] text-sm text-center mb-6 leading-relaxed">
+            <p className="text-[#756A60] text-sm text-center mb-6 leading-relaxed">
               전문 의료진과 상담하시면 더 정확한 관리 방향을 안내받으실 수 있습니다
             </p>
 
-            {/* CTA 버튼 */}
-            <div className="space-y-3">
-              <Link
-                to="/reservation"
-                className="block w-full py-4 bg-[#3D2817] text-white rounded-xl text-center font-semibold hover:bg-[#d11a6d] transition-colors shadow-lg"
-              >
-                맞춤 상담 받기
-              </Link>
-              
-              <a
-                href="tel:02-1234-5678"
-                className="block w-full py-4 bg-white border-2 border-[#3D2817] text-[#3D2817] rounded-xl text-center font-semibold hover:bg-[#F8F9FA] transition-colors"
-              >
-                전화 상담 (031-945-2000)
-              </a>
-            </div>
           </div>
 
           {/* 하단 안내 */}
           <div className="text-center">
             <Link
               to="/"
-              className="text-[#6B5547] text-sm hover:text-[#3D2817] transition-colors"
+              className="text-[#756A60] text-sm hover:text-[#6A5542] transition-colors"
             >
               홈으로 돌아가기
             </Link>
@@ -524,15 +508,6 @@ function ResultScreen({ stage, selectedChecks }: { stage: Exclude<TreatmentStage
         </div>
       </div>
 
-      {/* 고정 CTA 버튼 (스크롤 시) */}
-      <div className="fixed bottom-0 left-0 right-0 p-5 bg-white border-t border-gray-200 md:hidden">
-        <Link
-          to="/reservation"
-          className="block w-full py-4 bg-[#3D2817] text-white rounded-xl text-center font-semibold shadow-lg"
-        >
-          맞춤 상담 받기
-        </Link>
-      </div>
     </div>
   );
 }

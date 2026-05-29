@@ -21,6 +21,8 @@ import BrandStory from "./pages/intro/BrandStory";
 import AntiCancerNutrition from "./pages/program/AntiCancerNutrition";
 import TreatmentDetail from "./pages/program/treatments/TreatmentDetail";
 import Why from "./pages/Why";
+import CancerTypes from "./pages/cancer/CancerTypes";
+import CancerIntro from "./pages/cancer/CancerIntro";
 
 export const router = createBrowserRouter([
   {
@@ -48,6 +50,8 @@ export const router = createBrowserRouter([
       { path: "intro/story", Component: BrandStory },
       { path: "program/nutrition", Component: AntiCancerNutrition },
       { path: "program/integrated/:slug", Component: TreatmentDetail },
+      { path: "cancer/types", Component: CancerTypes },
+      { path: "cancer/intro", Component: CancerIntro },
       { path: "*", Component: ErrorPage },
     ],
   },

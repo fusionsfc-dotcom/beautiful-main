@@ -1,4 +1,4 @@
-/** HandwrittenReviews — 자필 후기 (다크 브라운 배경 + 손편지 노트) */
+/** HandwrittenReviews — 자필 후기 (밝은 배경 + 손편지 노트) */
 // TODO: /public/images/redesign/review-note-1.jpg, review-note-2.jpg — 실제 자필 후기 사진으로 교체 필요
 
 const REVIEW_NOTES = [
@@ -16,6 +16,9 @@ const REVIEW_NOTES = [
   },
 ];
 
+const REVIEW_BG_IMAGE =
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/te_1.jpeg";
+
 const BADGES = [
   "치료 효과",
   "식단 만족",
@@ -26,85 +29,95 @@ const BADGES = [
 export default function HandwrittenReviews() {
   return (
     <section
-      className="py-14 lg:py-20 px-5 lg:px-8"
-      style={{
-        background: "linear-gradient(135deg, #3D2817 0%, #5B3A1F 100%)",
-      }}
+      className="py-10 lg:py-16 px-5 lg:px-8 bg-[#F8F3EA]"
     >
-      <div className="lg:max-w-6xl lg:mx-auto flex flex-col lg:flex-row lg:items-center lg:gap-16">
+      <div className="lg:max-w-6xl lg:mx-auto relative overflow-hidden rounded-3xl border border-[#D8CDBE] shadow-sm px-5 py-7 lg:px-10 lg:py-10 flex flex-col lg:flex-row lg:items-center lg:gap-14">
+        {/* 라운드 배경 이미지 */}
+        <img
+          src={REVIEW_BG_IMAGE}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-[#F8F3EA]/50" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#9A856D]/20 via-[#F8F3EA]/36 to-[#F5EFE6]/26" />
+
         {/* 좌측 텍스트 */}
-        <div className="flex-1 mb-10 lg:mb-0">
-          <p className="text-sm text-[#C9A567] tracking-widest mb-4">
+        <div className="flex-1 mb-2 lg:mb-0 relative z-10">
+          <p className="text-sm text-[#FFFFFF] tracking-widest mb-3">
             환자분들의 진심이 증명합니다
           </p>
 
-          {/* 자필 후기 + 100+ */}
-          <div className="flex items-end gap-4 mb-6">
-            {/* 월계관 왼쪽 */}
-            <svg width="28" height="40" viewBox="0 0 28 40" fill="none" aria-hidden="true">
-              <path d="M14 38C8 32 2 24 2 16C2 9 7 4 14 4" stroke="#C9A567" strokeWidth="1.5" strokeLinecap="round"/>
-              <path d="M8 20C8 20 6 16 8 12" stroke="#C9A567" strokeWidth="1.2" strokeLinecap="round"/>
-              <path d="M6 28C6 28 3 24 5 20" stroke="#C9A567" strokeWidth="1.2" strokeLinecap="round"/>
-            </svg>
+          <div className="flex flex-row items-center gap-3 lg:gap-5">
+            {/* 자필 후기 + 100+ */}
+            <div className="inline-flex items-center gap-2 sm:gap-4 bg-white/92 backdrop-blur-sm border border-white/55 rounded-2xl px-3 py-3 sm:px-5 sm:py-4 shrink-0">
+              {/* 월계관 왼쪽 */}
+              <svg className="w-5 h-8 sm:w-7 sm:h-10" viewBox="0 0 28 40" fill="none" aria-hidden="true">
+                <path d="M14 38C8 32 2 24 2 16C2 9 7 4 14 4" stroke="#9A856D" strokeWidth="1.5" strokeLinecap="round"/>
+                <path d="M8 20C8 20 6 16 8 12" stroke="#9A856D" strokeWidth="1.2" strokeLinecap="round"/>
+                <path d="M6 28C6 28 3 24 5 20" stroke="#9A856D" strokeWidth="1.2" strokeLinecap="round"/>
+              </svg>
 
-            <div className="text-center">
-              <h2 className="text-3xl lg:text-4xl font-extrabold text-white leading-none">
-                자필 후기
-              </h2>
-              <span className="text-4xl lg:text-5xl font-extrabold text-[#C9A567]">
-                100+
-              </span>
+              <div className="text-center">
+                <h2 className="text-[22px] sm:text-2xl lg:text-3xl font-extrabold text-[#8BC31F] leading-none">
+                  자필 후기
+                </h2>
+                <span className="text-[40px] sm:text-4xl lg:text-5xl font-extrabold text-[#8BC31F] leading-none">
+                  100+
+                </span>
+              </div>
+
+              {/* 월계관 오른쪽 */}
+              <svg className="w-5 h-8 sm:w-7 sm:h-10" viewBox="0 0 28 40" fill="none" aria-hidden="true">
+                <path d="M14 38C20 32 26 24 26 16C26 9 21 4 14 4" stroke="#9A856D" strokeWidth="1.5" strokeLinecap="round"/>
+                <path d="M20 20C20 20 22 16 20 12" stroke="#9A856D" strokeWidth="1.2" strokeLinecap="round"/>
+                <path d="M22 28C22 28 25 24 23 20" stroke="#9A856D" strokeWidth="1.2" strokeLinecap="round"/>
+              </svg>
             </div>
 
-            {/* 월계관 오른쪽 */}
-            <svg width="28" height="40" viewBox="0 0 28 40" fill="none" aria-hidden="true">
-              <path d="M14 38C20 32 26 24 26 16C26 9 21 4 14 4" stroke="#C9A567" strokeWidth="1.5" strokeLinecap="round"/>
-              <path d="M20 20C20 20 22 16 20 12" stroke="#C9A567" strokeWidth="1.2" strokeLinecap="round"/>
-              <path d="M22 28C22 28 25 24 23 20" stroke="#C9A567" strokeWidth="1.2" strokeLinecap="round"/>
-            </svg>
-          </div>
+            {/* 우측 뱃지 + 전체 후기 보기 */}
+            <div className="flex flex-col items-start gap-2 min-w-0">
+              <div className="flex flex-wrap gap-1.5">
+                {BADGES.map((badge) => (
+                  <span
+                    key={badge}
+                    className="text-[10px] sm:text-xs text-white bg-white/18 border border-white/35 backdrop-blur-sm px-2.5 py-1 rounded-full"
+                  >
+                    {badge}
+                  </span>
+                ))}
+              </div>
 
-          {/* 뱃지 */}
-          <div className="flex flex-wrap gap-2 mb-8">
-            {BADGES.map((badge) => (
-              <span
-                key={badge}
-                className="text-xs text-[#C9A567] border border-[#C9A567]/40 px-3 py-1 rounded-full"
+              <a
+                href="/about"
+                className="inline-flex items-center gap-1.5 bg-[#9A856D] text-white text-[12px] sm:text-sm font-bold px-4 sm:px-6 py-2.5 sm:py-3 rounded-full hover:bg-[#7C654F] transition-colors"
               >
-                {badge}
-              </span>
-            ))}
+                전체 후기 보기
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </a>
+            </div>
           </div>
-
-          {/* 전체 후기 보기 버튼 */}
-          <a
-            href="/about"
-            className="inline-flex items-center gap-2 bg-white text-[#3D2817] text-sm font-bold px-6 py-3 rounded-lg hover:bg-[#FAF6EE] transition-colors"
-          >
-            전체 후기 보기
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </a>
         </div>
 
         {/* 우측 손편지 노트 2장 */}
-        <div className="flex-1 relative flex justify-center items-center min-h-[260px] lg:min-h-[320px]">
+        <div className="flex-1 relative z-10 flex justify-center items-center min-h-[210px] lg:min-h-[280px] mt-2 lg:-mt-3">
           {/* 노트 1 */}
           <div
-            className={`absolute w-52 lg:w-64 bg-[#F8E8D4] rounded-xl p-4 shadow-xl -rotate-2`}
-            style={{ left: "5%", top: 0 }}
+            className={`absolute w-52 lg:w-64 bg-[#FFFFFF] rounded-xl p-4 shadow-md border border-[#D8CDBE] -rotate-2`}
+            style={{ left: "4%", top: "4px" }}
           >
             {/* TODO: 실제 자필 후기 이미지로 교체 필요 */}
             <div className="flex flex-col gap-2">
-              <div className="w-8 h-0.5 bg-[#C9A567] mb-1" />
+              <div className="w-8 h-0.5 bg-[#9A856D] mb-1" />
               <p
-                className="text-[13px] text-[#3D2817] leading-relaxed"
+                className="text-[13px] text-[#6A5542] leading-relaxed"
                 style={{ fontFamily: "'Nanum Pen Script', cursive, sans-serif" }}
               >
                 {REVIEW_NOTES[0].text.slice(0, 90)}...
               </p>
-              <p className="text-[11px] text-[#6B5547] mt-2 text-right">
+              <p className="text-[11px] text-[#756A60] mt-2 text-right">
                 — {REVIEW_NOTES[0].author}
               </p>
             </div>
@@ -112,19 +125,19 @@ export default function HandwrittenReviews() {
 
           {/* 노트 2 */}
           <div
-            className={`absolute w-52 lg:w-64 bg-[#F8E8D4] rounded-xl p-4 shadow-xl rotate-1`}
-            style={{ right: "5%", top: "40px" }}
+            className={`absolute w-52 lg:w-64 bg-[#FFFFFF] rounded-xl p-4 shadow-md border border-[#D8CDBE] rotate-1`}
+            style={{ right: "4%", top: "38px" }}
           >
             {/* TODO: 실제 자필 후기 이미지로 교체 필요 */}
             <div className="flex flex-col gap-2">
-              <div className="w-8 h-0.5 bg-[#C9A567] mb-1" />
+              <div className="w-8 h-0.5 bg-[#9A856D] mb-1" />
               <p
-                className="text-[13px] text-[#3D2817] leading-relaxed"
+                className="text-[13px] text-[#6A5542] leading-relaxed"
                 style={{ fontFamily: "'Nanum Pen Script', cursive, sans-serif" }}
               >
                 {REVIEW_NOTES[1].text.slice(0, 90)}...
               </p>
-              <p className="text-[11px] text-[#6B5547] mt-2 text-right">
+              <p className="text-[11px] text-[#756A60] mt-2 text-right">
                 — {REVIEW_NOTES[1].author}
               </p>
             </div>

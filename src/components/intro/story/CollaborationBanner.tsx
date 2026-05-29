@@ -7,7 +7,7 @@ export default function CollaborationBanner() {
       <div className="max-w-6xl mx-auto">
         <div
           className="rounded-2xl px-7 py-8 flex items-center gap-6"
-          style={{ background: "linear-gradient(135deg, #3D2817 0%, #5B3A1F 100%)" }}
+          style={{ background: "linear-gradient(135deg, #6A5542 0%, #9A856D 100%)" }}
         >
           {/* 아이콘 */}
           <div className="w-14 h-14 rounded-full bg-white/15 flex-shrink-0 flex items-center justify-center">

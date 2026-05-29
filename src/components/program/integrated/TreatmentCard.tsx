@@ -14,7 +14,7 @@ export default function TreatmentCard({ treatment, theme }: TreatmentCardProps) 
   return (
     <Link
       to={`/program/integrated/${treatment.slug}`}
-      className="bg-[#FBF5E9] rounded-2xl overflow-hidden flex-shrink-0 flex flex-col shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+      className="bg-[#FFFFFF] rounded-2xl overflow-hidden flex-shrink-0 flex flex-col shadow-sm hover:shadow-md transition-shadow cursor-pointer"
     >
       {/* 이미지 영역 */}
       <div className="relative aspect-[4/3]">
@@ -44,7 +44,7 @@ export default function TreatmentCard({ treatment, theme }: TreatmentCardProps) 
           {treatment.name}
         </h4>
         {treatment.description.map((line, i) => (
-          <p key={i} className="text-[13px] text-[#6B5547] leading-relaxed">
+          <p key={i} className="text-[13px] text-[#756A60] leading-relaxed">
             {line}
           </p>
         ))}

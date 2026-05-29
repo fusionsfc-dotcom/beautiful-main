@@ -1,9 +1,5 @@
-import { Phone, MessageSquare, CalendarCheck, MapPin, Building2, UserRound } from "lucide-react";
+import { MapPin, Building2, UserRound } from "lucide-react";
 import { Link } from "react-router";
-
-const TEL = "tel:031-966-6677";
-const NAVER_TALK = "https://talk.naver.com/ct/wc9es3";
-const RESERVE = "https://booking.naver.com/booking/13/bizes/1046171";
 
 export default function FinalConsultBar() {
   return (
@@ -13,7 +9,7 @@ export default function FinalConsultBar() {
         <div
           className="rounded-2xl px-6 py-7 flex flex-col md:flex-row items-start md:items-center gap-5"
           style={{
-            background: "linear-gradient(135deg, #3D2817 0%, #5B3A1F 100%)",
+            background: "linear-gradient(135deg, #6A5542 0%, #9A856D 100%)",
           }}
         >
           {/* 아이콘 */}
@@ -29,60 +25,32 @@ export default function FinalConsultBar() {
             <p className="text-white/70 text-[13px]">전문 의료진이 직접 상담해 드립니다.</p>
           </div>
 
-          {/* 버튼 3개 */}
-          <div className="flex flex-wrap gap-2">
-            <a
-              href={TEL}
-              className="inline-flex items-center gap-1.5 bg-white text-[#3D2817] text-[12px] font-bold px-4 py-2.5 rounded-full hover:bg-[#FAF6EE] transition-colors"
-            >
-              <Phone size={13} />
-              전화 상담
-            </a>
-            <a
-              href={NAVER_TALK}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 bg-white text-[#3D2817] text-[12px] font-bold px-4 py-2.5 rounded-full hover:bg-[#FAF6EE] transition-colors"
-            >
-              <MessageSquare size={13} />
-              네이버 톡톡
-            </a>
-            <a
-              href={RESERVE}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 bg-white text-[#3D2817] text-[12px] font-bold px-4 py-2.5 rounded-full hover:bg-[#FAF6EE] transition-colors"
-            >
-              <CalendarCheck size={13} />
-              상담 예약
-            </a>
-          </div>
         </div>
 
         {/* 하단 — 베이지 링크 박스 */}
-        <div className="bg-[#FAF6EE] rounded-2xl border border-[#E8DCC8] px-6 py-4">
+        <div className="bg-[#F8F3EA] rounded-2xl border border-[#D8CDBE] px-6 py-4">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-around gap-3 sm:gap-0">
             <Link
               to="/hospital/location"
-              className="flex items-center gap-2 text-[13px] font-medium text-[#5B3A1F] hover:text-[#3D2817] transition-colors"
+              className="flex items-center gap-2 text-[13px] font-medium text-[#9A856D] hover:text-[#6A5542] transition-colors"
             >
-              <MapPin size={15} color="#C9A567" />
+              <MapPin size={15} color="#9A856D" />
               오시는 길
             </Link>
-            <span className="hidden sm:block h-4 w-px bg-[#E8DCC8]" />
+            <span className="hidden sm:block h-4 w-px bg-[#D8CDBE]" />
             <Link
               to="/hospital/facilities"
-              className="flex items-center gap-2 text-[13px] font-medium text-[#5B3A1F] hover:text-[#3D2817] transition-colors"
+              className="flex items-center gap-2 text-[13px] font-medium text-[#9A856D] hover:text-[#6A5542] transition-colors"
             >
-              <Building2 size={15} color="#C9A567" />
+              <Building2 size={15} color="#9A856D" />
               둘러보기
             </Link>
-            <span className="hidden sm:block h-4 w-px bg-[#E8DCC8]" />
+            <span className="hidden sm:block h-4 w-px bg-[#D8CDBE]" />
             <Link
               to="/hospital/doctors"
-              className="flex items-center gap-2 text-[13px] font-medium text-[#5B3A1F] hover:text-[#3D2817] transition-colors"
+              className="flex items-center gap-2 text-[13px] font-medium text-[#9A856D] hover:text-[#6A5542] transition-colors"
             >
-              <UserRound size={15} color="#C9A567" />
+              <UserRound size={15} color="#9A856D" />
               의료진 소개
             </Link>
           </div>

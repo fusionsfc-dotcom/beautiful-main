@@ -3,14 +3,14 @@ import { gardenChecks, GARDEN_IMAGES } from "../../../data/nutritionData";
 
 export default function GardenIngredientsBox() {
   return (
-    <div className="bg-[#FBF5E9] rounded-2xl p-6 lg:p-7 flex flex-col gap-5">
+    <div className="bg-[#FFFFFF] rounded-2xl p-6 lg:p-7 flex flex-col gap-5">
       {/* 타이틀 */}
       <div className="flex items-center gap-2">
-        <Leaf size={14} color="#C9A567" strokeWidth={1.8} className="rotate-180" />
-        <h3 className="text-[16px] lg:text-[18px] font-extrabold text-[#2A1F18]">
+        <Leaf size={14} color="#9A856D" strokeWidth={1.8} className="rotate-180" />
+        <h3 className="text-[16px] lg:text-[18px] font-extrabold text-[#2F2A26]">
           텃밭에서 키운 신선한 식재료
         </h3>
-        <Leaf size={14} color="#C9A567" strokeWidth={1.8} />
+        <Leaf size={14} color="#9A856D" strokeWidth={1.8} />
       </div>
 
       {/* 이미지 2x2 그리드 + 체크리스트 */}
@@ -35,14 +35,14 @@ export default function GardenIngredientsBox() {
             <div key={i} className="flex items-start gap-3">
               <CheckCircle
                 size={18}
-                color="#2D7A3E"
-                fill="#E8F3EB"
+                color="#9A856D"
+                fill="#F5EFE6"
                 strokeWidth={2.5}
                 className="flex-shrink-0 mt-0.5"
               />
               <div>
                 {item.text.map((line, j) => (
-                  <p key={j} className="text-[13px] text-[#2A1F18] leading-snug">
+                  <p key={j} className="text-[13px] text-[#2F2A26] leading-snug">
                     {line}
                   </p>
                 ))}

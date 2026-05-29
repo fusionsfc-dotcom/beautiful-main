@@ -19,7 +19,7 @@ export default function AntiCancerNutrition() {
         />
       </Helmet>
 
-      <div className="bg-[#FAF6EE] min-h-screen">
+      <div className="bg-[#F8F3EA] min-h-screen">
         {/* Section 1 — 히어로 */}
         <NutritionHero />
 
@@ -35,7 +35,7 @@ export default function AntiCancerNutrition() {
         </section>
 
         {/* Section 4 — 자필 후기 4장 */}
-        <div className="bg-[#FAF6EE]">
+        <div className="bg-[#F8F3EA]">
           <HandwrittenReviewsSection />
         </div>
 
@@ -47,13 +47,13 @@ export default function AntiCancerNutrition() {
           <div className="max-w-6xl mx-auto">
             <div
               className="rounded-2xl px-7 py-8 flex flex-col md:flex-row items-start md:items-center gap-5"
-              style={{ background: "linear-gradient(135deg, #3D2817 0%, #5B3A1F 100%)" }}
+              style={{ background: "linear-gradient(135deg, #6A5542 0%, #9A856D 100%)" }}
             >
               <div className="w-12 h-12 rounded-full bg-white/15 flex-shrink-0 flex items-center justify-center">
                 <Heart size={22} color="white" fill="rgba(255,255,255,0.3)" strokeWidth={1.5} />
               </div>
               <div>
-                <p className="text-[#C9A567] text-[13px] mb-1">
+                <p className="text-[#9A856D] text-[13px] mb-1">
                   항암 치료 중 나타나는 다양한 증상
                 </p>
                 <p className="text-white font-extrabold text-[16px] lg:text-[18px] leading-snug">

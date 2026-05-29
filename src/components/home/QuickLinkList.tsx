@@ -14,36 +14,36 @@ const LINKS = [
     number: "2",
     title: "자주 묻는 질문 (FAQ)",
     subtitle: "환자분들이 가장 궁금해하시는 질문입니다.",
-    href: "/columns",
+    href: "/columns?tab=faq",
     external: false,
   },
 ];
 
 export default function QuickLinkList() {
   return (
-    <section className="bg-[#FAF6EE] py-10 lg:py-14 px-5 lg:px-8 border-t border-[#E8DCC8]">
+    <section className="bg-[#F8F3EA] py-10 lg:py-14 px-5 lg:px-8 border-t border-[#D8CDBE]">
       <div className="lg:max-w-6xl lg:mx-auto">
-        <p className="text-xs text-[#C9A567] tracking-widest mb-5 uppercase">
+        <p className="text-xs text-[#9A856D] tracking-widest mb-5 uppercase">
           Quick Links
         </p>
-        <div className="flex flex-col divide-y divide-[#E8DCC8]">
+        <div className="flex flex-col divide-y divide-[#D8CDBE]">
           {LINKS.map((link) => (
             <Link
               key={link.number}
               to={link.href}
-              className="flex items-center gap-4 py-5 group hover:bg-[#F5EEE0] -mx-5 px-5 lg:-mx-8 lg:px-8 transition-colors"
+              className="flex items-center gap-4 py-5 group hover:bg-[#EFE7DC] -mx-5 px-5 lg:-mx-8 lg:px-8 transition-colors"
             >
               {/* 번호 */}
-              <span className="text-2xl font-extrabold text-[#E8DCC8] group-hover:text-[#C9A567] transition-colors w-8 flex-shrink-0">
+              <span className="text-2xl font-extrabold text-[#D8CDBE] group-hover:text-[#9A856D] transition-colors w-8 flex-shrink-0">
                 {link.number}.
               </span>
 
               {/* 텍스트 */}
               <div className="flex-1 min-w-0">
-                <p className="text-base font-bold text-[#2A1F18] mb-0.5">
+                <p className="text-base font-bold text-[#2F2A26] mb-0.5">
                   {link.title}
                 </p>
-                <p className="text-sm text-[#6B5547] truncate">
+                <p className="text-sm text-[#756A60] truncate">
                   {link.subtitle}
                 </p>
               </div>
@@ -54,7 +54,7 @@ export default function QuickLinkList() {
                 height="20"
                 viewBox="0 0 24 24"
                 fill="none"
-                stroke="#C9A567"
+                stroke="#9A856D"
                 strokeWidth="2"
                 strokeLinecap="round"
                 className="flex-shrink-0 group-hover:translate-x-1 transition-transform"

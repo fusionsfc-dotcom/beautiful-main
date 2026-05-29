@@ -1,5 +1,4 @@
 import SEOHead from "../../components/seo/SEOHead";
-import HeroSection from "../../components/home/HeroSection";
 import WhyBeautifulCarousel from "../../components/home/WhyBeautifulCarousel";
 import HandwrittenReviews from "../../components/home/HandwrittenReviews";
 import CoreProgramsCarousel from "../../components/home/CoreProgramsCarousel";
@@ -32,27 +31,24 @@ export default function Home() {
 
       {/* 페이지 본문 — BottomActionBar 높이만큼 하단 여백 */}
       <div
-        className="bg-[#FAF6EE]"
+        className="bg-[#F8F3EA]"
         style={{ paddingBottom: "calc(56px + env(safe-area-inset-bottom, 0px))" }}
       >
-        {/* 1. 히어로 */}
-        <HeroSection />
-
-        {/* 2. 왜 뷰티풀이어야 하나요? */}
+        {/* 1. 왜 뷰티풀이어야 하나요? */}
         <section id="why">
           <WhyBeautifulCarousel />
         </section>
 
-        {/* 3. 자필 후기 */}
+        {/* 2. 자필 후기 */}
         <HandwrittenReviews />
 
-        {/* 4. 핵심 치료 프로그램 */}
+        {/* 3. 핵심 치료 프로그램 */}
         <CoreProgramsCarousel />
 
-        {/* 5. 원장 유튜브 강의 */}
+        {/* 4. 원장 유튜브 강의 */}
         <DoctorYoutubeSection />
 
-        {/* 6. 빠른 정보 링크 */}
+        {/* 5. 빠른 정보 링크 */}
         <QuickLinkList />
       </div>
     </>

@@ -15,12 +15,12 @@ interface DetailedCardProps {
 
 function DetailedCard({ card, colors }: DetailedCardProps) {
   return (
-    <div className="bg-[#FBF5E9] rounded-2xl overflow-hidden shadow-sm flex flex-col h-full">
+    <div className="bg-[#FFFFFF] rounded-2xl overflow-hidden shadow-sm flex flex-col h-full">
       {/* 상단 라벨 배너 */}
       {card.badge && (
         <div
           className="py-2.5 px-4 text-center text-white text-[13px] font-extrabold tracking-wide"
-          style={{ backgroundColor: "#3D2817" }}
+          style={{ backgroundColor: "#6A5542" }}
         >
           {card.badge}
         </div>
@@ -40,11 +40,11 @@ function DetailedCard({ card, colors }: DetailedCardProps) {
       <div className="px-5 py-5 flex-1 flex flex-col gap-3">
         {/* 제목 + 설명 */}
         <div>
-          <p className="text-[13px] text-[#2A1F18] font-bold leading-snug">
+          <p className="text-[13px] text-[#2F2A26] font-bold leading-snug">
             {card.title}
           </p>
           {card.description?.map((line, i) => (
-            <p key={i} className="text-[13px] text-[#2A1F18] leading-snug">
+            <p key={i} className="text-[13px] text-[#2F2A26] leading-snug">
               {line}
             </p>
           ))}
@@ -52,7 +52,7 @@ function DetailedCard({ card, colors }: DetailedCardProps) {
 
         {/* 구분선 */}
         {card.checkList && card.checkList.length > 0 && (
-          <div className="h-px bg-[#E8DCC8]" />
+          <div className="h-px bg-[#D8CDBE]" />
         )}
 
         {/* 체크리스트 */}
@@ -66,7 +66,7 @@ function DetailedCard({ card, colors }: DetailedCardProps) {
                   className="flex-shrink-0 mt-0.5"
                   style={{ color: colors.main }}
                 />
-                <span className="text-[12px] text-[#2A1F18] leading-snug">{item}</span>
+                <span className="text-[12px] text-[#2F2A26] leading-snug">{item}</span>
               </li>
             ))}
           </ul>
@@ -108,13 +108,13 @@ export default function DetailedCardSection({
   }, [emblaApi]);
 
   return (
-    <section className="px-5 lg:px-8 py-10 lg:py-14 bg-[#FBF5E9]">
+    <section className="px-5 lg:px-8 py-10 lg:py-14 bg-[#FFFFFF]">
       <div className="max-w-6xl mx-auto">
         {/* 타이틀 */}
         <div className="flex items-center justify-center gap-2 mb-10">
-          <Leaf size={14} color="#C9A567" strokeWidth={1.8} className="rotate-180" />
-          <h2 className="text-[20px] lg:text-[24px] font-extrabold text-[#2A1F18]">{title}</h2>
-          <Leaf size={14} color="#C9A567" strokeWidth={1.8} />
+          <Leaf size={14} color="#9A856D" strokeWidth={1.8} className="rotate-180" />
+          <h2 className="text-[20px] lg:text-[24px] font-extrabold text-[#2F2A26]">{title}</h2>
+          <Leaf size={14} color="#9A856D" strokeWidth={1.8} />
         </div>
 
         {carousel ? (
@@ -124,17 +124,17 @@ export default function DetailedCardSection({
             <button
               onClick={scrollPrev}
               aria-label="이전 카드"
-              className="hidden sm:flex absolute -left-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-[#3D2817] items-center justify-center shadow-md hover:bg-[#5B3A1F] transition-colors"
+              className="hidden sm:flex absolute -left-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-[#6A5542] items-center justify-center shadow-md hover:bg-[#7C654F] transition-colors"
             >
               <ChevronLeft size={20} color="white" strokeWidth={2} />
             </button>
 
             <div className="overflow-hidden" ref={emblaRef}>
-              <div className="flex gap-5 items-stretch">
+              <div className="flex -ml-5 items-stretch">
                 {cards.map((card, i) => (
                   <div
                     key={card.badge ?? i}
-                    className="flex-none w-[85%] sm:w-[calc(33.333%-0.9rem)]"
+                    className="flex-none w-[85%] sm:w-[33.333%] min-w-0 pl-5"
                   >
                     <DetailedCard card={card} colors={colors} />
                   </div>
@@ -146,7 +146,7 @@ export default function DetailedCardSection({
             <button
               onClick={scrollNext}
               aria-label="다음 카드"
-              className="hidden sm:flex absolute -right-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-[#3D2817] items-center justify-center shadow-md hover:bg-[#5B3A1F] transition-colors"
+              className="hidden sm:flex absolute -right-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-[#6A5542] items-center justify-center shadow-md hover:bg-[#7C654F] transition-colors"
             >
               <ChevronRight size={20} color="white" strokeWidth={2} />
             </button>
@@ -160,7 +160,7 @@ export default function DetailedCardSection({
                   aria-label={`${i + 1}번 카드`}
                   className="w-2 h-2 rounded-full transition-all duration-300"
                   style={{
-                    backgroundColor: i === selectedIndex ? colors.main : "#E8DCC8",
+                    backgroundColor: i === selectedIndex ? colors.main : "#D8CDBE",
                     transform: i === selectedIndex ? "scale(1.3)" : "scale(1)",
                   }}
                 />

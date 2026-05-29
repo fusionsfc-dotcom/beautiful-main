@@ -16,7 +16,7 @@ const DOCTOR_URL = "/intro/doctors";
 export default function BottomActionBarFull() {
   return (
     <div
-      className="fixed bottom-0 left-0 right-0 z-50 bg-[#3D2817] shadow-2xl"
+      className="fixed bottom-0 left-0 right-0 z-50 bg-[#6A5542] shadow-2xl"
       style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)", transform: "translateZ(0)" }}
     >
       {/* 상단: 협진 안내 + 3분할 액션 */}
@@ -28,7 +28,7 @@ export default function BottomActionBarFull() {
           </div>
           <div>
             <p className="text-white font-extrabold text-[13px] leading-tight">혼자가 아닙니다.</p>
-            <p className="text-[#C9A567] font-bold text-[12px] leading-tight">지금부터 함께입니다</p>
+            <p className="text-[#9A856D] font-bold text-[12px] leading-tight">지금부터 함께입니다</p>
             <p className="text-white/60 text-[10px] mt-0.5">전문 의료진이 직접 상담해 드립니다.</p>
           </div>
         </div>
@@ -39,7 +39,7 @@ export default function BottomActionBarFull() {
             href={`tel:${PHONE.replace(/-/g, "")}`}
             className="flex-1 flex flex-col items-center justify-center gap-1 py-3 hover:bg-white/10 transition-colors active:bg-white/20"
           >
-            <Phone size={20} color="#C9A567" strokeWidth={1.8} />
+            <Phone size={20} color="#9A856D" strokeWidth={1.8} />
             <span className="text-[10px] text-white font-bold">전화 상담</span>
             <span className="text-[9px] text-white/60">{PHONE}</span>
           </a>
@@ -50,7 +50,7 @@ export default function BottomActionBarFull() {
             rel="noopener noreferrer"
             className="flex-1 flex flex-col items-center justify-center gap-1 py-3 hover:bg-white/10 transition-colors active:bg-white/20"
           >
-            <MessageSquare size={20} color="#C9A567" strokeWidth={1.8} />
+            <MessageSquare size={20} color="#9A856D" strokeWidth={1.8} />
             <span className="text-[10px] text-white font-bold">네이버 톡톡</span>
             <span className="text-[9px] text-white/60">실시간 상담</span>
           </a>
@@ -59,7 +59,7 @@ export default function BottomActionBarFull() {
             href={RESERVE_URL}
             className="flex-1 flex flex-col items-center justify-center gap-1 py-3 hover:bg-white/10 transition-colors active:bg-white/20"
           >
-            <CalendarCheck size={20} color="#C9A567" strokeWidth={1.8} />
+            <CalendarCheck size={20} color="#9A856D" strokeWidth={1.8} />
             <span className="text-[10px] text-white font-bold">상담 예약</span>
             <span className="text-[9px] text-white/60">빠른 예약하기</span>
           </a>

@@ -136,7 +136,7 @@ export default function Admin() {
   if (authLoading || loading) {
     return (
       <div className="min-h-[100dvh] bg-white flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#C9A567]"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#9A856D]"></div>
       </div>
     );
   }
@@ -147,13 +147,13 @@ export default function Admin() {
         {/* 헤더 */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-[#3D2817]">치료사례 관리</h1>
-            <p className="text-[#6B5547] mt-2">치료사례를 작성하고 관리하세요</p>
+            <h1 className="text-[#6A5542]">치료사례 관리</h1>
+            <p className="text-[#756A60] mt-2">치료사례를 작성하고 관리하세요</p>
           </div>
           {!showForm && (
             <button
               onClick={() => setShowForm(true)}
-              className="flex items-center gap-2 bg-[#3D2817] text-white px-4 py-2 rounded-md hover:bg-[#5B3A1F] transition-colors"
+              className="flex items-center gap-2 bg-[#9A856D] text-white px-4 py-2 rounded-md hover:bg-[#7C654F] transition-colors"
             >
               <Plus className="w-5 h-5" />
               새 치료사례
@@ -163,14 +163,14 @@ export default function Admin() {
 
         {/* 작성 폼 */}
         {showForm && (
-          <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
+          <div className="bg-white border border-[#D8CDBE] rounded-lg p-6 mb-8">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-[#3D2817]">
+              <h2 className="text-[#6A5542]">
                 {editingId ? '치료사례 수정' : '새 치료사례 작성'}
               </h2>
               <button
                 onClick={handleCancel}
-                className="text-[#6B5547] hover:text-[#3D2817] transition-colors"
+                className="text-[#756A60] hover:text-[#6A5542] transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -179,27 +179,27 @@ export default function Admin() {
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* 제목 */}
               <div>
-                <label className="block text-sm font-medium text-[#3D2817] mb-2">
+                <label className="block text-sm font-medium text-[#6A5542] mb-2">
                   제목 <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#C9A567]"
+                  className="w-full px-4 py-2 border border-[#D8CDBE] rounded-md focus:outline-none focus:ring-2 focus:ring-[#9A856D]"
                   placeholder="예: 유방암 환자의 3주 입원 치료 후기"
                 />
               </div>
 
               {/* 카테고리 */}
               <div>
-                <label className="block text-sm font-medium text-[#3D2817] mb-2">
+                <label className="block text-sm font-medium text-[#6A5542] mb-2">
                   카테고리 <span className="text-red-500">*</span>
                 </label>
                 <select
                   value={formData.category}
                   onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#C9A567]"
+                  className="w-full px-4 py-2 border border-[#D8CDBE] rounded-md focus:outline-none focus:ring-2 focus:ring-[#9A856D]"
                 >
                   {categories.map((cat) => (
                     <option key={cat} value={cat}>
@@ -211,28 +211,28 @@ export default function Admin() {
 
               {/* 썸네일 URL */}
               <div>
-                <label className="block text-sm font-medium text-[#3D2817] mb-2">
+                <label className="block text-sm font-medium text-[#6A5542] mb-2">
                   썸네일 이미지 URL (선택)
                 </label>
                 <input
                   type="url"
                   value={formData.thumbnail}
                   onChange={(e) => setFormData({ ...formData, thumbnail: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#C9A567]"
+                  className="w-full px-4 py-2 border border-[#D8CDBE] rounded-md focus:outline-none focus:ring-2 focus:ring-[#9A856D]"
                   placeholder="https://images.unsplash.com/..."
                 />
               </div>
 
               {/* 본문 */}
               <div>
-                <label className="block text-sm font-medium text-[#3D2817] mb-2">
+                <label className="block text-sm font-medium text-[#6A5542] mb-2">
                   본문 내용 <span className="text-red-500">*</span>
                 </label>
                 <textarea
                   value={formData.content}
                   onChange={(e) => setFormData({ ...formData, content: e.target.value })}
                   rows={12}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#C9A567]"
+                  className="w-full px-4 py-2 border border-[#D8CDBE] rounded-md focus:outline-none focus:ring-2 focus:ring-[#9A856D]"
                   placeholder="치료 과정, 증상 변화, 환자 후기 등을 자세히 작성해주세요"
                 />
               </div>
@@ -242,13 +242,13 @@ export default function Admin() {
                 <button
                   type="button"
                   onClick={handleCancel}
-                  className="px-6 py-2 border border-gray-300 text-[#6B5547] rounded-md hover:bg-gray-50 transition-colors"
+                  className="px-6 py-2 border border-[#D8CDBE] text-[#756A60] rounded-md hover:bg-[#F8F3EA] transition-colors"
                 >
                   취소
                 </button>
                 <button
                   type="submit"
-                  className="flex items-center gap-2 px-6 py-2 bg-[#3D2817] text-white rounded-md hover:bg-[#5B3A1F] transition-colors"
+                  className="flex items-center gap-2 px-6 py-2 bg-[#9A856D] text-white rounded-md hover:bg-[#7C654F] transition-colors"
                 >
                   <Save className="w-4 h-4" />
                   {editingId ? '수정하기' : '등록하기'}
@@ -261,25 +261,25 @@ export default function Admin() {
         {/* 치료사례 목록 */}
         <div className="space-y-4">
           {cases.length === 0 ? (
-            <div className="text-center py-20 text-[#6B5547]">
+            <div className="text-center py-20 text-[#756A60]">
               아직 등록된 치료사례가 없습니다
             </div>
           ) : (
             cases.map((caseItem) => (
               <div
                 key={caseItem.id}
-                className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow"
+                className="bg-white border border-[#D8CDBE] rounded-lg p-6 hover:shadow-md transition-shadow"
               >
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex-1">
-                    <div className="inline-block px-3 py-1 bg-[#3D2817]/10 text-[#C9A567] text-xs font-medium rounded-full mb-2">
+                    <div className="inline-block px-3 py-1 bg-[#F5EFE6] text-[#9A856D] text-xs font-medium rounded-full mb-2">
                       {caseItem.category}
                     </div>
-                    <h3 className="text-[#3D2817] mb-2">{caseItem.title}</h3>
-                    <p className="text-[#6B5547] text-sm line-clamp-2 mb-3">
+                    <h3 className="text-[#6A5542] mb-2">{caseItem.title}</h3>
+                    <p className="text-[#756A60] text-sm line-clamp-2 mb-3">
                       {caseItem.content}
                     </p>
-                    <p className="text-xs text-[#A08060]">
+                    <p className="text-xs text-[#9A856D]">
                       {new Date(caseItem.created_at).toLocaleString('ko-KR')}
                     </p>
                   </div>
@@ -287,7 +287,7 @@ export default function Admin() {
                   <div className="flex gap-2">
                     <button
                       onClick={() => handleEdit(caseItem)}
-                      className="p-2 text-[#3D2817] hover:bg-[#F8F9FA] rounded-md transition-colors"
+                      className="p-2 text-[#6A5542] hover:bg-[#F8F3EA] rounded-md transition-colors"
                       title="수정"
                     >
                       <Edit2 className="w-4 h-4" />

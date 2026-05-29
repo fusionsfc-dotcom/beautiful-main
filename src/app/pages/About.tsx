@@ -251,7 +251,7 @@ function NoticeContent({ content }: { content: string }) {
 
   if (!feeSections) {
     return (
-      <p className="text-gray-700 whitespace-pre-wrap leading-relaxed">
+      <p className="text-[#2F2A26] whitespace-pre-wrap leading-relaxed">
         {content}
       </p>
     );
@@ -262,19 +262,19 @@ function NoticeContent({ content }: { content: string }) {
       {feeSections.map((section) => (
         <div
           key={section.title}
-          className="overflow-hidden rounded-xl border border-gray-200"
+          className="overflow-hidden rounded-xl border border-[#D8CDBE]"
         >
-          <div className="bg-[#2A1F18] px-4 py-3">
+          <div className="bg-[#6A5542] px-4 py-3">
             <h4 className="font-semibold text-white">{section.title}</h4>
           </div>
           <div className="overflow-x-auto">
             <table className="min-w-full">
-              <thead className="bg-gray-50">
+              <thead className="bg-[#F8F3EA]">
                 <tr>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-[#2A1F18]">
+                  <th className="px-4 py-3 text-left text-sm font-semibold text-[#2F2A26]">
                     항목
                   </th>
-                  <th className="px-4 py-3 text-right text-sm font-semibold text-[#2A1F18] whitespace-nowrap">
+                  <th className="px-4 py-3 text-right text-sm font-semibold text-[#2F2A26] whitespace-nowrap">
                     비용(원)
                   </th>
                 </tr>
@@ -283,9 +283,9 @@ function NoticeContent({ content }: { content: string }) {
                 {section.rows.map((row, index) => (
                   <tr
                     key={`${section.title}-${row.item}-${row.price}-${index}`}
-                    className={index % 2 === 0 ? "bg-white" : "bg-gray-50/70"}
+                    className={index % 2 === 0 ? "bg-white" : "bg-[#F8F3EA]/70"}
                   >
-                    <td className="px-4 py-3 text-sm text-gray-700">
+                    <td className="px-4 py-3 text-sm text-[#2F2A26]">
                       {row.category ? (
                         <div className="space-y-1">
                           <p className="text-xs font-semibold text-gray-500">
@@ -297,7 +297,7 @@ function NoticeContent({ content }: { content: string }) {
                         row.item
                       )}
                     </td>
-                    <td className="px-4 py-3 text-right text-sm font-semibold text-[#2A1F18] whitespace-nowrap">
+                    <td className="px-4 py-3 text-right text-sm font-semibold text-[#2F2A26] whitespace-nowrap">
                       {row.price}
                     </td>
                   </tr>
@@ -361,7 +361,7 @@ export default function About() {
         jsonLd={[...aboutJsonLd, makeBreadcrumbList([{ name: "병원소개", path: "/about" }])]}
       />
       {/* Tab Navigation */}
-      <div id="about-tabs" className="sticky top-16 lg:top-20 bg-white border-b border-gray-200 z-40">
+      <div id="about-tabs" className="sticky top-16 lg:top-20 bg-white border-b border-[#D8CDBE] z-40">
         <div className="max-w-6xl mx-auto px-2 sm:px-4">
           <div className="flex gap-1 sm:gap-2 overflow-x-auto scrollbar-hide">
             {tabs.map((tab) => (
@@ -370,8 +370,8 @@ export default function About() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`py-3 px-2 sm:px-4 text-xs sm:text-sm font-medium whitespace-nowrap transition-colors border-b-2 ${
                   activeTab === tab.id
-                    ? "border-[#2A1F18] text-[#2A1F18]"
-                    : "border-transparent text-gray-500 hover:text-gray-700"
+                    ? "border-[#D8CDBE] text-[#2F2A26]"
+                    : "border-transparent text-gray-500 hover:text-[#2F2A26]"
                 }`}
               >
                 {tab.label}
@@ -438,7 +438,7 @@ function IntroSection() {
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${HERO_BG_URL})` }}
         />
-        <div className="absolute inset-0 bg-[#2A1F18]/70" />
+        <div className="absolute inset-0 bg-[#6A5542]/70" />
         <div className="relative z-10 px-4 sm:px-6 py-16 lg:py-24 max-w-3xl mx-auto">
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight mb-4 lg:mb-5">
             국립암센터 치료를 이어가면서
@@ -469,19 +469,19 @@ function IntroSection() {
 
       {/* 2. WHY SECTION */}
       <section>
-        <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#2A1F18] mb-8 lg:mb-12 text-center">
+        <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#2F2A26] mb-8 lg:mb-12 text-center">
           왜 국립암센터 환자들이 이곳을 선택할까요?
         </h2>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {whyCards.map((card, idx) => (
             <div
               key={idx}
-              className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md hover:border-[#2A1F18]/20 transition-all duration-300"
+              className="bg-white border border-[#D8CDBE] rounded-xl p-6 shadow-sm hover:shadow-md hover:border-[#D8CDBE]/20 transition-all duration-300"
             >
-              <h3 className="font-bold text-[#2A1F18] text-base lg:text-lg mb-3">
+              <h3 className="font-bold text-[#2F2A26] text-base lg:text-lg mb-3">
                 {card.title}
               </h3>
-              <p className="text-sm text-gray-600 leading-relaxed">
+              <p className="text-sm text-[#756A60] leading-relaxed">
                 {card.desc1}
                 <br />
                 {card.desc2}
@@ -495,7 +495,7 @@ function IntroSection() {
       <section className="bg-amber-50/80 border border-amber-200/80 rounded-xl p-6 sm:p-8 lg:p-10">
         <div className="flex items-start gap-3 mb-6">
           <AlertTriangle className="w-6 h-6 text-amber-600 flex-shrink-0 mt-0.5" />
-          <h2 className="text-xl sm:text-2xl font-bold text-[#2A1F18]">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#2F2A26]">
             이런 상태라면, 이미 신호입니다
           </h2>
         </div>
@@ -503,7 +503,7 @@ function IntroSection() {
           {problemSignals.map((item, idx) => (
             <li
               key={idx}
-              className="flex items-start gap-3 text-gray-700 text-sm sm:text-base"
+              className="flex items-start gap-3 text-[#2F2A26] text-sm sm:text-base"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-amber-600 mt-2 flex-shrink-0" />
               <span>{item}</span>
@@ -517,14 +517,14 @@ function IntroSection() {
 
       {/* 4. TREATMENT FLOW */}
       <section>
-        <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#2A1F18] mb-8 lg:mb-12 text-center">
+        <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#2F2A26] mb-8 lg:mb-12 text-center">
           치료는 병원에서, 회복은 여기서 이어집니다
         </h2>
         <div className="flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-8">
-          <div className="flex-1 max-w-xs w-full bg-white border border-gray-200 rounded-xl p-6 text-center shadow-sm">
-            <Building2 className="w-10 h-10 text-[#2A1F18] mx-auto mb-3" />
-            <p className="font-semibold text-[#2A1F18]">대학병원 치료</p>
-            <p className="text-sm text-gray-600 mt-1">
+          <div className="flex-1 max-w-xs w-full bg-white border border-[#D8CDBE] rounded-xl p-6 text-center shadow-sm">
+            <Building2 className="w-10 h-10 text-[#2F2A26] mx-auto mb-3" />
+            <p className="font-semibold text-[#2F2A26]">대학병원 치료</p>
+            <p className="text-sm text-[#756A60] mt-1">
               (수술 / 항암 / 방사선)
             </p>
           </div>
@@ -534,7 +534,7 @@ function IntroSection() {
           <div className="lg:hidden text-gray-400">
             <ArrowDown className="w-8 h-8 mx-auto" />
           </div>
-          <div className="flex-1 max-w-xs w-full bg-[#2A1F18] text-white rounded-xl p-6 text-center shadow-md">
+          <div className="flex-1 max-w-xs w-full bg-[#9A856D] text-white rounded-xl p-6 text-center shadow-md">
             <Heart className="w-10 h-10 mx-auto mb-3 text-white" />
             <p className="font-semibold">뷰티풀한방병원</p>
             <p className="text-sm text-white/90 mt-1">
@@ -547,35 +547,35 @@ function IntroSection() {
           <div className="lg:hidden text-gray-400">
             <ArrowDown className="w-8 h-8 mx-auto" />
           </div>
-          <div className="flex-1 max-w-xs w-full bg-white border border-gray-200 rounded-xl p-6 text-center shadow-sm">
+          <div className="flex-1 max-w-xs w-full bg-white border border-[#D8CDBE] rounded-xl p-6 text-center shadow-sm">
             <CheckCircle className="w-10 h-10 text-green-600 mx-auto mb-3" />
-            <p className="font-semibold text-[#2A1F18]">일상 복귀</p>
+            <p className="font-semibold text-[#2F2A26]">일상 복귀</p>
           </div>
         </div>
       </section>
 
       {/* 5. CORE SYSTEM */}
       <section>
-        <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#2A1F18] mb-8 lg:mb-12 text-center">
+        <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#2F2A26] mb-8 lg:mb-12 text-center">
           몸이 버틸 수 있도록 만드는 치료 구조
         </h2>
         <div className="grid sm:grid-cols-3 gap-6">
           {coreSteps.map((item, idx) => (
             <div
               key={idx}
-              className="bg-white border border-gray-200 rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-shadow"
+              className="bg-white border border-[#D8CDBE] rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-shadow"
             >
-              <p className="font-semibold text-[#2A1F18]">{item.step}</p>
+              <p className="font-semibold text-[#2F2A26]">{item.step}</p>
               <p className="text-sm text-gray-500 mt-1">→</p>
-              <p className="font-medium text-gray-700 mt-2">{item.result}</p>
+              <p className="font-medium text-[#2F2A26] mt-2">{item.result}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* 6. ENVIRONMENT */}
-      <section className="bg-[#f5f6f8] rounded-xl p-6 sm:p-8 lg:p-10">
-        <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#2A1F18] mb-6 text-center">
+      <section className="bg-[#EFE7DC] rounded-xl p-6 sm:p-8 lg:p-10">
+        <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#2F2A26] mb-6 text-center">
           치료가 아닌 &apos;회복&apos;을 위한 공간
         </h2>
         <ul className="space-y-4 mb-6 max-w-2xl mx-auto">
@@ -584,36 +584,36 @@ function IntroSection() {
             "조용하고 안정적인 자연 중심 위치",
             "환자 맞춤 식단 및 생활 관리",
           ].map((item, idx) => (
-            <li key={idx} className="flex items-center gap-3 text-gray-700">
+            <li key={idx} className="flex items-center gap-3 text-[#2F2A26]">
               <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
               <span>{item}</span>
             </li>
           ))}
         </ul>
-        <p className="text-center font-medium text-[#2A1F18] text-lg">
+        <p className="text-center font-medium text-[#2F2A26] text-lg">
           몸이 회복되기 위해 필요한 모든 조건을 갖춘 공간입니다
         </p>
       </section>
 
       {/* 7. SYSTEM SIMPLIFICATION */}
       <section>
-        <h2 className="text-xl sm:text-2xl font-bold text-[#2A1F18] mb-6 text-center">
+        <h2 className="text-xl sm:text-2xl font-bold text-[#2F2A26] mb-6 text-center">
           치료를 나누지 않습니다
           <br />
-          <span className="text-lg font-medium text-gray-600 mt-2 block">
+          <span className="text-lg font-medium text-[#756A60] mt-2 block">
             하나의 흐름으로 관리합니다
           </span>
         </h2>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
-          <span className="px-5 py-3 bg-white border border-gray-200 rounded-lg font-medium text-[#2A1F18] shadow-sm">
+          <span className="px-5 py-3 bg-white border border-[#D8CDBE] rounded-lg font-medium text-[#2F2A26] shadow-sm">
             대학병원 치료
           </span>
           <span className="text-gray-400">→</span>
-          <span className="px-5 py-3 bg-white border border-gray-200 rounded-lg font-medium text-[#2A1F18] shadow-sm">
+          <span className="px-5 py-3 bg-white border border-[#D8CDBE] rounded-lg font-medium text-[#2F2A26] shadow-sm">
             회복 관리
           </span>
           <span className="text-gray-400">→</span>
-          <span className="px-5 py-3 bg-white border border-gray-200 rounded-lg font-medium text-[#2A1F18] shadow-sm">
+          <span className="px-5 py-3 bg-white border border-[#D8CDBE] rounded-lg font-medium text-[#2F2A26] shadow-sm">
             재발 관리
           </span>
         </div>
@@ -622,7 +622,7 @@ function IntroSection() {
       {/* 8. FINAL CTA */}
       <section
         id="about-cta"
-        className="bg-[#2A1F18] rounded-xl p-8 sm:p-10 lg:p-12 text-center"
+        className="bg-[#6A5542] rounded-xl p-8 sm:p-10 lg:p-12 text-center"
       >
         <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">
           지금 상태라면, 관리가 필요합니다
@@ -635,15 +635,9 @@ function IntroSection() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link
             to="/health-check"
-            className="inline-flex items-center justify-center px-8 py-4 bg-[#3D2817] text-white font-semibold rounded-lg hover:bg-[#5B3A1F] transition-colors shadow-md"
+            className="inline-flex items-center justify-center px-8 py-4 bg-[#9A856D] text-white font-semibold rounded-lg hover:bg-[#7C654F] transition-colors shadow-md"
           >
             3분 상태 체크
-          </Link>
-          <Link
-            to="/reservation"
-            className="inline-flex items-center justify-center px-8 py-4 bg-white/20 backdrop-blur-sm text-white font-semibold rounded-lg border border-white/40 hover:bg-white/30 transition-colors"
-          >
-            상담 예약
           </Link>
         </div>
       </section>
@@ -653,7 +647,7 @@ function IntroSection() {
 
 function PhysicianCard({ physician }: { physician: (typeof PHYSICIANS)[number] }) {
   return (
-    <div className="bg-white border-2 border-gray-200 rounded-xl overflow-hidden shadow-lg mb-8">
+    <div className="bg-white border-2 border-[#D8CDBE] rounded-xl overflow-hidden shadow-lg mb-8">
       <div className="relative h-64 md:h-80">
         <img
           src={physician.imageUrl}
@@ -663,20 +657,20 @@ function PhysicianCard({ physician }: { physician: (typeof PHYSICIANS)[number] }
       </div>
       <div className="p-6 md:p-8">
         <div className="mb-6">
-          <h3 className="text-2xl font-bold text-[#3D2817] mb-2">
+          <h3 className="text-2xl font-bold text-[#6A5542] mb-2">
             {physician.honorificPrefix
               ? `${physician.name} ${physician.honorificPrefix}`
               : physician.name}
           </h3>
-          <p className="text-[#C9A567] font-semibold text-lg">{physician.jobTitle}</p>
+          <p className="text-[#9A856D] font-semibold text-lg">{physician.jobTitle}</p>
         </div>
 
         <div className="mb-6">
-          <h4 className="text-sm font-semibold text-[#6B5547] mb-3">학력</h4>
+          <h4 className="text-sm font-semibold text-[#756A60] mb-3">학력</h4>
           <ul className="space-y-2">
             {physician.education.map((item, i) => (
-              <li key={i} className="flex items-start gap-2 text-[#3D2817]">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#3D2817] mt-2 flex-shrink-0" />
+              <li key={i} className="flex items-start gap-2 text-[#6A5542]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#6A5542] mt-2 flex-shrink-0" />
                 <span>{item.text}</span>
               </li>
             ))}
@@ -686,8 +680,8 @@ function PhysicianCard({ physician }: { physician: (typeof PHYSICIANS)[number] }
               <div className="h-4" />
               <ul className="space-y-2">
                 {physician.memberships.map((item, i) => (
-                  <li key={i} className="flex items-start gap-2 text-[#3D2817]">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#3D2817] mt-2 flex-shrink-0" />
+                  <li key={i} className="flex items-start gap-2 text-[#6A5542]">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#6A5542] mt-2 flex-shrink-0" />
                     <span>{item.text}</span>
                   </li>
                 ))}
@@ -697,11 +691,11 @@ function PhysicianCard({ physician }: { physician: (typeof PHYSICIANS)[number] }
         </div>
 
         <div className={physician.papers ? "mb-6" : ""}>
-          <h4 className="text-sm font-semibold text-[#6B5547] mb-3">경력</h4>
+          <h4 className="text-sm font-semibold text-[#756A60] mb-3">경력</h4>
           <ul className="space-y-2">
             {physician.career.map((item, i) => (
-              <li key={i} className="flex items-start gap-2 text-[#3D2817]">
-                <Star className="w-4 h-4 text-[#C9A567] mt-0.5 flex-shrink-0" />
+              <li key={i} className="flex items-start gap-2 text-[#6A5542]">
+                <Star className="w-4 h-4 text-[#9A856D] mt-0.5 flex-shrink-0" />
                 <span>{item.text}</span>
               </li>
             ))}
@@ -710,12 +704,12 @@ function PhysicianCard({ physician }: { physician: (typeof PHYSICIANS)[number] }
 
         {physician.papers && physician.papers.length > 0 && (
           <div>
-            <h4 className="text-sm font-semibold text-[#6B5547] mb-3">논문</h4>
+            <h4 className="text-sm font-semibold text-[#756A60] mb-3">논문</h4>
             <ul className="space-y-3">
               {physician.papers.map((paper, i) => (
-                <li key={i} className="bg-[#F8F9FA] p-4 rounded-lg">
-                  <p className="text-xs text-[#A08060] mb-1">{paper.year}</p>
-                  <p className="text-sm text-[#3D2817] leading-relaxed">{paper.text}</p>
+                <li key={i} className="bg-[#F8F3EA] p-4 rounded-lg">
+                  <p className="text-xs text-[#9A856D] mb-1">{paper.year}</p>
+                  <p className="text-sm text-[#6A5542] leading-relaxed">{paper.text}</p>
                 </li>
               ))}
             </ul>
@@ -729,18 +723,18 @@ function PhysicianCard({ physician }: { physician: (typeof PHYSICIANS)[number] }
 function DoctorsSection() {
   return (
     <div className="space-y-12">
-      <section className="bg-[#f5f6f8] rounded-lg p-8">
+      <section className="bg-[#EFE7DC] rounded-lg p-8">
         <div className="flex items-start gap-4 mb-4">
-          <Shield className="w-8 h-8 text-[#2A1F18] flex-shrink-0" />
+          <Shield className="w-8 h-8 text-[#2F2A26] flex-shrink-0" />
           <div>
-            <h2 className="text-xl font-semibold text-[#2A1F18] mb-3">
-              원장 메시지
+            <h2 className="text-xl font-semibold text-[#2F2A26] mb-3">
+              병원장 인사말
             </h2>
-            <p className="text-gray-700 leading-relaxed mb-3">
+            <p className="text-[#2F2A26] leading-relaxed mb-3">
               뷰티풀한방병원은 난치성 질환으로 어려움을 겪는 환자분들이 다시
               일상으로 돌아갈 수 있도록 돕는 것을 목표로 합니다.
             </p>
-            <p className="text-gray-700 leading-relaxed">
+            <p className="text-[#2F2A26] leading-relaxed">
               대학병원 치료와 병행하여 한방 통합 치료를 제공함으로써, 부작용을
               최소화하고 삶의 질을 개선하는 데 집중합니다. 모든 환자분께 최선의
               치료를 제공하기 위해 끊임없이 노력하겠습니다.
@@ -750,7 +744,7 @@ function DoctorsSection() {
       </section>
 
       <section>
-        <h2 className="text-2xl font-semibold text-[#2A1F18] mb-6">
+        <h2 className="text-2xl font-semibold text-[#2F2A26] mb-6">
           의료진 소개
         </h2>
         
@@ -767,10 +761,10 @@ function LocationSection() {
     <div className="space-y-8">
       {/* Map Image */}
       <section>
-        <h2 className="text-2xl font-semibold text-[#2A1F18] mb-6">
+        <h2 className="text-2xl font-semibold text-[#2F2A26] mb-6">
           찾아오시는 길
         </h2>
-        <div className="bg-gray-100 rounded-lg overflow-hidden mb-6">
+        <div className="bg-[#EFE7DC] rounded-lg overflow-hidden mb-6">
           <iframe
             src="https://www.google.com/maps?q=경기도+파주시+중앙로+94-9&output=embed"
             width="100%"
@@ -783,11 +777,11 @@ function LocationSection() {
           ></iframe>
         </div>
 
-        <div className="bg-blue-50 rounded-lg p-4 flex items-start gap-3 mb-4">
-          <MapPin className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+        <div className="bg-[#EFE7DC] rounded-lg p-4 flex items-start gap-3 mb-4">
+          <MapPin className="w-5 h-5 text-[#9A856D] flex-shrink-0 mt-0.5" />
           <div>
-            <p className="font-medium text-[#2A1F18] mb-2">주소 안내</p>
-            <p className="text-sm text-gray-700 mb-1">
+            <p className="font-medium text-[#2F2A26] mb-2">주소 안내</p>
+            <p className="text-sm text-[#2F2A26] mb-1">
               <span className="font-medium">도로명(지번):</span> 경기도 파주시 중앙로 94-9 (금릉동 25) 뷰티풀한방병원
             </p>
           </div>
@@ -796,19 +790,19 @@ function LocationSection() {
 
       {/* Transportation */}
       <section>
-        <div className="bg-white border border-gray-200 rounded-lg p-6">
+        <div className="bg-white border border-[#D8CDBE] rounded-lg p-6">
           <div className="flex items-center gap-2 mb-4">
-            <Bus className="w-5 h-5 text-[#2A1F18]" />
-            <h3 className="font-semibold text-[#2A1F18]">대중교통 이용안내</h3>
+            <Bus className="w-5 h-5 text-[#2F2A26]" />
+            <h3 className="font-semibold text-[#2F2A26]">대중교통 이용안내</h3>
           </div>
-          <ul className="space-y-3 text-sm text-gray-600">
+          <ul className="space-y-3 text-sm text-[#756A60]">
             <li className="flex items-start gap-2">
               <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
               <div>
-                <p className="font-medium text-gray-700 mb-1">지하철 / 버스</p>
+                <p className="font-medium text-[#2F2A26] mb-1">지하철 / 버스</p>
                 <p>경의중앙선 금촌역 하차</p>
                 <p className="mt-1">버스정류장 [금촌역] 승차 / 버스정류장 [대창리] 하차</p>
-                <p className="mt-1 text-blue-600 font-medium">H4 (032/062/064/065/066/068)</p>
+                <p className="mt-1 text-[#9A856D] font-medium">H4 (032/062/064/065/066/068)</p>
               </div>
             </li>
           </ul>
@@ -821,7 +815,7 @@ function LocationSection() {
           href="https://map.kakao.com/link/search/경기도 파주시 중앙로 94-9"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex-1 bg-[#2A1F18] text-white py-3 rounded-md hover:bg-[#243554] transition-colors text-center"
+          className="flex-1 bg-[#9A856D] text-white py-3 rounded-md hover:bg-[#7C654F] transition-colors text-center"
         >
           카카오맵으로 길찾기
         </a>
@@ -829,7 +823,7 @@ function LocationSection() {
           href="https://map.naver.com/v5/search/경기도 파주시 중앙로 94-9"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex-1 border border-[#2A1F18] text-[#2A1F18] py-3 rounded-md hover:bg-gray-50 transition-colors text-center"
+          className="flex-1 border border-[#D8CDBE] text-[#2F2A26] py-3 rounded-md hover:bg-[#F8F3EA] transition-colors text-center"
         >
           네이버 지도로 길찾기
         </a>
@@ -843,35 +837,35 @@ function GuideSection() {
     <div className="space-y-8">
       {/* Operating Hours */}
       <section>
-        <h2 className="text-2xl font-semibold text-[#2A1F18] mb-6">
+        <h2 className="text-2xl font-semibold text-[#2F2A26] mb-6">
           진료 시간
         </h2>
-        <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+        <div className="bg-white border border-[#D8CDBE] rounded-lg overflow-hidden">
           <table className="w-full">
             <tbody className="divide-y divide-gray-200">
               <tr>
-                <td className="px-6 py-4 font-medium text-gray-700 w-32">평일</td>
-                <td className="px-6 py-4 text-gray-600">오전 9:00 - 오후 6:00</td>
+                <td className="px-6 py-4 font-medium text-[#2F2A26] w-32">평일</td>
+                <td className="px-6 py-4 text-[#756A60]">오전 9:00 - 오후 6:00</td>
               </tr>
-              <tr className="bg-gray-50">
-                <td className="px-6 py-4 font-medium text-gray-700">토요일</td>
-                <td className="px-6 py-4 text-gray-600">오전 9:00 - 오후 1:00</td>
-              </tr>
-              <tr>
-                <td className="px-6 py-4 font-medium text-gray-700">공휴일</td>
-                <td className="px-6 py-4 text-gray-600">오전 9:00 - 오후 1:00</td>
-              </tr>
-              <tr className="bg-gray-50">
-                <td className="px-6 py-4 font-medium text-gray-700">일요일</td>
-                <td className="px-6 py-4 text-gray-600">휴진</td>
+              <tr className="bg-[#F8F3EA]">
+                <td className="px-6 py-4 font-medium text-[#2F2A26]">토요일</td>
+                <td className="px-6 py-4 text-[#756A60]">오전 9:00 - 오후 1:00</td>
               </tr>
               <tr>
-                <td className="px-6 py-4 font-medium text-gray-700">설날추석당일</td>
-                <td className="px-6 py-4 text-gray-600">휴진</td>
+                <td className="px-6 py-4 font-medium text-[#2F2A26]">공휴일</td>
+                <td className="px-6 py-4 text-[#756A60]">오전 9:00 - 오후 1:00</td>
+              </tr>
+              <tr className="bg-[#F8F3EA]">
+                <td className="px-6 py-4 font-medium text-[#2F2A26]">일요일</td>
+                <td className="px-6 py-4 text-[#756A60]">휴진</td>
               </tr>
               <tr>
-                <td className="px-6 py-4 font-medium text-gray-700">점심시간</td>
-                <td className="px-6 py-4 text-gray-600">오후 12:30 - 오후 1:30</td>
+                <td className="px-6 py-4 font-medium text-[#2F2A26]">설날추석당일</td>
+                <td className="px-6 py-4 text-[#756A60]">휴진</td>
+              </tr>
+              <tr>
+                <td className="px-6 py-4 font-medium text-[#2F2A26]">점심시간</td>
+                <td className="px-6 py-4 text-[#756A60]">오후 12:30 - 오후 1:30</td>
               </tr>
             </tbody>
           </table>
@@ -883,7 +877,7 @@ function GuideSection() {
 
       {/* Admission Process */}
       <section>
-        <h2 className="text-2xl font-semibold text-[#2A1F18] mb-6">
+        <h2 className="text-2xl font-semibold text-[#2F2A26] mb-6">
           입원 절차 안내
         </h2>
         <div className="grid md:grid-cols-4 gap-4">
@@ -893,12 +887,12 @@ function GuideSection() {
             { step: "3", title: "입원 결정", desc: "치료 계획 수립" },
             { step: "4", title: "입원 진행", desc: "치료 시작" },
           ].map((item, idx) => (
-            <div key={idx} className="bg-white border border-gray-200 rounded-lg p-4 text-center">
-              <div className="w-10 h-10 bg-[#2A1F18] text-white rounded-full flex items-center justify-center mx-auto mb-3 font-semibold">
+            <div key={idx} className="bg-white border border-[#D8CDBE] rounded-lg p-4 text-center">
+              <div className="w-10 h-10 bg-[#9A856D] text-white rounded-full flex items-center justify-center mx-auto mb-3 font-semibold">
                 {item.step}
               </div>
-              <h3 className="font-semibold text-[#2A1F18] mb-1">{item.title}</h3>
-              <p className="text-sm text-gray-600">{item.desc}</p>
+              <h3 className="font-semibold text-[#2F2A26] mb-1">{item.title}</h3>
+              <p className="text-sm text-[#756A60]">{item.desc}</p>
             </div>
           ))}
         </div>
@@ -906,17 +900,17 @@ function GuideSection() {
 
       {/* Required Documents */}
       <section>
-        <h2 className="text-2xl font-semibold text-[#2A1F18] mb-6">
+        <h2 className="text-2xl font-semibold text-[#2F2A26] mb-6">
           필요 서류 안내
         </h2>
-        <div className="bg-white border border-gray-200 rounded-lg p-6">
+        <div className="bg-white border border-[#D8CDBE] rounded-lg p-6">
           <div className="grid md:grid-cols-2 gap-6">
             <div>
-              <h3 className="font-semibold text-[#2A1F18] mb-3 flex items-center gap-2">
+              <h3 className="font-semibold text-[#2F2A26] mb-3 flex items-center gap-2">
                 <FileText className="w-5 h-5" />
                 초진 환자
               </h3>
-              <ul className="space-y-2 text-sm text-gray-600">
+              <ul className="space-y-2 text-sm text-[#756A60]">
                 <li className="flex items-start gap-2">
                   <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
                   <span>신분증</span>
@@ -936,11 +930,11 @@ function GuideSection() {
               </ul>
             </div>
             <div>
-              <h3 className="font-semibold text-[#2A1F18] mb-3 flex items-center gap-2">
+              <h3 className="font-semibold text-[#2F2A26] mb-3 flex items-center gap-2">
                 <FileText className="w-5 h-5" />
                 입원 환자
               </h3>
-              <ul className="space-y-2 text-sm text-gray-600">
+              <ul className="space-y-2 text-sm text-[#756A60]">
                 <li className="flex items-start gap-2">
                   <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
                   <span>초진 환자 서류 전체</span>
@@ -961,25 +955,25 @@ function GuideSection() {
 
       {/* Insurance Info */}
       <section>
-        <h2 className="text-2xl font-semibold text-[#2A1F18] mb-6">
+        <h2 className="text-2xl font-semibold text-[#2F2A26] mb-6">
           보험 및 비용 안내
         </h2>
-        <div className="bg-[#f5f6f8] rounded-lg p-6">
-          <ul className="space-y-3 text-sm text-gray-700">
+        <div className="bg-[#EFE7DC] rounded-lg p-6">
+          <ul className="space-y-3 text-sm text-[#2F2A26]">
             <li className="flex items-start gap-2">
-              <Award className="w-5 h-5 text-[#2A1F18] flex-shrink-0 mt-0.5" />
+              <Award className="w-5 h-5 text-[#2F2A26] flex-shrink-0 mt-0.5" />
               <span>
                 <strong>건강보험 적용:</strong> 침술, 한약 등 일부 항목 건강보험 적용 가능
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <Award className="w-5 h-5 text-[#2A1F18] flex-shrink-0 mt-0.5" />
+              <Award className="w-5 h-5 text-[#2F2A26] flex-shrink-0 mt-0.5" />
               <span>
                 <strong>실손보험 청구:</strong> 입원 치료 시 실손보험 청구 가능 (보험사별 상이)
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <Award className="w-5 h-5 text-[#2A1F18] flex-shrink-0 mt-0.5" />
+              <Award className="w-5 h-5 text-[#2F2A26] flex-shrink-0 mt-0.5" />
               <span>
                 <strong>비용 상담:</strong> 정확한 비용은 초진 후 개별 안내
               </span>
@@ -1145,8 +1139,8 @@ function NoticesSection() {
     return (
       <div className="flex items-center justify-center py-12">
         <div className="text-center">
-          <div className="w-8 h-8 border-4 border-[#2A1F18] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">공지사항을 불러오는 중...</p>
+          <div className="w-8 h-8 border-4 border-[#D8CDBE] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-[#756A60]">공지사항을 불러오는 중...</p>
         </div>
       </div>
     );
@@ -1156,13 +1150,13 @@ function NoticesSection() {
     <div className="space-y-8">
       <section>
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-semibold text-[#2A1F18]">
+          <h2 className="text-2xl font-semibold text-[#2F2A26]">
             공지안내
           </h2>
           {isAdmin && (
             <button
               onClick={openCreateModal}
-              className="flex items-center gap-2 bg-[#2A1F18] text-white px-4 py-2 rounded-md hover:bg-[#243554] transition-colors"
+              className="flex items-center gap-2 bg-[#9A856D] text-white px-4 py-2 rounded-md hover:bg-[#7C654F] transition-colors"
             >
               <Plus className="w-4 h-4" />
               <span>공지 작성</span>
@@ -1171,7 +1165,7 @@ function NoticesSection() {
         </div>
 
         {notices.length === 0 ? (
-          <div className="bg-white border border-gray-200 rounded-lg p-12 text-center">
+          <div className="bg-white border border-[#D8CDBE] rounded-lg p-12 text-center">
             <Bell className="w-12 h-12 text-gray-300 mx-auto mb-4" />
             <p className="text-gray-500">등록된 공지사항이 없습니다</p>
           </div>
@@ -1182,17 +1176,17 @@ function NoticesSection() {
               return (
                 <div
                   key={notice.id}
-                  className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow"
+                  className="bg-white border border-[#D8CDBE] rounded-lg overflow-hidden hover:shadow-md transition-shadow"
                 >
                   {/* 제목 영역 - 클릭 가능 */}
                   <div
                     onClick={() => toggleNoticeExpand(notice.id)}
-                    className="p-6 cursor-pointer hover:bg-gray-50 transition-colors"
+                    className="p-6 cursor-pointer hover:bg-[#F8F3EA] transition-colors"
                   >
                     <div className="flex items-center justify-between gap-4">
                       <div className="flex items-center gap-3 flex-1">
-                        <Bell className="w-5 h-5 text-[#C9A567] flex-shrink-0" />
-                        <h3 className="text-lg font-semibold text-[#3D2817]">
+                        <Bell className="w-5 h-5 text-[#9A856D] flex-shrink-0" />
+                        <h3 className="text-lg font-semibold text-[#6A5542]">
                           {notice.title}
                         </h3>
                       </div>
@@ -1242,7 +1236,7 @@ function NoticesSection() {
                                   e.stopPropagation();
                                   openEditModal(notice);
                                 }}
-                                className="p-2 text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
+                                className="p-2 text-[#9A856D] hover:bg-[#F5EFE6] rounded-md transition-colors"
                                 title="수정"
                               >
                                 <Edit className="w-5 h-5" />
@@ -1274,51 +1268,51 @@ function NoticesSection() {
       {showModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6 border-b border-gray-200">
-              <h3 className="text-xl font-semibold text-[#2A1F18]">
+            <div className="p-6 border-b border-[#D8CDBE]">
+              <h3 className="text-xl font-semibold text-[#2F2A26]">
                 {editingNotice ? '공지사항 수정' : '공지사항 작성'}
               </h3>
             </div>
             <div className="p-6 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-[#2F2A26] mb-2">
                   제목 <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2A1F18]"
+                  className="w-full px-4 py-2 border border-[#D8CDBE] rounded-md focus:outline-none focus:ring-2 focus:ring-[#9A856D]"
                   placeholder="공지사항 제목을 입력하세요"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-[#2F2A26] mb-2">
                   내용 <span className="text-red-500">*</span>
                 </label>
                 <textarea
                   value={formData.content}
                   onChange={(e) => setFormData({ ...formData, content: e.target.value })}
                   rows={10}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2A1F18] resize-none"
+                  className="w-full px-4 py-2 border border-[#D8CDBE] rounded-md focus:outline-none focus:ring-2 focus:ring-[#9A856D] resize-none"
                   placeholder="공지사항 내용을 입력하세요"
                 />
               </div>
             </div>
-            <div className="p-6 border-t border-gray-200 flex gap-3 justify-end">
+            <div className="p-6 border-t border-[#D8CDBE] flex gap-3 justify-end">
               <button
                 onClick={() => {
                   setShowModal(false);
                   setEditingNotice(null);
                   setFormData({ title: '', content: '' });
                 }}
-                className="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors"
+                className="px-4 py-2 border border-[#D8CDBE] text-[#2F2A26] rounded-md hover:bg-[#F8F3EA] transition-colors"
               >
                 취소
               </button>
               <button
                 onClick={editingNotice ? handleUpdateNotice : handleCreateNotice}
-                className="px-4 py-2 bg-[#2A1F18] text-white rounded-md hover:bg-[#243554] transition-colors"
+                className="px-4 py-2 bg-[#9A856D] text-white rounded-md hover:bg-[#7C654F] transition-colors"
               >
                 {editingNotice ? '수정' : '등록'}
               </button>

@@ -1,7 +1,7 @@
 import { ShieldPlus, HeartHandshake, Soup } from "lucide-react";
 import { coreValues, type CoreValue } from "../../../data/brandStoryData";
 
-const ICON_COLOR = "#5B3A1F";
+const ICON_COLOR = "#9A856D";
 const ICON_SIZE = 44;
 const STROKE = 1.5;
 
@@ -34,20 +34,20 @@ export default function CoreValuesBar() {
   return (
     <section className="px-5 lg:px-8 pb-10">
       <div className="max-w-6xl mx-auto">
-        <div className="bg-[#FBF5E9] rounded-2xl overflow-hidden border border-[#E8DCC8]">
+        <div className="bg-[#FFFFFF] rounded-2xl overflow-hidden border border-[#D8CDBE]">
           <div className="grid grid-cols-3">
             {coreValues.map((val, i) => (
               <div
                 key={val.title}
                 className={[
                   "flex flex-col items-center text-center py-7 px-4 gap-3",
-                  i < coreValues.length - 1 ? "border-r border-[#E8DCC8]" : "",
+                  i < coreValues.length - 1 ? "border-r border-[#D8CDBE]" : "",
                 ].join(" ")}
               >
                 <CoreValueIcon icon={val.icon} />
                 <div>
-                  <p className="text-[14px] font-extrabold text-[#2A1F18]">{val.title}</p>
-                  <p className="text-[12px] text-[#6B5547] mt-0.5">{val.subtitle}</p>
+                  <p className="text-[14px] font-extrabold text-[#2F2A26]">{val.title}</p>
+                  <p className="text-[12px] text-[#756A60] mt-0.5">{val.subtitle}</p>
                 </div>
               </div>
             ))}

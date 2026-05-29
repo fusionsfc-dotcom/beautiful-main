@@ -16,7 +16,7 @@ const DOCTOR_URL = "/intro/doctors";
 export default function BottomActionBarIntegrated() {
   return (
     <div
-      className="fixed bottom-0 left-0 right-0 z-50 bg-[#3D2817] shadow-2xl"
+      className="fixed bottom-0 left-0 right-0 z-50 bg-[#6A5542] shadow-2xl"
       style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)", transform: "translateZ(0)" }}
     >
       {/* 상단: 협진 안내(좌) + 3분할 액션(우) */}
@@ -38,7 +38,7 @@ export default function BottomActionBarIntegrated() {
             href={`tel:${PHONE.replace(/-/g, "")}`}
             className="flex-1 flex flex-col items-center justify-center gap-1 py-3 hover:bg-white/10 transition-colors active:bg-white/20"
           >
-            <Phone size={18} color="#C9A567" strokeWidth={1.8} />
+            <Phone size={18} color="#9A856D" strokeWidth={1.8} />
             <span className="text-[10px] text-white font-bold">전화 상담</span>
             <span className="text-[9px] text-white/50">{PHONE}</span>
           </a>
@@ -49,7 +49,7 @@ export default function BottomActionBarIntegrated() {
             rel="noopener noreferrer"
             className="flex-1 flex flex-col items-center justify-center gap-1 py-3 hover:bg-white/10 transition-colors active:bg-white/20"
           >
-            <MessageSquare size={18} color="#C9A567" strokeWidth={1.8} />
+            <MessageSquare size={18} color="#9A856D" strokeWidth={1.8} />
             <span className="text-[10px] text-white font-bold">네이버 톡톡</span>
             <span className="text-[9px] text-white/50">실시간 상담</span>
           </a>
@@ -58,7 +58,7 @@ export default function BottomActionBarIntegrated() {
             href={RESERVE_URL}
             className="flex-1 flex flex-col items-center justify-center gap-1 py-3 hover:bg-white/10 transition-colors active:bg-white/20"
           >
-            <CalendarCheck size={18} color="#C9A567" strokeWidth={1.8} />
+            <CalendarCheck size={18} color="#9A856D" strokeWidth={1.8} />
             <span className="text-[10px] text-white font-bold">상담 예약</span>
             <span className="text-[9px] text-white/50">빠른 예약하기</span>
           </a>

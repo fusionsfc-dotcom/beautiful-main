@@ -14,7 +14,7 @@ export const vitaminCData: TreatmentDetail = {
     "암세포 억제와 회복을 돕습니다.",
   ],
   subtitleHighlight: "암세포 억제와",
-  heroImage: `${BASE}headdocimg.png`,  // TODO: 실제 비타민 C 수액 사진
+  heroImage: `${BASE}clinic/c.png`,
   heroVideoUrl: "",
   heroVideoLabel: "고농도 비타민 C 안내 영상",
 

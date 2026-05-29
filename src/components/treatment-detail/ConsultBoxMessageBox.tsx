@@ -85,6 +85,8 @@ export default function ConsultBoxMessageBox({
   ctas = [],
   colors,
 }: ConsultBoxMessageBoxProps) {
+  const visibleCTAs = ctas.filter((cta) => cta.type !== "reservation");
+
   return (
     <section className="px-5 lg:px-8 py-8 lg:py-10">
       <div className="max-w-6xl mx-auto">
@@ -102,17 +104,16 @@ export default function ConsultBoxMessageBox({
             </div>
             <div>
               {message.map((line, i) => (
-                <p key={i} className="text-[14px] font-bold text-[#2A1F18] leading-relaxed">
+                <p key={i} className="text-[14px] font-bold text-[#2F2A26] leading-relaxed">
                   {line}
                 </p>
               ))}
             </div>
           </div>
 
-          {/* CTA 버튼 영역 (1~2개) */}
-          {ctas.length > 0 && (
+          {visibleCTAs.length > 0 && (
             <div className="flex flex-col gap-2 w-full md:w-auto md:min-w-[260px]">
-              {ctas.map((cta, i) => (
+              {visibleCTAs.map((cta, i) => (
                 <CTAButton key={i} cta={cta} colors={colors} />
               ))}
             </div>

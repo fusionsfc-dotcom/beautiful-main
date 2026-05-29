@@ -53,7 +53,7 @@ export default function HamburgerMenu({ isOpen, onClose }: HamburgerMenuProps) {
         role="dialog"
         aria-modal="true"
         aria-label="사이트 메뉴"
-        className="fixed top-0 right-0 bottom-0 z-[70] w-full lg:w-[420px] bg-[#FAF6EE] flex flex-col shadow-2xl"
+        className="fixed top-0 right-0 bottom-0 z-[70] w-full lg:w-[420px] bg-[#F8F3EA] flex flex-col shadow-2xl"
         style={{
           transform: isOpen ? "translateX(0)" : "translateX(100%)",
           transition: "transform 320ms cubic-bezier(0.32, 0.72, 0, 1)",
@@ -69,7 +69,7 @@ export default function HamburgerMenu({ isOpen, onClose }: HamburgerMenuProps) {
           <TopQuickActions onClose={onClose} />
 
           {/* 구분선 */}
-          <div className="h-px bg-[#E8DCC8] mx-4" />
+          <div className="h-px bg-[#D8CDBE] mx-4" />
 
           {/* 카테고리 아코디언 목록 */}
           <div className="px-4 py-4 flex flex-col gap-3">
@@ -83,7 +83,7 @@ export default function HamburgerMenu({ isOpen, onClose }: HamburgerMenuProps) {
           </div>
 
           {/* 구분선 */}
-          <div className="h-px bg-[#E8DCC8] mx-4" />
+          <div className="h-px bg-[#D8CDBE] mx-4" />
 
           {/* 하단 퀵 액션 4개 */}
           <div className="px-4 py-4">

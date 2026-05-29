@@ -5,6 +5,7 @@ import { yakchimData } from "./yakchim";
 import { zadaxinData } from "./zadaxin";
 import { alnovaData } from "./alnova";
 import { vitaminCData } from "./vitamin-c";
+import { rfHyperthermiaData } from "./rf-hyperthermia";
 import { oralCareData } from "./oral-care";
 import { infectionPreventionData } from "./infection-prevention";
 import { customOralData } from "./custom-oral";
@@ -19,6 +20,7 @@ export const treatmentDataMap: Record<string, TreatmentDetail> = {
   "zadaxin":               zadaxinData,
   "alnova":                alnovaData,
   "vitamin-c":             vitaminCData,
+  "rf-hyperthermia":       rfHyperthermiaData,
   "oral-care":             oralCareData,
   "infection-prevention":  infectionPreventionData,
   "custom-oral":           customOralData,

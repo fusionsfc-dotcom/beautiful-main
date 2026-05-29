@@ -6,7 +6,7 @@ export default function TbtTreatmentList() {
     <section className="px-5 lg:px-8 py-12 lg:py-16">
       <div className="max-w-6xl mx-auto">
         {/* 타이틀 */}
-        <h2 className="text-[20px] lg:text-[26px] font-extrabold text-[#2A1F18] text-center mb-8">
+        <h2 className="text-[20px] lg:text-[26px] font-extrabold text-[#2F2A26] text-center mb-8">
           턱관절 균형 요법(TBT)의 치료 내용
         </h2>
 

@@ -15,7 +15,7 @@ const ACTIONS = [
 
 export default function BottomActionBar4() {
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-40 bg-[#3D2817] safe-area-bottom">
+    <div className="fixed bottom-0 left-0 right-0 z-40 bg-[#6A5542] safe-area-bottom">
       <div className="grid grid-cols-4">
         {ACTIONS.map((action) => (
           <a
@@ -23,7 +23,7 @@ export default function BottomActionBar4() {
             href={action.href}
             target={action.external ? "_blank" : undefined}
             rel={action.external ? "noopener noreferrer" : undefined}
-            className="flex flex-col items-center justify-center gap-1 py-3 hover:bg-[#5B3A1F] transition-colors active:bg-[#5B3A1F]"
+            className="flex flex-col items-center justify-center gap-1 py-3 hover:bg-[#7C654F] transition-colors active:bg-[#9A856D]"
           >
             <action.Icon size={18} color="white" strokeWidth={1.8} />
             <span className="text-white text-[11px] font-bold">{action.label}</span>

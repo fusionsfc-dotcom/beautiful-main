@@ -2,68 +2,82 @@
 
 :root {
   --font-size: 16px;
-  --background: #F8F9FA;
-  --foreground: #3E5266;
+  --background: #F8F3EA;
+  --foreground: #2F2A26;
   --card: #ffffff;
-  --card-foreground: #3E5266;
+  --card-foreground: #2F2A26;
   --popover: #ffffff;
-  --popover-foreground: #3E5266;
-  --primary: #E91E7A;
+  --popover-foreground: #2F2A26;
+  --primary: #9A856D;
   --primary-foreground: #ffffff;
-  --secondary: #8FA8BA;
-  --secondary-foreground: #3E5266;
-  --muted: #F8F9FA;
-  --muted-foreground: #6B7D8C;
-  --accent: #8FA8BA;
-  --accent-foreground: #3E5266;
+  --secondary: #EFE7DC;
+  --secondary-foreground: #6A5542;
+  --muted: #EFE7DC;
+  --muted-foreground: #756A60;
+  --accent: #9A856D;
+  --accent-foreground: #ffffff;
   --destructive: #d4183d;
   --destructive-foreground: #ffffff;
-  --border: rgba(143, 168, 186, 0.2);
+  --border: rgba(219, 204, 183, 0.65);
   --input: transparent;
-  --input-background: #F8F9FA;
-  --switch-background: #8FA8BA;
+  --input-background: #F8F3EA;
+  --switch-background: #CDBFAA;
   --font-weight-medium: 500;
   --font-weight-normal: 400;
-  --ring: #8FA8BA;
-  --chart-1: #E91E7A;
-  --chart-2: #8FA8BA;
-  --chart-3: #3E5266;
-  --chart-4: #6B7D8C;
-  --chart-5: #F8F9FA;
+  --ring: #9A856D;
+  --chart-1: #9A856D;
+  --chart-2: #9A856D;
+  --chart-3: #6A5542;
+  --chart-4: #CDBFAA;
+  --chart-5: #F8F3EA;
   --radius: 12px;
   --sidebar: #ffffff;
-  --sidebar-foreground: #3E5266;
-  --sidebar-primary: #E91E7A;
+  --sidebar-foreground: #2F2A26;
+  --sidebar-primary: #9A856D;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #F8F9FA;
-  --sidebar-accent-foreground: #3E5266;
-  --sidebar-border: rgba(143, 168, 186, 0.2);
-  --sidebar-ring: #8FA8BA;
+  --sidebar-accent: #EFE7DC;
+  --sidebar-accent-foreground: #6A5542;
+  --sidebar-border: rgba(219, 204, 183, 0.65);
+  --sidebar-ring: #9A856D;
   --text-2xl: 28px;
   --text-xl: 22px;
   --text-lg: 20px;
   --text-base: 16px;
   
   /* New Color Variables */
-  --butterfly-pink: #E91E7A;
-  --blue-gray: #3E5266;
-  --muted-blue: #8FA8BA;
-  --airy-white: #F8F9FA;
-  --silver-gray: #6B7D8C;
-  --navy: #3E5266;
-  --soft-gray: #F8F9FA;
+  --butterfly-pink: #9A856D;
+  --blue-gray: #2F2A26;
+  --muted-blue: #CDBFAA;
+  --airy-white: #F8F3EA;
+  --silver-gray: #756A60;
+  --navy: #2F2A26;
+  --soft-gray: #F8F3EA;
 
-  /* ── Redesign: 한방 프리미엄 컬러 시스템 ── */
-  --hb-bg-primary: #FAF6EE;
-  --hb-bg-card: #F5EEE0;
-  --hb-brand-dark: #3D2817;
-  --hb-brand-deep: #5B3A1F;
-  --hb-brand-accent: #8B2A1F;
-  --hb-brand-gold: #C9A567;
-  --hb-text-primary: #2A1F18;
-  --hb-text-secondary: #6B5547;
-  --hb-line: #E8DCC8;
-  --hb-handwriting-bg: #F8E8D4;
+  /* ── Brand: 우드톤 프리미엄 한의원 컬러 시스템 ── */
+  --color-bg: #F8F3EA;
+  --color-bg-soft: #EFE7DC;
+  --color-card: #FFFFFF;
+  --color-border: #D8CDBE;
+  --color-primary: #9A856D;
+  --color-primary-hover: #7C654F;
+  --color-wood-light: #D8CDBE;
+  --color-wood-medium: #CDBFAA;
+  --color-wood-accent: #9A856D;
+  --color-brown-dark: #6A5542;
+  --color-text-main: #2F2A26;
+  --color-text-sub: #756A60;
+
+  /* ── Redesign: 한방 프리미엄 컬러 시스템 (기존 유틸 호환) ── */
+  --hb-bg-primary: var(--color-bg);
+  --hb-bg-card: var(--color-bg-soft);
+  --hb-brand-dark: var(--color-brown-dark);
+  --hb-brand-deep: var(--color-wood-accent);
+  --hb-brand-accent: var(--color-primary);
+  --hb-brand-gold: var(--color-wood-accent);
+  --hb-text-primary: var(--color-text-main);
+  --hb-text-secondary: var(--color-text-sub);
+  --hb-line: var(--color-border);
+  --hb-handwriting-bg: var(--color-bg-soft);
 }
 
 .dark {
@@ -154,6 +168,20 @@
   --color-hb-text-secondary: var(--hb-text-secondary);
   --color-hb-line: var(--hb-line);
   --color-hb-handwriting-bg: var(--hb-handwriting-bg);
+
+  /* ── Brand 컬러 Tailwind 유틸리티 ── */
+  --color-brand-bg: var(--color-bg);
+  --color-brand-soft: var(--color-bg-soft);
+  --color-brand-card: var(--color-card);
+  --color-brand-border: var(--color-border);
+  --color-brand-primary: var(--color-primary);
+  --color-brand-primary-hover: var(--color-primary-hover);
+  --color-brand-wood-light: var(--color-wood-light);
+  --color-brand-wood-medium: var(--color-wood-medium);
+  --color-brand-wood-accent: var(--color-wood-accent);
+  --color-brand-brown-dark: var(--color-brown-dark);
+  --color-brand-text-main: var(--color-text-main);
+  --color-brand-text-sub: var(--color-text-sub);
 
   /* 손글씨 폰트 유틸리티 */
   --font-handwriting: 'Nanum Pen Script', cursive;

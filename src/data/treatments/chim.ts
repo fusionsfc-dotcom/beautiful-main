@@ -7,16 +7,11 @@ export const chimData: TreatmentDetail = {
   slug: "chim",
   category: "korean",
 
-  topLabel: "조선 어의를 통해 비전된 궁중침법",
+  topLabel: "",
   title: "침 치료",
-  titleSubLine: "(조선침법)",
-  subtitle: [
-    "조선침법은 조선시대 어의를 통해 비전된",
-    "임금의 치료 침법으로, 오랜 역사와 임상 경험을",
-    "바탕으로 만들어진 정교하고 효과적인 침법입니다.",
-  ],
-  subtitleHighlight: "조선시대 어의",
-  heroImage: `${BASE}te_1.jpeg`,     // TODO: 실제 침 시술 사진으로 교체
+  subtitle: [],
+  subtitleHighlight: "",
+  heroImage: `${BASE}clinic/han_c.png`,
   heroVideoUrl: "",
   heroVideoLabel: "침치료 소개 영상 보기",
 
@@ -32,12 +27,12 @@ export const chimData: TreatmentDetail = {
   // 6장 비주얼 카드 — grid6 레이아웃
   visualCardsTitle: "항암 환자를 위한 침치료 효과",
   visualCards: [
-    { title: "소화불량 개선",    image: `${BASE}yoga_s.jpeg`  },   // TODO: 실제 사진 교체
-    { title: "불면증 개선",      image: `${BASE}hero_img.jpeg` },
-    { title: "변비 개선",        image: `${BASE}te_1.jpeg`    },
-    { title: "전신 통증 완화",   image: `${BASE}room_pa.jpeg` },
-    { title: "무기력 개선",      image: `${BASE}loca.jpeg`    },
-    { title: "수족증후군 개선",  image: `${BASE}ceo_re.png`   },
+    { title: "소화불량 개선", image: `${BASE}clinic/cim/c_1.png` },
+    { title: "불면증 개선", image: `${BASE}clinic/cim/c_2.png` },
+    { title: "변비 개선", image: `${BASE}clinic/cim/c_3.png` },
+    { title: "전신 통증 완화", image: `${BASE}clinic/cim/c_4.png` },
+    { title: "무기력 개선", image: `${BASE}clinic/cim/c_5.png` },
+    { title: "수족증후군 개선", image: `${BASE}clinic/cim/c_6.png` },
   ],
   visualCardsLayout: "grid6",
 

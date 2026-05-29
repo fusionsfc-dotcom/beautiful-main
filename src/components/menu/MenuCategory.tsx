@@ -40,18 +40,18 @@ export default function MenuCategory({ category, onClose }: MenuCategoryProps) {
         <Link
           to={`/${category.id}`}
           onClick={onClose}
-          className="flex items-center gap-3 px-4 py-4 hover:bg-[#FAF6EE] transition-colors"
+          className="flex items-center gap-3 px-4 py-4 hover:bg-[#F8F3EA] transition-colors"
         >
           {/* 아이콘 */}
-          <div className="w-9 h-9 rounded-full bg-[#F5EEE0] flex items-center justify-center flex-shrink-0">
-            <Icon size={18} color="#5B3A1F" strokeWidth={1.8} />
+          <div className="w-9 h-9 rounded-full bg-[#EFE7DC] flex items-center justify-center flex-shrink-0">
+            <Icon size={18} color="#9A856D" strokeWidth={1.8} />
           </div>
           {/* 번호 + 제목 */}
           <div className="flex items-center gap-2 flex-1">
-            <span className="text-[12px] text-[#C9A567] font-semibold w-5">
+            <span className="text-[12px] text-[#9A856D] font-semibold w-5">
               {category.number}.
             </span>
-            <span className="text-[16px] font-bold text-[#2A1F18]">
+            <span className="text-[16px] font-bold text-[#2F2A26]">
               {category.title}
             </span>
           </div>
@@ -69,19 +69,19 @@ export default function MenuCategory({ category, onClose }: MenuCategoryProps) {
       {/* 카테고리 헤더 (토글) */}
       <button
         onClick={() => setOpen((v) => !v)}
-        className="w-full flex items-center gap-3 px-4 py-4 hover:bg-[#FAF6EE] transition-colors text-left"
+        className="w-full flex items-center gap-3 px-4 py-4 hover:bg-[#F8F3EA] transition-colors text-left"
       >
         {/* 아이콘 */}
-        <div className="w-9 h-9 rounded-full bg-[#F5EEE0] flex items-center justify-center flex-shrink-0">
-          <Icon size={18} color="#5B3A1F" strokeWidth={1.8} />
+        <div className="w-9 h-9 rounded-full bg-[#EFE7DC] flex items-center justify-center flex-shrink-0">
+          <Icon size={18} color="#9A856D" strokeWidth={1.8} />
         </div>
 
         {/* 번호 + 제목 + 뱃지 */}
         <div className="flex items-center gap-2 flex-1 min-w-0">
-          <span className="text-[12px] text-[#C9A567] font-semibold w-5 flex-shrink-0">
+          <span className="text-[12px] text-[#9A856D] font-semibold w-5 flex-shrink-0">
             {category.number}.
           </span>
-          <span className="text-[16px] font-bold text-[#2A1F18] truncate">
+          <span className="text-[16px] font-bold text-[#2F2A26] truncate">
             {category.title}
           </span>
           {category.badge === "HOT" && <BadgeHot />}
@@ -111,7 +111,7 @@ export default function MenuCategory({ category, onClose }: MenuCategoryProps) {
           maxHeight: open ? (contentRef.current?.scrollHeight ?? 1000) + "px" : "0px",
         }}
       >
-        <div className="border-t border-[#F5EEE0] divide-y divide-[#F5EEE0]">
+        <div className="border-t border-[#EFE7DC] divide-y divide-[#EFE7DC]">
           {category.items.map((item) => (
             <MenuSubItem key={item.href} {...item} onClose={onClose} />
           ))}

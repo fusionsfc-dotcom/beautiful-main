@@ -14,7 +14,7 @@ export const infectionPreventionData: TreatmentDetail = {
     "구강 감염을 예방하는 것이 중요합니다.",
   ],
   subtitleHighlight: "구강 감염을 예방하는",
-  heroImage: `${BASE}loca.jpeg`,  // TODO: 실제 감염 예방 관리 사진
+  heroImage: `${BASE}clinic/c_2.jpeg`,
   heroVideoUrl: "",
   heroVideoLabel: "감염 예방 관리 안내 영상",
 

@@ -15,7 +15,7 @@ export const yakchimData: TreatmentDetail = {
     "항암 효과를 높이고, 회복을 앞당깁니다.",
   ],
   subtitleHighlight: "항암 효과",
-  heroImage: `${BASE}te_1.jpeg`,     // TODO: 실제 약침 시술 사진으로 교체
+  heroImage: `${BASE}clinic/han_c2.png`,
   heroVideoUrl: "",
   heroVideoLabel: "약침치료 소개 영상 보기",
 
@@ -52,14 +52,14 @@ export const yakchimData: TreatmentDetail = {
       title: "벌에서 추출한 봉독 성분을 정제하여",
       description: ["만든 약침입니다."],
       checkList: ["항암 효과", "면역 세포 활성화", "통증 완화"],
-      image: `${BASE}yoga_s.jpeg`,   // TODO: 벌집 사진으로 교체
+      image: `${BASE}clinic/cim/c2_1.png`,
     },
     {
       badge: "태반 약침",
       title: "태반에서 유효 성분을 추출하여",
       description: ["정제한 약침입니다."],
       checkList: ["면역력 개선 · 기력 향상", "면역력 강화", "기력 회복", "세포 재생 촉진"],
-      image: `${BASE}hero_img.jpeg`, // TODO: 세포 비주얼(붉은빛) 사진으로 교체
+      image: `${BASE}clinic/cim/c2_2.png`,
     },
     {
       badge: "줄기세포 유도 효과",
@@ -72,7 +72,7 @@ export const yakchimData: TreatmentDetail = {
         "면역 균형 조절",
         "치료 후 회복 촉진",
       ],
-      image: `${BASE}room_pa.jpeg`,  // TODO: 세포 비주얼(청록빛) 사진으로 교체
+      image: `${BASE}clinic/cim/c2_3.png`,
     },
   ],
   visualCardsLayout: "detailed",

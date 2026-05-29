@@ -19,7 +19,7 @@ export default function TbtTherapy() {
         />
       </Helmet>
 
-      <div className="bg-[#FAF6EE] min-h-screen">
+      <div className="bg-[#F8F3EA] min-h-screen">
         {/* Section 1 — 히어로 (영상 모달 포함) */}
         <TbtHero />
 

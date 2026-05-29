@@ -58,10 +58,10 @@ const ACTIONS = [
 export default function BottomActionBar() {
   return (
     <div
-      className="fixed bottom-0 left-0 right-0 z-50 bg-[#3D2817]"
+      className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-[#D8CDBE] shadow-[0_-8px_24px_rgba(106,85,66,0.08)]"
       style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
     >
-      <div className="flex divide-x divide-white/10">
+      <div className="flex divide-x divide-[#D8CDBE]/70">
         {ACTIONS.map((action) =>
           action.external ? (
             <a
@@ -69,7 +69,9 @@ export default function BottomActionBar() {
               href={action.href}
               target={action.id !== "phone" ? "_blank" : undefined}
               rel={action.id !== "phone" ? "noopener noreferrer" : undefined}
-              className="flex-1 flex flex-col items-center justify-center gap-1 py-3 text-white hover:bg-white/10 transition-colors active:bg-white/20"
+              className={`flex-1 flex flex-col items-center justify-center gap-1 py-3 transition-colors ${
+                action.id === "reservation" ? "bg-[#8BC31F] text-white hover:bg-[#75A915]" : "text-[#6A5542] hover:bg-[#F5EFE6]"
+              }`}
             >
               {action.icon}
               <span className="text-[10px] font-medium tracking-wide leading-none">
@@ -80,7 +82,9 @@ export default function BottomActionBar() {
             <Link
               key={action.id}
               to={action.href}
-              className="flex-1 flex flex-col items-center justify-center gap-1 py-3 text-white hover:bg-white/10 transition-colors active:bg-white/20"
+              className={`flex-1 flex flex-col items-center justify-center gap-1 py-3 transition-colors ${
+                action.id === "reservation" ? "bg-[#8BC31F] text-white hover:bg-[#75A915]" : "text-[#6A5542] hover:bg-[#F5EFE6]"
+              }`}
             >
               {action.icon}
               <span className="text-[10px] font-medium tracking-wide leading-none">

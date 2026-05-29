@@ -23,7 +23,7 @@ export default function GardenVideoCard() {
       >
         {/* 상단 라벨 */}
         <div className="absolute top-3 left-3 z-10">
-          <span className="bg-[#3D2817]/80 text-white text-[11px] font-bold px-3 py-1 rounded-full">
+          <span className="bg-[#6A5542]/80 text-white text-[11px] font-bold px-3 py-1 rounded-full">
             텃밭 소개 영상
           </span>
         </div>
@@ -40,15 +40,15 @@ export default function GardenVideoCard() {
 
           {/* 플레이 버튼 */}
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-12 h-12 rounded-full bg-[#FAF6EE]/90 shadow-lg flex items-center justify-center group-hover:bg-white transition-colors">
-              <Play size={20} color="#3D2817" fill="#3D2817" className="translate-x-0.5" />
+            <div className="w-12 h-12 rounded-full bg-[#F8F3EA]/90 shadow-lg flex items-center justify-center group-hover:bg-white transition-colors">
+              <Play size={20} color="#6A5542" fill="#6A5542" className="translate-x-0.5" />
             </div>
           </div>
         </div>
 
         {/* 하단 텍스트 */}
-        <div className="bg-[#FBF5E9] px-4 py-3">
-          <p className="text-[12px] text-[#5B3A1F] leading-relaxed">
+        <div className="bg-[#FFFFFF] px-4 py-3">
+          <p className="text-[12px] text-[#9A856D] leading-relaxed">
             건강한 토양이
             <br />
             건강한 식재료를 만듭니다.
@@ -69,7 +69,7 @@ export default function GardenVideoCard() {
             <button
               onClick={close}
               aria-label="모달 닫기"
-              className="absolute -top-10 right-0 text-white hover:text-[#C9A567] transition-colors"
+              className="absolute -top-10 right-0 text-white hover:text-[#9A856D] transition-colors"
             >
               <X size={28} />
             </button>

@@ -5,7 +5,6 @@ import ProgramCard from "../../../components/program/rehab/ProgramCard";
 import ConsultCallout from "../../../components/program/rehab/ConsultCallout";
 import TrustMessageSection from "../../../components/program/rehab/TrustMessageSection";
 import FinalCTASection from "../../../components/program/rehab/FinalCTASection";
-import BottomActionBar from "../../../components/home/BottomActionBar";
 import { rehabPrograms } from "../../../data/rehabPrograms";
 
 export default function RehabExercise() {
@@ -21,27 +20,27 @@ export default function RehabExercise() {
 
       {/* 하단 고정 액션바 높이만큼 여백 */}
       <div
-        className="bg-[#FAF6EE] min-h-screen"
+        className="bg-[#F8F3EA] min-h-screen"
         style={{ paddingBottom: "calc(56px + env(safe-area-inset-bottom, 0px))" }}
       >
         {/* Section 1: 히어로 */}
         <RehabHero />
 
         {/* 구분선 */}
-        <div className="h-px bg-[#E8DCC8] mx-5 lg:mx-8" />
+        <div className="h-px bg-[#D8CDBE] mx-5 lg:mx-8" />
 
         {/* Section 2: 운동 프로그램 안내 */}
-        <section className="bg-[#FAF6EE] py-12 lg:py-16 px-5 lg:px-8">
+        <section className="bg-[#F8F3EA] py-12 lg:py-16 px-5 lg:px-8">
           <div className="max-w-6xl mx-auto">
             {/* 섹션 타이틀 */}
             <div className="flex items-center justify-center gap-3 mb-8">
-              <Leaf size={18} color="#C9A567" strokeWidth={1.5} />
-              <h2 className="text-[20px] lg:text-[24px] font-extrabold text-[#2A1F18]">
+              <Leaf size={18} color="#9A856D" strokeWidth={1.5} />
+              <h2 className="text-[20px] lg:text-[24px] font-extrabold text-[#2F2A26]">
                 운동 프로그램 안내
               </h2>
               <Leaf
                 size={18}
-                color="#C9A567"
+                color="#9A856D"
                 strokeWidth={1.5}
                 className="scale-x-[-1]"
               />
@@ -65,9 +64,6 @@ export default function RehabExercise() {
         {/* Section 5: 마무리 CTA */}
         <FinalCTASection />
       </div>
-
-      {/* Section 6: 하단 고정 액션바 */}
-      <BottomActionBar />
     </>
   );
 }

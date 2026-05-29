@@ -11,12 +11,8 @@ import ConsultBoxMessageBox from "../../../../components/treatment-detail/Consul
 import MotivationMessage from "../../../../components/treatment-detail/MotivationMessage";
 import StepStorySection from "../../../../components/treatment-detail/StepStorySection";
 import SpecialFeaturesGrid from "../../../../components/treatment-detail/SpecialFeaturesGrid";
-import BottomActionBar4 from "../../../../components/common/BottomActionBar4";
-import BottomActionBarFull from "../../../../components/common/BottomActionBarFull";
-import BottomActionBarIntegrated from "../../../../components/common/BottomActionBarIntegrated";
-
 /** 치과(dental) 카테고리는 상세 페이지에서 브라운 톤으로 표시 */
-const DENTAL_BROWN = { main: "#5B3A1F", bg: "#FBF5E9", label: "치과" };
+const DENTAL_BROWN = { main: "#9A856D", bg: "#FFFFFF", label: "치과" };
 
 export default function TreatmentDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -27,12 +23,12 @@ export default function TreatmentDetail() {
 
   if (!data) {
     return (
-      <div className="min-h-screen bg-[#FAF6EE] flex flex-col items-center justify-center px-5 text-center gap-5">
-        <p className="text-[#2A1F18] font-extrabold text-[20px]">치료 정보를 준비 중입니다</p>
-        <p className="text-[14px] text-[#6B5547]">곧 자세한 내용으로 찾아뵙겠습니다.</p>
+      <div className="min-h-screen bg-[#F8F3EA] flex flex-col items-center justify-center px-5 text-center gap-5">
+        <p className="text-[#2F2A26] font-extrabold text-[20px]">치료 정보를 준비 중입니다</p>
+        <p className="text-[14px] text-[#756A60]">곧 자세한 내용으로 찾아뵙겠습니다.</p>
         <Link
           to="/program/integrated"
-          className="bg-[#3D2817] text-white text-[13px] font-bold px-5 py-3 rounded-full hover:bg-[#5B3A1F] transition-colors"
+          className="bg-[#9A856D] text-white text-[13px] font-bold px-5 py-3 rounded-full hover:bg-[#7C654F] transition-colors"
         >
           통합 맞춤 치료 페이지로 돌아가기
         </Link>
@@ -42,12 +38,6 @@ export default function TreatmentDetail() {
 
   // 치과 카테고리는 브라운 오버라이드, 나머지는 기존 컬러
   const colors = data.category === "dental" ? DENTAL_BROWN : getCategoryColor(data.category);
-
-  // 하단 액션바 분기
-  const BottomBar =
-    data.bottomBarVariant === "full"       ? BottomActionBarFull :
-    data.bottomBarVariant === "integrated" ? BottomActionBarIntegrated :
-    BottomActionBar4;
 
   const hasCustomCTAs = data.consultCTAs && data.consultCTAs.length > 0;
 
@@ -78,10 +68,10 @@ export default function TreatmentDetail() {
     <>
       <Helmet>
         <title>{data.title.replace(/\n/g, " ")} | Beautiful 뷰티풀 암요양병원</title>
-        <meta name="description" content={data.subtitle.join(" ")} />
+        <meta name="description" content={data.subtitle.length > 0 ? data.subtitle.join(" ") : `${data.title} | 뷰티풀한방병원`} />
       </Helmet>
 
-      <div className="bg-[#FAF6EE] min-h-screen">
+      <div className="bg-[#F8F3EA] min-h-screen">
         {/* Section 1 — 히어로 */}
         <TreatmentHero data={data} colors={colors} />
 
@@ -141,9 +131,6 @@ export default function TreatmentDetail() {
           />
         )}
       </div>
-
-      {/* Section 7 — 하단 액션바 */}
-      <BottomBar />
     </>
   );
 }

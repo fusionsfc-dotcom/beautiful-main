@@ -76,7 +76,7 @@ function CTAButton({ cta, colors }: CTAButtonProps) {
 
   // 기타 타입 — 기본 다크 버튼
   return (
-    <button className="inline-flex items-center gap-2 bg-[#3D2817] text-white text-[12px] sm:text-[13px] font-bold px-4 py-2.5 rounded-full hover:bg-[#5B3A1F] transition-colors flex-shrink-0">
+    <button className="inline-flex items-center gap-2 bg-[#8BC31F] text-white text-[12px] sm:text-[13px] font-bold px-4 py-2.5 rounded-full hover:bg-[#75A915] transition-colors flex-shrink-0">
       <CTAIcon icon={cta.icon} />
       {cta.label}
     </button>
@@ -90,26 +90,29 @@ interface ConsultBoxWithCTAsProps {
 }
 
 export default function ConsultBoxWithCTAs({ question, ctas, colors }: ConsultBoxWithCTAsProps) {
+  const visibleCTAs = ctas.filter((cta) => cta.type !== "reservation");
+
   return (
     <section className="px-5 lg:px-8 py-8 lg:py-10">
       <div className="max-w-6xl mx-auto">
-        <div className="bg-[#FBF5E9] rounded-2xl px-6 py-6 flex flex-col md:flex-row items-start md:items-center gap-5">
+        <div className="bg-[#FFFFFF] rounded-2xl px-6 py-6 flex flex-col md:flex-row items-start md:items-center gap-5">
           {/* 아이콘 */}
-          <div className="w-12 h-12 rounded-full bg-[#F0E6D2] flex-shrink-0 flex items-center justify-center">
-            <HeartHandshake size={22} color="#5B3A1F" strokeWidth={1.8} />
+          <div className="w-12 h-12 rounded-full bg-[#EFE7DC] flex-shrink-0 flex items-center justify-center">
+            <HeartHandshake size={22} color="#9A856D" strokeWidth={1.8} />
           </div>
 
           {/* 질문 텍스트 — \n으로 줄 바꿈 지원 */}
-          <p className="flex-1 text-[15px] font-extrabold text-[#2A1F18] leading-snug whitespace-pre-line">
+          <p className="flex-1 text-[15px] font-extrabold text-[#2F2A26] leading-snug whitespace-pre-line">
             {question}
           </p>
 
-          {/* CTA 버튼들 */}
-          <div className="flex gap-2 flex-wrap">
-            {ctas.map((cta, i) => (
-              <CTAButton key={i} cta={cta} colors={colors} />
-            ))}
-          </div>
+          {visibleCTAs.length > 0 && (
+            <div className="flex gap-2 flex-wrap">
+              {visibleCTAs.map((cta, i) => (
+                <CTAButton key={i} cta={cta} colors={colors} />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </section>

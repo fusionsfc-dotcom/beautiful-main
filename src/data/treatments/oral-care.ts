@@ -15,7 +15,7 @@ export const oralCareData: TreatmentDetail = {
     "치료의 효과와 삶의 질을 높여드립니다.",
   ],
   subtitleHighlight: "구강 합병증을 예방하고",
-  heroImage: `${BASE}ceo_re.png`,    // TODO: 치과 진료 사진으로 교체
+  heroImage: `${BASE}clinic/cl_1.jpeg`,
   heroVideoUrl: "",
   heroVideoLabel: "구강 관리 소개 영상 보기",
 

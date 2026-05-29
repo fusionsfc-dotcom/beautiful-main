@@ -6,13 +6,12 @@ interface MotivationMessageProps {
 
 export default function MotivationMessage({ message, sub, image }: MotivationMessageProps) {
   return (
-    <section className="px-5 lg:px-8 py-6 pb-28">
-      {/* pb-28: BottomActionBar4 높이 확보 */}
+    <section className="px-5 lg:px-8 py-6">
       <div className="max-w-6xl mx-auto">
-        <div className="bg-[#FBF5E9] rounded-2xl overflow-hidden flex flex-col md:flex-row">
+        <div className="bg-[#FFFFFF] rounded-2xl overflow-hidden flex flex-col md:flex-row">
           {/* 텍스트 */}
           <div className="flex-1 px-7 py-8 flex flex-col justify-center gap-4">
-            <h2 className="text-[22px] lg:text-[26px] font-extrabold text-[#2A1F18] leading-snug">
+            <h2 className="text-[22px] lg:text-[26px] font-extrabold text-[#2F2A26] leading-snug">
               {message.map((line, i) => (
                 <span key={i}>
                   {line}
@@ -20,8 +19,8 @@ export default function MotivationMessage({ message, sub, image }: MotivationMes
                 </span>
               ))}
             </h2>
-            <div className="w-10 h-1 bg-[#C9A567] rounded-full" />
-            <p className="text-[14px] text-[#6B5547]">{sub}</p>
+            <div className="w-10 h-1 bg-[#9A856D] rounded-full" />
+            <p className="text-[14px] text-[#756A60]">{sub}</p>
           </div>
 
           {/* 이미지 */}

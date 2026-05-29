@@ -36,9 +36,9 @@ function VisualCard({ card, colors }: CardProps) {
 
       {/* 텍스트 */}
       <div className="px-4 py-4 text-center flex-1 flex flex-col justify-center">
-        <h4 className="text-[15px] font-extrabold text-[#2A1F18] mb-1">{card.title}</h4>
+        <h4 className="text-[15px] font-extrabold text-[#2F2A26] mb-1">{card.title}</h4>
         {card.subtitle && (
-          <p className="text-[12px] text-[#6B5547] whitespace-pre-line">{card.subtitle}</p>
+          <p className="text-[12px] text-[#756A60] whitespace-pre-line">{card.subtitle}</p>
         )}
       </div>
     </div>
@@ -57,7 +57,7 @@ function SimpleCard({ card }: { card: TreatmentVisualCard }) {
         />
       </div>
       <div className="px-3 py-3 text-center">
-        <h4 className="text-[13px] sm:text-[14px] font-extrabold text-[#2A1F18]">{card.title}</h4>
+        <h4 className="text-[13px] sm:text-[14px] font-extrabold text-[#2F2A26]">{card.title}</h4>
       </div>
     </div>
   );
@@ -89,29 +89,29 @@ function CarouselCards({ title, cards, colors }: CarouselProps) {
   }, [emblaApi]);
 
   return (
-    <section className="px-5 lg:px-8 py-10 lg:py-14 bg-[#FBF5E9]">
+    <section className="px-5 lg:px-8 py-10 lg:py-14 bg-[#FFFFFF]">
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center justify-center gap-2 mb-12">
-          <Leaf size={14} color="#C9A567" strokeWidth={1.8} className="rotate-180" />
-          <h2 className="text-[20px] lg:text-[24px] font-extrabold text-[#2A1F18]">{title}</h2>
-          <Leaf size={14} color="#C9A567" strokeWidth={1.8} />
+          <Leaf size={14} color="#9A856D" strokeWidth={1.8} className="rotate-180" />
+          <h2 className="text-[20px] lg:text-[24px] font-extrabold text-[#2F2A26]">{title}</h2>
+          <Leaf size={14} color="#9A856D" strokeWidth={1.8} />
         </div>
 
         <div className="relative">
           <button
             onClick={scrollPrev}
             aria-label="이전 카드"
-            className="hidden sm:flex absolute -left-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-[#3D2817] items-center justify-center shadow-md hover:bg-[#5B3A1F] transition-colors"
+            className="hidden sm:flex absolute -left-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-[#6A5542] items-center justify-center shadow-md hover:bg-[#7C654F] transition-colors"
           >
             <ChevronLeft size={20} color="white" strokeWidth={2} />
           </button>
 
           <div className="overflow-hidden pt-5 pb-8" ref={emblaRef}>
-            <div className="flex gap-6">
+            <div className="flex -ml-6">
               {cards.map((card, i) => (
                 <div
                   key={card.number ?? i}
-                  className="flex-none w-[80%] sm:w-[calc(33.333%-1rem)]"
+                  className="flex-none w-[80%] sm:w-[33.333%] min-w-0 pl-6"
                 >
                   <VisualCard card={card} colors={colors} />
                 </div>
@@ -122,7 +122,7 @@ function CarouselCards({ title, cards, colors }: CarouselProps) {
           <button
             onClick={scrollNext}
             aria-label="다음 카드"
-            className="hidden sm:flex absolute -right-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-[#3D2817] items-center justify-center shadow-md hover:bg-[#5B3A1F] transition-colors"
+            className="hidden sm:flex absolute -right-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-[#6A5542] items-center justify-center shadow-md hover:bg-[#7C654F] transition-colors"
           >
             <ChevronRight size={20} color="white" strokeWidth={2} />
           </button>
@@ -136,7 +136,7 @@ function CarouselCards({ title, cards, colors }: CarouselProps) {
               aria-label={`${i + 1}번 카드`}
               className="w-2 h-2 rounded-full transition-all duration-300"
               style={{
-                backgroundColor: i === selectedIndex ? colors.main : "#E8DCC8",
+                backgroundColor: i === selectedIndex ? colors.main : "#D8CDBE",
                 transform: i === selectedIndex ? "scale(1.3)" : "scale(1)",
               }}
             />
@@ -179,12 +179,12 @@ export default function TreatmentVisualCards({
   // grid6 모드 — 침 치료: 6장 2×3, 사진+라벨만
   if (layout === "grid6") {
     return (
-      <section className="px-5 lg:px-8 py-10 lg:py-14 bg-[#FBF5E9]">
+      <section className="px-5 lg:px-8 py-10 lg:py-14 bg-[#FFFFFF]">
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center justify-center gap-2 mb-8">
-            <Leaf size={14} color="#C9A567" strokeWidth={1.8} className="rotate-180" />
-            <h2 className="text-[20px] lg:text-[24px] font-extrabold text-[#2A1F18]">{title}</h2>
-            <Leaf size={14} color="#C9A567" strokeWidth={1.8} />
+            <Leaf size={14} color="#9A856D" strokeWidth={1.8} className="rotate-180" />
+            <h2 className="text-[20px] lg:text-[24px] font-extrabold text-[#2F2A26]">{title}</h2>
+            <Leaf size={14} color="#9A856D" strokeWidth={1.8} />
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5">
@@ -204,12 +204,12 @@ export default function TreatmentVisualCards({
 
   // 기본 정적 그리드 — 왕뜸
   return (
-    <section className="px-5 lg:px-8 py-10 lg:py-14 bg-[#FBF5E9]">
+    <section className="px-5 lg:px-8 py-10 lg:py-14 bg-[#FFFFFF]">
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center justify-center gap-2 mb-12">
-          <Leaf size={14} color="#C9A567" strokeWidth={1.8} className="rotate-180" />
-          <h2 className="text-[20px] lg:text-[24px] font-extrabold text-[#2A1F18]">{title}</h2>
-          <Leaf size={14} color="#C9A567" strokeWidth={1.8} />
+          <Leaf size={14} color="#9A856D" strokeWidth={1.8} className="rotate-180" />
+          <h2 className="text-[20px] lg:text-[24px] font-extrabold text-[#2F2A26]">{title}</h2>
+          <Leaf size={14} color="#9A856D" strokeWidth={1.8} />
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 pt-5">

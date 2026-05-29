@@ -8,7 +8,7 @@ interface JourneyStageCardProps {
 
 export default function JourneyStageCard({ stage }: JourneyStageCardProps) {
   return (
-    <div className="bg-[#FBF5E9] rounded-2xl overflow-hidden shadow-sm">
+    <div className="bg-[#FFFFFF] rounded-2xl overflow-hidden shadow-sm">
       <div className="p-6 lg:p-8">
         {/* 데스크탑: 좌(텍스트+케어 60%) 우(이미지 40%) */}
         {/* 모바일: 세로 적층 */}
@@ -17,12 +17,12 @@ export default function JourneyStageCard({ stage }: JourneyStageCardProps) {
           {/* ── 좌측: 텍스트 + 케어 리스트 ── */}
           <div className="flex-1 min-w-0">
             {/* 번호 뱃지 */}
-            <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#3D2817] text-white text-[15px] font-extrabold mb-4">
+            <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#9A856D] text-white text-[15px] font-extrabold mb-4">
               {stage.number}
             </span>
 
             {/* 타이틀 */}
-            <h2 className="text-[22px] lg:text-[26px] font-extrabold text-[#2A1F18] leading-snug mb-3">
+            <h2 className="text-[22px] lg:text-[26px] font-extrabold text-[#2F2A26] leading-snug mb-3">
               {stage.title.map((line, i) => (
                 <span key={i}>
                   {line}
@@ -34,7 +34,7 @@ export default function JourneyStageCard({ stage }: JourneyStageCardProps) {
             {/* 서브 카피 */}
             <div className="mb-6">
               {stage.subtitle.map((line, i) => (
-                <p key={i} className="text-[14px] text-[#6B5547] leading-relaxed">
+                <p key={i} className="text-[14px] text-[#756A60] leading-relaxed">
                   {line}
                 </p>
               ))}

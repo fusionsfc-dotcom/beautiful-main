@@ -19,7 +19,7 @@ import {
   Image as ImageIcon,
 } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
-import { Link } from "react-router";
+import { Link, useSearchParams } from "react-router";
 import { supabase, Column, Video, GalleryItem, Faq } from "../../lib/supabase";
 import { useAuth } from "../contexts/AuthContext";
 import { toast } from "sonner";
@@ -118,7 +118,20 @@ const faqJsonLdData = {
 };
 
 export default function Columns() {
-  const [activeTab, setActiveTab] = useState<MainTabType>("gallery");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initialTab = searchParams.get("tab") as MainTabType | null;
+  const [activeTab, setActiveTab] = useState<MainTabType>(
+    initialTab && ["gallery", "columns", "videos", "faq", "question"].includes(initialTab)
+      ? initialTab
+      : "gallery"
+  );
+
+  useEffect(() => {
+    const tab = searchParams.get("tab") as MainTabType | null;
+    if (tab && ["gallery", "columns", "videos", "faq", "question"].includes(tab)) {
+      setActiveTab(tab);
+    }
+  }, [searchParams]);
 
   const mainTabs = [
     { id: "gallery" as MainTabType, label: "뷰티풀갤러리", icon: ImageIcon },
@@ -139,17 +152,17 @@ export default function Columns() {
         jsonLd={[faqJsonLdData, makeBreadcrumbList([{ name: "뷰티풀이야기", path: "/columns" }])]}
       />
       {/* 페이지 헤더 */}
-      <div className="bg-[#F8F9FA] py-16 px-5">
+      <div className="bg-[#F8F3EA] py-16 px-5">
         <div className="max-w-screen-lg mx-auto text-center">
-          <h1 className="mb-4 text-[#3D2817]">뷰티풀이야기</h1>
-          <p className="text-[#6B5547] text-lg">
+          <h1 className="mb-4 text-[#6A5542]">뷰티풀이야기</h1>
+          <p className="text-[#756A60] text-lg">
             건강한 회복을 위한 뷰티풀이야기와 치료정보를 제공합니다
           </p>
         </div>
       </div>
 
       {/* 상단 메인 탭 UI */}
-      <div className="sticky top-16 lg:top-20 bg-white border-b border-gray-200 z-40">
+      <div className="sticky top-16 lg:top-20 bg-white border-b border-[#D8CDBE] z-40">
         <div className="max-w-screen-lg mx-auto">
           <div className="flex overflow-x-auto scrollbar-hide">
             {mainTabs.map((tab) => {
@@ -159,11 +172,14 @@ export default function Columns() {
               return (
                 <button
                   key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
+                  onClick={() => {
+                    setActiveTab(tab.id);
+                    setSearchParams({ tab: tab.id });
+                  }}
                   className={`flex items-center gap-2 px-6 py-4 whitespace-nowrap transition-colors border-b-2 ${
                     isActive
-                      ? "border-[#C9A567] text-[#C9A567]"
-                      : "border-transparent text-[#A08060] hover:text-[#3D2817]"
+                      ? "border-[#9A856D] text-[#9A856D]"
+                      : "border-transparent text-[#9A856D] hover:text-[#6A5542]"
                   }`}
                 >
                   <Icon className="w-5 h-5" />
@@ -369,8 +385,8 @@ function BeautifulGallerySection() {
               onClick={() => setSelectedCategory(cat.id)}
               className={`px-5 py-2.5 rounded-full whitespace-nowrap font-medium transition-all ${
                 selectedCategory === cat.id
-                  ? "bg-[#3D2817] text-white shadow-md"
-                  : "bg-[#F8F9FA] text-[#6B5547] hover:bg-[#A08060]/20"
+                  ? "bg-[#9A856D] text-white shadow-md"
+                  : "bg-[#F8F3EA] text-[#756A60] hover:bg-[#7C654F]/20"
               }`}
             >
               {cat.label}
@@ -381,7 +397,7 @@ function BeautifulGallerySection() {
         {isAdmin && (
           <button
             onClick={() => setShowUpload(true)}
-            className="flex items-center gap-2 px-5 py-2.5 bg-[#3D2817] text-white rounded-full hover:bg-[#d11a6d] transition-colors font-medium whitespace-nowrap"
+            className="flex items-center gap-2 px-5 py-2.5 bg-[#9A856D] text-white rounded-full hover:bg-[#7C654F] transition-colors font-medium whitespace-nowrap"
           >
             <Plus className="w-5 h-5" />
             사진 업로드
@@ -393,11 +409,11 @@ function BeautifulGallerySection() {
       {showUpload && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
           <div className="bg-white w-full max-w-lg rounded-2xl overflow-hidden">
-            <div className="p-5 border-b border-gray-200 flex items-center justify-between">
-              <h3 className="text-[#3D2817] font-semibold">뷰티풀갤러리 업로드</h3>
+            <div className="p-5 border-b border-[#D8CDBE] flex items-center justify-between">
+              <h3 className="text-[#6A5542] font-semibold">뷰티풀갤러리 업로드</h3>
               <button
                 onClick={() => setShowUpload(false)}
-                className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                className="p-2 rounded-lg hover:bg-[#EFE7DC] transition-colors"
                 aria-label="닫기"
               >
                 <X className="w-5 h-5 text-gray-500" />
@@ -406,11 +422,11 @@ function BeautifulGallerySection() {
             <div className="p-5 space-y-4">
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-[#3D2817] mb-2">카테고리</label>
+                  <label className="block text-sm font-medium text-[#6A5542] mb-2">카테고리</label>
                   <select
                     value={form.category}
                     onChange={(e) => setForm((p) => ({ ...p, category: e.target.value as any }))}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C9A567]"
+                    className="w-full px-4 py-3 border border-[#D8CDBE] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9A856D]"
                   >
                     {galleryCategories.filter((c) => c.id !== "all").map((c) => (
                       <option key={c.id} value={c.id}>
@@ -420,7 +436,7 @@ function BeautifulGallerySection() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-[#3D2817] mb-2">사진</label>
+                  <label className="block text-sm font-medium text-[#6A5542] mb-2">사진</label>
                   <div className="flex items-center gap-3">
                     <input
                       id={fileInputId}
@@ -431,11 +447,11 @@ function BeautifulGallerySection() {
                     />
                     <label
                       htmlFor={fileInputId}
-                      className="inline-flex items-center justify-center px-4 py-3 rounded-xl border border-gray-300 text-[#3D2817] hover:bg-gray-50 transition-colors cursor-pointer whitespace-nowrap"
+                      className="inline-flex items-center justify-center px-4 py-3 rounded-xl border border-[#D8CDBE] text-[#6A5542] hover:bg-[#F8F3EA] transition-colors cursor-pointer whitespace-nowrap"
                     >
                       파일 선택
                     </label>
-                    <div className="flex-1 text-sm text-[#6B5547] truncate">
+                    <div className="flex-1 text-sm text-[#756A60] truncate">
                       {file ? file.name : "선택된 파일 없음"}
                     </div>
                   </div>
@@ -443,27 +459,27 @@ function BeautifulGallerySection() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-[#3D2817] mb-2">설명 (선택)</label>
+                <label className="block text-sm font-medium text-[#6A5542] mb-2">설명 (선택)</label>
                 <input
                   type="text"
                   value={form.caption}
                   onChange={(e) => setForm((p) => ({ ...p, caption: e.target.value }))}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C9A567]"
+                  className="w-full px-4 py-3 border border-[#D8CDBE] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9A856D]"
                   placeholder="예) 항암 환자 맞춤 식단"
                 />
               </div>
             </div>
-            <div className="p-5 border-t border-gray-200 flex gap-3 justify-end">
+            <div className="p-5 border-t border-[#D8CDBE] flex gap-3 justify-end">
               <button
                 onClick={() => setShowUpload(false)}
-                className="px-5 py-3 rounded-xl border border-gray-300 text-[#3D2817] hover:bg-gray-50 transition-colors"
+                className="px-5 py-3 rounded-xl border border-[#D8CDBE] text-[#6A5542] hover:bg-[#F8F3EA] transition-colors"
               >
                 취소
               </button>
               <button
                 onClick={handleUpload}
                 disabled={uploading}
-                className="px-5 py-3 rounded-xl bg-[#3D2817] text-white font-semibold hover:bg-[#d11a6d] transition-colors disabled:opacity-60"
+                className="px-5 py-3 rounded-xl bg-[#9A856D] text-white font-semibold hover:bg-[#7C654F] transition-colors disabled:opacity-60"
               >
                 {uploading ? "업로드 중..." : "업로드"}
               </button>
@@ -474,15 +490,15 @@ function BeautifulGallerySection() {
 
       {/* Grid */}
       {loading ? (
-        <div className="text-center py-12 text-[#A08060]">갤러리를 불러오는 중...</div>
+        <div className="text-center py-12 text-[#9A856D]">갤러리를 불러오는 중...</div>
       ) : items.length === 0 ? (
-        <div className="text-center py-12 text-[#A08060]">등록된 사진이 없습니다</div>
+        <div className="text-center py-12 text-[#9A856D]">등록된 사진이 없습니다</div>
       ) : (
         <>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
             {items.map((it) => (
-              <div key={it.id} className="group relative bg-white border border-gray-200 rounded-2xl overflow-hidden">
-                <div className="aspect-square bg-gray-100">
+              <div key={it.id} className="group relative bg-white border border-[#D8CDBE] rounded-2xl overflow-hidden">
+                <div className="aspect-square bg-[#EFE7DC]">
                   <ImageWithFallback
                     src={it.image_url}
                     alt={it.caption || "갤러리 이미지"}
@@ -491,13 +507,13 @@ function BeautifulGallerySection() {
                 </div>
                 {(it.caption || isAdmin) && (
                   <div className="p-3">
-                    {it.caption && <p className="text-xs text-[#6B5547] line-clamp-2">{it.caption}</p>}
+                    {it.caption && <p className="text-xs text-[#756A60] line-clamp-2">{it.caption}</p>}
                   </div>
                 )}
                 {isAdmin && (
                   <button
                     onClick={() => handleDelete(it.id)}
-                    className="absolute top-2 right-2 p-2 rounded-xl bg-white/90 border border-gray-200 text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="absolute top-2 right-2 p-2 rounded-xl bg-white/90 border border-[#D8CDBE] text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
                     title="삭제"
                   >
                     <Trash2 className="w-4 h-4" />
@@ -630,8 +646,8 @@ function ColumnsSection() {
               onClick={() => setSelectedCategory(cat.id)}
               className={`px-5 py-2.5 rounded-full whitespace-nowrap font-medium transition-all ${
                 selectedCategory === cat.id
-                  ? "bg-[#3D2817] text-white shadow-md"
-                  : "bg-[#F8F9FA] text-[#6B5547] hover:bg-[#A08060]/20"
+                  ? "bg-[#9A856D] text-white shadow-md"
+                  : "bg-[#F8F3EA] text-[#756A60] hover:bg-[#7C654F]/20"
               }`}
             >
               {cat.label}
@@ -645,7 +661,7 @@ function ColumnsSection() {
               setEditingColumn(null);
               setShowEditor(true);
             }}
-            className="flex items-center gap-2 px-5 py-2.5 bg-[#3D2817] text-white rounded-full hover:bg-[#d11a6d] transition-colors font-medium whitespace-nowrap"
+            className="flex items-center gap-2 px-5 py-2.5 bg-[#9A856D] text-white rounded-full hover:bg-[#7C654F] transition-colors font-medium whitespace-nowrap"
           >
             <Plus className="w-5 h-5" />
             새 칼럼 작성
@@ -655,37 +671,37 @@ function ColumnsSection() {
 
       {/* 로딩 상태 */}
       {loading && (
-        <div className="text-center py-12 text-[#A08060]">
+        <div className="text-center py-12 text-[#9A856D]">
           칼럼을 불러오는 중...
         </div>
       )}
 
       {/* 리스트형 게시판 */}
       {!loading && filteredColumns.length === 0 && (
-        <div className="text-center py-12 text-[#A08060]">
+        <div className="text-center py-12 text-[#9A856D]">
           작성된 칼럼이 없습니다
         </div>
       )}
 
       {!loading && filteredColumns.length > 0 && (
         <>
-          <div className="border-t border-gray-200">
+          <div className="border-t border-[#D8CDBE]">
             {currentColumns.map((column, index) => (
               <div
                 key={column.id}
                 onClick={() => setSelectedColumn(column)}
-                className="flex items-center gap-4 px-4 py-4 border-b border-gray-100 hover:bg-[#FFF8FB] cursor-pointer group transition-colors"
+                className="flex items-center gap-4 px-4 py-4 border-b border-gray-100 hover:bg-[#F8F3EA] cursor-pointer group transition-colors"
               >
-                <span className="w-8 text-center text-sm text-[#A08060] shrink-0">
+                <span className="w-8 text-center text-sm text-[#9A856D] shrink-0">
                   {(currentPage - 1) * itemsPerPage + index + 1}
                 </span>
-                <span className="shrink-0 px-2.5 py-0.5 bg-[#FFF0F7] text-[#C9A567] text-xs font-medium rounded-full">
+                <span className="shrink-0 px-2.5 py-0.5 bg-[#EFE7DC] text-[#9A856D] text-xs font-medium rounded-full">
                   {categories.find(c => c.id === column.category)?.label || column.category}
                 </span>
-                <span className="flex-1 text-[#3D2817] text-sm group-hover:text-[#C9A567] transition-colors truncate">
+                <span className="flex-1 text-[#6A5542] text-sm group-hover:text-[#9A856D] transition-colors truncate">
                   {column.title}
                 </span>
-                <span className="shrink-0 text-xs text-[#A08060]">
+                <span className="shrink-0 text-xs text-[#9A856D]">
                   {new Date(column.created_at).toLocaleDateString('ko-KR')}
                 </span>
                 {isAdmin && (
@@ -696,7 +712,7 @@ function ColumnsSection() {
                         setEditingColumn(column);
                         setShowEditor(true);
                       }}
-                      className="p-1.5 bg-[#3D2817] text-white rounded-lg hover:bg-[#2a3847] transition-colors"
+                      className="p-1.5 bg-[#9A856D] text-white rounded-lg hover:bg-[#7C654F] transition-colors"
                     >
                       <Pencil className="w-3 h-3" />
                     </button>
@@ -736,7 +752,7 @@ function ColumnDetailView({ column, onClose }: { column: Column; onClose: () => 
       {/* 뒤로가기 버튼 */}
       <button
         onClick={onClose}
-        className="flex items-center gap-2 text-[#6B5547] hover:text-[#3D2817] mb-6 transition-colors"
+        className="flex items-center gap-2 text-[#756A60] hover:text-[#6A5542] mb-6 transition-colors"
       >
         <ChevronRight className="w-5 h-5 rotate-180" />
         목록으로 돌아가기
@@ -744,8 +760,8 @@ function ColumnDetailView({ column, onClose }: { column: Column; onClose: () => 
 
       {/* 칼럼 헤더 */}
       <div className="mb-8">
-        <h1 className="text-[#3D2817] mb-4">{column.title}</h1>
-        <div className="flex items-center gap-4 text-sm text-[#A08060]">
+        <h1 className="text-[#6A5542] mb-4">{column.title}</h1>
+        <div className="flex items-center gap-4 text-sm text-[#9A856D]">
           <span>{new Date(column.created_at).toLocaleDateString('ko-KR')}</span>
           <span className="flex items-center gap-1">
             <Eye className="w-4 h-4" />
@@ -766,33 +782,26 @@ function ColumnDetailView({ column, onClose }: { column: Column; onClose: () => 
       )}
 
       {/* 요약 */}
-      <div className="mb-8 p-6 bg-[#F8F9FA] rounded-2xl border-l-4 border-[#C9A567]">
-        <p className="text-[#3D2817] font-medium leading-relaxed">
+      <div className="mb-8 p-6 bg-[#F8F3EA] rounded-2xl border-l-4 border-[#9A856D]">
+        <p className="text-[#6A5542] font-medium leading-relaxed">
           {column.summary}
         </p>
       </div>
 
       {/* 본문 */}
       <div className="prose prose-lg max-w-none mb-12">
-        <div className="text-[#3D2817] leading-relaxed whitespace-pre-wrap">
+        <div className="text-[#6A5542] leading-relaxed whitespace-pre-wrap">
           {column.content}
         </div>
       </div>
 
       {/* 하단 CTA */}
-      <div className="border-t border-gray-200 pt-8">
-        <div className="bg-gradient-to-br from-[#3D2817]/5 to-[#3D2817]/5 rounded-2xl p-8 text-center">
-          <h3 className="text-[#3D2817] mb-3">더 자세한 상담이 필요하신가요?</h3>
-          <p className="text-[#6B5547] mb-6">
+      <div className="border-t border-[#D8CDBE] pt-8">
+        <div className="bg-gradient-to-br from-[#6A5542]/5 to-[#6A5542]/5 rounded-2xl p-8 text-center">
+          <h3 className="text-[#6A5542] mb-3">더 자세한 상담이 필요하신가요?</h3>
+          <p className="text-[#756A60] mb-6">
             전문의와 1:1 상담을 통해 맞춤 치료 계획을 수립해보세요
           </p>
-          <Link
-            to="/reservation"
-            className="inline-flex items-center gap-2 px-8 py-3 bg-[#3D2817] text-white rounded-xl hover:bg-[#d11a6d] transition-colors font-medium"
-          >
-            진료 상담 예약하기
-            <ChevronRight className="w-5 h-5" />
-          </Link>
         </div>
       </div>
     </div>
@@ -925,12 +934,12 @@ function ColumnEditor({ column, onClose, onSave }: {
   return (
     <div className="max-w-3xl mx-auto">
       <div className="flex items-center justify-between mb-8">
-        <h2 className="text-[#3D2817]">
+        <h2 className="text-[#6A5542]">
           {column ? '칼럼 수정' : '새 칼럼 작성'}
         </h2>
         <button
           onClick={onClose}
-          className="px-4 py-2 text-[#6B5547] hover:text-[#3D2817] transition-colors"
+          className="px-4 py-2 text-[#756A60] hover:text-[#6A5542] transition-colors"
         >
           취소
         </button>
@@ -939,29 +948,29 @@ function ColumnEditor({ column, onClose, onSave }: {
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* 제목 */}
         <div>
-          <label className="block text-sm font-medium text-[#3D2817] mb-2">
-            제목 <span className="text-[#C9A567]">*</span>
+          <label className="block text-sm font-medium text-[#6A5542] mb-2">
+            제목 <span className="text-[#9A856D]">*</span>
           </label>
           <input
             type="text"
             required
             value={formData.title}
             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C9A567] focus:border-transparent"
+            className="w-full px-4 py-3 border border-[#D8CDBE] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9A856D] focus:border-transparent"
             placeholder="칼럼 제목을 입력하세요"
           />
         </div>
 
         {/* 카테고리 */}
         <div>
-          <label className="block text-sm font-medium text-[#3D2817] mb-2">
-            카테고리 <span className="text-[#C9A567]">*</span>
+          <label className="block text-sm font-medium text-[#6A5542] mb-2">
+            카테고리 <span className="text-[#9A856D]">*</span>
           </label>
           <select
             required
             value={formData.category}
             onChange={(e) => setFormData({ ...formData, category: e.target.value as ColumnCategoryType })}
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C9A567] focus:border-transparent"
+            className="w-full px-4 py-3 border border-[#D8CDBE] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9A856D] focus:border-transparent"
           >
             <option value="cancer">유방암</option>
             <option value="gynecologic_cancer">자궁/난소암</option>
@@ -974,36 +983,36 @@ function ColumnEditor({ column, onClose, onSave }: {
 
         {/* 요약 */}
         <div>
-          <label className="block text-sm font-medium text-[#3D2817] mb-2">
-            요약 <span className="text-[#C9A567]">*</span>
+          <label className="block text-sm font-medium text-[#6A5542] mb-2">
+            요약 <span className="text-[#9A856D]">*</span>
           </label>
           <textarea
             required
             value={formData.summary}
             onChange={(e) => setFormData({ ...formData, summary: e.target.value })}
             rows={2}
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C9A567] focus:border-transparent resize-none"
+            className="w-full px-4 py-3 border border-[#D8CDBE] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9A856D] focus:border-transparent resize-none"
             placeholder="칼럼 요약을 입력하세요 (카드에 표시됩니다)"
           />
         </div>
 
         {/* 썸네일 URL */}
         <div>
-          <label className="block text-sm font-medium text-[#3D2817] mb-2">
+          <label className="block text-sm font-medium text-[#6A5542] mb-2">
             썸네일 이미지 URL
           </label>
           <input
             type="url"
             value={formData.thumbnail}
             onChange={(e) => setFormData({ ...formData, thumbnail: e.target.value })}
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C9A567] focus:border-transparent"
+            className="w-full px-4 py-3 border border-[#D8CDBE] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9A856D] focus:border-transparent"
             placeholder="https://example.com/image.jpg"
           />
         </div>
 
         {/* 이미지 업로드 */}
         <div>
-          <label className="block text-sm font-medium text-[#3D2817] mb-2">
+          <label className="block text-sm font-medium text-[#6A5542] mb-2">
             또는 이미지 업로드 (PNG, JPG, WebP, GIF / 최대 5MB)
           </label>
           <div className="space-y-3">
@@ -1018,14 +1027,14 @@ function ColumnEditor({ column, onClose, onSave }: {
               />
               <label
                 htmlFor="imageUpload"
-                className={`px-6 py-3 bg-[#3D2817] text-white rounded-xl font-medium hover:bg-[#2a3847] transition-colors cursor-pointer ${
+                className={`px-6 py-3 bg-[#9A856D] text-white rounded-xl font-medium hover:bg-[#7C654F] transition-colors cursor-pointer ${
                   uploading ? 'opacity-50 cursor-not-allowed' : ''
                 }`}
               >
                 {uploading ? '업로드 중...' : 'PC에서 선택'}
               </label>
               {uploading && (
-                <span className="text-sm text-[#C9A567] animate-pulse">
+                <span className="text-sm text-[#9A856D] animate-pulse">
                   이미지를 업로드하는 중입니다...
                 </span>
               )}
@@ -1033,7 +1042,7 @@ function ColumnEditor({ column, onClose, onSave }: {
             
             {/* 이미지 미리보기 */}
             {formData.thumbnail && (
-              <div className="relative w-full aspect-video rounded-xl overflow-hidden border-2 border-gray-200">
+              <div className="relative w-full aspect-video rounded-xl overflow-hidden border-2 border-[#D8CDBE]">
                 <ImageWithFallback
                   src={formData.thumbnail}
                   alt="썸네일 미리보기"
@@ -1054,15 +1063,15 @@ function ColumnEditor({ column, onClose, onSave }: {
 
         {/* 본문 */}
         <div>
-          <label className="block text-sm font-medium text-[#3D2817] mb-2">
-            본문 <span className="text-[#C9A567]">*</span>
+          <label className="block text-sm font-medium text-[#6A5542] mb-2">
+            본문 <span className="text-[#9A856D]">*</span>
           </label>
           <textarea
             required
             value={formData.content}
             onChange={(e) => setFormData({ ...formData, content: e.target.value })}
             rows={15}
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C9A567] focus:border-transparent resize-none font-mono text-sm"
+            className="w-full px-4 py-3 border border-[#D8CDBE] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9A856D] focus:border-transparent resize-none font-mono text-sm"
             placeholder="칼럼 본문을 입력하세요"
           />
         </div>
@@ -1072,14 +1081,14 @@ function ColumnEditor({ column, onClose, onSave }: {
           <button
             type="submit"
             disabled={saving}
-            className="flex-1 py-4 bg-[#3D2817] text-white rounded-xl font-medium hover:bg-[#d11a6d] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex-1 py-4 bg-[#9A856D] text-white rounded-xl font-medium hover:bg-[#7C654F] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {saving ? '저장 중...' : (column ? '수정 완료' : '작성 완료')}
           </button>
           <button
             type="button"
             onClick={onClose}
-            className="px-8 py-4 bg-[#F8F9FA] text-[#6B5547] rounded-xl font-medium hover:bg-[#A08060]/20 transition-colors"
+            className="px-8 py-4 bg-[#F8F3EA] text-[#756A60] rounded-xl font-medium hover:bg-[#7C654F]/20 transition-colors"
           >
             취소
           </button>
@@ -1158,12 +1167,12 @@ function VideoEditor({ video, onClose, onSave }: {
   return (
     <div className="max-w-3xl mx-auto">
       <div className="flex items-center justify-between mb-8">
-        <h2 className="text-[#3D2817]">
+        <h2 className="text-[#6A5542]">
           {video ? '영상 수정' : '새 영상 추가'}
         </h2>
         <button
           onClick={onClose}
-          className="px-4 py-2 text-[#6B5547] hover:text-[#3D2817] transition-colors"
+          className="px-4 py-2 text-[#756A60] hover:text-[#6A5542] transition-colors"
         >
           취소
         </button>
@@ -1172,29 +1181,29 @@ function VideoEditor({ video, onClose, onSave }: {
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* 제목 */}
         <div>
-          <label className="block text-sm font-medium text-[#3D2817] mb-2">
-            제목 <span className="text-[#C9A567]">*</span>
+          <label className="block text-sm font-medium text-[#6A5542] mb-2">
+            제목 <span className="text-[#9A856D]">*</span>
           </label>
           <input
             type="text"
             required
             value={formData.title}
             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C9A567] focus:border-transparent"
+            className="w-full px-4 py-3 border border-[#D8CDBE] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9A856D] focus:border-transparent"
             placeholder="영상 제목을 입력하세요"
           />
         </div>
 
         {/* 카테고리 */}
         <div>
-          <label className="block text-sm font-medium text-[#3D2817] mb-2">
-            카테고리 <span className="text-[#C9A567]">*</span>
+          <label className="block text-sm font-medium text-[#6A5542] mb-2">
+            카테고리 <span className="text-[#9A856D]">*</span>
           </label>
           <select
             required
             value={formData.category}
             onChange={(e) => setFormData({ ...formData, category: e.target.value as Video['category'] })}
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C9A567] focus:border-transparent"
+            className="w-full px-4 py-3 border border-[#D8CDBE] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9A856D] focus:border-transparent"
           >
             <option value="cancer">항암 가이드 영상</option>
             <option value="rehab">재활 운동 영상</option>
@@ -1204,33 +1213,33 @@ function VideoEditor({ video, onClose, onSave }: {
 
         {/* 유튜브 URL */}
         <div>
-          <label className="block text-sm font-medium text-[#3D2817] mb-2">
-            유튜브 URL <span className="text-[#C9A567]">*</span>
+          <label className="block text-sm font-medium text-[#6A5542] mb-2">
+            유튜브 URL <span className="text-[#9A856D]">*</span>
           </label>
           <input
             type="url"
             required
             value={formData.youtube_url}
             onChange={(e) => setFormData({ ...formData, youtube_url: e.target.value })}
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C9A567] focus:border-transparent"
+            className="w-full px-4 py-3 border border-[#D8CDBE] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9A856D] focus:border-transparent"
             placeholder="https://www.youtube.com/watch?v=..."
           />
-          <p className="mt-2 text-sm text-[#6B5547]">
+          <p className="mt-2 text-sm text-[#756A60]">
             💡 유튜브 영상 URL을 입력하세요 (예: https://www.youtube.com/watch?v=VIDEO_ID)
           </p>
         </div>
 
         {/* 설명 */}
         <div>
-          <label className="block text-sm font-medium text-[#3D2817] mb-2">
-            설명 <span className="text-[#C9A567]">*</span>
+          <label className="block text-sm font-medium text-[#6A5542] mb-2">
+            설명 <span className="text-[#9A856D]">*</span>
           </label>
           <textarea
             required
             value={formData.description}
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
             rows={4}
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C9A567] focus:border-transparent resize-none"
+            className="w-full px-4 py-3 border border-[#D8CDBE] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9A856D] focus:border-transparent resize-none"
             placeholder="영상 설명을 입력하세요"
           />
         </div>
@@ -1240,14 +1249,14 @@ function VideoEditor({ video, onClose, onSave }: {
           <button
             type="submit"
             disabled={saving}
-            className="flex-1 py-4 bg-[#3D2817] text-white rounded-xl font-medium hover:bg-[#d11a6d] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex-1 py-4 bg-[#9A856D] text-white rounded-xl font-medium hover:bg-[#7C654F] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {saving ? '저장 중...' : (video ? '수정 완료' : '등록 완료')}
           </button>
           <button
             type="button"
             onClick={onClose}
-            className="px-8 py-4 bg-[#F8F9FA] text-[#6B5547] rounded-xl font-medium hover:bg-[#A08060]/20 transition-colors"
+            className="px-8 py-4 bg-[#F8F3EA] text-[#756A60] rounded-xl font-medium hover:bg-[#7C654F]/20 transition-colors"
           >
             취소
           </button>
@@ -1365,7 +1374,7 @@ function VideosSection() {
         <div className="relative w-full max-w-5xl">
           <button
             onClick={() => setSelectedVideo(null)}
-            className="absolute -top-12 right-0 text-white hover:text-[#C9A567] transition-colors"
+            className="absolute -top-12 right-0 text-white hover:text-[#9A856D] transition-colors"
           >
             <X className="w-8 h-8" />
           </button>
@@ -1387,9 +1396,9 @@ function VideosSection() {
             )}
             
             <div className="p-6">
-              <h2 className="text-[#3D2817] mb-3">{selectedVideo.title}</h2>
-              <p className="text-[#6B5547] mb-4">{selectedVideo.description}</p>
-              <div className="flex items-center gap-4 text-sm text-[#A08060]">
+              <h2 className="text-[#6A5542] mb-3">{selectedVideo.title}</h2>
+              <p className="text-[#756A60] mb-4">{selectedVideo.description}</p>
+              <div className="flex items-center gap-4 text-sm text-[#9A856D]">
                 <span className="flex items-center gap-1">
                   <Eye className="w-4 h-4" />
                   {(selectedVideo.views || 0).toLocaleString()}회
@@ -1414,8 +1423,8 @@ function VideosSection() {
               onClick={() => setSelectedCategory(cat.id)}
               className={`px-5 py-2.5 rounded-full whitespace-nowrap font-medium transition-all ${
                 selectedCategory === cat.id
-                  ? "bg-[#3D2817] text-white shadow-md"
-                  : "bg-[#F8F9FA] text-[#6B5547] hover:bg-[#A08060]/20"
+                  ? "bg-[#9A856D] text-white shadow-md"
+                  : "bg-[#F8F3EA] text-[#756A60] hover:bg-[#7C654F]/20"
               }`}
             >
               {cat.label}
@@ -1429,7 +1438,7 @@ function VideosSection() {
               setEditingVideo(null);
               setShowEditor(true);
             }}
-            className="flex items-center gap-2 px-5 py-2.5 bg-[#3D2817] text-white rounded-full hover:bg-[#d11a6d] transition-colors font-medium whitespace-nowrap"
+            className="flex items-center gap-2 px-5 py-2.5 bg-[#9A856D] text-white rounded-full hover:bg-[#7C654F] transition-colors font-medium whitespace-nowrap"
           >
             <Plus className="w-5 h-5" />
             새 영상 추가
@@ -1439,14 +1448,14 @@ function VideosSection() {
 
       {/* 로딩 상태 */}
       {loading && (
-        <div className="text-center py-12 text-[#A08060]">
+        <div className="text-center py-12 text-[#9A856D]">
           영상을 불러오는 중...
         </div>
       )}
 
       {/* 영상 없음 */}
       {!loading && filteredVideos.length === 0 && (
-        <div className="text-center py-12 text-[#A08060]">
+        <div className="text-center py-12 text-[#9A856D]">
           등록된 영상이 없습니다
         </div>
       )}
@@ -1464,7 +1473,7 @@ function VideosSection() {
               return (
                 <div
                   key={video.id}
-                  className="bg-white rounded-2xl overflow-hidden border border-gray-200 hover:shadow-xl transition-all group"
+                  className="bg-white rounded-2xl overflow-hidden border border-[#D8CDBE] hover:shadow-xl transition-all group"
                 >
                   {/* 썸네일 */}
                   <div 
@@ -1478,21 +1487,21 @@ function VideosSection() {
                     />
                     {/* 재생 아이콘 */}
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-14 h-14 rounded-full bg-white/90 flex items-center justify-center group-hover:bg-[#3D2817] group-hover:scale-110 transition-all">
-                        <Play className="w-6 h-6 text-[#3D2817] group-hover:text-white ml-0.5" />
+                      <div className="w-14 h-14 rounded-full bg-white/90 flex items-center justify-center group-hover:bg-[#6A5542] group-hover:scale-110 transition-all">
+                        <Play className="w-6 h-6 text-[#6A5542] group-hover:text-white ml-0.5" />
                       </div>
                     </div>
                   </div>
 
                   {/* 콘텐츠 */}
                   <div className="p-5">
-                    <h3 className="text-[#3D2817] text-base font-semibold mb-2 line-clamp-2">
+                    <h3 className="text-[#6A5542] text-base font-semibold mb-2 line-clamp-2">
                       {video.title}
                     </h3>
-                    <p className="text-sm text-[#6B5547] mb-3 line-clamp-2">
+                    <p className="text-sm text-[#756A60] mb-3 line-clamp-2">
                       {video.description}
                     </p>
-                    <div className="flex items-center text-xs text-[#A08060] mb-4">
+                    <div className="flex items-center text-xs text-[#9A856D] mb-4">
                       <Eye className="w-3.5 h-3.5 mr-1" />
                       {(video.views || 0).toLocaleString()}회
                     </div>
@@ -1506,7 +1515,7 @@ function VideosSection() {
                             setEditingVideo(video);
                             setShowEditor(true);
                           }}
-                          className="flex items-center gap-1 px-3 py-1.5 bg-[#3D2817] text-white text-xs rounded-lg hover:bg-[#2a3847] transition-colors"
+                          className="flex items-center gap-1 px-3 py-1.5 bg-[#9A856D] text-white text-xs rounded-lg hover:bg-[#7C654F] transition-colors"
                         >
                           <Pencil className="w-3.5 h-3.5" />
                           수정
@@ -1645,7 +1654,7 @@ function FaqSection() {
         {/* 뒤로가기 버튼 */}
         <button
           onClick={() => setSelectedFaq(null)}
-          className="flex items-center gap-2 text-[#6B5547] hover:text-[#3D2817] mb-6 transition-colors"
+          className="flex items-center gap-2 text-[#756A60] hover:text-[#6A5542] mb-6 transition-colors"
         >
           <ChevronRight className="w-5 h-5 rotate-180" />
           목록으로 돌아가기
@@ -1654,37 +1663,30 @@ function FaqSection() {
         {/* FAQ 헤더 */}
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-4">
-            <span className="px-2.5 py-0.5 bg-[#FFF0F7] text-[#C9A567] text-xs font-medium rounded-full">
+            <span className="px-2.5 py-0.5 bg-[#EFE7DC] text-[#9A856D] text-xs font-medium rounded-full">
               {categories.find(c => c.id === selectedFaq.category)?.label || selectedFaq.category}
             </span>
           </div>
-          <h1 className="text-[#3D2817] mb-4">{selectedFaq.question}</h1>
-          <div className="flex items-center gap-4 text-sm text-[#A08060]">
+          <h1 className="text-[#6A5542] mb-4">{selectedFaq.question}</h1>
+          <div className="flex items-center gap-4 text-sm text-[#9A856D]">
             <span>{new Date(selectedFaq.created_at).toLocaleDateString('ko-KR')}</span>
           </div>
         </div>
 
         {/* 본문 */}
         <div className="prose prose-lg max-w-none mb-12">
-          <div className="text-[#3D2817] leading-relaxed whitespace-pre-wrap">
+          <div className="text-[#6A5542] leading-relaxed whitespace-pre-wrap">
             {selectedFaq.answer}
           </div>
         </div>
 
         {/* 하단 CTA */}
-        <div className="border-t border-gray-200 pt-8">
-          <div className="bg-gradient-to-br from-[#3D2817]/5 to-[#3D2817]/5 rounded-2xl p-8 text-center">
-            <h3 className="text-[#3D2817] mb-3">더 자세한 상담이 필요하신가요?</h3>
-            <p className="text-[#6B5547] mb-6">
+        <div className="border-t border-[#D8CDBE] pt-8">
+          <div className="bg-gradient-to-br from-[#6A5542]/5 to-[#6A5542]/5 rounded-2xl p-8 text-center">
+            <h3 className="text-[#6A5542] mb-3">더 자세한 상담이 필요하신가요?</h3>
+            <p className="text-[#756A60] mb-6">
               전문의와 1:1 상담을 통해 맞춤 치료 계획을 수립해보세요
             </p>
-            <Link
-              to="/reservation"
-              className="inline-flex items-center gap-2 px-8 py-3 bg-[#3D2817] text-white rounded-xl hover:bg-[#d11a6d] transition-colors font-medium"
-            >
-              진료 상담 예약하기
-              <ChevronRight className="w-5 h-5" />
-            </Link>
           </div>
         </div>
       </div>
@@ -1702,8 +1704,8 @@ function FaqSection() {
               onClick={() => setSelectedCategory(cat.id)}
               className={`px-5 py-2.5 rounded-full whitespace-nowrap font-medium transition-all ${
                 selectedCategory === cat.id
-                  ? "bg-[#3D2817] text-white shadow-md"
-                  : "bg-[#F8F9FA] text-[#6B5547] hover:bg-[#A08060]/20"
+                  ? "bg-[#9A856D] text-white shadow-md"
+                  : "bg-[#F8F3EA] text-[#756A60] hover:bg-[#7C654F]/20"
               }`}
             >
               {cat.label}
@@ -1717,7 +1719,7 @@ function FaqSection() {
               setEditingFaq(null);
               setShowEditor(true);
             }}
-            className="flex items-center gap-2 px-5 py-2.5 bg-[#3D2817] text-white rounded-full hover:bg-[#d11a6d] transition-colors font-medium whitespace-nowrap"
+            className="flex items-center gap-2 px-5 py-2.5 bg-[#9A856D] text-white rounded-full hover:bg-[#7C654F] transition-colors font-medium whitespace-nowrap"
           >
             <Plus className="w-5 h-5" />
             새 질문 작성
@@ -1727,37 +1729,37 @@ function FaqSection() {
 
       {/* 로딩 상태 */}
       {loading && (
-        <div className="text-center py-12 text-[#A08060]">
+        <div className="text-center py-12 text-[#9A856D]">
           FAQ를 불러오는 중...
         </div>
       )}
 
       {/* 리스트형 게시판 */}
       {!loading && filteredFaqs.length === 0 && (
-        <div className="text-center py-12 text-[#A08060]">
+        <div className="text-center py-12 text-[#9A856D]">
           등록된 질문이 없습니다
         </div>
       )}
 
       {!loading && filteredFaqs.length > 0 && (
         <>
-          <div className="border-t border-gray-200">
+          <div className="border-t border-[#D8CDBE]">
             {currentFaqs.map((faq, index) => (
               <div
                 key={faq.id}
                 onClick={() => setSelectedFaq(faq)}
-                className="flex items-center gap-4 px-4 py-4 border-b border-gray-100 hover:bg-[#FFF8FB] cursor-pointer group transition-colors"
+                className="flex items-center gap-4 px-4 py-4 border-b border-gray-100 hover:bg-[#F8F3EA] cursor-pointer group transition-colors"
               >
-                <span className="w-8 text-center text-sm text-[#A08060] shrink-0">
+                <span className="w-8 text-center text-sm text-[#9A856D] shrink-0">
                   {startIndex + index + 1}
                 </span>
-                <span className="shrink-0 px-2.5 py-0.5 bg-[#FFF0F7] text-[#C9A567] text-xs font-medium rounded-full">
+                <span className="shrink-0 px-2.5 py-0.5 bg-[#EFE7DC] text-[#9A856D] text-xs font-medium rounded-full">
                   {categories.find(c => c.id === faq.category)?.label || faq.category}
                 </span>
-                <span className="flex-1 text-[#3D2817] text-sm group-hover:text-[#C9A567] transition-colors truncate">
+                <span className="flex-1 text-[#6A5542] text-sm group-hover:text-[#9A856D] transition-colors truncate">
                   {faq.question}
                 </span>
-                <span className="shrink-0 text-xs text-[#A08060]">
+                <span className="shrink-0 text-xs text-[#9A856D]">
                   {new Date(faq.created_at).toLocaleDateString('ko-KR')}
                 </span>
                 {isAdmin && (
@@ -1768,7 +1770,7 @@ function FaqSection() {
                         setEditingFaq(faq);
                         setShowEditor(true);
                       }}
-                      className="p-1.5 bg-[#3D2817] text-white rounded-lg hover:bg-[#2a3847] transition-colors"
+                      className="p-1.5 bg-[#9A856D] text-white rounded-lg hover:bg-[#7C654F] transition-colors"
                     >
                       <Pencil className="w-3 h-3" />
                     </button>
@@ -1799,13 +1801,13 @@ function FaqSection() {
       )}
 
       {/* 하단 상담 CTA */}
-      <div className="mt-12 p-8 bg-[#F8F9FA] rounded-2xl text-center">
-        <p className="text-[#3D2817] mb-4 text-lg">
+      <div className="mt-12 p-8 bg-[#F8F3EA] rounded-2xl text-center">
+        <p className="text-[#6A5542] mb-4 text-lg">
           더 궁금한 사항이 있으신가요?
         </p>
         <Link
           to="/reservation"
-          className="inline-block px-8 py-3 bg-[#3D2817] text-white rounded-xl hover:bg-[#d11a6d] transition-colors font-medium"
+          className="inline-block px-8 py-3 bg-[#9A856D] text-white rounded-xl hover:bg-[#7C654F] transition-colors font-medium"
         >
           1:1 상담 신청하기
         </Link>
@@ -1873,12 +1875,12 @@ function FaqEditor({ faq, onClose, onSave }: {
   return (
     <div className="max-w-3xl mx-auto">
       <div className="flex items-center justify-between mb-8">
-        <h2 className="text-[#3D2817]">
+        <h2 className="text-[#6A5542]">
           {faq ? 'FAQ 수정' : '새 FAQ 작성'}
         </h2>
         <button
           onClick={onClose}
-          className="px-4 py-2 text-[#6B5547] hover:text-[#3D2817] transition-colors"
+          className="px-4 py-2 text-[#756A60] hover:text-[#6A5542] transition-colors"
         >
           취소
         </button>
@@ -1887,14 +1889,14 @@ function FaqEditor({ faq, onClose, onSave }: {
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* 카테고리 */}
         <div>
-          <label className="block text-sm font-medium text-[#3D2817] mb-2">
-            카테고리 <span className="text-[#C9A567]">*</span>
+          <label className="block text-sm font-medium text-[#6A5542] mb-2">
+            카테고리 <span className="text-[#9A856D]">*</span>
           </label>
           <select
             required
             value={formData.category}
             onChange={(e) => setFormData({ ...formData, category: e.target.value as ColumnCategoryType })}
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C9A567] focus:border-transparent"
+            className="w-full px-4 py-3 border border-[#D8CDBE] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9A856D] focus:border-transparent"
           >
             <option value="cancer">유방암</option>
             <option value="gynecologic_cancer">자궁/난소암</option>
@@ -1907,30 +1909,30 @@ function FaqEditor({ faq, onClose, onSave }: {
 
         {/* 질문 */}
         <div>
-          <label className="block text-sm font-medium text-[#3D2817] mb-2">
-            질문 <span className="text-[#C9A567]">*</span>
+          <label className="block text-sm font-medium text-[#6A5542] mb-2">
+            질문 <span className="text-[#9A856D]">*</span>
           </label>
           <input
             type="text"
             required
             value={formData.question}
             onChange={(e) => setFormData({ ...formData, question: e.target.value })}
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C9A567] focus:border-transparent"
+            className="w-full px-4 py-3 border border-[#D8CDBE] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9A856D] focus:border-transparent"
             placeholder="질문을 입력하세요"
           />
         </div>
 
         {/* 답변 */}
         <div>
-          <label className="block text-sm font-medium text-[#3D2817] mb-2">
-            답변 <span className="text-[#C9A567]">*</span>
+          <label className="block text-sm font-medium text-[#6A5542] mb-2">
+            답변 <span className="text-[#9A856D]">*</span>
           </label>
           <textarea
             required
             value={formData.answer}
             onChange={(e) => setFormData({ ...formData, answer: e.target.value })}
             rows={10}
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C9A567] focus:border-transparent resize-none"
+            className="w-full px-4 py-3 border border-[#D8CDBE] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9A856D] focus:border-transparent resize-none"
             placeholder="답변을 입력하세요"
           />
         </div>
@@ -1940,14 +1942,14 @@ function FaqEditor({ faq, onClose, onSave }: {
           <button
             type="submit"
             disabled={saving}
-            className="flex-1 py-4 bg-[#3D2817] text-white rounded-xl font-medium hover:bg-[#d11a6d] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex-1 py-4 bg-[#9A856D] text-white rounded-xl font-medium hover:bg-[#7C654F] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {saving ? '저장 중...' : (faq ? '수정 완료' : '작성 완료')}
           </button>
           <button
             type="button"
             onClick={onClose}
-            className="px-8 py-4 bg-[#F8F9FA] text-[#6B5547] rounded-xl font-medium hover:bg-[#A08060]/20 transition-colors"
+            className="px-8 py-4 bg-[#F8F3EA] text-[#756A60] rounded-xl font-medium hover:bg-[#7C654F]/20 transition-colors"
           >
             취소
           </button>
@@ -2093,8 +2095,8 @@ function QuestionSection() {
               onClick={() => setSelectedCategory(cat.id)}
               className={`px-5 py-2.5 rounded-full whitespace-nowrap font-medium transition-all ${
                 selectedCategory === cat.id
-                  ? 'bg-[#3D2817] text-white shadow-md'
-                  : 'bg-[#F8F9FA] text-[#6B5547] hover:bg-[#A08060]/20'
+                  ? 'bg-[#9A856D] text-white shadow-md'
+                  : 'bg-[#F8F3EA] text-[#756A60] hover:bg-[#7C654F]/20'
               }`}
             >
               {cat.label}
@@ -2105,7 +2107,7 @@ function QuestionSection() {
         {user && (
           <button
             onClick={() => setShowQuestionForm(true)}
-            className="flex items-center gap-2 px-5 py-2.5 bg-[#3D2817] text-white rounded-full hover:bg-[#d11a6d] transition-colors font-medium whitespace-nowrap"
+            className="flex items-center gap-2 px-5 py-2.5 bg-[#9A856D] text-white rounded-full hover:bg-[#7C654F] transition-colors font-medium whitespace-nowrap"
           >
             <Plus className="w-5 h-5" />
             질문하기
@@ -2115,13 +2117,13 @@ function QuestionSection() {
 
       {/* 로그인 안내 */}
       {!user && (
-        <div className="p-6 bg-[#F8F9FA] rounded-xl text-center">
-          <p className="text-[#6B5547] mb-4">
+        <div className="p-6 bg-[#F8F3EA] rounded-xl text-center">
+          <p className="text-[#756A60] mb-4">
             질문을 작성하려면 로그인이 필요합니다
           </p>
           <Link
             to="/reservation"
-            className="inline-block px-6 py-2.5 bg-[#3D2817] text-white rounded-xl hover:bg-[#d11a6d] transition-colors font-medium"
+            className="inline-block px-6 py-2.5 bg-[#9A856D] text-white rounded-xl hover:bg-[#7C654F] transition-colors font-medium"
           >
             로그인하기
           </Link>
@@ -2130,14 +2132,14 @@ function QuestionSection() {
 
       {/* 로딩 상태 */}
       {loading && (
-        <div className="text-center py-12 text-[#A08060]">
+        <div className="text-center py-12 text-[#9A856D]">
           질문을 불러오는 중...
         </div>
       )}
 
       {/* 질문 목록 */}
       {!loading && questions.length === 0 && (
-        <div className="text-center py-12 text-[#A08060]">
+        <div className="text-center py-12 text-[#9A856D]">
           작성된 질문이 없습니다
         </div>
       )}
@@ -2153,34 +2155,34 @@ function QuestionSection() {
                 <div
                   key={question.id}
                   onClick={() => setSelectedQuestion(question)}
-                  className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all cursor-pointer"
+                  className="bg-white border border-[#D8CDBE] rounded-xl p-6 hover:shadow-lg transition-all cursor-pointer"
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1">
                       {/* 카테고리 뱃지 */}
                       <div className="flex items-center gap-2 mb-3">
-                        <span className="px-3 py-1 bg-[#3D2817]/10 text-[#C9A567] text-xs font-medium rounded-full">
+                        <span className="px-3 py-1 bg-[#F5EFE6] text-[#9A856D] text-xs font-medium rounded-full">
                           {categoryLabel}
                         </span>
                         {hasAnswers && (
-                          <span className="px-3 py-1 bg-[#3D2817] text-white text-xs font-medium rounded-full">
+                          <span className="px-3 py-1 bg-[#9A856D] text-white text-xs font-medium rounded-full">
                             답변완료
                           </span>
                         )}
                       </div>
 
                       {/* 제목 */}
-                      <h3 className="text-[#3D2817] font-semibold mb-2 line-clamp-1">
+                      <h3 className="text-[#6A5542] font-semibold mb-2 line-clamp-1">
                         {question.title}
                       </h3>
 
                       {/* 내용 미리보기 */}
-                      <p className="text-sm text-[#6B5547] mb-3 line-clamp-2">
+                      <p className="text-sm text-[#756A60] mb-3 line-clamp-2">
                         {question.content}
                       </p>
 
                       {/* 메타 정보 */}
-                      <div className="flex items-center gap-3 text-xs text-[#A08060]">
+                      <div className="flex items-center gap-3 text-xs text-[#9A856D]">
                         <span>{question.author_email === 'admin@beautiful.com' ? '뷰티풀한방병원' : (question.author_email?.split('@')[0] || '익명')}</span>
                         <span>•</span>
                         <span>{new Date(question.created_at).toLocaleDateString('ko-KR')}</span>
@@ -2290,8 +2292,8 @@ function QuestionForm({ onClose, onSuccess }: {
   return (
     <div className="max-w-2xl mx-auto">
       <div className="text-center mb-8">
-        <h2 className="text-[#3D2817] mb-3">궁금한 점을 남겨주세요</h2>
-        <p className="text-[#6B5547]">
+        <h2 className="text-[#6A5542] mb-3">궁금한 점을 남겨주세요</h2>
+        <p className="text-[#756A60]">
           전문의가 직접 답변해 드립니다
         </p>
       </div>
@@ -2299,29 +2301,29 @@ function QuestionForm({ onClose, onSuccess }: {
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* 제목 */}
         <div>
-          <label className="block text-sm font-medium text-[#3D2817] mb-2">
-            제목 <span className="text-[#C9A567]">*</span>
+          <label className="block text-sm font-medium text-[#6A5542] mb-2">
+            제목 <span className="text-[#9A856D]">*</span>
           </label>
           <input
             type="text"
             required
             value={formData.title}
             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C9A567] focus:border-transparent"
+            className="w-full px-4 py-3 border border-[#D8CDBE] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9A856D] focus:border-transparent"
             placeholder="질문 제목을 입력하세요"
           />
         </div>
 
         {/* 카테고리 */}
         <div>
-          <label className="block text-sm font-medium text-[#3D2817] mb-2">
-            카테고리 <span className="text-[#C9A567]">*</span>
+          <label className="block text-sm font-medium text-[#6A5542] mb-2">
+            카테고리 <span className="text-[#9A856D]">*</span>
           </label>
           <select
             required
             value={formData.category}
             onChange={(e) => setFormData({ ...formData, category: e.target.value as 'cancer' | 'gynecologic_cancer' | 'gastro_cancer' | 'lung_cancer' | 'liver_cancer' | 'other_cancer' })}
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C9A567] focus:border-transparent"
+            className="w-full px-4 py-3 border border-[#D8CDBE] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9A856D] focus:border-transparent"
           >
             <option value="cancer">유방암</option>
             <option value="gynecologic_cancer">자궁/난소암</option>
@@ -2334,15 +2336,15 @@ function QuestionForm({ onClose, onSuccess }: {
 
         {/* 질문 내용 */}
         <div>
-          <label className="block text-sm font-medium text-[#3D2817] mb-2">
-            질문 내용 <span className="text-[#C9A567]">*</span>
+          <label className="block text-sm font-medium text-[#6A5542] mb-2">
+            질문 내용 <span className="text-[#9A856D]">*</span>
           </label>
           <textarea
             required
             value={formData.content}
             onChange={(e) => setFormData({ ...formData, content: e.target.value })}
             rows={6}
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C9A567] focus:border-transparent resize-none"
+            className="w-full px-4 py-3 border border-[#D8CDBE] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9A856D] focus:border-transparent resize-none"
             placeholder="궁금하신 내용을 자세히 작성해 주세요"
           />
         </div>
@@ -2354,15 +2356,15 @@ function QuestionForm({ onClose, onSuccess }: {
             id="isPrivate"
             checked={formData.isPrivate}
             onChange={(e) => setFormData({ ...formData, isPrivate: e.target.checked })}
-            className="w-4 h-4 text-[#C9A567] border-gray-300 rounded focus:ring-[#C9A567]"
+            className="w-4 h-4 text-[#9A856D] border-[#D8CDBE] rounded focus:ring-[#9A856D]"
           />
-          <label htmlFor="isPrivate" className="text-sm text-[#6B5547]">
+          <label htmlFor="isPrivate" className="text-sm text-[#756A60]">
             비공개 질문 (답변을 이메일/문자로만 받습니다)
           </label>
         </div>
 
         {/* 개인정보 동의 */}
-        <div className="p-4 bg-[#F8F9FA] rounded-xl">
+        <div className="p-4 bg-[#F8F3EA] rounded-xl">
           <div className="flex items-start gap-2">
             <input
               type="checkbox"
@@ -2370,12 +2372,12 @@ function QuestionForm({ onClose, onSuccess }: {
               required
               checked={formData.agreePrivacy}
               onChange={(e) => setFormData({ ...formData, agreePrivacy: e.target.checked })}
-              className="w-4 h-4 mt-0.5 text-[#C9A567] border-gray-300 rounded focus:ring-[#C9A567]"
+              className="w-4 h-4 mt-0.5 text-[#9A856D] border-[#D8CDBE] rounded focus:ring-[#9A856D]"
             />
-            <label htmlFor="agreePrivacy" className="text-sm text-[#6B5547]">
-              개인정보 수집 및 이용에 동의합니다 <span className="text-[#C9A567]">*</span>
+            <label htmlFor="agreePrivacy" className="text-sm text-[#756A60]">
+              개인정보 수집 및 이용에 동의합니다 <span className="text-[#9A856D]">*</span>
               <br />
-              <span className="text-xs text-[#A08060]">
+              <span className="text-xs text-[#9A856D]">
                 (수집 항목: 이름, 연락처 / 목적: 질문 답변 / 보유 기간: 답변 완료 후 1년)
               </span>
             </label>
@@ -2385,7 +2387,7 @@ function QuestionForm({ onClose, onSuccess }: {
         {/* 제출 버튼 */}
         <button
           type="submit"
-          className="w-full py-4 bg-[#3D2817] text-white rounded-xl font-medium hover:bg-[#d11a6d] transition-colors flex items-center justify-center gap-2"
+          className="w-full py-4 bg-[#9A856D] text-white rounded-xl font-medium hover:bg-[#7C654F] transition-colors flex items-center justify-center gap-2"
         >
           <Send className="w-5 h-5" />
           질문 등록하기
@@ -2393,19 +2395,19 @@ function QuestionForm({ onClose, onSuccess }: {
       </form>
 
       {/* 안내 메시지 */}
-      <div className="mt-8 p-6 bg-[#F8F9FA] rounded-xl">
-        <h3 className="text-[#3D2817] font-semibold mb-3">답변 안내</h3>
-        <ul className="space-y-2 text-sm text-[#6B5547]">
+      <div className="mt-8 p-6 bg-[#F8F3EA] rounded-xl">
+        <h3 className="text-[#6A5542] font-semibold mb-3">답변 안내</h3>
+        <ul className="space-y-2 text-sm text-[#756A60]">
           <li className="flex items-start gap-2">
-            <span className="text-[#C9A567] mt-0.5">•</span>
+            <span className="text-[#9A856D] mt-0.5">•</span>
             <span>평일 기준 24시간 이내 답변드립니다</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-[#C9A567] mt-0.5">•</span>
+            <span className="text-[#9A856D] mt-0.5">•</span>
             <span>공개 질문은 익명으로 게시됩니다</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-[#C9A567] mt-0.5">•</span>
+            <span className="text-[#9A856D] mt-0.5">•</span>
             <span>긴급 상담은 전화로 문의해 주세요</span>
           </li>
         </ul>
@@ -2481,8 +2483,8 @@ function QuestionDetail({ question, isAdmin, onClose, onDelete, onAnswerAdded }:
     <div className="max-w-2xl mx-auto">
       <div className="relative mb-8">
         <div className="text-center">
-          <h2 className="text-[#3D2817] mb-3">질문 상세보기</h2>
-          <p className="text-[#6B5547]">
+          <h2 className="text-[#6A5542] mb-3">질문 상세보기</h2>
+          <p className="text-[#756A60]">
             전문의가 직접 답변해 드립니다
           </p>
         </div>
@@ -2498,19 +2500,19 @@ function QuestionDetail({ question, isAdmin, onClose, onDelete, onAnswerAdded }:
         )}
       </div>
 
-      <div className="bg-white border border-gray-200 rounded-xl p-6">
+      <div className="bg-white border border-[#D8CDBE] rounded-xl p-6">
         {/* 질문 제목 */}
-        <h3 className="text-[#3D2817] font-semibold mb-3 line-clamp-1">
+        <h3 className="text-[#6A5542] font-semibold mb-3 line-clamp-1">
           {question.title}
         </h3>
 
         {/* 질문 내용 */}
-        <p className="text-sm text-[#6B5547] mb-4 line-clamp-2">
+        <p className="text-sm text-[#756A60] mb-4 line-clamp-2">
           {question.content}
         </p>
 
         {/* 메타 정보 */}
-        <div className="flex items-center gap-3 text-xs text-[#A08060]">
+        <div className="flex items-center gap-3 text-xs text-[#9A856D]">
           <span>{question.author_email?.split('@')[0] || '익명'}</span>
           <span>•</span>
           <span>{new Date(question.created_at).toLocaleDateString('ko-KR')}</span>
@@ -2519,17 +2521,17 @@ function QuestionDetail({ question, isAdmin, onClose, onDelete, onAnswerAdded }:
         {/* 답변 목록 */}
         {question.answers && question.answers.length > 0 && (
           <div className="mt-6">
-            <h4 className="text-[#3D2817] font-semibold mb-3">답변</h4>
+            <h4 className="text-[#6A5542] font-semibold mb-3">답변</h4>
             <div className="space-y-4">
               {question.answers.map((answer: any) => (
                 <div
                   key={answer.id}
-                  className="bg-gray-100 p-4 rounded-xl"
+                  className="bg-[#EFE7DC] p-4 rounded-xl"
                 >
-                  <p className="text-sm text-[#6B5547] leading-relaxed">
+                  <p className="text-sm text-[#756A60] leading-relaxed">
                     {answer.content}
                   </p>
-                  <div className="flex items-center gap-3 text-xs text-[#A08060] mt-2">
+                  <div className="flex items-center gap-3 text-xs text-[#9A856D] mt-2">
                     <span>{answer.author_email === 'admin@beautiful.com' ? '뷰티풀한방병원' : (answer.author_email?.split('@')[0] || '익명')}</span>
                     <span>•</span>
                     <span>{new Date(answer.created_at).toLocaleDateString('ko-KR')}</span>
@@ -2543,19 +2545,19 @@ function QuestionDetail({ question, isAdmin, onClose, onDelete, onAnswerAdded }:
         {/* 답변 작성 폼 */}
         {isAdmin && (
           <div className="mt-6">
-            <h4 className="text-[#3D2817] font-semibold mb-3">답변 작성</h4>
+            <h4 className="text-[#6A5542] font-semibold mb-3">답변 작성</h4>
             <form onSubmit={handleSubmitAnswer} className="space-y-4">
               <textarea
                 required
                 value={formData.content}
                 onChange={(e) => setFormData({ ...formData, content: e.target.value })}
                 rows={4}
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C9A567] focus:border-transparent resize-none"
+                className="w-full px-4 py-3 border border-[#D8CDBE] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9A856D] focus:border-transparent resize-none"
                 placeholder="답변 내용을 입력하세요"
               />
               <button
                 type="submit"
-                className="w-full py-4 bg-[#3D2817] text-white rounded-xl font-medium hover:bg-[#d11a6d] transition-colors flex items-center justify-center gap-2"
+                className="w-full py-4 bg-[#9A856D] text-white rounded-xl font-medium hover:bg-[#7C654F] transition-colors flex items-center justify-center gap-2"
               >
                 <Send className="w-5 h-5" />
                 답변 등록하기
@@ -2568,7 +2570,7 @@ function QuestionDetail({ question, isAdmin, onClose, onDelete, onAnswerAdded }:
       {/* 닫기 버튼 */}
       <button
         onClick={onClose}
-        className="mt-8 px-8 py-3 bg-[#F8F9FA] text-[#6B5547] rounded-xl font-medium hover:bg-[#A08060]/20 transition-colors"
+        className="mt-8 px-8 py-3 bg-[#F8F3EA] text-[#756A60] rounded-xl font-medium hover:bg-[#7C654F]/20 transition-colors"
       >
         닫기
       </button>
@@ -2618,17 +2620,17 @@ function Pagination({
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className="p-2 rounded-lg border border-gray-200 hover:bg-[#F8F9FA] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+        className="p-2 rounded-lg border border-[#D8CDBE] hover:bg-[#F8F3EA] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
         aria-label="이전 페이지"
       >
-        <ChevronLeft className="w-5 h-5 text-[#6B5547]" />
+        <ChevronLeft className="w-5 h-5 text-[#756A60]" />
       </button>
 
       {/* 페이지 번호 */}
       {getPageNumbers().map((page, index) => {
         if (page === '...') {
           return (
-            <span key={`ellipsis-${index}`} className="px-3 py-2 text-[#A08060]">
+            <span key={`ellipsis-${index}`} className="px-3 py-2 text-[#9A856D]">
               ...
             </span>
           );
@@ -2643,8 +2645,8 @@ function Pagination({
             onClick={() => onPageChange(pageNumber)}
             className={`min-w-[40px] px-3 py-2 rounded-lg font-medium transition-all ${
               isActive
-                ? 'bg-[#3D2817] text-white shadow-md'
-                : 'border border-gray-200 text-[#6B5547] hover:bg-[#F8F9FA]'
+                ? 'bg-[#9A856D] text-white shadow-md'
+                : 'border border-[#D8CDBE] text-[#756A60] hover:bg-[#F8F3EA]'
             }`}
           >
             {pageNumber}
@@ -2656,10 +2658,10 @@ function Pagination({
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="p-2 rounded-lg border border-gray-200 hover:bg-[#F8F9FA] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+        className="p-2 rounded-lg border border-[#D8CDBE] hover:bg-[#F8F3EA] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
         aria-label="다음 페이지"
       >
-        <ChevronRight className="w-5 h-5 text-[#6B5547]" />
+        <ChevronRight className="w-5 h-5 text-[#756A60]" />
       </button>
     </div>
   );

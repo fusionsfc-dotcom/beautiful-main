@@ -5,7 +5,7 @@ import { tbtBenefits, type TbtBenefit } from "../../../data/tbtData";
 /* ── 아이콘 SVG (lucide에 없는 것은 인라인) ── */
 function BenefitIcon({ icon }: { icon: TbtBenefit["icon"] }) {
   const cls = "mx-auto";
-  const stroke = "#5B3A1F";
+  const stroke = "#9A856D";
 
   if (icon === "ear") {
     return (
@@ -49,14 +49,14 @@ export default function TbtBenefitsBar() {
     <section className="px-5 lg:px-8 py-10 lg:py-14">
       <div className="max-w-6xl mx-auto">
         {/* 크림 카드 */}
-        <div className="bg-[#FBF5E9] rounded-2xl px-6 pt-8 pb-6">
+        <div className="bg-[#FFFFFF] rounded-2xl px-6 pt-8 pb-6">
           {/* 섹션 타이틀 */}
           <div className="flex items-center justify-center gap-2 mb-8">
-            <Leaf size={14} color="#C9A567" strokeWidth={1.8} className="rotate-180" />
-            <h2 className="text-[17px] lg:text-[20px] font-extrabold text-[#2A1F18] text-center">
+            <Leaf size={14} color="#9A856D" strokeWidth={1.8} className="rotate-180" />
+            <h2 className="text-[17px] lg:text-[20px] font-extrabold text-[#2F2A26] text-center">
               턱관절 균형을 잡으면 이런 변화가 나타납니다
             </h2>
-            <Leaf size={14} color="#C9A567" strokeWidth={1.8} />
+            <Leaf size={14} color="#9A856D" strokeWidth={1.8} />
           </div>
 
           {/* 4개 항목 */}
@@ -64,7 +64,7 @@ export default function TbtBenefitsBar() {
             {tbtBenefits.map((item) => (
               <div key={item.label} className="flex flex-col items-center gap-3 text-center">
                 <BenefitIcon icon={item.icon} />
-                <p className="text-[14px] font-extrabold text-[#2A1F18] leading-snug">
+                <p className="text-[14px] font-extrabold text-[#2F2A26] leading-snug">
                   {item.label}
                 </p>
               </div>
@@ -72,7 +72,7 @@ export default function TbtBenefitsBar() {
           </div>
 
           {/* 다크 강조바 */}
-          <div className="bg-[#3D2817] rounded-xl px-5 py-4 flex items-center gap-4">
+          <div className="bg-[#6A5542] rounded-xl px-5 py-4 flex items-center gap-4">
             <div className="w-8 h-8 rounded-full bg-white/20 flex-shrink-0 flex items-center justify-center">
               <CheckCircle size={18} color="white" strokeWidth={2.5} />
             </div>

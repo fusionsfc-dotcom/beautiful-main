@@ -2,8 +2,8 @@ import { Link } from "react-router";
 import TreatmentIcon from "./TreatmentIcon";
 import type { Treatment } from "../../../data/integratedCareData";
 
-const DENTAL_COLOR = "#5D3FA0";
-const DENTAL_BG = "#EBE5F5";
+const DENTAL_COLOR = "#6A5542";
+const DENTAL_BG = "#D8CDBE";
 
 interface DentalCardProps {
   treatment: Treatment;
@@ -13,7 +13,7 @@ export default function DentalCard({ treatment }: DentalCardProps) {
   return (
     <Link
       to={`/program/integrated/${treatment.slug}`}
-      className="bg-white rounded-2xl overflow-hidden shadow-sm border border-[#EBE5F5] flex flex-col hover:shadow-md transition-shadow"
+      className="bg-white rounded-2xl overflow-hidden shadow-sm border border-[#D8CDBE] flex flex-col hover:shadow-md transition-shadow"
     >
       {/* 이미지 */}
       <div className="relative aspect-[3/2]">
@@ -43,7 +43,7 @@ export default function DentalCard({ treatment }: DentalCardProps) {
             {treatment.name}
           </h4>
           {treatment.description.map((line, i) => (
-            <p key={i} className="text-[12px] text-[#6B5547] leading-relaxed">
+            <p key={i} className="text-[12px] text-[#756A60] leading-relaxed">
               {line}
             </p>
           ))}

@@ -9,26 +9,17 @@ const DOCTOR_IMAGE =
 
 export default function DoctorYoutubeSection() {
   return (
-    <section className="bg-[#FAF6EE] py-14 lg:py-20 px-5 lg:px-8 border-t border-[#E8DCC8]">
+    <section className="bg-[#F8F3EA] py-14 lg:py-20 px-5 lg:px-8 border-t border-[#D8CDBE]">
       <div className="lg:max-w-6xl lg:mx-auto flex flex-col lg:flex-row lg:items-center lg:gap-16">
         {/* 좌측 텍스트 */}
         <div className="flex-1 mb-8 lg:mb-0">
-          <p className="text-xs text-[#C9A567] tracking-widest mb-3 uppercase">
-            YouTube
-          </p>
-          <h2 className="text-2xl lg:text-3xl font-extrabold text-[#2A1F18] mb-4">
+          <h2 className="text-2xl lg:text-3xl font-extrabold text-[#2F2A26] mb-4">
             암 강의 영상
-            <br />
-            <span className="text-[#6B5547] font-medium text-xl">
-              (유튜브)
-            </span>
           </h2>
-          <p className="text-lg font-bold text-[#3D2817] leading-snug mb-3">
-            암 치료, 한의학적 접근이
-            <br />
-            중요한 이유
+          <p className="text-lg font-bold text-[#6A5542] leading-snug mb-3 whitespace-nowrap">
+            암 치료, 한의학적 접근이 중요한 이유
           </p>
-          <p className="text-sm text-[#6B5547] leading-relaxed mb-8">
+          <p className="text-sm text-[#756A60] leading-relaxed mb-8">
             한의학 박사 이형석 병원장이 직접 설명하는
             <br />
             암 치료와 면역 회복에 관한 강의를 만나보세요.
@@ -37,7 +28,7 @@ export default function DoctorYoutubeSection() {
             href={YOUTUBE_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 border-2 border-[#3D2817] text-[#3D2817] font-bold text-sm px-6 py-3 rounded-lg hover:bg-[#3D2817] hover:text-white transition-colors"
+            className="inline-flex items-center gap-2 border-2 border-[#9A856D] text-[#6A5542] font-bold text-sm px-6 py-3 rounded-lg hover:bg-[#9A856D] hover:text-white transition-colors"
           >
             영상 바로가기
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
@@ -62,7 +53,7 @@ export default function DoctorYoutubeSection() {
             />
 
             {/* 어두운 오버레이 */}
-            <div className="absolute inset-0 bg-[#3D2817]/40 group-hover:bg-[#3D2817]/50 transition-colors" />
+            <div className="absolute inset-0 bg-[#6A5542]/22 group-hover:bg-[#9A856D]/50 transition-colors" />
 
             {/* 플레이 버튼 */}
             <div className="absolute inset-0 flex items-center justify-center">
@@ -71,7 +62,7 @@ export default function DoctorYoutubeSection() {
                   width="24"
                   height="24"
                   viewBox="0 0 24 24"
-                  fill="#8B2A1F"
+                  fill="#9A856D"
                   className="ml-1"
                 >
                   <path d="M8 5v14l11-7z" />
@@ -80,7 +71,7 @@ export default function DoctorYoutubeSection() {
             </div>
 
             {/* 하단 캡션 */}
-            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#3D2817]/90 to-transparent p-4">
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#6A5542]/60 to-transparent p-4">
               <p className="text-white text-sm font-medium leading-snug">
                 한의학박사 이형석 병원장의
                 <br />

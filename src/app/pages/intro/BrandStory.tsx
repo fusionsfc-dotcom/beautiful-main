@@ -17,7 +17,7 @@ export default function BrandStory() {
         />
       </Helmet>
 
-      <div className="bg-[#FAF6EE] min-h-screen">
+      <div className="bg-[#F8F3EA] min-h-screen">
         {/* Section 1 — 히어로 */}
         <StoryHero />
 

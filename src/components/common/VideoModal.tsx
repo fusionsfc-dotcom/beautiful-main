@@ -26,7 +26,7 @@ export default function VideoModal({ url, onClose }: VideoModalProps) {
         <button
           onClick={onClose}
           aria-label="모달 닫기"
-          className="absolute -top-10 right-0 text-white hover:text-[#C9A567] transition-colors"
+          className="absolute -top-10 right-0 text-white hover:text-[#9A856D] transition-colors"
         >
           <X size={28} />
         </button>

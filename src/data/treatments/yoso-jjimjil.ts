@@ -14,7 +14,7 @@ export const yosoJjimjilData: TreatmentDetail = {
     "항암력 극대화",
   ],
   subtitleHighlight: "항암력 극대화",
-  heroImage: `${BASE}te_1.jpeg`,     // TODO: 효소찜질 시술 사진으로 교체
+  heroImage: `${BASE}clinic/hou.png`,
   heroVideoUrl: "",
   heroVideoLabel: "",                // 빈 문자열 → 히어로 플레이 버튼 숨김
 

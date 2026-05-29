@@ -38,13 +38,13 @@ export default function MenuSubItem({
     <Link
       to={href}
       onClick={handleClick}
-      className="flex items-center gap-3 px-4 py-3 hover:bg-[#F5EEE0] transition-colors group"
+      className="flex items-center gap-3 px-4 py-3 hover:bg-[#EFE7DC] transition-colors group"
     >
       {/* 불릿 */}
       <span className="w-1.5 h-1.5 rounded-full bg-[#8B6F47] flex-shrink-0 mt-0.5" />
 
       {/* 라벨 */}
-      <span className="flex-1 text-[15px] text-[#2A1F18] font-medium leading-snug">
+      <span className="flex-1 text-[15px] text-[#2F2A26] font-medium leading-snug">
         {label}
       </span>
 

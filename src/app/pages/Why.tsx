@@ -6,7 +6,7 @@ const REASONS = [
   {
     num: "01",
     image:
-      "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/room_pa.jpeg",
+      "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/room/room1.jpg",
     imageAlt: "호텔식 1인실 병실",
     icon: (
       <svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="#8B6F47" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
@@ -21,7 +21,7 @@ const REASONS = [
     heading: (
       <>
         호텔을 리모델링하여 만든<br />
-        <strong className="text-[#2A1F18]">쾌적한 시설 및 1인실<br />위주의 병실</strong>
+        <strong className="text-[#2F2A26]">쾌적한 시설 및 1인실<br />위주의 병실</strong>
       </>
     ),
     desc: "프라이빗한 1인실과 호텔식 시설로 편안한 치료 환경을 제공합니다.",
@@ -40,7 +40,7 @@ const REASONS = [
     heading: (
       <>
         병원 뒤 학령산과 텃밭<br />그리고 파주 스타디움<br />
-        <strong className="text-[#2A1F18]">(드론 촬영 영상)</strong>
+        <strong className="text-[#2F2A26]">(드론 촬영 영상)</strong>
       </>
     ),
     desc: "자연 속 힐링 환경과 드론으로 보는 감성 영상을 확인해보세요.",
@@ -60,7 +60,7 @@ const REASONS = [
     heading: (
       <>
         27년간 암환자 진료 경험이<br />
-        <strong className="text-[#2A1F18]">있는 한의학박사의<br />24시간 케어</strong>
+        <strong className="text-[#2F2A26]">있는 한의학박사의<br />24시간 케어</strong>
       </>
     ),
     desc: "풍부한 경험과 24시간 케어로 안심하고 치료 받으세요.",
@@ -79,7 +79,7 @@ const REASONS = [
     ),
     heading: (
       <>
-        <strong className="text-[#2A1F18]">맞춤형 항암식단<br />및 재활 시스템</strong>
+        <strong className="text-[#2F2A26]">맞춤형 항암식단<br />및 재활 시스템</strong>
       </>
     ),
     desc: "개인별 맞춤 항암식단과 재활치료로 회복을 돕습니다.",
@@ -110,13 +110,13 @@ export default function Why() {
         jsonLd={jsonLd}
       />
 
-      <div className="bg-[#FAF6EE] min-h-screen pb-10">
+      <div className="bg-[#F8F3EA] min-h-screen pb-10">
         {/* ── 헤더 ── */}
         <div className="pt-10 pb-6 text-center px-5">
           <p className="text-sm text-[#8B6F47] tracking-widest mb-2">왜 뷰티풀이어야 하나요?</p>
-          <h1 className="text-3xl md:text-4xl font-extrabold text-[#2A1F18] leading-tight">
+          <h1 className="text-3xl md:text-4xl font-extrabold text-[#2F2A26] leading-tight">
             뷰티풀이 특별한{" "}
-            <span className="text-[#C9A567]">4가지</span>{" "}
+            <span className="text-[#9A856D]">4가지</span>{" "}
             이유
           </h1>
         </div>
@@ -127,7 +127,7 @@ export default function Why() {
           {REASONS.map((r) => (
             <article
               key={r.num}
-              className="bg-white rounded-2xl overflow-hidden shadow-sm border border-[#E8DCC8] flex flex-col"
+              className="bg-white rounded-2xl overflow-hidden shadow-sm border border-[#D8CDBE] flex flex-col"
             >
               {/* 이미지 + 번호 뱃지 */}
               <div className="relative aspect-[4/3] overflow-hidden">
@@ -138,8 +138,8 @@ export default function Why() {
                   loading="lazy"
                 />
                 {/* 번호 뱃지 */}
-                <div className="absolute top-3 left-3 w-9 h-9 rounded-xl bg-[#3D2817]/80 backdrop-blur-sm flex items-center justify-center">
-                  <span className="text-[11px] font-bold text-[#C9A567] tracking-wider leading-none">
+                <div className="absolute top-3 left-3 w-9 h-9 rounded-xl bg-[#6A5542]/80 backdrop-blur-sm flex items-center justify-center">
+                  <span className="text-[11px] font-bold text-[#9A856D] tracking-wider leading-none">
                     {r.num}
                   </span>
                 </div>
@@ -151,12 +151,12 @@ export default function Why() {
                 <div className="mb-3">{r.icon}</div>
 
                 {/* 제목 */}
-                <p className="text-[14px] md:text-[15px] text-[#6B5547] leading-snug mb-3">
+                <p className="text-[14px] md:text-[15px] text-[#756A60] leading-snug mb-3">
                   {r.heading}
                 </p>
 
                 {/* 설명 */}
-                <p className="text-[12px] md:text-[13px] text-[#A08060] leading-relaxed">
+                <p className="text-[12px] md:text-[13px] text-[#9A856D] leading-relaxed">
                   {r.desc}
                 </p>
               </div>
@@ -166,19 +166,13 @@ export default function Why() {
 
         {/* ── 보조 CTA ── */}
         <div className="mt-12 text-center px-5">
-          <p className="text-[#6B5547] text-sm mb-5">
+          <p className="text-[#756A60] text-sm mb-5">
             직접 경험하고 싶으신가요?
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
-              to="/reservation"
-              className="inline-flex items-center justify-center px-8 py-3.5 bg-[#3D2817] text-white text-sm font-semibold rounded-full hover:bg-[#5B3A1F] transition-colors shadow-md"
-            >
-              상담 예약하기
-            </Link>
-            <Link
               to="/facilities"
-              className="inline-flex items-center justify-center px-8 py-3.5 border-2 border-[#3D2817] text-[#3D2817] text-sm font-semibold rounded-full hover:bg-[#3D2817]/5 transition-colors"
+              className="inline-flex items-center justify-center px-8 py-3.5 border-2 border-[#6A5542] text-[#6A5542] text-sm font-semibold rounded-full hover:bg-[#F5EFE6] transition-colors"
             >
               치료환경 둘러보기
             </Link>
