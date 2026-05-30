@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState, type RefObject } from "react";
+import { useEffect, useState, type RefObject } from "react";
 
 export interface FixedBottomBarLayout {
   top: number;
@@ -34,20 +34,25 @@ function measureLayout(ref: RefObject<HTMLElement | null>): FixedBottomBarLayout
   };
 }
 
+function isSameLayout(a: FixedBottomBarLayout, b: FixedBottomBarLayout) {
+  return (
+    a.top === b.top &&
+    a.left === b.left &&
+    a.width === b.width &&
+    a.gapFillHeight === b.gapFillHeight
+  );
+}
+
 /**
  * iOS Chrome/Safari: fixed bottom 대신 visual viewport 하단에 top 기준으로 고정.
  */
 export function useFixedBottomBarLayout(ref: RefObject<HTMLElement | null>) {
-  const [layout, setLayout] = useState<FixedBottomBarLayout>({
+  const [layout, setLayout] = useState<FixedBottomBarLayout>(() => ({
     top: 0,
     left: 0,
     width: typeof window !== "undefined" ? window.innerWidth : 0,
     gapFillHeight: 0,
-  });
-
-  useLayoutEffect(() => {
-    setLayout(measureLayout(ref));
-  });
+  }));
 
   useEffect(() => {
     let rafId = 0;
@@ -55,7 +60,8 @@ export function useFixedBottomBarLayout(ref: RefObject<HTMLElement | null>) {
     const scheduleUpdate = () => {
       cancelAnimationFrame(rafId);
       rafId = requestAnimationFrame(() => {
-        setLayout(measureLayout(ref));
+        const next = measureLayout(ref);
+        setLayout((prev) => (isSameLayout(prev, next) ? prev : next));
       });
     };
 
