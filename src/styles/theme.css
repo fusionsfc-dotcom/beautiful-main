@@ -204,6 +204,8 @@
     @apply bg-background text-foreground;
     min-height: 100%;
     min-height: 100svh;
+    /* iOS 스크롤 시 fixed 하단 UI 뒤 콘텐츠 비침 완화 */
+    overscroll-behavior-y: none;
   }
 
   #root {

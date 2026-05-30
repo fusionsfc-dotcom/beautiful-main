@@ -1,8 +1,10 @@
 /** BottomActionBar — 하단 고정 4개 액션 버튼 */
-// iOS safe-area + visualViewport 보정
+// iOS Chrome: visualViewport top 고정 + body portal + gap 마스크
 
+import { useRef } from "react";
+import { createPortal } from "react-dom";
 import { Link } from "react-router";
-import { useVisualViewportBottomOffset } from "../../lib/useVisualViewportBottomOffset";
+import { useFixedBottomBarLayout } from "../../lib/useFixedBottomBarLayout";
 
 const ACTIONS = [
   {
@@ -54,68 +56,91 @@ const ACTIONS = [
   },
 ];
 
-export default function BottomActionBar() {
-  const viewportBottomOffset = useVisualViewportBottomOffset();
+function BottomActionBarContent() {
+  const barRef = useRef<HTMLDivElement>(null);
+  const { top, left, width, gapFillHeight } = useFixedBottomBarLayout(barRef);
 
   return (
-    <div
-      className="fixed left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-[#D8CDBE] shadow-[0_-8px_24px_rgba(106,85,66,0.08)]"
-      style={{
-        bottom: viewportBottomOffset,
-        paddingBottom: "env(safe-area-inset-bottom, 0px)",
-        transform: "translateZ(0)",
-        WebkitTransform: "translateZ(0)",
-      }}
-    >
-      <div className="flex divide-x divide-[#D8CDBE]/70">
-        {ACTIONS.map((action) => {
-          const className = `flex-1 flex flex-col items-center justify-center gap-1 py-3 transition-colors ${
-            action.id === "reservation"
-              ? "bg-[#8BC31F] text-white hover:bg-[#75A915]"
-              : "text-[#6A5542] hover:bg-[#F5EFE6]"
-          }`;
+    <>
+      {/* 비주얼 뷰포트 아래로 새는 콘텐츠 가림 */}
+      {gapFillHeight > 0 && (
+        <div
+          aria-hidden
+          className="fixed z-[49] bg-white pointer-events-none"
+          style={{
+            bottom: 0,
+            left,
+            width,
+            height: gapFillHeight,
+          }}
+        />
+      )}
 
-          if ("comingSoon" in action && action.comingSoon) {
+      <div
+        ref={barRef}
+        className="fixed z-[50] bg-white border-t border-[#D8CDBE] shadow-[0_-8px_24px_rgba(106,85,66,0.08)]"
+        style={{
+          top,
+          left,
+          width,
+          paddingBottom: "env(safe-area-inset-bottom, 0px)",
+          transform: "translateZ(0)",
+          WebkitTransform: "translateZ(0)",
+          WebkitBackfaceVisibility: "hidden",
+          backfaceVisibility: "hidden",
+        }}
+      >
+        <div className="flex divide-x divide-[#D8CDBE]/70">
+          {ACTIONS.map((action) => {
+            const className = `flex-1 flex flex-col items-center justify-center gap-1 py-3 transition-colors ${
+              action.id === "reservation"
+                ? "bg-[#8BC31F] text-white hover:bg-[#75A915]"
+                : "text-[#6A5542] hover:bg-[#F5EFE6]"
+            }`;
+
+            if ("comingSoon" in action && action.comingSoon) {
+              return (
+                <button
+                  key={action.id}
+                  type="button"
+                  onClick={() => alert("준비중입니다.")}
+                  className={className}
+                >
+                  {action.icon}
+                  <span className="text-[10px] font-medium tracking-wide leading-none">
+                    {action.label}
+                  </span>
+                </button>
+              );
+            }
+
+            if ("external" in action && action.external) {
+              return (
+                <a key={action.id} href={action.href} className={className}>
+                  {action.icon}
+                  <span className="text-[10px] font-medium tracking-wide leading-none">
+                    {action.label}
+                  </span>
+                </a>
+              );
+            }
+
             return (
-              <button
-                key={action.id}
-                type="button"
-                onClick={() => alert("준비중입니다.")}
-                className={className}
-              >
+              <Link key={action.id} to={action.href!} className={className}>
                 {action.icon}
                 <span className="text-[10px] font-medium tracking-wide leading-none">
                   {action.label}
                 </span>
-              </button>
+              </Link>
             );
-          }
-
-          if ("external" in action && action.external) {
-            return (
-              <a
-                key={action.id}
-                href={action.href}
-                className={className}
-              >
-                {action.icon}
-                <span className="text-[10px] font-medium tracking-wide leading-none">
-                  {action.label}
-                </span>
-              </a>
-            );
-          }
-
-          return (
-            <Link key={action.id} to={action.href!} className={className}>
-              {action.icon}
-              <span className="text-[10px] font-medium tracking-wide leading-none">
-                {action.label}
-              </span>
-            </Link>
-          );
-        })}
+          })}
+        </div>
       </div>
-    </div>
+    </>
   );
+}
+
+export default function BottomActionBar() {
+  if (typeof document === "undefined") return null;
+  return createPortal(<BottomActionBarContent />, document.body);
 }
