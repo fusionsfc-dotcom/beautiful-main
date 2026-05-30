@@ -1,10 +1,9 @@
 /** BottomActionBar — 하단 고정 4개 액션 버튼 */
-// iOS Chrome: visualViewport top 고정 + body portal + gap 마스크
+// body portal + CSS 변수 기반 iOS viewport 보정 (React state 없음)
 
-import { useRef } from "react";
 import { createPortal } from "react-dom";
 import { Link } from "react-router";
-import { useFixedBottomBarLayout } from "../../lib/useFixedBottomBarLayout";
+import { useVisualViewportCssVars } from "../../lib/useVisualViewportCssVars";
 
 const ACTIONS = [
   {
@@ -56,39 +55,34 @@ const ACTIONS = [
   },
 ];
 
+const barPositionStyle = {
+  bottom: "var(--vv-bottom-offset, 0px)",
+  left: "var(--vv-left-offset, 0px)",
+  width: "var(--vv-width, 100%)",
+  paddingBottom: "env(safe-area-inset-bottom, 0px)",
+  transform: "translateZ(0)",
+  WebkitTransform: "translateZ(0)",
+} as const;
+
 function BottomActionBarContent() {
-  const barRef = useRef<HTMLDivElement>(null);
-  const { top, left, width, gapFillHeight } = useFixedBottomBarLayout(barRef);
+  useVisualViewportCssVars();
 
   return (
     <>
-      {/* 비주얼 뷰포트 아래로 새는 콘텐츠 가림 */}
-      {gapFillHeight > 0 && (
-        <div
-          aria-hidden
-          className="fixed z-[49] bg-white pointer-events-none"
-          style={{
-            bottom: 0,
-            left,
-            width,
-            height: gapFillHeight,
-          }}
-        />
-      )}
+      <div
+        aria-hidden
+        className="fixed z-[49] bg-white pointer-events-none"
+        style={{
+          bottom: 0,
+          left: "var(--vv-left-offset, 0px)",
+          width: "var(--vv-width, 100%)",
+          height: "var(--vv-gap-fill-height, 0px)",
+        }}
+      />
 
       <div
-        ref={barRef}
         className="fixed z-[50] bg-white border-t border-[#D8CDBE] shadow-[0_-8px_24px_rgba(106,85,66,0.08)]"
-        style={{
-          top,
-          left,
-          width,
-          paddingBottom: "env(safe-area-inset-bottom, 0px)",
-          transform: "translateZ(0)",
-          WebkitTransform: "translateZ(0)",
-          WebkitBackfaceVisibility: "hidden",
-          backfaceVisibility: "hidden",
-        }}
+        style={barPositionStyle}
       >
         <div className="flex divide-x divide-[#D8CDBE]/70">
           {ACTIONS.map((action) => {
