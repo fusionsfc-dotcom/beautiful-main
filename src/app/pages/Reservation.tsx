@@ -66,10 +66,11 @@ export default function Reservation() {
   };
 
   const clinicOptions = [
-    "암환자 통합 면역 치료",
-    "중풍·파킨슨병 클리닉",
-    "이명·두통 특화 클리닉",
-    "척추·관절 통증 클리닉",
+    "수술 후 암케어",
+    "항암치료 중 암케어",
+    "방사선치료 중 암케어",
+    "암 면역케어",
+    "기타",
   ];
 
   if (isSubmitted) {

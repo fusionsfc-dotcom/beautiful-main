@@ -2,7 +2,7 @@
 // TODO: 유튜브 실제 링크 및 썸네일 이미지 교체 필요
 // TODO: /public/images/redesign/doctor-youtube-thumb.jpg — 원장 사진(안경, 흰가운, 책장)으로 교체
 
-const YOUTUBE_URL = "https://www.youtube.com/@beautifulhospital";
+const YOUTUBE_URL = "https://www.youtube.com/@BTF1101";
 // TODO: 실제 유튜브 채널/영상 URL로 교체 필요
 const DOCTOR_IMAGE =
   "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/doc/doc_ceo.jpeg";

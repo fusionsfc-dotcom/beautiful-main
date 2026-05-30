@@ -18,9 +18,7 @@ const ACTIONS = [
   {
     id: "talk",
     label: "네이버 톡톡",
-    // TODO: 실제 네이버 톡톡 URL로 교체 필요
-    href: "https://talk.naver.com/ct/wc4u6k",
-    external: true,
+    comingSoon: true,
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
@@ -62,37 +60,53 @@ export default function BottomActionBar() {
       style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
     >
       <div className="flex divide-x divide-[#D8CDBE]/70">
-        {ACTIONS.map((action) =>
-          action.external ? (
-            <a
-              key={action.id}
-              href={action.href}
-              target={action.id !== "phone" ? "_blank" : undefined}
-              rel={action.id !== "phone" ? "noopener noreferrer" : undefined}
-              className={`flex-1 flex flex-col items-center justify-center gap-1 py-3 transition-colors ${
-                action.id === "reservation" ? "bg-[#8BC31F] text-white hover:bg-[#75A915]" : "text-[#6A5542] hover:bg-[#F5EFE6]"
-              }`}
-            >
-              {action.icon}
-              <span className="text-[10px] font-medium tracking-wide leading-none">
-                {action.label}
-              </span>
-            </a>
-          ) : (
-            <Link
-              key={action.id}
-              to={action.href}
-              className={`flex-1 flex flex-col items-center justify-center gap-1 py-3 transition-colors ${
-                action.id === "reservation" ? "bg-[#8BC31F] text-white hover:bg-[#75A915]" : "text-[#6A5542] hover:bg-[#F5EFE6]"
-              }`}
-            >
+        {ACTIONS.map((action) => {
+          const className = `flex-1 flex flex-col items-center justify-center gap-1 py-3 transition-colors ${
+            action.id === "reservation"
+              ? "bg-[#8BC31F] text-white hover:bg-[#75A915]"
+              : "text-[#6A5542] hover:bg-[#F5EFE6]"
+          }`;
+
+          if ("comingSoon" in action && action.comingSoon) {
+            return (
+              <button
+                key={action.id}
+                type="button"
+                onClick={() => alert("준비중입니다.")}
+                className={className}
+              >
+                {action.icon}
+                <span className="text-[10px] font-medium tracking-wide leading-none">
+                  {action.label}
+                </span>
+              </button>
+            );
+          }
+
+          if ("external" in action && action.external) {
+            return (
+              <a
+                key={action.id}
+                href={action.href}
+                className={className}
+              >
+                {action.icon}
+                <span className="text-[10px] font-medium tracking-wide leading-none">
+                  {action.label}
+                </span>
+              </a>
+            );
+          }
+
+          return (
+            <Link key={action.id} to={action.href!} className={className}>
               {action.icon}
               <span className="text-[10px] font-medium tracking-wide leading-none">
                 {action.label}
               </span>
             </Link>
-          )
-        )}
+          );
+        })}
       </div>
     </div>
   );
