@@ -1,7 +1,9 @@
 import { Leaf, ArrowRight } from "lucide-react";
-import { Link } from "react-router";
 import HandwrittenNote from "./HandwrittenNote";
 import { handwrittenReviews } from "../../../data/nutritionData";
+
+const NAVER_REVIEWS_URL =
+  "https://map.naver.com/p/entry/place/1468544622?placePath=/review?additionalHeight=76&entry=plt&fromPanelNum=1&locale=ko&svcName=map_pcv5&timestamp=202605300822&fromPanelNum=1&additionalHeight=76&timestamp=202605300822&locale=ko&svcName=map_pcv5&from=map&searchType=place&lng=126.7934673&lat=37.7516697&c=15.00,0,0,2,dh";
 
 export default function HandwrittenReviewsSection() {
   return (
@@ -26,13 +28,15 @@ export default function HandwrittenReviewsSection() {
 
         {/* 더 많은 후기 보기 */}
         <div className="flex justify-center mt-8">
-          <Link
-            to="/review/handwritten"
+          <a
+            href={NAVER_REVIEWS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-[#FFFFFF] border border-[#D8CDBE] text-[#9A856D] text-[14px] font-bold px-6 py-3 rounded-full hover:bg-[#EFE7DC] transition-colors"
           >
             더 많은 후기 보기
             <ArrowRight size={15} />
-          </Link>
+          </a>
         </div>
       </div>
     </section>

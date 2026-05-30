@@ -45,7 +45,7 @@ export const rehabPrograms: RehabProgram[] = [
     number: "01",
     name: "트램폴린 재활 운동",
     subname: "(리바운딩)",
-    image: PLACEHOLDER,
+    image: "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/program/beautiful_ai_img.025.jpeg",
     features: [
       {
         icon: "leaf",
@@ -62,7 +62,7 @@ export const rehabPrograms: RehabProgram[] = [
   {
     number: "02",
     name: "항암 필라테스",
-    image: ROOM_IMG,
+    image: "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/program/pro3.jpg",
     features: [
       { icon: "person", title: "자세 교정" },
       { icon: "heart-hand", title: "코어 강화" },
@@ -74,7 +74,7 @@ export const rehabPrograms: RehabProgram[] = [
     number: "03",
     name: "1:1 맞춤 재활 운동",
     subname: "(필라테스 & PT)",
-    image: CEO_IMG,
+    image: "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/clinic/ur.png",
     features: [
       { icon: "person", title: "1:1 맞춤 프로그램" },
       { icon: "dumbbell", title: "근력 강화 & 체력 향상" },
@@ -85,7 +85,7 @@ export const rehabPrograms: RehabProgram[] = [
   {
     number: "04",
     name: "매직테니스 재활 운동",
-    image: LOCA_IMG,
+    image: "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/program/pro2.jpg",
     features: [
       { icon: "runner", title: "전신 활동 증가" },
       { icon: "balance", title: "근력·균형 향상" },

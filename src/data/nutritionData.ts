@@ -31,14 +31,14 @@ export type CompostStep = {
 const IMG_BASE = "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/";
 
 export const NUTRITION_HERO_IMAGE = `${IMG_BASE}te_1.jpeg`;
-export const GARDEN_THUMB_IMAGE = `${IMG_BASE}yoga_s.jpeg`;
-export const NUTRITION_VIDEO_URL = "https://www.youtube.com/embed/dQw4w9WgXcQ";
+export const GARDEN_THUMB_IMAGE = `${IMG_BASE}food/food_1%20(1).jpeg`;
+export const NUTRITION_VIDEO_URL = "https://www.youtube.com/embed/S02XMoB8jGk";
 
 export const GARDEN_IMAGES = [
-  `${IMG_BASE}room_pa.jpeg`,
-  `${IMG_BASE}hero_img.jpeg`,
-  `${IMG_BASE}loca.jpeg`,
-  `${IMG_BASE}1533a480-19c6-4888-a70a-5f635655c966.jpg`,
+  `${IMG_BASE}food/food_1.jpeg`,
+  `${IMG_BASE}food/food_2.jpeg`,
+  `${IMG_BASE}food/food_3.jpeg`,
+  `${IMG_BASE}food/food_4.jpeg`,
 ];
 
 export const coreValues: CoreValue[] = [
@@ -118,8 +118,8 @@ export const handwrittenReviews: HandwrittenReview[] = [
 ];
 
 export const compostSteps: CompostStep[] = [
-  { number: 1, name: "퇴비 재료 투입",    image: `${IMG_BASE}yoga_s.jpeg` },
-  { number: 2, name: "포크레인 교반 작업", image: `${IMG_BASE}te_1.jpeg` },
-  { number: 3, name: "발효 및 숙성",      image: `${IMG_BASE}hero_img.jpeg` },
-  { number: 4, name: "건강한 토양 완성",  image: `${IMG_BASE}room_pa.jpeg` },
+  { number: 1, name: "퇴비 재료 투입", image: `${IMG_BASE}food/food11_1.jpeg` },
+  { number: 2, name: "포크레인 교반 작업", image: `${IMG_BASE}food/food11_2.jpeg` },
+  { number: 3, name: "발효 및 숙성", image: `${IMG_BASE}food/food11_3.jpeg` },
+  { number: 4, name: "건강한 토양 완성", image: `${IMG_BASE}food/food11_4.jpeg` },
 ];

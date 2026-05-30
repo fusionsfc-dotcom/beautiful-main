@@ -1,5 +1,4 @@
 import GardenVideoCard from "./GardenVideoCard";
-import { NUTRITION_HERO_IMAGE } from "../../../data/nutritionData";
 
 export default function NutritionHero() {
   return (
@@ -29,20 +28,8 @@ export default function NutritionHero() {
           </div>
         </div>
 
-        {/* ── 우측 이미지 + 텃밭 카드 (40%) ── */}
-        <div className="w-full lg:w-[42%] lg:flex-shrink-0 flex flex-col gap-4">
-          {/* 메인 식단 이미지 */}
-          <div className="relative h-56 sm:h-72 lg:h-64 rounded-2xl overflow-hidden shadow-md">
-            {/* TODO: 실제 한식 식단 사진 교체 필요 — /public/images/redesign/nutrition/hero-food.jpg */}
-            <img
-              src={NUTRITION_HERO_IMAGE}
-              alt="한방 항암 식단 — 나물, 잡곡밥, 미소국"
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
-          </div>
-
-          {/* 텃밭 영상 카드 */}
+        {/* ── 우측 텃밭 영상 카드 (40%) ── */}
+        <div className="w-full lg:w-[42%] lg:flex-shrink-0">
           <GardenVideoCard />
         </div>
       </div>
