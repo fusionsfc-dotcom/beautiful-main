@@ -6,11 +6,18 @@ import { useNavigate } from "react-router";
 interface LoginModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onSuccess?: () => void;
   purpose?: "cases" | "general";
   initialMode?: "login" | "signup";
 }
 
-export default function LoginModal({ isOpen, onClose, purpose = "general", initialMode = "login" }: LoginModalProps) {
+export default function LoginModal({
+  isOpen,
+  onClose,
+  onSuccess,
+  purpose = "general",
+  initialMode = "login",
+}: LoginModalProps) {
   const [mode, setMode] = useState<'login' | 'signup'>('login');
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -70,12 +77,12 @@ export default function LoginModal({ isOpen, onClose, purpose = "general", initi
         setName("");
         setError("");
         
-        // 모달 닫기
         onClose();
-        
+        onSuccess?.();
+
         // 회원가입 후에는 로그인 모드로 리셋
         setMode('login');
-        
+
         if (purpose === "cases") {
           navigate("/cases");
         }

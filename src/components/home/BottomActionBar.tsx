@@ -1,7 +1,8 @@
 /** BottomActionBar — 하단 고정 4개 액션 버튼 */
-// iOS safe-area-inset-bottom 대응
+// iOS safe-area + visualViewport 보정
 
 import { Link } from "react-router";
+import { useVisualViewportBottomOffset } from "../../lib/useVisualViewportBottomOffset";
 
 const ACTIONS = [
   {
@@ -54,10 +55,17 @@ const ACTIONS = [
 ];
 
 export default function BottomActionBar() {
+  const viewportBottomOffset = useVisualViewportBottomOffset();
+
   return (
     <div
-      className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-[#D8CDBE] shadow-[0_-8px_24px_rgba(106,85,66,0.08)]"
-      style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
+      className="fixed left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-[#D8CDBE] shadow-[0_-8px_24px_rgba(106,85,66,0.08)]"
+      style={{
+        bottom: viewportBottomOffset,
+        paddingBottom: "env(safe-area-inset-bottom, 0px)",
+        transform: "translateZ(0)",
+        WebkitTransform: "translateZ(0)",
+      }}
     >
       <div className="flex divide-x divide-[#D8CDBE]/70">
         {ACTIONS.map((action) => {

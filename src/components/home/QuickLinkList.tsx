@@ -7,7 +7,7 @@ const LINKS = [
     number: "1",
     title: "암 칼럼",
     subtitle: "암 치료와 회복에 도움이 되는 전문 칼럼을 확인하세요.",
-    href: "/columns",
+    href: "/columns?tab=columns",
     external: false,
   },
   {

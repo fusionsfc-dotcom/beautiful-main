@@ -1,5 +1,6 @@
 import { useEffect, useCallback } from "react";
 import { useLocation } from "react-router";
+import { useAuth } from "../../app/contexts/AuthContext";
 import MenuHeader from "./MenuHeader";
 import TopQuickActions from "./TopQuickActions";
 import MenuCategoryItem from "./MenuCategory";
@@ -9,10 +10,12 @@ import { menuCategories } from "../../data/menuData";
 interface HamburgerMenuProps {
   isOpen: boolean;
   onClose: () => void;
+  onOpenAuth: (mode: "login" | "signup") => void;
 }
 
-export default function HamburgerMenu({ isOpen, onClose }: HamburgerMenuProps) {
+export default function HamburgerMenu({ isOpen, onClose, onOpenAuth }: HamburgerMenuProps) {
   const location = useLocation();
+  const { isAuthenticated } = useAuth();
 
   // 페이지 이동 시 자동 닫기
   useEffect(() => {
@@ -66,7 +69,7 @@ export default function HamburgerMenu({ isOpen, onClose }: HamburgerMenuProps) {
         {/* 스크롤 가능한 본문 */}
         <div className="flex-1 overflow-y-auto overscroll-contain">
           {/* 상단 3개 카드 */}
-          <TopQuickActions onClose={onClose} />
+          <TopQuickActions onOpenAuth={onOpenAuth} onClose={onClose} />
 
           {/* 구분선 */}
           <div className="h-px bg-[#D8CDBE] mx-4" />
@@ -90,10 +93,12 @@ export default function HamburgerMenu({ isOpen, onClose }: HamburgerMenuProps) {
             <BottomQuickActions onClose={onClose} />
           </div>
 
-          {/* 자물쇠 안내 */}
-          <p className="text-center text-[12px] text-[#888] px-4 pb-8">
-            🔒 로그인 필요한 메뉴는 자물쇠 아이콘으로 안내됩니다.
-          </p>
+          {!isAuthenticated && (
+            <p className="text-center text-[12px] text-[#888] px-4 pb-8">
+              🔒 로그인 필요한 메뉴는 자물쇠 아이콘으로 안내됩니다.
+            </p>
+          )}
+          {isAuthenticated && <div className="pb-8" />}
         </div>
       </div>
     </>

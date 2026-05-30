@@ -192,25 +192,23 @@
     @apply border-border outline-ring/50;
   }
 
-  /* 모바일 뷰포트 높이 고정 (Chrome/Safari 주소창 변동 대응) */
+  /* 모바일 뷰포트: svh로 툴바 표시/숨김 시 높이 흔들림 완화 */
   html {
-    height: -webkit-fill-available;
-  }
-
-  body {
-    min-height: 100vh;
-    min-height: -webkit-fill-available;
-    min-height: 100dvh;
-  }
-
-  #root {
-    min-height: 100vh;
-    min-height: 100dvh;
+    height: 100%;
+    min-height: 100%;
+    min-height: 100svh;
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
     @apply bg-background text-foreground;
     min-height: 100%;
+    min-height: 100svh;
+  }
+
+  #root {
+    min-height: 100%;
+    min-height: 100svh;
   }
 
   /* 데스크탑에서 하단 네비게이션 패딩 초기화 */
@@ -237,9 +235,6 @@
 
   html {
     font-size: var(--font-size);
-    /* 모바일 Chrome viewport 안정화 */
-    height: 100%;
-    -webkit-text-size-adjust: 100%;
   }
 
   h1 {
