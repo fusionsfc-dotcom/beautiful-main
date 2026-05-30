@@ -8,6 +8,8 @@ export type Treatment = {
   description: string[];
   /** 상세 페이지 slug — /program/integrated/:slug */
   slug: string;
+  /** false면 카드 링크 비활성 (기본 true) */
+  linked?: boolean;
 };
 
 export type TreatmentGroup = {
@@ -78,7 +80,7 @@ export const dentalCares: TreatmentGroup = {
   subtitle: "구강 상태 관리는 치료 지속과 회복에 매우 중요합니다.",
   treatments: [
     { name: "구강 관리",    icon: "tooth",       image: IMG.d1, slug: "oral-care",              description: ["구강 염증과 통증을 줄여", "치료를 안정적으로", "이어갈 수 있도록 돕습니다."] },
-    { name: "감염 예방 관리", icon: "tooth-shield", image: IMG.d2, slug: "infection-prevention", description: ["면역이 떨어진 상태에서", "구강 감염을 예방하는", "것이 중요합니다."] },
-    { name: "맞춤 구강 케어", icon: "user-check",   image: IMG.d3, slug: "custom-oral",          description: ["환자 상태에 맞춰", "치료 전·중·후 구강 관리를", "진행합니다."] },
+    { name: "감염 예방 관리", icon: "tooth-shield", image: IMG.d2, slug: "infection-prevention", linked: false, description: ["면역이 떨어진 상태에서", "구강 감염을 예방하는", "것이 중요합니다."] },
+    { name: "맞춤 구강 케어", icon: "user-check",   image: IMG.d3, slug: "custom-oral",          linked: false, description: ["환자 상태에 맞춰", "치료 전·중·후 구강 관리를", "진행합니다."] },
   ],
 };

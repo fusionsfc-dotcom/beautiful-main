@@ -29,7 +29,7 @@ export const alnovaData: TreatmentDetail = {
   visualCards: [
     { number: "01", title: "면역 균형",  subtitle: "과도한 반응 조절",  image: `${BASE}yoga_s.jpeg` },
     { number: "02", title: "암 억제",    subtitle: "억제 환경 조성",    image: `${BASE}te_1.jpeg` },
-    { number: "03", title: "안전 치료", subtitle: "부작용 최소화",      image: `${BASE}room_pa.jpeg` },
+    { number: "03", title: "안전 치료", subtitle: "부작용 최소화",      image: `${BASE}clinic/lee.png` },
   ],
 
   consultQuestion: "미슬토 치료가 나에게 필요한지 궁금하신가요?",  // TODO

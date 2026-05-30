@@ -2,6 +2,7 @@
 import type { TreatmentDetail } from "../../types/treatment";
 
 const BASE = "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/";
+const CL = `${BASE}03_cl/`;
 
 export const zadaxinData: TreatmentDetail = {
   slug: "zadaxin",
@@ -27,9 +28,9 @@ export const zadaxinData: TreatmentDetail = {
 
   visualCardsTitle: "싸이모실 알파1이 주는 효과",  // TODO
   visualCards: [
-    { number: "01", title: "면역 활성",  subtitle: "T세포 NK세포 강화",    image: `${BASE}yoga_s.jpeg` },
-    { number: "02", title: "치료 효과",  subtitle: "항암 반응 극대화",     image: `${BASE}te_1.jpeg` },
-    { number: "03", title: "체력 회복", subtitle: "면역 저하 방지",        image: `${BASE}room_pa.jpeg` },
+    { number: "01", title: "면역 활성",  subtitle: "T세포 NK세포 강화",    image: `${CL}cy1_1.png` },
+    { number: "02", title: "치료 효과",  subtitle: "항암 반응 극대화",     image: `${CL}cy1_2.png` },
+    { number: "03", title: "체력 회복", subtitle: "면역 저하 방지",        image: `${CL}cy1_3.png` },
   ],
 
   consultQuestion: "싸이모실 알파1 치료가 나에게 적합한지 궁금하신가요?",  // TODO

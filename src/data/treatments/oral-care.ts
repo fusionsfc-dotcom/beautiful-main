@@ -2,6 +2,7 @@
 import type { TreatmentDetail } from "../../types/treatment";
 
 const BASE = "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/";
+const DENTI = `${BASE}02_denti/`;
 
 export const oralCareData: TreatmentDetail = {
   slug: "oral-care",
@@ -58,8 +59,8 @@ export const oralCareData: TreatmentDetail = {
         "구강 건조증",
         "치아 우식 및 감염 위험 증가",
       ],
-      image: `${BASE}yoga_s.jpeg`,   // TODO: 구강 통증 환자 사진으로 교체
-      imageAlt: "구강 통증을 호소하는 환자",
+      image: `${DENTI}gugang_1.png`,
+      imageAlt: "항암 치료 중 구강 문제",
       imagePosition: "right",
     },
     {
@@ -70,8 +71,8 @@ export const oralCareData: TreatmentDetail = {
         "감염 예방으로 합병증 위험 감소",
         "치료 중단 없이 계획대로 치료 진행",
       ],
-      image: `${BASE}headdocimg.png`, // TODO: 치과 의사 진료 사진으로 교체
-      imageAlt: "치과 의사의 환자 진료",
+      image: `${DENTI}gugang_2.png`,
+      imageAlt: "체계적인 구강 관리의 중요성",
       imagePosition: "right",
     },
   ],

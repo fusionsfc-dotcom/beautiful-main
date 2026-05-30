@@ -36,7 +36,7 @@ export const tbtTreatments: TbtTreatment[] = [
   {
     name: "TBA",
     subname: "(기성품 교정장치)",
-    image: `${IMG_BASE}yoga_s.jpeg`,
+    image: `${IMG_BASE}clinic/tbt_1.png`,
     description: [
       "기성품 교정장치를 사용하여 턱관절의 부담을 줄이고",
       "기본 균형을 빠르게 회복합니다.",
@@ -45,7 +45,7 @@ export const tbtTreatments: TbtTreatment[] = [
   {
     name: "CBA",
     subname: "(개인 맞춤형 교정장치)",
-    image: `${IMG_BASE}te_1.jpeg`,
+    image: `${IMG_BASE}clinic/tbt_2.png`,
     description: [
       "개인별 구강 구조와 턱관절 상태에 맞춘 맞춤형 교정장치로",
       "정밀하게 턱관절 위치를 교정합니다.",
@@ -54,7 +54,7 @@ export const tbtTreatments: TbtTreatment[] = [
   {
     name: "추나요법",
     subname: "(경추추나)",
-    image: `${IMG_BASE}hero_img.jpeg`,
+    image: `${IMG_BASE}clinic/tbt_3.png`,
     description: [
       "경추(목) 추나요법을 통해 턱관절의 긴장과 비정상적인 구조를",
       "교정하고 전신 균형을 함께 회복합니다.",
@@ -69,12 +69,11 @@ export const clinicalEffects: ClinicalEffect[] = [
   { text: ["소화 기능과 장운동이", "개선되었습니다."] },
 ];
 
-/** 히어로 영상 URL — 추후 실제 유튜브 영상 ID로 교체 */
-export const TBT_VIDEO_URL = "https://www.youtube.com/embed/dQw4w9WgXcQ";
+/** TBT 히어로 영상 (새 창) */
+export const TBT_VIDEO_LINK = "https://youtu.be/psZYB1PjlfU?si=nMrjL_N0P-LgeJkA";
 
-/** TODO: 실제 히어로 사진으로 교체 */
 export const TBT_HERO_IMAGE =
-  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/room_pa.jpeg";
+  "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/clinic/t_1.png";
 
 /** TODO: 실제 손하트 이미지로 교체 */
 export const TBT_HEART_HANDS_IMAGE =

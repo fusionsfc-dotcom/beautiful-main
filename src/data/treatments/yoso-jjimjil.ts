@@ -2,6 +2,7 @@
 import type { TreatmentDetail } from "../../types/treatment";
 
 const BASE = "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/";
+const HJ_CENTER = `${BASE}01_hj_center/`;
 
 export const yosoJjimjilData: TreatmentDetail = {
   slug: "yoso-jjimjil",
@@ -25,12 +26,12 @@ export const yosoJjimjilData: TreatmentDetail = {
   // 6장 비주얼 카드 — grid6 레이아웃
   visualCardsTitle: "효소찜질이 항암 치료에 좋은 이유",
   visualCards: [
-    { title: "해독 작용 강화",          image: `${BASE}yoga_s.jpeg`   }, // TODO: 분자 비주얼
-    { title: "체온 상승 & 혈액순환",    image: `${BASE}hero_img.jpeg` }, // TODO: 열·혈류 비주얼
-    { title: "면역력 증진",             image: `${BASE}te_1.jpeg`     }, // TODO: 편안한 여성
-    { title: "부작용 완화 & 피로 회복", image: `${BASE}room_pa.jpeg`  }, // TODO: 손 위 발광체
-    { title: "심신 안정 & 스트레스 완화", image: `${BASE}loca.jpeg`   }, // TODO: 손 하트
-    { title: "항암 치료 효과 극대화",   image: `${BASE}ceo_re.png`    }, // TODO: 방패+면역세포
+    { title: "해독 작용 강화",          image: `${HJ_CENTER}hj_1.png` },
+    { title: "체온 상승 & 혈액순환",    image: `${HJ_CENTER}hj_2.png` },
+    { title: "면역력 증진",             image: `${HJ_CENTER}hj_3.png` },
+    { title: "부작용 완화 & 피로 회복", image: `${HJ_CENTER}hj_4.png` },
+    { title: "심신 안정 & 스트레스 완화", image: `${HJ_CENTER}hj_5.png` },
+    { title: "항암 치료 효과 극대화",   image: `${HJ_CENTER}hj_6.png` },
   ],
   visualCardsLayout: "grid6",
 
