@@ -21,7 +21,7 @@ const REASONS = [
     heading: (
       <>
         호텔을 리모델링하여 만든<br />
-        <strong className="text-[#2F2A26]">쾌적한 시설 및 1인실<br />위주의 병실</strong>
+        <strong className="text-[#2F2A26]">쾌적하고 고급스러운<br />입원실</strong>
       </>
     ),
     desc: "프라이빗한 1인실과 호텔식 시설로 편안한 치료 환경을 제공합니다.",

@@ -7,7 +7,7 @@ import useEmblaCarousel from "embla-carousel-react";
 const SLIDES = [
   {
     number: "1",
-    title: "호텔을 리모델링한\n쾌적한 1인실 위주의 병실",
+    title: "호텔을 리모델링한\n쾌적하고 고급스러운 입원실",
     description:
       "프라이빗한 1인실과 호텔식 시설로\n편안한 치료와 휴식을 제공합니다.",
     features: [
