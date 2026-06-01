@@ -1,81 +1,81 @@
-import { Outlet, useLocation, Link } from "react-router";
-import { Home, Building2, BookOpen, Info, Stethoscope } from "lucide-react";
-import FloatingConsultButton from "../components/FloatingConsultButton";
+import { useState, useEffect } from "react";
+import { Outlet, useLocation } from "react-router";
 import GlobalHeader from "../components/GlobalHeader";
 import GlobalFooter from "../components/GlobalFooter";
-import { useEffect } from "react";
+import LoginModal from "../components/LoginModal";
+import { useAuth } from "../contexts/AuthContext";
+import HamburgerMenu from "../../components/menu/HamburgerMenu";
+import BottomActionBar from "../../components/home/BottomActionBar";
 
 export default function Root() {
   const location = useLocation();
-  
-  // 페이지 전환 시 스크롤을 최상단으로 이동
+  const isHome = location.pathname === "/";
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuAuthOpen, setMenuAuthOpen] = useState(false);
+  const [menuAuthMode, setMenuAuthMode] = useState<"login" | "signup">("login");
+  const { isAuthenticated } = useAuth();
+
+  const openMenuAuth = (mode: "login" | "signup") => {
+    if (isAuthenticated) return;
+    setMenuAuthMode(mode);
+    setMenuAuthOpen(true);
+  };
+
+  const closeMenuAuth = () => setMenuAuthOpen(false);
+
+  const handleMenuAuthSuccess = () => {
+    setMenuAuthOpen(false);
+    setMenuOpen(false);
+  };
+
+  // 페이지 전환 시 스크롤 최상단 이동
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
-  
-  const tabs = [
-    { path: "/", label: "홈", icon: Home },
-    { path: "/clinics", label: "클리닉", icon: Stethoscope },
-    { path: "/facilities", label: "치료환경", icon: Building2 },
-    { path: "/columns", label: "뷰티풀이야기", icon: BookOpen },
-    { path: "/about", label: "병원소개", icon: Info },
-  ];
-
-  const isActive = (path: string) => {
-    if (path === "/") {
-      return location.pathname === "/";
-    }
-    return location.pathname.startsWith(path);
-  };
 
   return (
-    <div
-      className="min-h-[100dvh] flex flex-col bg-white pb-20 lg:pb-0"
-      style={{ paddingBottom: "calc(64px + env(safe-area-inset-bottom, 0px))" }}
-    >
-        {/* Global Header - 모든 페이지 상단에 고정 */}
-        <GlobalHeader />
+    <div className="min-h-[100svh] flex flex-col bg-[#F8F3EA] root-wrapper">
+      {/* 모든 페이지 공통 헤더 */}
+      <GlobalHeader onMenuOpen={() => setMenuOpen(true)} />
 
-        {/* Main Content with Sidebar on Desktop */}
-        <div className="flex-1 lg:flex max-w-screen-xl mx-auto w-full gap-8">
-          <main className="flex-1">
-            <Outlet />
-          </main>
-          
-          {/* Desktop Sidebar & Mobile Floating Button */}
-          <aside className="w-80 flex-shrink-0 lg:p-8">
-            <FloatingConsultButton />
-          </aside>
-        </div>
+      {/* 전역 햄버거 메뉴 드로어 */}
+      <HamburgerMenu
+        isOpen={menuOpen}
+        onClose={() => setMenuOpen(false)}
+        onOpenAuth={openMenuAuth}
+      />
 
-        {/* Global Footer - 모든 페이지 하단에 공통 적용 */}
-        <GlobalFooter />
-        
-        {/* Bottom Tab Bar - Mobile Only */}
-        <nav
-          className="lg:hidden fixed left-0 right-0 bg-white border-t border-gray-200 z-50 mobile-bottom-safe mobile-bottom-nav-fixed"
-          style={{ bottom: 0, paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
-        >
-          <div className="flex justify-around items-center h-16 max-w-screen-xl mx-auto">
-            {tabs.map((tab) => {
-              const Icon = tab.icon;
-              const active = isActive(tab.path);
-              
-              return (
-                <Link
-                  key={tab.path}
-                  to={tab.path}
-                  className={`flex flex-col items-center justify-center flex-1 h-full transition-colors ${
-                    active ? "text-[#E91E7A]" : "text-[#8FA8BA]"
-                  }`}
-                >
-                  <Icon className="w-5 h-5 mb-1" strokeWidth={active ? 2 : 1.5} />
-                  <span className="text-xs">{tab.label}</span>
-                </Link>
-              );
-            })}
+      {/* 메뉴 로그인/회원가입 — 드로어 transform 밖에서 렌더 (fixed 포지션 보장) */}
+      <LoginModal
+        isOpen={menuAuthOpen}
+        onClose={closeMenuAuth}
+        onSuccess={handleMenuAuthSuccess}
+        initialMode={menuAuthMode}
+      />
+
+      {isHome ? (
+        /* 홈: 레이아웃 래퍼 없이 직접 렌더 */
+        <main className="flex-1">
+          <Outlet />
+        </main>
+      ) : (
+        /* 기타 페이지: 사이드바 + 푸터 레이아웃 */
+        <>
+          <div
+            className="flex-1 max-w-screen-xl mx-auto w-full"
+            style={{ paddingBottom: "calc(56px + env(safe-area-inset-bottom, 0px))" }}
+          >
+            <main className="bg-white">
+              <Outlet />
+            </main>
           </div>
-        </nav>
-      </div>
+
+          <GlobalFooter />
+        </>
+      )}
+
+      {/* 전역 하단 4버튼 액션바 */}
+      <BottomActionBar />
+    </div>
   );
 }

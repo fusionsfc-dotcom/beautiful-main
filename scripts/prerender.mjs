@@ -16,24 +16,29 @@ import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DIST_DIR = resolve(__dirname, "../dist");
 
-// 프리렌더링 대상 경로 (로그인 필요 페이지 제외)
+// 프리렌더링 대상 경로 (총 13개)
+// ⚠️ 절대 추가 금지: /my-consultations, /my-results, /my-reports, /admin
 const ROUTES = [
+  // 정적 페이지 (8개)
   "/",
   "/clinics",
-  "/clinics/cancer-immune",
-  "/clinics/tinnitus-headache",
-  "/clinics/stroke-parkinson",
-  "/clinics/spine-joint",
   "/facilities",
   "/columns",
   "/cases",
   "/about",
   "/reservation",
   "/health-check",
+  // 클리닉 상세 (5개) — ClinicDetail.tsx 실제 ID 기준 (2026-04-26 확인)
+  "/clinics/beautiful-cancer-care",
+  "/clinics/cancer-specific-care",
+  "/clinics/post-surgery-recovery",
+  "/clinics/chemotherapy-care",
+  "/clinics/radiation-care",
 ];
 
-// 렌더링 대기 시간 (ms) - React 렌더링 + Supabase 데이터 로딩 대기
-const RENDER_WAIT = 3000;
+// 렌더링 대기 시간 (ms)
+// React 렌더링 + Supabase 데이터 로딩(notices, columns, faq 등) 대기
+const RENDER_WAIT = 4000;
 
 async function startServer(port) {
   const fallbackHtml = readFileSync(resolve(DIST_DIR, "index.html"), "utf-8");

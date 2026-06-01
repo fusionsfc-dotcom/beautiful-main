@@ -3,6 +3,8 @@ import { ChevronLeft, CheckCircle } from "lucide-react";
 import * as Accordion from "@radix-ui/react-accordion";
 import { ChevronDown } from "lucide-react";
 import SEOHead from "../../components/seo/SEOHead";
+import { makeBreadcrumbList } from "../../lib/schema/breadcrumb";
+import { makeCancerConditionsJsonLd } from "../../lib/schema/conditions";
 
 const PLACEHOLDER_IMAGE =
   "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/yoga_s.jpeg";
@@ -610,12 +612,14 @@ export default function ClinicDetail() {
 
   const currentSeo = seoMeta[id || ""] || seoMeta[defaultId];
 
+  const clinicId = id || defaultId;
+
   const clinicJsonLd = {
     "@context": "https://schema.org",
     "@type": "MedicalClinic",
     name: clinic.title,
     description: currentSeo.description,
-    url: `https://www.btful.co.kr/clinics/${id || defaultId}`,
+    url: `https://www.btful.co.kr/clinics/${clinicId}`,
     medicalSpecialty: clinic.subtitle,
     availableService:
       clinic.sections
@@ -631,13 +635,25 @@ export default function ClinicDetail() {
               }))
             )
         ) || [],
-    isPartOf: {
-      "@type": "Hospital",
-      name: "뷰티풀한방병원",
-      url: "https://www.btful.co.kr",
-      telephone: "031-945-2000"
-    }
+    isPartOf: { "@id": "https://www.btful.co.kr/#hospital" },
   };
+
+  const clinicNames: Record<string, string> = {
+    "beautiful-cancer-care": "뷰티풀 암케어",
+    "cancer-specific-care": "암별 집중케어",
+    "post-surgery-recovery": "수술 후 회복케어",
+    "chemotherapy-care": "항암치료 환자 케어",
+    "radiation-care": "방사선치료 환자 케어",
+  };
+
+  const jsonLdSchemas: object[] = [
+    clinicJsonLd,
+    makeBreadcrumbList([
+      { name: "암 치료 클리닉", path: "/clinics" },
+      { name: clinicNames[clinicId] ?? clinic.title, path: `/clinics/${clinicId}` },
+    ]),
+    ...(clinicId === "cancer-specific-care" ? makeCancerConditionsJsonLd() : []),
+  ];
 
   return (
     <div className="min-h-[100dvh] bg-white">
@@ -645,13 +661,13 @@ export default function ClinicDetail() {
         title={currentSeo.title}
         description={currentSeo.description}
         keywords={currentSeo.keywords}
-        ogUrl={`https://www.btful.co.kr/clinics/${id || defaultId}`}
-        canonical={`https://www.btful.co.kr/clinics/${id || defaultId}`}
-        jsonLd={clinicJsonLd}
+        ogUrl={`https://www.btful.co.kr/clinics/${clinicId}`}
+        canonical={`https://www.btful.co.kr/clinics/${clinicId}`}
+        jsonLd={jsonLdSchemas}
       />
 
       {/* Header */}
-      <header className="sticky top-0 bg-white border-b border-gray-200 z-10">
+      <header className="sticky top-0 bg-white border-b border-[#D8CDBE] z-10">
         <div className="flex items-center px-5 py-4">
           <Link to="/clinics" className="mr-4">
             <ChevronLeft className="w-6 h-6" />
@@ -663,20 +679,20 @@ export default function ClinicDetail() {
       </header>
 
       {/* Hero */}
-      <div className="px-5 py-8 bg-gradient-to-b from-[#f5f6f8] to-white">
+      <div className="px-5 py-8 bg-gradient-to-b from-[#EFE7DC] to-white">
         {clinic.badge && (
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#E91E7A]/10 rounded-full mb-4">
-            <div className="w-2 h-2 bg-[#E91E7A] rounded-full animate-pulse"></div>
-            <span className="text-[#E91E7A] font-semibold text-sm">{clinic.badge}</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#F5EFE6] rounded-full mb-4">
+            <div className="w-2 h-2 bg-[#6A5542] rounded-full animate-pulse"></div>
+            <span className="text-[#9A856D] font-semibold text-sm">{clinic.badge}</span>
           </div>
         )}
         <h1 className="mb-2">{clinic.title}</h1>
-        <p className="text-gray-600 font-semibold mb-4">{clinic.subtitle}</p>
+        <p className="text-[#756A60] font-semibold mb-4">{clinic.subtitle}</p>
         {clinic.description && (
-          <p className="text-[#6B7D8C] leading-relaxed">{clinic.description}</p>
+          <p className="text-[#756A60] leading-relaxed">{clinic.description}</p>
         )}
         {clinic.introMessage && (
-          <p className="text-[#3E5266] mt-4 leading-relaxed font-medium">{clinic.introMessage}</p>
+          <p className="text-[#6A5542] mt-4 leading-relaxed font-medium">{clinic.introMessage}</p>
         )}
         {clinic.headerImage && (
           <div className="mt-6 rounded-xl overflow-hidden">
@@ -692,12 +708,12 @@ export default function ClinicDetail() {
       {/* 암종별 카드 (암별 집중케어 전용) */}
       {clinic.hasConditionCards && clinic.conditionCards && (
         <div className="px-5 py-12 bg-white">
-          <h2 className="text-center mb-8 text-[#3E5266]">암종별 집중 케어</h2>
+          <h2 className="text-center mb-8 text-[#6A5542]">암종별 집중 케어</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {clinic.conditionCards.map((card: any, index: number) => (
               <div
                 key={index}
-                className="bg-white rounded-xl overflow-hidden border-2 border-gray-200 hover:border-[#E91E7A] transition-all shadow-sm hover:shadow-lg"
+                className="bg-white rounded-xl overflow-hidden border-2 border-[#D8CDBE] hover:border-[#9A856D] transition-all shadow-sm hover:shadow-lg"
               >
                 <div className="h-40 overflow-hidden">
                   <img
@@ -707,13 +723,13 @@ export default function ClinicDetail() {
                   />
                 </div>
                 <div className="p-6">
-                  <h3 className="text-[#3E5266] font-bold text-lg mb-4">{card.title}</h3>
+                  <h3 className="text-[#6A5542] font-bold text-lg mb-4">{card.title}</h3>
                   <div className="space-y-2 mb-4">
-                    <p className="text-sm text-[#6B7D8C] font-semibold mb-2">주요 케어 포인트</p>
+                    <p className="text-sm text-[#756A60] font-semibold mb-2">주요 케어 포인트</p>
                     {card.symptoms.map((symptom: string, sIndex: number) => (
                       <div key={sIndex} className="flex items-start gap-2">
-                        <CheckCircle className="w-4 h-4 text-[#E91E7A] mt-0.5 flex-shrink-0" />
-                        <span className="text-[#6B7D8C] text-sm">{symptom}</span>
+                        <CheckCircle className="w-4 h-4 text-[#9A856D] mt-0.5 flex-shrink-0" />
+                        <span className="text-[#756A60] text-sm">{symptom}</span>
                       </div>
                     ))}
                   </div>
@@ -728,26 +744,26 @@ export default function ClinicDetail() {
       <div className="px-5 py-8 space-y-12">
         {clinic.sections.map((section: any, index: number) => (
           <div key={index}>
-            <h2 className="mb-4 text-[#3E5266]">{section.title}</h2>
+            <h2 className="mb-4 text-[#6A5542]">{section.title}</h2>
             {section.description && (
-              <p className="text-[#6B7D8C] mb-6 leading-relaxed">{section.description}</p>
+              <p className="text-[#756A60] mb-6 leading-relaxed">{section.description}</p>
             )}
 
             {section.isStages ? (
               <div className="space-y-4">
                 {section.stages.map((stage: any, stageIndex: number) => (
                   <div key={stageIndex} className="relative">
-                    <div className="bg-white p-6 rounded-xl border-l-4 border-[#E91E7A] shadow-sm">
+                    <div className="bg-white p-6 rounded-xl border-l-4 border-[#9A856D] shadow-sm">
                       <div className="flex items-start gap-4">
-                        <div className="flex-shrink-0 px-3 h-12 min-w-[3rem] rounded-full bg-[#E91E7A]/10 flex items-center justify-center">
-                          <span className="text-[#E91E7A] font-bold text-sm whitespace-nowrap">
+                        <div className="flex-shrink-0 px-3 h-12 min-w-[3rem] rounded-full bg-[#F5EFE6] flex items-center justify-center">
+                          <span className="text-[#9A856D] font-bold text-sm whitespace-nowrap">
                             {stage.stage}
                           </span>
                         </div>
                         <div className="flex-1">
-                          <p className="text-[#3E5266] font-semibold mb-1">{stage.title}</p>
+                          <p className="text-[#6A5542] font-semibold mb-1">{stage.title}</p>
                           {stage.description && (
-                            <p className="text-[#6B7D8C] text-sm leading-relaxed">
+                            <p className="text-[#756A60] text-sm leading-relaxed">
                               {stage.description}
                             </p>
                           )}
@@ -756,7 +772,7 @@ export default function ClinicDetail() {
                     </div>
                     {stageIndex < section.stages.length - 1 && (
                       <div className="flex justify-start pl-6 py-2">
-                        <div className="w-px h-6 bg-[#E91E7A]/30"></div>
+                        <div className="w-px h-6 bg-[#6A5542]/30"></div>
                       </div>
                     )}
                   </div>
@@ -766,14 +782,14 @@ export default function ClinicDetail() {
               <div className="space-y-6">
                 {section.subsections.map((subsection: any, subIndex: number) => (
                   <div key={subIndex}>
-                    <h3 className="text-[#3E5266] font-semibold mb-4">{subsection.subtitle}</h3>
+                    <h3 className="text-[#6A5542] font-semibold mb-4">{subsection.subtitle}</h3>
 
                     {subsection.treatments ? (
                       <div className="space-y-6">
                         {subsection.treatments.map((treatment: any, tIndex: number) => (
                           <div
                             key={tIndex}
-                            className="bg-white rounded-xl overflow-hidden border border-gray-200 shadow-sm"
+                            className="bg-white rounded-xl overflow-hidden border border-[#D8CDBE] shadow-sm"
                           >
                             {treatment.image && (
                               <div className="h-40 overflow-hidden">
@@ -785,21 +801,21 @@ export default function ClinicDetail() {
                               </div>
                             )}
                             <div className="p-6">
-                              <h4 className="text-[#3E5266] font-bold text-lg mb-3">
+                              <h4 className="text-[#6A5542] font-bold text-lg mb-3">
                                 {treatment.name}
                               </h4>
-                              <p className="text-[#6B7D8C] mb-4 leading-relaxed">
+                              <p className="text-[#756A60] mb-4 leading-relaxed">
                                 {treatment.description}
                               </p>
 
                               {treatment.effects && (
                                 <div className="mb-4">
-                                  <p className="text-sm text-[#3E5266] font-semibold mb-2">효과</p>
+                                  <p className="text-sm text-[#6A5542] font-semibold mb-2">효과</p>
                                   <div className="flex flex-wrap gap-2">
                                     {treatment.effects.map((effect: string, eIndex: number) => (
                                       <span
                                         key={eIndex}
-                                        className="px-3 py-1 bg-[#E91E7A]/10 text-[#E91E7A] text-sm rounded-full"
+                                        className="px-3 py-1 bg-[#F5EFE6] text-[#9A856D] text-sm rounded-full"
                                       >
                                         {effect}
                                       </span>
@@ -809,24 +825,24 @@ export default function ClinicDetail() {
                               )}
 
                               {treatment.frequency && (
-                                <p className="text-sm text-[#6B7D8C] italic">{treatment.frequency}</p>
+                                <p className="text-sm text-[#756A60] italic">{treatment.frequency}</p>
                               )}
                             </div>
                           </div>
                         ))}
                       </div>
                     ) : (
-                      <div className="bg-[#F8F9FA] p-6 rounded-xl">
+                      <div className="bg-[#F8F3EA] p-6 rounded-xl">
                         {subsection.description && (
-                          <p className="text-[#6B7D8C] mb-4 leading-relaxed">
+                          <p className="text-[#756A60] mb-4 leading-relaxed">
                             {subsection.description}
                           </p>
                         )}
                         <ul className="space-y-3">
                           {subsection.content.map((item: string, itemIndex: number) => (
                             <li key={itemIndex} className="flex items-start">
-                              <span className="w-1.5 h-1.5 rounded-full bg-[#E91E7A] mt-2 mr-3 flex-shrink-0" />
-                              <span className="text-[#6B7D8C]">{item}</span>
+                              <span className="w-1.5 h-1.5 rounded-full bg-[#6A5542] mt-2 mr-3 flex-shrink-0" />
+                              <span className="text-[#756A60]">{item}</span>
                             </li>
                           ))}
                         </ul>
@@ -846,11 +862,11 @@ export default function ClinicDetail() {
                     />
                   </div>
                 )}
-                <ul className="space-y-3 bg-[#F8F9FA] p-6 rounded-xl">
+                <ul className="space-y-3 bg-[#F8F3EA] p-6 rounded-xl">
                   {section.content.map((item: string, itemIndex: number) => (
                     <li key={itemIndex} className="flex items-start">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#E91E7A] mt-2 mr-3 flex-shrink-0" />
-                      <span className="text-[#6B7D8C]">{item}</span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#6A5542] mt-2 mr-3 flex-shrink-0" />
+                      <span className="text-[#756A60]">{item}</span>
                     </li>
                   ))}
                 </ul>
@@ -861,7 +877,7 @@ export default function ClinicDetail() {
       </div>
 
       {/* FAQ */}
-      <div className="px-5 py-8 bg-[#f5f6f8]">
+      <div className="px-5 py-8 bg-[#EFE7DC]">
         <h2 className="mb-6">자주 묻는 질문</h2>
 
         <Accordion.Root type="single" collapsible className="space-y-3">
@@ -869,15 +885,15 @@ export default function ClinicDetail() {
             <Accordion.Item
               key={index}
               value={`item-${index}`}
-              className="bg-white rounded-xl overflow-hidden border border-gray-200"
+              className="bg-white rounded-xl overflow-hidden border border-[#D8CDBE]"
             >
               <Accordion.Header>
-                <Accordion.Trigger className="w-full flex items-center justify-between p-5 hover:bg-gray-50 transition-colors">
+                <Accordion.Trigger className="w-full flex items-center justify-between p-5 hover:bg-[#F8F3EA] transition-colors">
                   <span className="text-left pr-4">{faq.question}</span>
                   <ChevronDown className="w-5 h-5 text-gray-400 transition-transform duration-300 data-[state=open]:rotate-180 flex-shrink-0" />
                 </Accordion.Trigger>
               </Accordion.Header>
-              <Accordion.Content className="px-5 pb-5 text-gray-600">
+              <Accordion.Content className="px-5 pb-5 text-[#756A60]">
                 {faq.answer}
               </Accordion.Content>
             </Accordion.Item>
@@ -888,11 +904,11 @@ export default function ClinicDetail() {
       {/* CTA */}
       <div className="px-5 py-8">
         {clinic.finalMessage && (
-          <div className="p-8 bg-gradient-to-br from-[#E91E7A]/5 to-[#3E5266]/5 rounded-2xl border-l-4 border-[#E91E7A]">
-            <p className="text-[#3E5266] text-lg font-semibold mb-3 leading-relaxed">
+          <div className="p-8 bg-gradient-to-br from-[#6A5542]/5 to-[#6A5542]/5 rounded-2xl border-l-4 border-[#9A856D]">
+            <p className="text-[#6A5542] text-lg font-semibold mb-3 leading-relaxed">
               {clinic.finalMessage.title}
             </p>
-            <p className="text-[#6B7D8C] leading-relaxed">
+            <p className="text-[#756A60] leading-relaxed">
               {clinic.finalMessage.description}
             </p>
           </div>

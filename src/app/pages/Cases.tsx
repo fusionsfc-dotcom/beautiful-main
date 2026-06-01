@@ -12,6 +12,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { toast } from "sonner";
 import { projectId, publicAnonKey } from "../../../utils/supabase/info";
 import SEOHead from "../../components/seo/SEOHead";
+import { makeBreadcrumbList } from "../../lib/schema/breadcrumb";
 
 type CaseCategoryType = "cancer" | "post_surgery" | "chemotherapy" | "radiation";
 
@@ -109,38 +110,37 @@ export default function Cases() {
         keywords="한방치료사례,암치료후기,중풍재활사례,이명치료사례,척추치료후기,뷰티풀한방병원"
         ogUrl="https://www.btful.co.kr/cases"
         canonical="https://www.btful.co.kr/cases"
-        jsonLd={cases.length > 0 ? {
-          "@context": "https://schema.org",
-          "@type": "CollectionPage",
-          "name": "치료사례 | 뷰티풀한방병원",
-          "description": "뷰티풀한방병원의 실제 치료사례 모음",
-          "url": "https://www.btful.co.kr/cases",
-          "publisher": {
-            "@type": "Hospital",
-            "name": "뷰티풀한방병원",
-            "url": "https://www.btful.co.kr",
-          },
-          "mainEntity": {
-            "@type": "ItemList",
-            "itemListElement": cases.slice(0, 10).map((c, i) => ({
-              "@type": "ListItem",
-              "position": i + 1,
-              "item": {
-                "@type": "MedicalWebPage",
-                "name": c.title,
-                "datePublished": c.created_at,
-                "description": c.content?.slice(0, 160),
-                ...(c.thumbnail ? { "image": c.thumbnail } : {}),
-              },
-            })),
-          },
-        } : undefined}
+        jsonLd={[
+          makeBreadcrumbList([{ name: "치료사례", path: "/cases" }]),
+          ...(cases.length > 0 ? [{
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            "name": "치료사례 | 뷰티풀한방병원",
+            "description": "뷰티풀한방병원의 실제 치료사례 모음",
+            "url": "https://www.btful.co.kr/cases",
+            "publisher": { "@id": "https://www.btful.co.kr/#hospital" },
+            "mainEntity": {
+              "@type": "ItemList",
+              "itemListElement": cases.slice(0, 10).map((c, i) => ({
+                "@type": "ListItem",
+                "position": i + 1,
+                "item": {
+                  "@type": "MedicalWebPage",
+                  "name": c.title,
+                  "datePublished": c.created_at,
+                  "description": c.content?.slice(0, 160),
+                  ...(c.thumbnail ? { "image": c.thumbnail } : {}),
+                },
+              })),
+            },
+          }] : []),
+        ]}
       />
       {/* 페이지 헤더 */}
-      <div className="bg-[#F8F9FA] py-16 px-5">
+      <div className="bg-[#F8F3EA] py-16 px-5">
         <div className="max-w-screen-lg mx-auto text-center">
-          <h1 className="mb-4 text-[#3E5266]">치료사례</h1>
-          <p className="text-[#6B7D8C] text-lg">
+          <h1 className="mb-4 text-[#6A5542]">치료사례</h1>
+          <p className="text-[#756A60] text-lg">
             실제 환자분들의 회복 과정을 공유합니다
           </p>
         </div>
@@ -158,8 +158,8 @@ export default function Cases() {
                   onClick={() => setSelectedCategory(cat.id)}
                   className={`px-5 py-2.5 rounded-full whitespace-nowrap font-medium transition-all ${
                     selectedCategory === cat.id
-                      ? "bg-[#E91E7A] text-white shadow-md"
-                      : "bg-[#F8F9FA] text-[#6B7D8C] hover:bg-[#8FA8BA]/20"
+                      ? "bg-[#9A856D] text-white shadow-md"
+                      : "bg-[#F8F3EA] text-[#756A60] hover:bg-[#7C654F]/20"
                   }`}
                 >
                   {cat.label}
@@ -173,7 +173,7 @@ export default function Cases() {
                   setEditingCase(null);
                   setShowEditor(true);
                 }}
-                className="flex items-center gap-2 px-5 py-2.5 bg-[#E91E7A] text-white rounded-full hover:bg-[#d11a6d] transition-colors font-medium whitespace-nowrap"
+                className="flex items-center gap-2 px-5 py-2.5 bg-[#9A856D] text-white rounded-full hover:bg-[#7C654F] transition-colors font-medium whitespace-nowrap"
               >
                 <Plus className="w-5 h-5" />
                 새 사례 작성
@@ -183,14 +183,14 @@ export default function Cases() {
 
           {/* 로딩 상태 */}
           {loading && (
-            <div className="text-center py-12 text-[#8FA8BA]">
+            <div className="text-center py-12 text-[#9A856D]">
               치료사례를 불러오는 중...
             </div>
           )}
 
           {/* 빈 상태 */}
           {!loading && filteredCases.length === 0 && (
-            <div className="text-center py-12 text-[#8FA8BA]">
+            <div className="text-center py-12 text-[#9A856D]">
               작성된 치료사례가 없습니다
             </div>
           )}
@@ -201,7 +201,7 @@ export default function Cases() {
               {filteredCases.map((caseItem) => (
                 <article
                   key={caseItem.id}
-                  className="bg-white rounded-2xl overflow-hidden border border-gray-200 hover:shadow-xl transition-all group cursor-pointer"
+                  className="bg-white rounded-2xl overflow-hidden border border-[#D8CDBE] hover:shadow-xl transition-all group cursor-pointer"
                 >
                   {/* 썸네일 이미지 */}
                   {caseItem.thumbnail && (
@@ -216,15 +216,15 @@ export default function Cases() {
 
                   {/* 콘텐츠 */}
                   <div className="p-6">
-                    <h3 className="text-[#3E5266] mb-3 line-clamp-2 group-hover:text-[#E91E7A] transition-colors">
+                    <h3 className="text-[#6A5542] mb-3 line-clamp-2 group-hover:text-[#9A856D] transition-colors">
                       {caseItem.title}
                     </h3>
-                    <p className="text-sm text-[#6B7D8C] mb-4 line-clamp-3 leading-relaxed">
+                    <p className="text-sm text-[#756A60] mb-4 line-clamp-3 leading-relaxed">
                       {caseItem.content.substring(0, 100)}...
                     </p>
 
                     {/* 메타 정보 */}
-                    <div className="flex items-center justify-between text-xs text-[#8FA8BA] mb-4">
+                    <div className="flex items-center justify-between text-xs text-[#9A856D] mb-4">
                       <span>{new Date(caseItem.created_at).toLocaleDateString('ko-KR')}</span>
                     </div>
 
@@ -237,7 +237,7 @@ export default function Cases() {
                             setEditingCase(caseItem);
                             setShowEditor(true);
                           }}
-                          className="flex items-center gap-1 px-3 py-1.5 bg-[#3E5266] text-white text-xs rounded-lg hover:bg-[#2a3847] transition-colors"
+                          className="flex items-center gap-1 px-3 py-1.5 bg-[#9A856D] text-white text-xs rounded-lg hover:bg-[#7C654F] transition-colors"
                         >
                           <Pencil className="w-3.5 h-3.5" />
                           수정
@@ -256,7 +256,7 @@ export default function Cases() {
                     )}
 
                     {/* 카테고리 뱃지 */}
-                    <div className="inline-block px-3 py-1 bg-[#E91E7A]/10 text-[#E91E7A] text-xs font-medium rounded-full">
+                    <div className="inline-block px-3 py-1 bg-[#F5EFE6] text-[#9A856D] text-xs font-medium rounded-full">
                       {categories.find(c => c.id === caseItem.category)?.label}
                     </div>
                   </div>
@@ -405,12 +405,12 @@ function CaseEditor({ case: caseItem, onClose, onSave }: {
     <div className="min-h-[100dvh] bg-white py-12 px-5">
       <div className="max-w-3xl mx-auto">
         <div className="flex items-center justify-between mb-8">
-          <h2 className="text-[#3E5266]">
+          <h2 className="text-[#6A5542]">
             {caseItem ? '치료사례 수정' : '새 치료사례 작성'}
           </h2>
           <button
             onClick={onClose}
-            className="px-4 py-2 text-[#6B7D8C] hover:text-[#3E5266] transition-colors"
+            className="px-4 py-2 text-[#756A60] hover:text-[#6A5542] transition-colors"
           >
             취소
           </button>
@@ -419,29 +419,29 @@ function CaseEditor({ case: caseItem, onClose, onSave }: {
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* 제목 */}
           <div>
-            <label className="block text-sm font-medium text-[#3E5266] mb-2">
-              제목 <span className="text-[#E91E7A]">*</span>
+            <label className="block text-sm font-medium text-[#6A5542] mb-2">
+              제목 <span className="text-[#9A856D]">*</span>
             </label>
             <input
               type="text"
               required
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E91E7A] focus:border-transparent"
+              className="w-full px-4 py-3 border border-[#D8CDBE] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9A856D] focus:border-transparent"
               placeholder="치료사례 제목을 입력하세요"
             />
           </div>
 
           {/* 카테고리 */}
           <div>
-            <label className="block text-sm font-medium text-[#3E5266] mb-2">
-              클리닉 분류 <span className="text-[#E91E7A]">*</span>
+            <label className="block text-sm font-medium text-[#6A5542] mb-2">
+              클리닉 분류 <span className="text-[#9A856D]">*</span>
             </label>
             <select
               required
               value={formData.category}
               onChange={(e) => setFormData({ ...formData, category: e.target.value as CaseCategoryType })}
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E91E7A] focus:border-transparent"
+              className="w-full px-4 py-3 border border-[#D8CDBE] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9A856D] focus:border-transparent"
             >
               <option value="cancer">뷰티풀 암케어</option>
               <option value="post_surgery">수술 후 회복케어</option>
@@ -452,21 +452,21 @@ function CaseEditor({ case: caseItem, onClose, onSave }: {
 
           {/* 썸네일 URL */}
           <div>
-            <label className="block text-sm font-medium text-[#3E5266] mb-2">
+            <label className="block text-sm font-medium text-[#6A5542] mb-2">
               썸네일 이미지 URL
             </label>
             <input
               type="url"
               value={formData.thumbnail}
               onChange={(e) => setFormData({ ...formData, thumbnail: e.target.value })}
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E91E7A] focus:border-transparent"
+              className="w-full px-4 py-3 border border-[#D8CDBE] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9A856D] focus:border-transparent"
               placeholder="https://example.com/image.jpg"
             />
           </div>
 
           {/* 이미지 업로드 */}
           <div>
-            <label className="block text-sm font-medium text-[#3E5266] mb-2">
+            <label className="block text-sm font-medium text-[#6A5542] mb-2">
               또는 이미지 업로드 (PNG, JPG, WebP, GIF / 최대 5MB)
             </label>
             <div className="space-y-3">
@@ -481,14 +481,14 @@ function CaseEditor({ case: caseItem, onClose, onSave }: {
                 />
                 <label
                   htmlFor="imageUpload"
-                  className={`px-6 py-3 bg-[#3E5266] text-white rounded-xl font-medium hover:bg-[#2a3847] transition-colors cursor-pointer ${
+                  className={`px-6 py-3 bg-[#9A856D] text-white rounded-xl font-medium hover:bg-[#7C654F] transition-colors cursor-pointer ${
                     uploading ? 'opacity-50 cursor-not-allowed' : ''
                   }`}
                 >
                   {uploading ? '업로드 중...' : 'PC에서 선택'}
                 </label>
                 {uploading && (
-                  <span className="text-sm text-[#E91E7A] animate-pulse">
+                  <span className="text-sm text-[#9A856D] animate-pulse">
                     이미지를 업로드하는 중입니다...
                   </span>
                 )}
@@ -496,7 +496,7 @@ function CaseEditor({ case: caseItem, onClose, onSave }: {
               
               {/* 이미지 미리보기 */}
               {formData.thumbnail && (
-                <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden border-2 border-gray-200">
+                <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden border-2 border-[#D8CDBE]">
                   <ImageWithFallback
                     src={formData.thumbnail}
                     alt="썸네일 미리보기"
@@ -517,15 +517,15 @@ function CaseEditor({ case: caseItem, onClose, onSave }: {
 
           {/* 본문 */}
           <div>
-            <label className="block text-sm font-medium text-[#3E5266] mb-2">
-              치료 내용 <span className="text-[#E91E7A]">*</span>
+            <label className="block text-sm font-medium text-[#6A5542] mb-2">
+              치료 내용 <span className="text-[#9A856D]">*</span>
             </label>
             <textarea
               required
               value={formData.content}
               onChange={(e) => setFormData({ ...formData, content: e.target.value })}
               rows={15}
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E91E7A] focus:border-transparent resize-none"
+              className="w-full px-4 py-3 border border-[#D8CDBE] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9A856D] focus:border-transparent resize-none"
               placeholder="치료 과정, 결과, 환자 상태 등을 자세히 작성해주세요"
             />
           </div>
@@ -535,14 +535,14 @@ function CaseEditor({ case: caseItem, onClose, onSave }: {
             <button
               type="submit"
               disabled={saving}
-              className="flex-1 py-4 bg-[#E91E7A] text-white rounded-xl font-medium hover:bg-[#d11a6d] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 py-4 bg-[#9A856D] text-white rounded-xl font-medium hover:bg-[#7C654F] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {saving ? '저장 중...' : (caseItem ? '수정 완료' : '작성 완료')}
             </button>
             <button
               type="button"
               onClick={onClose}
-              className="px-8 py-4 bg-[#F8F9FA] text-[#6B7D8C] rounded-xl font-medium hover:bg-[#8FA8BA]/20 transition-colors"
+              className="px-8 py-4 bg-[#F8F3EA] text-[#756A60] rounded-xl font-medium hover:bg-[#7C654F]/20 transition-colors"
             >
               취소
             </button>

@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { useNavigate } from "react-router";
 import { projectId, publicAnonKey } from "../../../utils/supabase/info";
 import SEOHead from "../../components/seo/SEOHead";
+import { makeBreadcrumbList } from "../../lib/schema/breadcrumb";
 
 interface ReservationForm {
   name: string;
@@ -65,23 +66,24 @@ export default function Reservation() {
   };
 
   const clinicOptions = [
-    "암환자 통합 면역 치료",
-    "중풍·파킨슨병 클리닉",
-    "이명·두통 특화 클리닉",
-    "척추·관절 통증 클리닉",
+    "수술 후 암케어",
+    "항암치료 중 암케어",
+    "방사선치료 중 암케어",
+    "암 면역케어",
+    "기타",
   ];
 
   if (isSubmitted) {
     return (
       <div className="min-h-[100dvh] bg-white flex items-center justify-center px-5">
         <div className="text-center">
-          <div className="w-16 h-16 bg-[#1a2847] rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="w-16 h-16 bg-[#6A5542] rounded-full flex items-center justify-center mx-auto mb-4">
             <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
           </div>
           <h2 className="mb-2">상담 요청이 접수되었습니다</h2>
-          <p className="text-gray-600">
+          <p className="text-[#756A60]">
             영업일 기준 24시간 내에 연락드리겠습니다.
           </p>
         </div>
@@ -97,10 +99,11 @@ export default function Reservation() {
         keywords="한방병원예약,암치료상담,뷰티풀한방병원예약,파주한방병원상담"
         ogUrl="https://www.btful.co.kr/reservation"
         canonical="https://www.btful.co.kr/reservation"
+        jsonLd={makeBreadcrumbList([{ name: "예약·상담", path: "/reservation" }])}
       />
-      <header className="px-5 py-6 border-b border-gray-200">
+      <header className="px-5 py-6 border-b border-[#D8CDBE]">
         <h1>예약 · 상담</h1>
-        <p className="mt-2 text-gray-600">
+        <p className="mt-2 text-[#756A60]">
           간단한 정보를 입력하시면 빠르게 연락드립니다
         </p>
       </header>
@@ -116,7 +119,7 @@ export default function Reservation() {
               id="name"
               type="text"
               {...register("name", { required: "이름을 입력해주세요" })}
-              className="w-full px-4 py-3 bg-[#f5f6f8] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1a2847]"
+              className="w-full px-4 py-3 bg-[#EFE7DC] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9A856D]"
               placeholder="홍길동"
             />
             {errors.name && (
@@ -139,7 +142,7 @@ export default function Reservation() {
                   message: "올바른 전화번호를 입력해주세요"
                 }
               })}
-              className="w-full px-4 py-3 bg-[#f5f6f8] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1a2847]"
+              className="w-full px-4 py-3 bg-[#EFE7DC] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9A856D]"
               placeholder="010-1234-5678"
             />
             {errors.phone && (
@@ -155,7 +158,7 @@ export default function Reservation() {
             <select
               id="clinic"
               {...register("clinic", { required: "클리닉을 선택해주세요" })}
-              className="w-full px-4 py-3 bg-[#f5f6f8] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1a2847]"
+              className="w-full px-4 py-3 bg-[#EFE7DC] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9A856D]"
             >
               <option value="">선택해주세요</option>
               {clinicOptions.map((option) => (
@@ -182,7 +185,7 @@ export default function Reservation() {
                   {...register("visitType", { required: true })}
                   className="sr-only peer"
                 />
-                <div className="px-4 py-3 bg-[#f5f6f8] rounded-xl text-center cursor-pointer peer-checked:bg-[#1a2847] peer-checked:text-white transition-colors">
+                <div className="px-4 py-3 bg-[#EFE7DC] rounded-xl text-center cursor-pointer peer-checked:bg-[#6A5542] peer-checked:text-white transition-colors">
                   외래 진료
                 </div>
               </label>
@@ -193,7 +196,7 @@ export default function Reservation() {
                   {...register("visitType", { required: true })}
                   className="sr-only peer"
                 />
-                <div className="px-4 py-3 bg-[#f5f6f8] rounded-xl text-center cursor-pointer peer-checked:bg-[#1a2847] peer-checked:text-white transition-colors">
+                <div className="px-4 py-3 bg-[#EFE7DC] rounded-xl text-center cursor-pointer peer-checked:bg-[#6A5542] peer-checked:text-white transition-colors">
                   입원 상담
                 </div>
               </label>
@@ -213,7 +216,7 @@ export default function Reservation() {
                   {...register("consultMethod", { required: true })}
                   className="sr-only peer"
                 />
-                <div className="px-4 py-3 bg-[#f5f6f8] rounded-xl text-center cursor-pointer peer-checked:bg-[#1a2847] peer-checked:text-white transition-colors flex flex-col items-center gap-2">
+                <div className="px-4 py-3 bg-[#EFE7DC] rounded-xl text-center cursor-pointer peer-checked:bg-[#6A5542] peer-checked:text-white transition-colors flex flex-col items-center gap-2">
                   <Phone className="w-5 h-5" />
                   <span className="text-sm">전화</span>
                 </div>
@@ -225,7 +228,7 @@ export default function Reservation() {
                   {...register("consultMethod", { required: true })}
                   className="sr-only peer"
                 />
-                <div className="px-4 py-3 bg-[#f5f6f8] rounded-xl text-center cursor-pointer peer-checked:bg-[#FEE500] peer-checked:text-[#3C1E1E] transition-colors flex flex-col items-center gap-2">
+                <div className="px-4 py-3 bg-[#EFE7DC] rounded-xl text-center cursor-pointer peer-checked:bg-[#9A856D] peer-checked:text-white transition-colors flex flex-col items-center gap-2">
                   <MessageCircle className="w-5 h-5" />
                   <span className="text-sm">카카오톡</span>
                 </div>
@@ -237,7 +240,7 @@ export default function Reservation() {
                   {...register("consultMethod", { required: true })}
                   className="sr-only peer"
                 />
-                <div className="px-4 py-3 bg-[#f5f6f8] rounded-xl text-center cursor-pointer peer-checked:bg-[#1a2847] peer-checked:text-white transition-colors flex flex-col items-center gap-2">
+                <div className="px-4 py-3 bg-[#EFE7DC] rounded-xl text-center cursor-pointer peer-checked:bg-[#6A5542] peer-checked:text-white transition-colors flex flex-col items-center gap-2">
                   <span className="text-xl">🏥</span>
                   <span className="text-sm">방문</span>
                 </div>
@@ -254,7 +257,7 @@ export default function Reservation() {
               id="message"
               {...register("message")}
               rows={4}
-              className="w-full px-4 py-3 bg-[#f5f6f8] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1a2847] resize-none"
+              className="w-full px-4 py-3 bg-[#EFE7DC] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9A856D] resize-none"
               placeholder="현재 증상이나 궁금하신 점을 자유롭게 작성해주세요"
             />
           </div>
@@ -269,7 +272,7 @@ export default function Reservation() {
                 })}
                 className="mt-1"
               />
-              <span className="text-sm text-gray-600">
+              <span className="text-sm text-[#756A60]">
                 (필수) 개인정보 수집 및 이용에 동의합니다.<br />
                 수집 항목: 이름, 연락처<br />
                 이용 목적: 상담 및 예약 안내<br />
@@ -284,7 +287,7 @@ export default function Reservation() {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full py-4 bg-[#1a2847] text-white rounded-xl hover:bg-[#233554] transition-colors"
+            className="w-full py-4 bg-[#8BC31F] text-white rounded-xl hover:bg-[#75A915] transition-colors"
             disabled={isSubmitting}
           >
             {isSubmitting ? '처리 중...' : '상담 요청 보내기'}
@@ -294,15 +297,15 @@ export default function Reservation() {
 
       {/* Quick Contact */}
       <div className="px-5 pb-8">
-        <div className="p-5 bg-[#f5f6f8] rounded-xl">
+        <div className="p-5 bg-[#EFE7DC] rounded-xl">
           <h3 className="mb-3">빠른 상담</h3>
-          <p className="text-sm text-gray-600 mb-4">
+          <p className="text-sm text-[#756A60] mb-4">
             급하신 경우 바로 연락주세요
           </p>
           <div className="flex gap-3">
             <a
               href="tel:031-945-2000"
-              className="w-full py-3 bg-[#3E5266] text-white rounded-xl flex items-center justify-center gap-2 hover:bg-[#2d3d4d] transition-colors"
+              className="w-full py-3 bg-[#9A856D] text-white rounded-xl flex items-center justify-center gap-2 hover:bg-[#7C654F] transition-colors"
             >
               <Phone className="w-5 h-5" />
               <span>전화하기</span>

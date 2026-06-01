@@ -1,5 +1,9 @@
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /my-consultations
+Disallow: /my-results
+Disallow: /my-reports
 
 # 네이버 봇
 User-agent: Yeti
@@ -9,7 +13,7 @@ Allow: /
 User-agent: Googlebot
 Allow: /
 
-# AI 검색 크롤러
+# AI 검색 크롤러 — 명시적 허용
 User-agent: GPTBot
 Allow: /
 
@@ -22,11 +26,16 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
-User-agent: Bingbot
-Allow: /
-
 User-agent: ClaudeBot
 Allow: /
 
-Sitemap: https://www.btful.co.kr/sitemap.xml
+User-agent: Bingbot
+Allow: /
 
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+Sitemap: https://www.btful.co.kr/sitemap.xml

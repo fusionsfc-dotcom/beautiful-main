@@ -45,17 +45,17 @@ export default function MyConsultations() {
     <div className="min-h-[100dvh] bg-white py-8 px-4">
       <div className="max-w-4xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-2xl lg:text-3xl font-semibold text-[#1a2847] mb-2">
+          <h1 className="text-2xl lg:text-3xl font-semibold text-[#2F2A26] mb-2">
             내 상담 내역
           </h1>
-          <p className="text-gray-600">지금까지의 상담 기록을 확인하세요</p>
+          <p className="text-[#756A60]">지금까지의 상담 기록을 확인하세요</p>
         </div>
 
         <div className="space-y-4">
           {mockConsultations.map((consultation) => (
             <div
               key={consultation.id}
-              className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow"
+              className="bg-white border border-[#D8CDBE] rounded-lg p-6 hover:shadow-md transition-shadow"
             >
               <div className="flex items-start justify-between mb-4">
                 <div>
@@ -63,19 +63,19 @@ export default function MyConsultations() {
                     className={`inline-block px-3 py-1 text-xs font-medium rounded-full mb-2 ${
                       consultation.status === "완료"
                         ? "bg-green-50 text-green-700"
-                        : "bg-blue-50 text-blue-700"
+                        : "bg-[#F5EFE6] text-[#7C654F]"
                     }`}
                   >
                     {consultation.status}
                   </span>
-                  <h3 className="font-semibold text-[#1a2847] mb-1">
+                  <h3 className="font-semibold text-[#2F2A26] mb-1">
                     {consultation.type}
                   </h3>
-                  <p className="text-sm text-gray-600">{consultation.doctor}</p>
+                  <p className="text-sm text-[#756A60]">{consultation.doctor}</p>
                 </div>
               </div>
 
-              <div className="space-y-2 text-sm text-gray-600">
+              <div className="space-y-2 text-sm text-[#756A60]">
                 <div className="flex items-center gap-2">
                   <Calendar className="w-4 h-4 text-gray-400" />
                   <span>{consultation.date}</span>
@@ -92,10 +92,10 @@ export default function MyConsultations() {
 
               {consultation.status === "예정" && (
                 <div className="mt-4 pt-4 border-t border-gray-100 flex gap-2">
-                  <button className="flex-1 bg-[#1a2847] text-white py-2 rounded-md text-sm hover:bg-[#243554] transition-colors">
+                  <button className="flex-1 bg-[#9A856D] text-white py-2 rounded-md text-sm hover:bg-[#7C654F] transition-colors">
                     상담 변경
                   </button>
-                  <button className="px-4 border border-gray-300 text-gray-600 py-2 rounded-md text-sm hover:bg-gray-50 transition-colors">
+                  <button className="px-4 border border-[#D8CDBE] text-[#756A60] py-2 rounded-md text-sm hover:bg-[#F8F3EA] transition-colors">
                     <Phone className="w-4 h-4" />
                   </button>
                 </div>
@@ -104,14 +104,6 @@ export default function MyConsultations() {
           ))}
         </div>
 
-        <div className="mt-8 text-center">
-          <button
-            onClick={() => navigate("/reservation")}
-            className="bg-[#1a2847] text-white px-6 py-2.5 rounded-md hover:bg-[#243554] transition-colors"
-          >
-            새 상담 예약하기
-          </button>
-        </div>
       </div>
     </div>
   );

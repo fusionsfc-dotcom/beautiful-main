@@ -14,6 +14,15 @@ import MyReports from "./pages/MyReports";
 import About from "./pages/About";
 import Admin from "./pages/Admin";
 import ErrorPage from "./pages/ErrorPage";
+import RehabExercise from "./pages/program/RehabExercise";
+import IntegratedCare from "./pages/program/IntegratedCare";
+import TbtTherapy from "./pages/program/TbtTherapy";
+import BrandStory from "./pages/intro/BrandStory";
+import AntiCancerNutrition from "./pages/program/AntiCancerNutrition";
+import TreatmentDetail from "./pages/program/treatments/TreatmentDetail";
+import Why from "./pages/Why";
+import CancerTypes from "./pages/cancer/CancerTypes";
+import CancerIntro from "./pages/cancer/CancerIntro";
 
 export const router = createBrowserRouter([
   {
@@ -22,6 +31,7 @@ export const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       { index: true, Component: Home },
+      { path: "why", Component: Why },
       { path: "clinics", Component: Clinics },
       { path: "clinics/:id", Component: ClinicDetail },
       { path: "facilities", Component: Facilities },
@@ -34,6 +44,14 @@ export const router = createBrowserRouter([
       { path: "my-reports", Component: MyReports },
       { path: "about", Component: About },
       { path: "admin", Component: Admin },
+      { path: "program/rehab", Component: RehabExercise },
+      { path: "program/integrated", Component: IntegratedCare },
+      { path: "program/tbt", Component: TbtTherapy },
+      { path: "intro/story", Component: BrandStory },
+      { path: "program/nutrition", Component: AntiCancerNutrition },
+      { path: "program/integrated/:slug", Component: TreatmentDetail },
+      { path: "cancer/types", Component: CancerTypes },
+      { path: "cancer/intro", Component: CancerIntro },
       { path: "*", Component: ErrorPage },
     ],
   },

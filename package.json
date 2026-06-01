@@ -4,14 +4,20 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "build": "vite build && node scripts/prerender.mjs",
-    "build:only": "vite build",
+    "build": "vite build",
+    "build:prerender": "vite build && node scripts/prerender.mjs",
     "dev": "vite",
     "prerender": "node scripts/prerender.mjs",
     "upload-images": "node scripts/upload-images.mjs",
-    "setup-storage": "node scripts/setup-supabase-storage.mjs"
+    "setup-storage": "node scripts/setup-supabase-storage.mjs",
+    "geo:measure": "npx tsx scripts/geo-monitoring/measure.ts",
+    "geo:compare": "npx tsx scripts/geo-monitoring/compare.ts",
+    "geo:monitor": "npx tsx scripts/geo-monitoring/monitor.ts",
+    "geo:dry-run": "npx tsx scripts/geo-monitoring/monitor.ts --dry-run",
+    "geo:verify": "npx tsx scripts/geo-monitoring/verify-deployment.ts"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.91.1",
     "@emotion/react": "11.14.0",
     "@emotion/styled": "11.14.1",
     "@mui/icons-material": "7.3.5",
