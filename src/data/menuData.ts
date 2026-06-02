@@ -52,8 +52,8 @@ export const menuCategories: MenuCategory[] = [
     badge: "HOT",
     defaultOpen: true,
     items: [
-      { label: "자필 후기", href: "/cases" },
-      { label: "영상 후기", href: "/cases" },
+      { label: "자필 후기", href: "/cases?tab=review" },
+      { label: "영상 후기", href: "/cases?tab=review" },
     ],
   },
   {

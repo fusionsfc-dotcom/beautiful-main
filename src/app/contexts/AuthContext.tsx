@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect, ReactNode } from "react
 import { supabase } from "../../lib/supabase";
 import { User, Session } from "@supabase/supabase-js";
 import { projectId, publicAnonKey } from "../../../utils/supabase/info";
+import { isAdminEmail } from "../../lib/adminAccess";
 
 interface AuthContextType {
   user: User | null;
@@ -74,7 +75,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       if (error) {
         console.error('❌ 프로필 로드 실패:', error);
-        
+
+        if (isAdminEmail(sessionData.session?.user?.email)) {
+          console.warn('⚠️ profiles 조회 실패 — 관리자 이메일 폴백 적용');
+          setProfile({ role: 'admin' });
+          return;
+        }
+
         // If profile doesn't exist, call ensure-profile endpoint
         if (error.code === 'PGRST116') {
           console.log('🔧 프로필이 없습니다. 자동 생성 시도...');
@@ -208,7 +215,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         session,
         profile,
         isAuthenticated: !!user,
-        isAdmin: profile?.role === 'admin',
+        isAdmin: profile?.role === 'admin' || isAdminEmail(user?.email),
         loading,
         accessToken,
         signUp,

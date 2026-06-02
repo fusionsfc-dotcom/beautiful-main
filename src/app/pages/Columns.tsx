@@ -25,6 +25,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { toast } from "sonner";
 import SEOHead from "../../components/seo/SEOHead";
 import { makeBreadcrumbList } from "../../lib/schema/breadcrumb";
+import { uploadAdminImage, validateImageFile } from "../../lib/uploadAdminImage";
 
 type MainTabType = "gallery" | "columns" | "videos" | "faq" | "question";
 type ColumnCategoryType = "cancer" | "gynecologic_cancer" | "gastro_cancer" | "lung_cancer" | "liver_cancer" | "other_cancer";
@@ -814,7 +815,7 @@ function ColumnEditor({ column, onClose, onSave }: {
   onClose: () => void; 
   onSave: () => void;
 }) {
-  const { user } = useAuth();
+  const { user, isAdmin } = useAuth();
   const [formData, setFormData] = useState({
     title: column?.title || '',
     summary: column?.summary || '',
@@ -829,61 +830,34 @@ function ColumnEditor({ column, onClose, onSave }: {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Validate file type
-    const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp', 'image/gif'];
-    if (!allowedTypes.includes(file.type)) {
-      toast.error('이미지 파일만 업로드 가능합니다 (PNG, JPG, WebP, GIF)');
+    const validationError = validateImageFile(file);
+    if (validationError) {
+      toast.error(validationError);
       return;
     }
 
-    // Validate file size (5MB)
-    if (file.size > 5242880) {
-      toast.error('파일 크기는 5MB 이하여야 합니다');
+    if (!user) {
+      toast.error("로그인이 필요합니다");
       return;
     }
 
-    // ✅ Admin 인증 확인
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session?.access_token) {
-      toast.error('로그인이 필요합니다');
+    if (!isAdmin) {
+      toast.error("관리자만 이미지를 업로드할 수 있습니다");
       return;
     }
 
     try {
       setUploading(true);
-      console.log('📤 이미지 업로드 시작:', file.name, file.type, file.size);
-      console.log('🔑 사용하는 토큰: JWT (session.access_token)');
-      
-      const formData = new FormData();
-      formData.append('file', file);
-
-      const url = `https://${projectId}.supabase.co/functions/v1/make-server-ee767080/upload-image`;
-      console.log('🔗 업로드 URL:', url);
-
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${session.access_token}`, // ✅ 진짜 JWT 사용
-        },
-        body: formData,
-      });
-
-      console.log('📨 응답 상태:', response.status, response.statusText);
-
-      const result = await response.json();
-      console.log('📦 응답 데이터:', result);
-
-      if (!response.ok) {
-        throw new Error(result.error || `업로드 실패 (${response.status})`);
-      }
-
-      setFormData(prev => ({ ...prev, thumbnail: result.url }));
-      toast.success('이미지가 업로드되었습니다');
-    } catch (error: any) {
-      console.error('❌ 이미지 업로드 실패:', error);
-      toast.error(error.message || '이미지 업로드에 실패했습니다');
+      const publicUrl = await uploadAdminImage(file, "columns");
+      setFormData((prev) => ({ ...prev, thumbnail: publicUrl }));
+      toast.success("이미지가 업로드되었습니다");
+    } catch (error: unknown) {
+      console.error("❌ 이미지 업로드 실패:", error);
+      const message = error instanceof Error ? error.message : "이미지 업로드에 실패했습니다";
+      toast.error(message);
     } finally {
       setUploading(false);
+      e.target.value = "";
     }
   };
 

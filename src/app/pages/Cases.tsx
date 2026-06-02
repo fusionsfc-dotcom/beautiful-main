@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router";
 import {
   FileText,
   Plus,
@@ -10,31 +11,39 @@ import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { supabase, Case } from "../../lib/supabase";
 import { useAuth } from "../contexts/AuthContext";
 import { toast } from "sonner";
-import { projectId, publicAnonKey } from "../../../utils/supabase/info";
 import SEOHead from "../../components/seo/SEOHead";
+import { uploadAdminImage, validateImageFile } from "../../lib/uploadAdminImage";
 import { makeBreadcrumbList } from "../../lib/schema/breadcrumb";
+import {
+  CASES_TAB_CATEGORIES,
+  REVIEW_CATEGORY_ID,
+  getCaseCategoryLabel,
+  isReviewPost,
+  type CasePostCategoryId,
+  type ClinicCaseCategoryId,
+} from "../../data/caseCategories";
 
-type CaseCategoryType = "cancer" | "post_surgery" | "chemotherapy" | "radiation";
+type CasesTabId = "all" | typeof REVIEW_CATEGORY_ID | ClinicCaseCategoryId;
 
 export default function Cases() {
   const { isAdmin } = useAuth();
-  const [selectedCategory, setSelectedCategory] = useState<CaseCategoryType | "all">("all");
+  const [searchParams] = useSearchParams();
+  const [selectedCategory, setSelectedCategory] = useState<CasesTabId>("all");
   const [cases, setCases] = useState<Case[]>([]);
   const [loading, setLoading] = useState(true);
   const [showEditor, setShowEditor] = useState(false);
   const [editingCase, setEditingCase] = useState<Case | null>(null);
-
-  const categories = [
-    { id: "all" as const, label: "전체" },
-    { id: "cancer" as CaseCategoryType, label: "뷰티풀 암케어" },
-    { id: "post_surgery" as CaseCategoryType, label: "수술 후 회복케어" },
-    { id: "chemotherapy" as CaseCategoryType, label: "항암치료 환자 케어" },
-    { id: "radiation" as CaseCategoryType, label: "방사선치료 환자 케어" },
-  ];
+  const [editorKind, setEditorKind] = useState<"case" | "review">("case");
 
   useEffect(() => {
     loadCases();
   }, []);
+
+  useEffect(() => {
+    if (searchParams.get("tab") === "review") {
+      setSelectedCategory(REVIEW_CATEGORY_ID);
+    }
+  }, [searchParams]);
 
   const loadCases = async () => {
     try {
@@ -81,14 +90,32 @@ export default function Cases() {
     }
   };
 
-  const filteredCases = selectedCategory === "all" 
-    ? cases 
-    : cases.filter(c => c.category === selectedCategory);
+  const isReviewsTab = selectedCategory === REVIEW_CATEGORY_ID;
+
+  const filteredCases =
+    selectedCategory === "all"
+      ? cases.filter((c) => !isReviewPost(c.category))
+      : cases.filter((c) => c.category === selectedCategory);
+
+  const openEditor = (item: Case | null) => {
+    const kind =
+      item != null
+        ? isReviewPost(item.category)
+          ? "review"
+          : "case"
+        : isReviewsTab
+          ? "review"
+          : "case";
+    setEditorKind(kind);
+    setEditingCase(item);
+    setShowEditor(true);
+  };
 
   if (showEditor) {
     return (
       <CaseEditor
         case={editingCase}
+        contentKind={editorKind}
         onClose={() => {
           setShowEditor(false);
           setEditingCase(null);
@@ -152,10 +179,10 @@ export default function Cases() {
           {/* 상단 필터 및 작성 버튼 */}
           <div className="flex items-center justify-between gap-4 flex-wrap">
             <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-2 flex-1">
-              {categories.map((cat) => (
+              {CASES_TAB_CATEGORIES.map((cat) => (
                 <button
                   key={cat.id}
-                  onClick={() => setSelectedCategory(cat.id)}
+                  onClick={() => setSelectedCategory(cat.id as CasesTabId)}
                   className={`px-5 py-2.5 rounded-full whitespace-nowrap font-medium transition-all ${
                     selectedCategory === cat.id
                       ? "bg-[#9A856D] text-white shadow-md"
@@ -169,14 +196,11 @@ export default function Cases() {
 
             {isAdmin && (
               <button
-                onClick={() => {
-                  setEditingCase(null);
-                  setShowEditor(true);
-                }}
+                onClick={() => openEditor(null)}
                 className="flex items-center gap-2 px-5 py-2.5 bg-[#9A856D] text-white rounded-full hover:bg-[#7C654F] transition-colors font-medium whitespace-nowrap"
               >
                 <Plus className="w-5 h-5" />
-                새 사례 작성
+                {isReviewsTab ? "새 후기 작성" : "새 사례 작성"}
               </button>
             )}
           </div>
@@ -184,18 +208,18 @@ export default function Cases() {
           {/* 로딩 상태 */}
           {loading && (
             <div className="text-center py-12 text-[#9A856D]">
-              치료사례를 불러오는 중...
+              {isReviewsTab ? "치료후기를 불러오는 중..." : "치료사례를 불러오는 중..."}
             </div>
           )}
 
           {/* 빈 상태 */}
           {!loading && filteredCases.length === 0 && (
             <div className="text-center py-12 text-[#9A856D]">
-              작성된 치료사례가 없습니다
+              {isReviewsTab ? "작성된 치료후기가 없습니다" : "작성된 치료사례가 없습니다"}
             </div>
           )}
 
-          {/* 카드형 콘텐츠 UI */}
+          {/* 카드형 게시판 UI */}
           {!loading && filteredCases.length > 0 && (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredCases.map((caseItem) => (
@@ -234,8 +258,7 @@ export default function Cases() {
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            setEditingCase(caseItem);
-                            setShowEditor(true);
+                            openEditor(caseItem);
                           }}
                           className="flex items-center gap-1 px-3 py-1.5 bg-[#9A856D] text-white text-xs rounded-lg hover:bg-[#7C654F] transition-colors"
                         >
@@ -257,7 +280,7 @@ export default function Cases() {
 
                     {/* 카테고리 뱃지 */}
                     <div className="inline-block px-3 py-1 bg-[#F5EFE6] text-[#9A856D] text-xs font-medium rounded-full">
-                      {categories.find(c => c.id === caseItem.category)?.label}
+                      {getCaseCategoryLabel(caseItem.category)}
                     </div>
                   </div>
                 </article>
@@ -270,18 +293,27 @@ export default function Cases() {
   );
 }
 
-// 치료사례 에디터 컴포넌트
-function CaseEditor({ case: caseItem, onClose, onSave }: { 
-  case: Case | null; 
-  onClose: () => void; 
+// 치료사례·치료후기 게시글 에디터
+function CaseEditor({
+  case: caseItem,
+  contentKind,
+  onClose,
+  onSave,
+}: {
+  case: Case | null;
+  contentKind: "case" | "review";
+  onClose: () => void;
   onSave: () => void;
 }) {
-  const { user } = useAuth();
+  const { user, isAdmin } = useAuth();
+  const isReview = contentKind === "review" || (caseItem != null && isReviewPost(caseItem.category));
+  const defaultCategory: CasePostCategoryId = isReview ? REVIEW_CATEGORY_ID : "cancer";
+
   const [formData, setFormData] = useState({
-    title: caseItem?.title || '',
-    content: caseItem?.content || '',
-    category: caseItem?.category || 'cancer' as CaseCategoryType,
-    thumbnail: caseItem?.thumbnail || '',
+    title: caseItem?.title || "",
+    content: caseItem?.content || "",
+    category: (caseItem?.category || defaultCategory) as CasePostCategoryId,
+    thumbnail: caseItem?.thumbnail || "",
   });
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -290,62 +322,34 @@ function CaseEditor({ case: caseItem, onClose, onSave }: {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Validate file type
-    const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp', 'image/gif'];
-    if (!allowedTypes.includes(file.type)) {
-      toast.error('이미지 파일만 업로드 가능합니다 (PNG, JPG, WebP, GIF)');
+    const validationError = validateImageFile(file);
+    if (validationError) {
+      toast.error(validationError);
       return;
     }
 
-    // Validate file size (5MB)
-    if (file.size > 5242880) {
-      toast.error('파일 크기는 5MB 이하여야 합니다');
+    if (!user) {
+      toast.error("로그인이 필요합니다");
       return;
     }
 
-    // ✅ Admin 인증 확인
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session?.access_token) {
-      toast.error('로그인이 필요합니다');
+    if (!isAdmin) {
+      toast.error("관리자만 이미지를 업로드할 수 있습니다");
       return;
     }
 
     try {
       setUploading(true);
-      console.log('📤 이미지 업로드 시작:', file.name, file.type, file.size);
-      console.log('🔑 사용하는 토큰: JWT (session.access_token)');
-      
-      const uploadFormData = new FormData();
-      uploadFormData.append('file', file);
-      uploadFormData.append('folder', 'cases'); // cases 폴더에 업로드
-
-      const url = `https://${projectId}.supabase.co/functions/v1/make-server-ee767080/upload-image`;
-      console.log('🔗 업로드 URL:', url);
-
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${session.access_token}`, // ✅ 진짜 JWT 사용
-        },
-        body: uploadFormData,
-      });
-
-      console.log('📨 응답 상태:', response.status, response.statusText);
-
-      const result = await response.json();
-      console.log('📦 응답 데이터:', result);
-
-      if (!response.ok) {
-        throw new Error(result.error || `업로드 실패 (${response.status})`);
-      }
-
-      setFormData(prev => ({ ...prev, thumbnail: result.url }));
-      toast.success('이미지가 업로드되었습니다');
-    } catch (error: any) {
-      console.error('❌ 이미지 업로드 실패:', error);
-      toast.error(error.message || '이미지 업로드에 실패했습니다');
+      const publicUrl = await uploadAdminImage(file, "cases");
+      setFormData((prev) => ({ ...prev, thumbnail: publicUrl }));
+      toast.success("이미지가 업로드되었습니다");
+    } catch (error: unknown) {
+      console.error("❌ 이미지 업로드 실패:", error);
+      const message = error instanceof Error ? error.message : "이미지 업로드에 실패했습니다";
+      toast.error(message);
     } finally {
       setUploading(false);
+      e.target.value = "";
     }
   };
 
@@ -362,6 +366,8 @@ function CaseEditor({ case: caseItem, onClose, onSave }: {
       console.log('💾 치료사례 저장 시작:', caseItem ? '수정' : '작성');
       console.log('📦 데이터:', formData);
 
+      const category = isReview ? REVIEW_CATEGORY_ID : formData.category;
+
       if (caseItem) {
         // 수정
         const { error } = await supabase
@@ -369,7 +375,7 @@ function CaseEditor({ case: caseItem, onClose, onSave }: {
           .update({
             title: formData.title,
             content: formData.content,
-            category: formData.category,
+            category,
             thumbnail: formData.thumbnail,
           })
           .eq('id', caseItem.id);
@@ -383,7 +389,7 @@ function CaseEditor({ case: caseItem, onClose, onSave }: {
           .insert({
             title: formData.title,
             content: formData.content,
-            category: formData.category,
+            category,
             thumbnail: formData.thumbnail,
             author_id: user.id,
           });
@@ -406,7 +412,13 @@ function CaseEditor({ case: caseItem, onClose, onSave }: {
       <div className="max-w-3xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <h2 className="text-[#6A5542]">
-            {caseItem ? '치료사례 수정' : '새 치료사례 작성'}
+            {caseItem
+              ? isReview
+                ? "치료후기 수정"
+                : "치료사례 수정"
+              : isReview
+                ? "새 치료후기 작성"
+                : "새 치료사례 작성"}
           </h2>
           <button
             onClick={onClose}
@@ -428,27 +440,31 @@ function CaseEditor({ case: caseItem, onClose, onSave }: {
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
               className="w-full px-4 py-3 border border-[#D8CDBE] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9A856D] focus:border-transparent"
-              placeholder="치료사례 제목을 입력하세요"
+              placeholder={isReview ? "치료후기 제목을 입력하세요" : "치료사례 제목을 입력하세요"}
             />
           </div>
 
           {/* 카테고리 */}
-          <div>
-            <label className="block text-sm font-medium text-[#6A5542] mb-2">
-              클리닉 분류 <span className="text-[#9A856D]">*</span>
-            </label>
-            <select
-              required
-              value={formData.category}
-              onChange={(e) => setFormData({ ...formData, category: e.target.value as CaseCategoryType })}
-              className="w-full px-4 py-3 border border-[#D8CDBE] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9A856D] focus:border-transparent"
-            >
-              <option value="cancer">뷰티풀 암케어</option>
-              <option value="post_surgery">수술 후 회복케어</option>
-              <option value="chemotherapy">항암치료 환자 케어</option>
-              <option value="radiation">방사선치료 환자 케어</option>
-            </select>
-          </div>
+          {!isReview && (
+            <div>
+              <label className="block text-sm font-medium text-[#6A5542] mb-2">
+                클리닉 분류 <span className="text-[#9A856D]">*</span>
+              </label>
+              <select
+                required
+                value={formData.category}
+                onChange={(e) =>
+                  setFormData({ ...formData, category: e.target.value as CasePostCategoryId })
+                }
+                className="w-full px-4 py-3 border border-[#D8CDBE] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9A856D] focus:border-transparent"
+              >
+                <option value="cancer">뷰티풀 암케어</option>
+                <option value="post_surgery">수술 후 회복케어</option>
+                <option value="chemotherapy">항암치료 환자 케어</option>
+                <option value="radiation">방사선치료 환자 케어</option>
+              </select>
+            </div>
+          )}
 
           {/* 썸네일 URL */}
           <div>
@@ -526,7 +542,11 @@ function CaseEditor({ case: caseItem, onClose, onSave }: {
               onChange={(e) => setFormData({ ...formData, content: e.target.value })}
               rows={15}
               className="w-full px-4 py-3 border border-[#D8CDBE] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9A856D] focus:border-transparent resize-none"
-              placeholder="치료 과정, 결과, 환자 상태 등을 자세히 작성해주세요"
+              placeholder={
+                isReview
+                  ? "환자 후기, 치료 경험, 회복 소감 등을 자세히 작성해주세요"
+                  : "치료 과정, 결과, 환자 상태 등을 자세히 작성해주세요"
+              }
             />
           </div>
 

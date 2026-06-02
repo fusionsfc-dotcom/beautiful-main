@@ -5,6 +5,16 @@ import { Case } from "../../lib/supabase";
 import { useNavigate } from "react-router";
 import { Plus, Edit2, Trash2, Save, X } from "lucide-react";
 import { toast } from "sonner";
+import {
+  CLINIC_CASE_CATEGORIES,
+  REVIEW_CATEGORY_ID,
+  getCaseCategoryLabel,
+} from "../../data/caseCategories";
+
+const ADMIN_CATEGORIES = [
+  { id: REVIEW_CATEGORY_ID, label: "치료후기" },
+  ...CLINIC_CASE_CATEGORIES,
+];
 
 export default function Admin() {
   const { isAuthenticated, isAdmin, loading: authLoading } = useAuth();
@@ -16,16 +26,9 @@ export default function Admin() {
     title: '',
     content: '',
     thumbnail: '',
-    category: '항암 중·후 회복',
+    category: "cancer",
   });
   const navigate = useNavigate();
-
-  const categories = [
-    '항암 중·후 회복',
-    '중풍·파킨슨병 재활',
-    '이명·두통·어지럼',
-    '척추·관절 통증',
-  ];
 
   useEffect(() => {
     if (!authLoading) {
@@ -93,7 +96,7 @@ export default function Admin() {
 
       setShowForm(false);
       setEditingId(null);
-      setFormData({ title: '', content: '', thumbnail: '', category: '항암 중·후 회복' });
+      setFormData({ title: "", content: "", thumbnail: "", category: "cancer" });
       loadCases();
     } catch (error: any) {
       console.error('저장 실패:', error);
@@ -147,8 +150,8 @@ export default function Admin() {
         {/* 헤더 */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-[#6A5542]">치료사례 관리</h1>
-            <p className="text-[#756A60] mt-2">치료사례를 작성하고 관리하세요</p>
+            <h1 className="text-[#6A5542]">치료사례·치료후기 관리</h1>
+            <p className="text-[#756A60] mt-2">치료사례와 치료후기 게시글을 작성하고 관리하세요</p>
           </div>
           {!showForm && (
             <button
@@ -201,9 +204,9 @@ export default function Admin() {
                   onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                   className="w-full px-4 py-2 border border-[#D8CDBE] rounded-md focus:outline-none focus:ring-2 focus:ring-[#9A856D]"
                 >
-                  {categories.map((cat) => (
-                    <option key={cat} value={cat}>
-                      {cat}
+                  {ADMIN_CATEGORIES.map((cat) => (
+                    <option key={cat.id} value={cat.id}>
+                      {cat.label}
                     </option>
                   ))}
                 </select>
@@ -273,7 +276,7 @@ export default function Admin() {
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex-1">
                     <div className="inline-block px-3 py-1 bg-[#F5EFE6] text-[#9A856D] text-xs font-medium rounded-full mb-2">
-                      {caseItem.category}
+                      {getCaseCategoryLabel(caseItem.category)}
                     </div>
                     <h3 className="text-[#6A5542] mb-2">{caseItem.title}</h3>
                     <p className="text-[#756A60] text-sm line-clamp-2 mb-3">

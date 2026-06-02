@@ -70,35 +70,61 @@ async function verifyJWTAndGetUser(token: string) {
   }
 }
 
-// Helper function to check if user is admin (using profiles.role)
-async function isUserAdmin(userId: string): Promise<{ isAdmin: boolean; error: string | null }> {
+function getAdminEmails(): string[] {
+  return (Deno.env.get('ADMIN_EMAILS') || 'admin@beautiful.com')
+    .split(',')
+    .map((e: string) => e.trim().toLowerCase())
+    .filter(Boolean);
+}
+
+function isAdminEmail(email: string | null | undefined): boolean {
+  if (!email) return false;
+  return getAdminEmails().includes(email.toLowerCase());
+}
+
+async function isUserAdmin(
+  userId: string,
+  userEmail?: string | null,
+): Promise<{ isAdmin: boolean; error: string | null }> {
   try {
     console.log('🔍 Checking admin status for user ID:', userId);
-    
-    // Use SERVICE_ROLE_KEY client to query profiles (bypasses RLS)
+
+    if (!Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')) {
+      console.warn('⚠️ SUPABASE_SERVICE_ROLE_KEY missing — using email fallback only');
+      if (isAdminEmail(userEmail)) {
+        return { isAdmin: true, error: null };
+      }
+      return { isAdmin: false, error: 'Service role key not configured' };
+    }
+
     const { data: profile, error } = await supabase
       .from('profiles')
       .select('role')
       .eq('id', userId)
       .single();
-    
+
     if (error) {
       console.error('❌ Error fetching profile:', error.message);
+      if (isAdminEmail(userEmail)) {
+        console.warn('⚠️ profiles query failed; admin granted via email fallback');
+        return { isAdmin: true, error: null };
+      }
       return { isAdmin: false, error: error.message };
     }
-    
+
     if (!profile) {
-      console.error('❌ Profile not found for user:', userId);
+      if (isAdminEmail(userEmail)) {
+        return { isAdmin: true, error: null };
+      }
       return { isAdmin: false, error: 'Profile not found' };
     }
-    
-    const isAdmin = profile.role === 'admin';
-    console.log('👤 User role:', profile.role);
-    console.log('🔐 Is admin?', isAdmin);
-    
+
+    const isAdmin = profile.role === 'admin' || isAdminEmail(userEmail);
     return { isAdmin, error: null };
   } catch (err: any) {
-    console.error('❌ Exception checking admin status:', err.message);
+    if (isAdminEmail(userEmail)) {
+      return { isAdmin: true, error: null };
+    }
     return { isAdmin: false, error: err.message };
   }
 }
@@ -370,7 +396,7 @@ app.post("/make-server-ee767080/upload-image", async (c) => {
     
     // ✅ Check admin status
     console.log('🔍 Checking admin status for image upload...');
-    const { isAdmin, error: adminError } = await isUserAdmin(user.id);
+    const { isAdmin, error: adminError } = await isUserAdmin(user.id, user.email);
     
     if (adminError) {
       console.error('❌ Error checking admin status:', adminError);
@@ -518,7 +544,7 @@ app.post("/make-server-ee767080/cases", async (c) => {
     // Check admin status using profiles.role
     console.log('🔍 Checking admin status from profiles table...');
     
-    const { isAdmin, error: adminError } = await isUserAdmin(user.id);
+    const { isAdmin, error: adminError } = await isUserAdmin(user.id, user.email);
     
     if (adminError) {
       console.error('❌ Error checking admin status:', adminError);
@@ -587,7 +613,7 @@ app.put("/make-server-ee767080/cases/:id", async (c) => {
 
     // Check admin status using profiles.role
     console.log('🔍 Checking admin status...');
-    const { isAdmin, error: adminError } = await isUserAdmin(user.id);
+    const { isAdmin, error: adminError } = await isUserAdmin(user.id, user.email);
     
     if (adminError) {
       console.error('❌ Error checking admin status:', adminError);
@@ -656,7 +682,7 @@ app.delete("/make-server-ee767080/cases/:id", async (c) => {
 
     // Check admin status using profiles.role
     console.log('🔍 Checking admin status...');
-    const { isAdmin, error: adminError } = await isUserAdmin(user.id);
+    const { isAdmin, error: adminError } = await isUserAdmin(user.id, user.email);
     
     if (adminError) {
       console.error('❌ Error checking admin status:', adminError);
@@ -733,7 +759,7 @@ app.post("/make-server-ee767080/gallery", async (c) => {
     const { user, error: authError } = await verifyJWTAndGetUser(token);
     if (authError || !user) return c.json({ error: 'Unauthorized' }, 401);
 
-    const { isAdmin, error: adminError } = await isUserAdmin(user.id);
+    const { isAdmin, error: adminError } = await isUserAdmin(user.id, user.email);
     if (adminError) return c.json({ error: `Error verifying permissions: ${adminError}` }, 500);
     if (!isAdmin) return c.json({ error: 'Admin access required' }, 403);
 
@@ -774,7 +800,7 @@ app.delete("/make-server-ee767080/gallery/:id", async (c) => {
     const { user, error: authError } = await verifyJWTAndGetUser(token);
     if (authError || !user) return c.json({ error: 'Unauthorized' }, 401);
 
-    const { isAdmin, error: adminError } = await isUserAdmin(user.id);
+    const { isAdmin, error: adminError } = await isUserAdmin(user.id, user.email);
     if (adminError) return c.json({ error: `Error verifying permissions: ${adminError}` }, 500);
     if (!isAdmin) return c.json({ error: 'Admin access required' }, 403);
 
@@ -980,7 +1006,7 @@ app.delete("/make-server-ee767080/questions/:id", async (c) => {
     // Check if user is author or admin
     const isAuthor = question.author_id === user.id;
     let isAdmin = false;
-    const { isAdmin: profileAdmin, error: adminError } = await isUserAdmin(user.id);
+    const { isAdmin: profileAdmin, error: adminError } = await isUserAdmin(user.id, user.email);
 
     if (adminError) {
       console.warn('⚠️ Profile check failed, trying email fallback:', adminError);
@@ -1225,7 +1251,7 @@ app.post('/make-server-ee767080/notices', async (c) => {
     
     // Check admin status using profiles.role
     console.log('🔍 Checking admin status from profiles table...');
-    const { isAdmin, error: adminError } = await isUserAdmin(user.id);
+    const { isAdmin, error: adminError } = await isUserAdmin(user.id, user.email);
     
     if (adminError) {
       console.error('❌ Error checking admin status:', adminError);
@@ -1320,7 +1346,7 @@ app.put('/make-server-ee767080/notices/:id', async (c) => {
     
     // Check admin status using profiles.role
     console.log('🔍 Checking admin status...');
-    const { isAdmin, error: adminError } = await isUserAdmin(user.id);
+    const { isAdmin, error: adminError } = await isUserAdmin(user.id, user.email);
     
     if (adminError) {
       console.error('❌ Error checking admin status:', adminError);
@@ -1393,7 +1419,7 @@ app.delete('/make-server-ee767080/notices/:id', async (c) => {
     
     // Check admin status using profiles.role
     console.log('🔍 Checking admin status...');
-    const { isAdmin, error: adminError } = await isUserAdmin(user.id);
+    const { isAdmin, error: adminError } = await isUserAdmin(user.id, user.email);
     
     if (adminError) {
       console.error('❌ Error checking admin status:', adminError);
