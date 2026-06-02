@@ -53,7 +53,7 @@ export const menuCategories: MenuCategory[] = [
     defaultOpen: true,
     items: [
       { label: "자필 후기", href: "/cases?tab=review" },
-      { label: "영상 후기", href: "/cases?tab=review" },
+      { label: "영상 후기", href: "/columns?tab=videos" },
     ],
   },
   {

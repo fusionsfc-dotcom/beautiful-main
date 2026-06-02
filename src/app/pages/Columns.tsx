@@ -26,6 +26,7 @@ import { toast } from "sonner";
 import SEOHead from "../../components/seo/SEOHead";
 import { makeBreadcrumbList } from "../../lib/schema/breadcrumb";
 import { uploadAdminImage, validateImageFile } from "../../lib/uploadAdminImage";
+import { buildCaseContent, parseCaseContent } from "../../lib/caseContentImages";
 
 type MainTabType = "gallery" | "columns" | "videos" | "faq" | "question";
 type ColumnCategoryType = "cancer" | "gynecologic_cancer" | "gastro_cancer" | "lung_cancer" | "liver_cancer" | "other_cancer";
@@ -816,24 +817,29 @@ function ColumnEditor({ column, onClose, onSave }: {
   onSave: () => void;
 }) {
   const { user, isAdmin } = useAuth();
+  const parsedInitial = parseCaseContent(column?.content ?? "", column?.thumbnail);
   const [formData, setFormData] = useState({
-    title: column?.title || '',
-    summary: column?.summary || '',
-    content: column?.content || '',
-    category: column?.category || 'cancer' as ColumnCategoryType,
-    thumbnail: column?.thumbnail || '',
+    title: column?.title || "",
+    summary: column?.summary || "",
+    content: parsedInitial.text,
+    category: column?.category || ("cancer" as ColumnCategoryType),
   });
+  const [images, setImages] = useState<string[]>(parsedInitial.images);
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState("");
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const fileList = e.target.files;
+    if (!fileList?.length) return;
 
-    const validationError = validateImageFile(file);
-    if (validationError) {
-      toast.error(validationError);
-      return;
+    const files = Array.from(fileList);
+    for (const file of files) {
+      const validationError = validateImageFile(file);
+      if (validationError) {
+        toast.error(`${file.name}: ${validationError}`);
+        return;
+      }
     }
 
     if (!user) {
@@ -848,17 +854,26 @@ function ColumnEditor({ column, onClose, onSave }: {
 
     try {
       setUploading(true);
-      const publicUrl = await uploadAdminImage(file, "columns");
-      setFormData((prev) => ({ ...prev, thumbnail: publicUrl }));
-      toast.success("이미지가 업로드되었습니다");
+      const newUrls: string[] = [];
+      for (let i = 0; i < files.length; i++) {
+        setUploadProgress(`${i + 1} / ${files.length} 업로드 중...`);
+        newUrls.push(await uploadAdminImage(files[i], "columns"));
+      }
+      setImages((prev) => [...prev, ...newUrls]);
+      toast.success(`${newUrls.length}장 업로드되었습니다`);
     } catch (error: unknown) {
       console.error("❌ 이미지 업로드 실패:", error);
       const message = error instanceof Error ? error.message : "이미지 업로드에 실패했습니다";
       toast.error(message);
     } finally {
       setUploading(false);
+      setUploadProgress("");
       e.target.value = "";
     }
+  };
+
+  const removeImage = (index: number) => {
+    setImages((prev) => prev.filter((_, i) => i !== index));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -871,26 +886,30 @@ function ColumnEditor({ column, onClose, onSave }: {
     try {
       setSaving(true);
       
+      const payload = {
+        title: formData.title,
+        summary: formData.summary,
+        content: buildCaseContent(formData.content, images),
+        category: formData.category,
+        thumbnail: images[0] || null,
+      };
+
       if (column) {
-        // 수정
         const { error } = await supabase
-          .from('columns')
+          .from("columns")
           .update({
-            ...formData,
+            ...payload,
             updated_at: new Date().toISOString(),
           })
-          .eq('id', column.id);
+          .eq("id", column.id);
 
         if (error) throw error;
-        toast.success('수정되었습니다');
+        toast.success("수정되었습니다");
       } else {
-        // 새로 작성
-        const { error } = await supabase
-          .from('columns')
-          .insert({
-            ...formData,
-            author_id: user.id,
-          });
+        const { error } = await supabase.from("columns").insert({
+          ...payload,
+          author_id: user.id,
+        });
 
         if (error) throw error;
         toast.success('작성되었습니다');
@@ -970,66 +989,63 @@ function ColumnEditor({ column, onClose, onSave }: {
           />
         </div>
 
-        {/* 썸네일 URL */}
+        {/* 이미지 업로드 (여러 장) */}
         <div>
           <label className="block text-sm font-medium text-[#6A5542] mb-2">
-            썸네일 이미지 URL
+            이미지 업로드 (PNG, JPG, WebP, GIF · 장당 최대 5MB · 여러 장 선택 가능)
           </label>
-          <input
-            type="url"
-            value={formData.thumbnail}
-            onChange={(e) => setFormData({ ...formData, thumbnail: e.target.value })}
-            className="w-full px-4 py-3 border border-[#D8CDBE] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9A856D] focus:border-transparent"
-            placeholder="https://example.com/image.jpg"
-          />
-        </div>
-
-        {/* 이미지 업로드 */}
-        <div>
-          <label className="block text-sm font-medium text-[#6A5542] mb-2">
-            또는 이미지 업로드 (PNG, JPG, WebP, GIF / 최대 5MB)
-          </label>
+          <p className="text-xs text-[#9A856D] mb-3">첫 번째 이미지가 목록 썸네일로 사용됩니다.</p>
           <div className="space-y-3">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 flex-wrap">
               <input
                 type="file"
                 accept="image/*"
+                multiple
                 onChange={handleImageUpload}
                 className="hidden"
-                id="imageUpload"
+                id="columnImageUpload"
                 disabled={uploading}
               />
               <label
-                htmlFor="imageUpload"
+                htmlFor="columnImageUpload"
                 className={`px-6 py-3 bg-[#9A856D] text-white rounded-xl font-medium hover:bg-[#7C654F] transition-colors cursor-pointer ${
-                  uploading ? 'opacity-50 cursor-not-allowed' : ''
+                  uploading ? "opacity-50 cursor-not-allowed" : ""
                 }`}
               >
-                {uploading ? '업로드 중...' : 'PC에서 선택'}
+                {uploading ? "업로드 중..." : "PC에서 선택"}
               </label>
-              {uploading && (
-                <span className="text-sm text-[#9A856D] animate-pulse">
-                  이미지를 업로드하는 중입니다...
-                </span>
+              {uploadProgress && (
+                <span className="text-sm text-[#9A856D] animate-pulse">{uploadProgress}</span>
               )}
             </div>
-            
-            {/* 이미지 미리보기 */}
-            {formData.thumbnail && (
-              <div className="relative w-full aspect-video rounded-xl overflow-hidden border-2 border-[#D8CDBE]">
-                <ImageWithFallback
-                  src={formData.thumbnail}
-                  alt="썸네일 미리보기"
-                  className="w-full h-full object-cover"
-                />
-                <button
-                  type="button"
-                  onClick={() => setFormData({ ...formData, thumbnail: '' })}
-                  className="absolute top-2 right-2 p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
-                  title="이미지 제거"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
+
+            {images.length > 0 && (
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {images.map((url, index) => (
+                  <div
+                    key={`${url}-${index}`}
+                    className="relative aspect-video rounded-xl overflow-hidden border-2 border-[#D8CDBE]"
+                  >
+                    <ImageWithFallback
+                      src={url}
+                      alt={index === 0 ? "대표 썸네일" : `이미지 ${index + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                    {index === 0 && (
+                      <span className="absolute top-2 left-2 px-2 py-0.5 bg-[#9A856D] text-white text-[10px] font-bold rounded-full">
+                        썸네일
+                      </span>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => removeImage(index)}
+                      className="absolute top-2 right-2 p-1.5 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+                      title="이미지 제거"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                ))}
               </div>
             )}
           </div>

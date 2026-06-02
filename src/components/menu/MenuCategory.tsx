@@ -113,7 +113,7 @@ export default function MenuCategory({ category, onClose }: MenuCategoryProps) {
       >
         <div className="border-t border-[#EFE7DC] divide-y divide-[#EFE7DC]">
           {category.items.map((item) => (
-            <MenuSubItem key={item.href} {...item} onClose={onClose} />
+            <MenuSubItem key={`${category.id}-${item.href}-${item.label}`} {...item} onClose={onClose} />
           ))}
         </div>
       </div>
