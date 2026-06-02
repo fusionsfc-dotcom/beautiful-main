@@ -78,3 +78,39 @@ export interface GalleryItem {
   created_at: string;
   author_id: string;
 }
+
+export interface Consultation {
+  id: string;
+  user_id: string | null;
+  name: string;
+  phone: string;
+  clinic: string;
+  visit_type: 'outpatient' | 'inpatient';
+  consult_method: 'phone' | 'kakao' | 'visit';
+  message: string | null;
+  status: 'pending' | 'contacted' | 'scheduled' | 'completed' | 'cancelled';
+  created_at: string;
+}
+
+export interface PatientResult {
+  id: string;
+  user_id: string;
+  test_type: string;
+  doctor_name: string | null;
+  test_date: string;
+  summary: string | null;
+  details: string[];
+  file_url: string | null;
+  created_at: string;
+}
+
+export interface TreatmentReport {
+  id: string;
+  user_id: string;
+  period_label: string;
+  report_date: string;
+  progress_percent: number;
+  improvements: string[];
+  next_steps: string | null;
+  created_at: string;
+}

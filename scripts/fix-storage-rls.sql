@@ -1,5 +1,9 @@
 -- make-ee767080-images 버킷: 관리자·콘텐츠 업로드용 RLS (Supabase SQL Editor에서 실행)
--- gallery 업로드만 되고 cases/columns 가 막힐 때 이 스크립트를 실행하세요.
+-- gallery 업로드만 되고 cases/columns 가 막히거나
+-- "The database schema is invalid or incompatible" 가 나올 때 실행하세요.
+--
+-- storage.foldername() 은 일부 프로젝트에서 정책 평가 오류를 일으킬 수 있어
+-- name LIKE '폴더/%' 방식으로 통일합니다.
 
 -- 공개 읽기
 DROP POLICY IF EXISTS "Public read make-ee767080-images" ON storage.objects;
@@ -15,10 +19,14 @@ CREATE POLICY "Authenticated upload make-ee767080-images"
   TO authenticated
   WITH CHECK (
     bucket_id = 'make-ee767080-images'
-    AND (storage.foldername(name))[1] IN ('cases', 'columns', 'gallery')
+    AND (
+      name LIKE 'cases/%'
+      OR name LIKE 'columns/%'
+      OR name LIKE 'gallery/%'
+    )
   );
 
--- 로그인 사용자 본인 업로드 파일 수정·삭제 (선택)
+-- 로그인 사용자 본인 업로드 파일 수정·삭제
 DROP POLICY IF EXISTS "Authenticated update own make-ee767080-images" ON storage.objects;
 CREATE POLICY "Authenticated update own make-ee767080-images"
   ON storage.objects FOR UPDATE
@@ -30,3 +38,11 @@ CREATE POLICY "Authenticated delete own make-ee767080-images"
   ON storage.objects FOR DELETE
   TO authenticated
   USING (bucket_id = 'make-ee767080-images' AND owner = auth.uid());
+
+-- service_role: Edge Function 업로드 (RLS 우회용 정책 — 이미 있으면 유지)
+DROP POLICY IF EXISTS "Service role all make-ee767080-images" ON storage.objects;
+CREATE POLICY "Service role all make-ee767080-images"
+  ON storage.objects FOR ALL
+  TO service_role
+  USING (bucket_id = 'make-ee767080-images')
+  WITH CHECK (bucket_id = 'make-ee767080-images');

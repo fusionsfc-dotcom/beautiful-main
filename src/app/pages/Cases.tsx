@@ -1,12 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useSearchParams } from "react-router";
-import {
-  FileText,
-  Plus,
-  Pencil,
-  Trash2,
-  Eye
-} from "lucide-react";
+import { Plus, Pencil, Trash2 } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { supabase, Case } from "../../lib/supabase";
 import { useAuth } from "../contexts/AuthContext";
@@ -23,6 +17,9 @@ import {
   type CasePostCategoryId,
   type ClinicCaseCategoryId,
 } from "../../data/caseCategories";
+import ListPagination from "../../components/common/ListPagination";
+
+const CASES_PAGE_SIZE = 8;
 
 type CasesTabId = "all" | typeof REVIEW_CATEGORY_ID | ClinicCaseCategoryId;
 
@@ -35,6 +32,7 @@ export default function Cases() {
   const [showEditor, setShowEditor] = useState(false);
   const [editingCase, setEditingCase] = useState<Case | null>(null);
   const [editorKind, setEditorKind] = useState<"case" | "review">("case");
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     loadCases();
@@ -45,6 +43,10 @@ export default function Cases() {
       setSelectedCategory(REVIEW_CATEGORY_ID);
     }
   }, [searchParams]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedCategory]);
 
   const loadCases = async () => {
     try {
@@ -97,6 +99,24 @@ export default function Cases() {
     selectedCategory === "all"
       ? cases
       : cases.filter((c) => c.category === selectedCategory);
+
+  const totalPages = Math.max(1, Math.ceil(filteredCases.length / CASES_PAGE_SIZE));
+
+  useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(totalPages);
+    }
+  }, [currentPage, totalPages]);
+
+  const paginatedCases = useMemo(() => {
+    const start = (currentPage - 1) * CASES_PAGE_SIZE;
+    return filteredCases.slice(start, start + CASES_PAGE_SIZE);
+  }, [filteredCases, currentPage]);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const openEditor = (item: Case | null) => {
     const kind =
@@ -224,10 +244,17 @@ export default function Cases() {
             </div>
           )}
 
+          {!loading && filteredCases.length > 0 && (
+            <p className="text-sm text-[#9A856D] text-right">
+              총 {filteredCases.length}건 · {currentPage} / {totalPages} 페이지
+            </p>
+          )}
+
           {/* 카드형 게시판 UI */}
           {!loading && filteredCases.length > 0 && (
+            <>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredCases.map((caseItem) => (
+              {paginatedCases.map((caseItem) => (
                 <article
                   key={caseItem.id}
                   className="bg-white rounded-2xl overflow-hidden border border-[#D8CDBE] hover:shadow-xl transition-all group cursor-pointer"
@@ -291,6 +318,14 @@ export default function Cases() {
                 </article>
               ))}
             </div>
+
+            <ListPagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+              className="mt-10"
+            />
+            </>
           )}
         </div>
       </div>

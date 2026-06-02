@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate, useSearchParams } from "react-router";
 import { User, ChevronDown } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import LoginModal from "./LoginModal";
@@ -18,8 +18,10 @@ export default function GlobalHeader({ onMenuOpen }: GlobalHeaderProps) {
   const [scrolled, setScrolled] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [loginPurpose, setLoginPurpose] = useState<"cases" | "general">("general");
+  const [loginInitialMode, setLoginInitialMode] = useState<"login" | "signup">("login");
   const { user, isAuthenticated, isAdmin, signOut } = useAuth();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 0);
@@ -27,9 +29,19 @@ export default function GlobalHeader({ onMenuOpen }: GlobalHeaderProps) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (searchParams.get("login") === "1" && !isAuthenticated) {
+      setLoginPurpose("general");
+      setShowLoginModal(true);
+      searchParams.delete("login");
+      setSearchParams(searchParams, { replace: true });
+    }
+  }, [searchParams, isAuthenticated, setSearchParams]);
+
   const handleCasesClick = () => {
     if (!isAuthenticated) {
       setLoginPurpose("cases");
+      setLoginInitialMode("signup");
       setShowLoginModal(true);
     } else {
       navigate("/cases");
@@ -38,6 +50,7 @@ export default function GlobalHeader({ onMenuOpen }: GlobalHeaderProps) {
 
   const handleLoginClick = () => {
     setLoginPurpose("general");
+    setLoginInitialMode("login");
     setShowLoginModal(true);
   };
 
@@ -181,15 +194,25 @@ export default function GlobalHeader({ onMenuOpen }: GlobalHeaderProps) {
                       <ChevronDown className="w-4 h-4" />
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-52">
-                      <DropdownMenuItem onClick={() => navigate("/my-consultations")}>내 상담 내역</DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => navigate("/my-results")}>내 검사 결과</DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => navigate("/my-reports")}>치료 경과 리포트</DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link to="/my-consultations">내 상담 내역</Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link to="/my-results">내 검사 결과</Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link to="/my-reports">치료 경과 리포트</Link>
+                      </DropdownMenuItem>
                       {isAdmin && (
-                        <DropdownMenuItem onClick={() => navigate("/admin")} className="text-[#9A856D] font-medium">
-                          관리자 페이지
+                        <DropdownMenuItem asChild>
+                          <Link to="/admin" className="text-[#9A856D] font-medium">
+                            관리자 페이지
+                          </Link>
                         </DropdownMenuItem>
                       )}
-                      <DropdownMenuItem onClick={handleLogout} className="text-red-600">로그아웃</DropdownMenuItem>
+                      <DropdownMenuItem onClick={handleLogout} className="text-red-600">
+                        로그아웃
+                      </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                   <Link
@@ -209,6 +232,7 @@ export default function GlobalHeader({ onMenuOpen }: GlobalHeaderProps) {
         isOpen={showLoginModal}
         onClose={() => setShowLoginModal(false)}
         purpose={loginPurpose}
+        initialMode={loginInitialMode}
       />
     </>
   );

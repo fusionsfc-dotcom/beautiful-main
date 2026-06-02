@@ -1060,8 +1060,16 @@ app.post("/make-server-ee767080/consultations", async (c) => {
 
     // Generate consultation ID
     const consultationId = crypto.randomUUID();
+    let userId: string | null = null;
+    const token = extractToken(c);
+    if (token) {
+      const { user } = await verifyJWTAndGetUser(token);
+      userId = user?.id ?? null;
+    }
+
     const consultationData = {
       id: consultationId,
+      user_id: userId,
       name,
       phone,
       clinic,
@@ -1071,8 +1079,29 @@ app.post("/make-server-ee767080/consultations", async (c) => {
       status: 'pending',
       created_at: new Date().toISOString()
     };
+
+    try {
+      const { error: dbError } = await supabase.from('consultations').insert({
+        id: consultationId,
+        user_id: userId,
+        name,
+        phone,
+        clinic,
+        visit_type: visitType,
+        consult_method: consultMethod,
+        message: message || '',
+        status: 'pending',
+      });
+      if (dbError) {
+        console.warn('⚠️ consultations table insert skipped:', dbError.message);
+      } else {
+        console.log('✅ Saved to consultations table');
+      }
+    } catch (dbEx: any) {
+      console.warn('⚠️ consultations table not available:', dbEx?.message);
+    }
     
-    // Save to KV store
+    // Save to KV store (legacy)
     console.log('💾 Saving consultation to KV store...');
     await kv.set(`consultation_${consultationId}`, consultationData);
     

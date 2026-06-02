@@ -4,6 +4,8 @@ import { Phone, MessageCircle } from "lucide-react";
 import { toast } from "sonner";
 import { useNavigate } from "react-router";
 import { projectId, publicAnonKey } from "../../../utils/supabase/info";
+import { supabase } from "../../lib/supabase";
+import { useAuth } from "../contexts/AuthContext";
 import SEOHead from "../../components/seo/SEOHead";
 import { makeBreadcrumbList } from "../../lib/schema/breadcrumb";
 
@@ -22,44 +24,42 @@ export default function Reservation() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { register, handleSubmit, formState: { errors }, reset } = useForm<ReservationForm>();
   const navigate = useNavigate();
+  const { isAuthenticated, user } = useAuth();
 
   const onSubmit = async (data: ReservationForm) => {
     try {
       setIsSubmitting(true);
-      
-      console.log('📝 상담 요청 전송:', data);
-      
+
+      const { data: { session } } = await supabase.auth.getSession();
+      const authToken = session?.access_token ?? publicAnonKey;
+
       const url = `https://${projectId}.supabase.co/functions/v1/make-server-ee767080/consultations`;
-      
+
       const response = await fetch(url, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Authorization': `Bearer ${publicAnonKey}`,
-          'Content-Type': 'application/json'
+          Authorization: `Bearer ${authToken}`,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
       });
 
-      console.log('📡 응답 상태:', response.status);
-      
       const result = await response.json();
-      console.log('📡 응답 데이터:', result);
-      
+
       if (result.success) {
-        toast.success('상담 요청이 접수되었습니다! 빠른 시간 내에 연락드리겠습니다.');
+        toast.success("상담 요청이 접수되었습니다! 빠른 시간 내에 연락드리겠습니다.");
         setIsSubmitted(true);
         reset();
-        
-        // 2초 후 홈페이지로 이동
+
         setTimeout(() => {
-          navigate('/');
+          navigate(isAuthenticated ? "/my-consultations" : "/");
         }, 2000);
       } else {
-        toast.error(result.error || '상담 요청에 실패했습니다');
+        toast.error(result.error || "상담 요청에 실패했습니다");
       }
-    } catch (error: any) {
-      console.error('❌ 상담 요청 에러:', error);
-      toast.error('상담 요청에 실패했습니다');
+    } catch (error: unknown) {
+      console.error("❌ 상담 요청 에러:", error);
+      toast.error("상담 요청에 실패했습니다");
     } finally {
       setIsSubmitting(false);
     }

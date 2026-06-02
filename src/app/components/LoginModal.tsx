@@ -9,6 +9,8 @@ interface LoginModalProps {
   onSuccess?: () => void;
   purpose?: "cases" | "general";
   initialMode?: "login" | "signup";
+  /** 로그인·가입 성공 후 이동 경로 (purpose=cases 등) */
+  redirectTo?: string;
 }
 
 export default function LoginModal({
@@ -17,6 +19,7 @@ export default function LoginModal({
   onSuccess,
   purpose = "general",
   initialMode = "login",
+  redirectTo,
 }: LoginModalProps) {
   const [mode, setMode] = useState<'login' | 'signup'>('login');
   const [email, setEmail] = useState("");
@@ -38,7 +41,7 @@ export default function LoginModal({
 
   const getMessage = () => {
     if (purpose === "cases") {
-      return "치료 사례는 환자 보호를 위해 로그인 후 열람 가능합니다.";
+      return "실제 치료후기·치료사례는 환자 보호를 위해 회원만 열람할 수 있습니다.";
     }
     return "뷰티풀한방병원에 로그인하세요";
   };
@@ -84,7 +87,7 @@ export default function LoginModal({
         setMode('login');
 
         if (purpose === "cases") {
-          navigate("/cases");
+          navigate(redirectTo ?? "/cases");
         }
       }
     } catch (err: any) {
@@ -124,7 +127,30 @@ export default function LoginModal({
                 <p>{getMessage()}</p>
               </div>
             ) : null}
-            {mode === 'signup' && (
+            {purpose === "cases" && (
+              <div className="bg-gradient-to-r from-[#8BC31F]/12 to-[#9A856D]/10 border-2 border-[#8BC31F]/40 p-4 rounded-xl mb-4">
+                <p className="text-[#6A5542] font-bold text-base mb-1">
+                  ⚡ 3초 간편 가입 — 대부분 처음이신 분들도 바로 시작
+                </p>
+                <p className="text-sm text-[#756A60] leading-relaxed">
+                  이메일·이름·비밀번호만 입력하면{" "}
+                  <span className="font-semibold text-[#6A5542]">자필 후기·치료사례</span>를 바로 볼 수 있습니다.
+                </p>
+                {mode === "login" && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMode("signup");
+                      setError("");
+                    }}
+                    className="mt-3 w-full py-2.5 rounded-lg bg-[#8BC31F] text-white text-sm font-bold hover:bg-[#75A915] transition-colors"
+                  >
+                    3초 간편 가입하고 후기 보기
+                  </button>
+                )}
+              </div>
+            )}
+            {mode === "signup" && purpose !== "cases" && (
               <div className="bg-gradient-to-r from-[#6A5542]/5 to-[#9A856D]/5 border-l-4 border-[#9A856D] p-4 rounded-r-md mb-4">
                 <p className="text-[#9A856D] font-semibold text-base mb-1">
                   ✨ 간편하게 3초만에 가입하세요!
@@ -193,7 +219,13 @@ export default function LoginModal({
               disabled={loading}
               className="w-full bg-[#9A856D] text-white py-2.5 rounded-md hover:bg-[#7C654F] transition-colors font-medium disabled:opacity-50"
             >
-              {loading ? '처리 중...' : mode === 'login' ? '로그인' : '회원가입'}
+              {loading
+                ? "처리 중..."
+                : mode === "login"
+                  ? "로그인"
+                  : purpose === "cases"
+                    ? "3초 가입하고 후기 보기"
+                    : "회원가입"}
             </button>
           </form>
 

@@ -10,6 +10,7 @@ import {
   REVIEW_CATEGORY_ID,
   getCaseCategoryLabel,
 } from "../../data/caseCategories";
+import MemberPortalAdmin from "../../components/admin/MemberPortalAdmin";
 
 const ADMIN_CATEGORIES = [
   { id: REVIEW_CATEGORY_ID, label: "치료후기" },
@@ -308,6 +309,8 @@ export default function Admin() {
             ))
           )}
         </div>
+
+        <MemberPortalAdmin />
       </div>
     </div>
   );
