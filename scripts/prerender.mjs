@@ -114,7 +114,11 @@ async function prerender() {
   // 로컬(맥/일반 환경): full puppeteer + 내장 Chromium
   // Vercel 클라우드 빌드(Amazon Linux): puppeteer-core + @sparticuz/chromium
   //   (일반 Chrome은 Vercel 빌드 컨테이너에 시스템 라이브러리가 없어 실행 불가)
-  const isCloud = !!(process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME);
+  // @sparticuz/chromium은 Linux 전용 바이너리. 로컬 `vercel build`도 VERCEL=1을
+  // 설정하므로(맥에서도) 플랫폼까지 함께 확인해야 한다.
+  const isCloud =
+    process.platform === "linux" &&
+    !!(process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME);
   try {
     if (isCloud) {
       const chromium = (await import("@sparticuz/chromium")).default;
