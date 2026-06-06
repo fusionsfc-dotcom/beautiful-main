@@ -445,10 +445,14 @@ function IntroSection() {
             <br />
             회복까지 함께 관리하는 병원
           </h1>
-          <p className="text-base sm:text-lg text-white/90 mb-8 lg:mb-10 leading-relaxed">
+          <p className="text-base sm:text-lg text-white/90 mb-5 leading-relaxed">
             항암, 방사선치료를 건강하게 받고
             <br />
             암 이후의 건강한 삶까지 만드는 공간
+          </p>
+          <p className="text-sm text-white/75 mb-8 lg:mb-10 leading-relaxed max-w-2xl mx-auto">
+            뷰티풀한방병원은 국립암센터(일산)에서 차량 15분 거리의 경기도 파주시
+            암요양병원으로, 일산·고양·파주 지역 암환자의 면역과 체력 회복을 돕습니다.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             {[
