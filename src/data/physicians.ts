@@ -157,13 +157,33 @@ export function toPhysicianJsonLd(p: PhysicianData) {
     ...(p.honorificPrefix ? { honorificPrefix: p.honorificPrefix } : {}),
     jobTitle: p.schemaJobTitle,
     description: p.qualifications.join(", "),
+    url: "https://www.btful.co.kr/about#doctors",
+    image: p.imageUrl,
+    medicalSpecialty: "Oncologic",
+    knowsAbout: ["암 통합 치료", "항암 부작용 관리", "암환자 면역 회복"],
     alumniOf: p.education
       .filter((e) => /졸업|박사|석사/.test(e.text))
       .map((e) => ({
         "@type": "EducationalOrganization",
         name: e.text,
       })),
-    image: p.imageUrl,
+    // 학위·면허·전문의 자격 → E-E-A-T 신뢰 신호
+    hasCredential: p.qualifications.map((q) => ({
+      "@type": "EducationalOccupationalCredential",
+      credentialCategory: /전문의|면허/.test(q)
+        ? "professional license"
+        : "degree",
+      name: q,
+    })),
+    // 학회·소속
+    ...(p.memberships.length
+      ? {
+          memberOf: p.memberships.map((m) => ({
+            "@type": "Organization",
+            name: m.text,
+          })),
+        }
+      : {}),
     worksFor: { "@id": "https://www.btful.co.kr/#hospital" },
   };
 }
