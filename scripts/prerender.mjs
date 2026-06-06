@@ -87,13 +87,25 @@ async function prerender() {
   const server = await startServer(PORT);
 
   let browser;
+
+  // ── 브라우저 실행 (환경상 Chromium 부재 시 빌드를 깨지 않고 SPA로 폴백) ──
   try {
     const puppeteer = await import("puppeteer");
     browser = await puppeteer.default.launch({
       headless: "new",
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
+  } catch (launchError) {
+    console.warn(
+      "\n⚠️  프리렌더 건너뜀 — 브라우저 실행 실패(Chromium 부재 가능): " +
+        launchError.message
+    );
+    console.warn("    SPA(index.html)로 폴백하여 빌드는 정상 진행됩니다.\n");
+    server.close();
+    return; // exit 0 — 빌드를 실패시키지 않음
+  }
 
+  try {
     for (const route of ROUTES) {
       const page = await browser.newPage();
 
