@@ -88,19 +88,31 @@ async function prerender() {
 
   let browser;
 
-  // ── 브라우저 실행 (환경상 Chromium 부재 시 빌드를 깨지 않고 SPA로 폴백) ──
+  // ── 브라우저 실행 ──
+  // 로컬(맥/일반 환경): full puppeteer + 내장 Chromium
+  // Vercel 클라우드 빌드(Amazon Linux): puppeteer-core + @sparticuz/chromium
+  //   (일반 Chrome은 Vercel 빌드 컨테이너에 시스템 라이브러리가 없어 실행 불가)
+  const isCloud = !!(process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME);
   try {
-    const puppeteer = await import("puppeteer");
-    browser = await puppeteer.default.launch({
-      headless: "new",
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    });
+    if (isCloud) {
+      const chromium = (await import("@sparticuz/chromium")).default;
+      const puppeteerCore = (await import("puppeteer-core")).default;
+      browser = await puppeteerCore.launch({
+        args: chromium.args,
+        executablePath: await chromium.executablePath(),
+        headless: chromium.headless,
+      });
+    } else {
+      const puppeteer = (await import("puppeteer")).default;
+      browser = await puppeteer.launch({
+        headless: "new",
+        args: ["--no-sandbox", "--disable-setuid-sandbox"],
+      });
+    }
   } catch (launchError) {
     // 빌드를 실패시켜(exit 1) SPA가 기존 정상 prerender 배포를 덮어쓰지 못하게 한다.
-    // (정상 환경에서는 build:prerender의 'puppeteer browsers install chrome'로 Chromium 보장)
     console.error(
-      "\n❌ 프리렌더 실패 — 브라우저 실행 불가(Chromium 부재): " +
-        launchError.message
+      "\n❌ 프리렌더 실패 — 브라우저 실행 불가: " + launchError.message
     );
     console.error("    빌드를 중단합니다. 직전 정상 배포가 유지됩니다.\n");
     server.close();
