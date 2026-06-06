@@ -80,4 +80,66 @@
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
+  <!-- 소개·프로그램 페이지 -->
+  <url>
+    <loc>https://www.btful.co.kr/why</loc>
+    <lastmod>2026-06-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.btful.co.kr/program/integrated</loc>
+    <lastmod>2026-06-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.btful.co.kr/program/rehab</loc>
+    <lastmod>2026-06-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.btful.co.kr/program/tbt</loc>
+    <lastmod>2026-06-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.btful.co.kr/program/nutrition</loc>
+    <lastmod>2026-06-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.btful.co.kr/intro/story</loc>
+    <lastmod>2026-06-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.btful.co.kr/cancer/types</loc>
+    <lastmod>2026-06-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.btful.co.kr/cancer/intro</loc>
+    <lastmod>2026-06-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <!-- 치료 상세 (12개) -->
+  <url><loc>https://www.btful.co.kr/program/integrated/chim</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.btful.co.kr/program/integrated/yakchim</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.btful.co.kr/program/integrated/wangttum</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.btful.co.kr/program/integrated/noeshinkyung-ttum</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.btful.co.kr/program/integrated/yoso-jjimjil</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.btful.co.kr/program/integrated/zadaxin</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.btful.co.kr/program/integrated/alnova</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.btful.co.kr/program/integrated/vitamin-c</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.btful.co.kr/program/integrated/rf-hyperthermia</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.btful.co.kr/program/integrated/oral-care</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.btful.co.kr/program/integrated/infection-prevention</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.btful.co.kr/program/integrated/custom-oral</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
 </urlset>

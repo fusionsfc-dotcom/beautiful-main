@@ -34,6 +34,28 @@ const ROUTES = [
   "/clinics/post-surgery-recovery",
   "/clinics/chemotherapy-care",
   "/clinics/radiation-care",
+  // 소개·프로그램 페이지 (콘텐츠 풍부 — AI 롱테일 노출용)
+  "/why",
+  "/intro/story",
+  "/program/integrated",
+  "/program/rehab",
+  "/program/tbt",
+  "/program/nutrition",
+  "/cancer/types",
+  "/cancer/intro",
+  // 치료 상세 (12개) — treatments/*.ts slug 기준
+  "/program/integrated/chim",
+  "/program/integrated/yakchim",
+  "/program/integrated/wangttum",
+  "/program/integrated/noeshinkyung-ttum",
+  "/program/integrated/yoso-jjimjil",
+  "/program/integrated/zadaxin",
+  "/program/integrated/alnova",
+  "/program/integrated/vitamin-c",
+  "/program/integrated/rf-hyperthermia",
+  "/program/integrated/oral-care",
+  "/program/integrated/infection-prevention",
+  "/program/integrated/custom-oral",
 ];
 
 // 렌더링 대기 시간 (ms)
