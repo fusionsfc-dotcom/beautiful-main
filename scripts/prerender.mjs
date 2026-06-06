@@ -96,13 +96,15 @@ async function prerender() {
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
   } catch (launchError) {
-    console.warn(
-      "\n⚠️  프리렌더 건너뜀 — 브라우저 실행 실패(Chromium 부재 가능): " +
+    // 빌드를 실패시켜(exit 1) SPA가 기존 정상 prerender 배포를 덮어쓰지 못하게 한다.
+    // (정상 환경에서는 build:prerender의 'puppeteer browsers install chrome'로 Chromium 보장)
+    console.error(
+      "\n❌ 프리렌더 실패 — 브라우저 실행 불가(Chromium 부재): " +
         launchError.message
     );
-    console.warn("    SPA(index.html)로 폴백하여 빌드는 정상 진행됩니다.\n");
+    console.error("    빌드를 중단합니다. 직전 정상 배포가 유지됩니다.\n");
     server.close();
-    return; // exit 0 — 빌드를 실패시키지 않음
+    process.exit(1);
   }
 
   try {
