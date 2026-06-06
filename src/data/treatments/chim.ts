@@ -7,13 +7,19 @@ export const chimData: TreatmentDetail = {
   slug: "chim",
   category: "korean",
 
-  topLabel: "",
+  topLabel: "조선 어의를 통해 비전된 궁중침법",
   title: "침 치료",
-  subtitle: [],
-  subtitleHighlight: "",
+  titleSubLine: "(조선침법)",
+  subtitle: [
+    "조선침법은 조선시대 어의를 통해 비전된",
+    "임금의 치료 침법으로, 오랜 역사와 임상 경험을",
+    "바탕으로 만들어진 정교하고 효과적인 침법입니다.",
+  ],
+  subtitleHighlight: "조선침법",
   heroImage: `${BASE}clinic/han_c.png`,
-  heroVideoUrl: "",
+  heroVideoUrl: "https://youtu.be/uQR778ILbGA",
   heroVideoLabel: "침치료 소개 영상 보기",
+  heroVideoNewWindow: true,
 
   // 4개 효과 — simpleMode: 아이콘 + 제목만
   effects: [

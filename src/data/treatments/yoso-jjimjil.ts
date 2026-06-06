@@ -16,8 +16,9 @@ export const yosoJjimjilData: TreatmentDetail = {
   ],
   subtitleHighlight: "항암력 극대화",
   heroImage: `${BASE}clinic/hou.png`,
-  heroVideoUrl: "",
-  heroVideoLabel: "",                // 빈 문자열 → 히어로 플레이 버튼 숨김
+  heroVideoUrl: "https://youtu.be/-2FE8w8q13I",
+  heroVideoLabel: "효소찜질 소개 영상 보기",
+  heroVideoNewWindow: true,
 
   // 효과 바 섹션 전체 생략
   hideEffectsBar: true,

@@ -15,8 +15,9 @@ export const wangttumData: TreatmentDetail = {
   ],
   subtitleHighlight: "면역력을 높여",
   heroImage: `${BASE}clinic/dd.jpg`,
-  heroVideoUrl: "",
+  heroVideoUrl: "https://youtu.be/Pw7x-mV8k_U",
   heroVideoLabel: "약뜸 치료 과정 영상 보기",
+  heroVideoNewWindow: true,
 
   effects: [
     {

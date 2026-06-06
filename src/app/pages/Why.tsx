@@ -68,21 +68,40 @@ const REASONS = [
   {
     num: "04",
     image:
-      "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/clinic_onco.jpeg",
-    imageAlt: "맞춤형 항암 식단",
+      "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/clinic/cl_1.jpeg",
+    imageAlt: "치과 진료 — 항암 치료 중 구강 관리",
     icon: (
+      // 치아(tooth) 아이콘
       <svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="#8B6F47" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="18" cy="20" r="10" />
-        <path d="M12 8v6M18 6v8M24 8v6" />
-        <path d="M14 20h8M18 16v8" />
+        <path d="M11 4c-3 0-5 2-5 6 0 3 1 5 1.5 8s1 9 3 9 2-6 4-6 2 6 4 6 2.5-5 3-9 1.5-5 1.5-8c0-4-2-6-5-6-2 0-2.5 1-4 1s-2-1-4-1z" />
       </svg>
     ),
     heading: (
       <>
-        <strong className="text-[#2F2A26]">맞춤형 항암식단<br />및 재활 시스템</strong>
+        의(醫)·치(齒)·한(韓) 통합 협진<br />
+        <strong className="text-[#2F2A26]">치과 진료까지<br />한 곳에서</strong>
       </>
     ),
-    desc: "개인별 맞춤 항암식단과 재활치료로 회복을 돕습니다.",
+    desc: "양·한방에 더해 치과 협진으로 항암 중 구강 건강까지 통합 관리합니다.",
+  },
+  {
+    num: "05",
+    image:
+      "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/program/beautiful_ai_img.025.jpeg",
+    imageAlt: "운동 재활 프로그램",
+    icon: (
+      // 덤벨(dumbbell) 아이콘
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="#8B6F47" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M5 14v8M9 11v14M27 11v14M31 14v8M9 18h18" />
+      </svg>
+    ),
+    heading: (
+      <>
+        체력 회복을 위한<br />
+        <strong className="text-[#2F2A26]">체계적인<br />운동 재활 프로그램</strong>
+      </>
+    ),
+    desc: "암 치료 후 체력과 면역 회복을 돕는 1:1 맞춤 운동 재활을 제공합니다.",
   },
 ];
 
@@ -94,7 +113,7 @@ export default function Why() {
       "name": "왜 뷰티풀이어야 하나요? — 뷰티풀한방병원",
       "url": "https://www.btful.co.kr/why",
       "description":
-        "호텔식 1인실, 자연환경, 27년 경력 한의학 박사, 맞춤 항암식단. 뷰티풀한방병원이 특별한 4가지 이유.",
+        "호텔식 입원실, 자연환경, 27년 경력 한의학박사 24시간 케어, 의·치·한 통합 협진(치과 진료), 운동 재활 프로그램. 뷰티풀한방병원이 특별한 5가지 이유.",
     },
     makeBreadcrumbList([{ name: "왜 뷰티풀인가", path: "/why" }]),
   ];
@@ -103,8 +122,8 @@ export default function Why() {
     <>
       <SEOHead
         title="왜 뷰티풀이어야 하나요? | 뷰티풀한방병원"
-        description="호텔식 1인실 병실, 자연 속 힐링 환경, 27년 경력 한의학박사 24시간 케어, 맞춤형 항암식단. 뷰티풀한방병원이 특별한 4가지 이유를 확인하세요."
-        keywords="암요양병원특징,뷰티풀한방병원,1인실병실,항암식단,24시간케어,한의학박사"
+        description="호텔식 입원실, 자연 속 힐링 환경, 27년 경력 한의학박사 24시간 케어, 의·치·한 통합 협진(치과 진료), 운동 재활 프로그램. 뷰티풀한방병원이 특별한 5가지 이유를 확인하세요."
+        keywords="암요양병원특징,뷰티풀한방병원,호텔식입원실,의치한협진,치과진료,운동재활,24시간케어,한의학박사"
         ogUrl="https://www.btful.co.kr/why"
         canonical="https://www.btful.co.kr/why"
         jsonLd={jsonLd}
@@ -116,14 +135,14 @@ export default function Why() {
           <p className="text-sm text-[#8B6F47] tracking-widest mb-2">왜 뷰티풀이어야 하나요?</p>
           <h1 className="text-3xl md:text-4xl font-extrabold text-[#2F2A26] leading-tight">
             뷰티풀이 특별한{" "}
-            <span className="text-[#9A856D]">4가지</span>{" "}
+            <span className="text-[#9A856D]">5가지</span>{" "}
             이유
           </h1>
         </div>
 
-        {/* ── 4개 카드 그리드 ── */}
-        {/* 모바일: 2열, 태블릿↑: 4열 */}
-        <div className="max-w-screen-xl mx-auto px-4 grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+        {/* ── 5개 카드 그리드 ── */}
+        {/* 모바일: 2열, 태블릿: 3열, 데스크탑: 5열 */}
+        <div className="max-w-screen-xl mx-auto px-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-5">
           {REASONS.map((r) => (
             <article
               key={r.num}

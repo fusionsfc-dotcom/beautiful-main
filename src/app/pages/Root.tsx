@@ -54,25 +54,24 @@ export default function Root() {
       />
 
       {isHome ? (
-        /* 홈: 레이아웃 래퍼 없이 직접 렌더 */
+        /* 홈: 레이아웃 래퍼 없이 직접 렌더 (푸터는 공통 적용) */
         <main className="flex-1">
           <Outlet />
         </main>
       ) : (
-        /* 기타 페이지: 사이드바 + 푸터 레이아웃 */
-        <>
-          <div
-            className="flex-1 max-w-screen-xl mx-auto w-full"
-            style={{ paddingBottom: "calc(56px + env(safe-area-inset-bottom, 0px))" }}
-          >
-            <main className="bg-white">
-              <Outlet />
-            </main>
-          </div>
-
-          <GlobalFooter />
-        </>
+        /* 기타 페이지: 사이드바 레이아웃 */
+        <div
+          className="flex-1 max-w-screen-xl mx-auto w-full"
+          style={{ paddingBottom: "calc(56px + env(safe-area-inset-bottom, 0px))" }}
+        >
+          <main className="bg-white">
+            <Outlet />
+          </main>
+        </div>
       )}
+
+      {/* 모든 페이지 공통 푸터 */}
+      <GlobalFooter />
 
       {/* 전역 하단 4버튼 액션바 */}
       <BottomActionBar />

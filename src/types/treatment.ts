@@ -64,6 +64,8 @@ export type TreatmentDetail = {
   heroImage: string;
   heroVideoUrl?: string;
   heroVideoLabel: string;
+  /** true면 영상을 모달 대신 새 창(새 탭)으로 연다 */
+  heroVideoNewWindow?: boolean;
 
   // 효과 (3개 또는 4개)
   effects: TreatmentEffect[];

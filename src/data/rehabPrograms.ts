@@ -63,6 +63,7 @@ export const rehabPrograms: RehabProgram[] = [
     number: "02",
     name: "항암 필라테스",
     image: "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/program/pro3.jpg",
+    videoUrl: "https://youtu.be/trGX4WuC9sY",
     features: [
       { icon: "person", title: "자세 교정" },
       { icon: "heart-hand", title: "코어 강화" },
@@ -75,6 +76,7 @@ export const rehabPrograms: RehabProgram[] = [
     name: "1:1 맞춤 재활 운동",
     subname: "(필라테스 & PT)",
     image: "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/clinic/ur.png",
+    videoUrl: "https://youtu.be/qL_3WeC_-SI",
     features: [
       { icon: "person", title: "1:1 맞춤 프로그램" },
       { icon: "dumbbell", title: "근력 강화 & 체력 향상" },
@@ -86,6 +88,7 @@ export const rehabPrograms: RehabProgram[] = [
     number: "04",
     name: "매직테니스 재활 운동",
     image: "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/program/pro2.jpg",
+    videoUrl: "https://youtu.be/aGr_5fUHJQM",
     features: [
       { icon: "runner", title: "전신 활동 증가" },
       { icon: "balance", title: "근력·균형 향상" },

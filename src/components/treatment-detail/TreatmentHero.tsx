@@ -84,23 +84,46 @@ export default function TreatmentHero({ data, colors }: TreatmentHeroProps) {
 
             {/* 플레이 버튼 — heroVideoLabel 또는 heroVideoUrl이 있을 때만 표시 */}
             {(data.heroVideoLabel || data.heroVideoUrl) && (
-              <button
-                onClick={handlePlay}
-                aria-label={data.heroVideoLabel || "영상 보기"}
-                className="absolute inset-0 flex flex-col items-center justify-center gap-3 group"
-              >
-                <div className="w-16 h-16 rounded-full bg-[#F8F3EA]/85 shadow-lg flex items-center justify-center group-hover:bg-white transition-colors">
-                  <Play size={24} color="#6A5542" fill="#6A5542" className="translate-x-0.5" />
-                </div>
-                {data.heroVideoLabel && (
-                  <span
-                    className="text-white text-[12px] font-bold px-4 py-1.5 rounded-full"
-                    style={{ backgroundColor: `${colors.main}CC` }}
-                  >
-                    {data.heroVideoLabel}
-                  </span>
-                )}
-              </button>
+              data.heroVideoNewWindow && data.heroVideoUrl ? (
+                /* 새 창(새 탭)으로 영상 열기 */
+                <a
+                  href={data.heroVideoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={data.heroVideoLabel || "영상 보기"}
+                  className="absolute inset-0 flex flex-col items-center justify-center gap-3 group"
+                >
+                  <div className="w-16 h-16 rounded-full bg-[#F8F3EA]/85 shadow-lg flex items-center justify-center group-hover:bg-white transition-colors">
+                    <Play size={24} color="#6A5542" fill="#6A5542" className="translate-x-0.5" />
+                  </div>
+                  {data.heroVideoLabel && (
+                    <span
+                      className="text-white text-[12px] font-bold px-4 py-1.5 rounded-full"
+                      style={{ backgroundColor: `${colors.main}CC` }}
+                    >
+                      {data.heroVideoLabel}
+                    </span>
+                  )}
+                </a>
+              ) : (
+                <button
+                  onClick={handlePlay}
+                  aria-label={data.heroVideoLabel || "영상 보기"}
+                  className="absolute inset-0 flex flex-col items-center justify-center gap-3 group"
+                >
+                  <div className="w-16 h-16 rounded-full bg-[#F8F3EA]/85 shadow-lg flex items-center justify-center group-hover:bg-white transition-colors">
+                    <Play size={24} color="#6A5542" fill="#6A5542" className="translate-x-0.5" />
+                  </div>
+                  {data.heroVideoLabel && (
+                    <span
+                      className="text-white text-[12px] font-bold px-4 py-1.5 rounded-full"
+                      style={{ backgroundColor: `${colors.main}CC` }}
+                    >
+                      {data.heroVideoLabel}
+                    </span>
+                  )}
+                </button>
+              )
             )}
           </div>
         </div>

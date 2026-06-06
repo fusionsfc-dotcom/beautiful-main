@@ -1,6 +1,37 @@
 import { Link } from "react-router";
 import { menuCategories } from "../../data/menuData";
 
+const SOCIALS = [
+  {
+    id: "cafe",
+    label: "네이버 카페",
+    sub: "암 환우 커뮤니티",
+    href: "https://cafe.naver.com/wlsalsdl07",
+    brand: "#03C75A",
+    icon: <span className="text-white font-black text-[16px] leading-none">N</span>,
+  },
+  {
+    id: "blog",
+    label: "네이버 블로그",
+    sub: "암 정보·치료 소식",
+    href: "https://blog.naver.com/cancer_news",
+    brand: "#03C75A",
+    icon: <span className="text-white font-black text-[16px] leading-none lowercase">b</span>,
+  },
+  {
+    id: "youtube",
+    label: "유튜브",
+    sub: "원장 강의·치료 영상",
+    href: "https://www.youtube.com/@BTF1101",
+    brand: "#FF0000",
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="white" aria-hidden="true">
+        <path d="M21.58 7.19c-.23-.86-.91-1.54-1.77-1.77C18.25 5 12 5 12 5s-6.25 0-7.81.42c-.86.23-1.54.91-1.77 1.77C2 8.75 2 12 2 12s0 3.25.42 4.81c.23.86.91 1.54 1.77 1.77C5.75 19 12 19 12 19s6.25 0 7.81-.42c.86-.23 1.54-.91 1.77-1.77C22 15.25 22 12 22 12s0-3.25-.42-4.81zM10 15V9l5.2 3-5.2 3z" />
+      </svg>
+    ),
+  },
+];
+
 export default function GlobalFooter() {
   return (
     <>
@@ -127,6 +158,53 @@ export default function GlobalFooter() {
                   ))}
                 </nav>
               </div>
+            </div>
+          </div>
+
+          {/* 소셜 채널 — SITEMAP 아래 */}
+          <div className="border-t border-[#D8CDBE] pt-10 mb-10">
+            <h4 className="text-[#9A856D] text-xs tracking-widest uppercase mb-5">Follow Us</h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 max-w-3xl">
+              {SOCIALS.map((s) => (
+                <a
+                  key={s.id}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center gap-3 bg-white/50 hover:bg-white border border-[#D8CDBE] rounded-2xl pl-2 pr-4 py-2 transition-all duration-200 hover:shadow-md hover:-translate-y-0.5"
+                >
+                  {/* 브랜드 아이콘 */}
+                  <span
+                    className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm transition-transform duration-200 group-hover:scale-105"
+                    style={{ backgroundColor: s.brand }}
+                  >
+                    {s.icon}
+                  </span>
+                  {/* 라벨 */}
+                  <span className="flex flex-col">
+                    <span className="text-[13px] font-bold text-[#2F2A26] leading-none">
+                      {s.label}
+                    </span>
+                    <span className="text-[11px] text-[#9A856D] leading-none mt-1.5">
+                      {s.sub}
+                    </span>
+                  </span>
+                  {/* 화살표 */}
+                  <svg
+                    width="15"
+                    height="15"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#C4B6A4"
+                    strokeWidth="2.2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="ml-auto flex-shrink-0 group-hover:translate-x-0.5 group-hover:stroke-[#9A856D] transition-all"
+                  >
+                    <path d="M7 17L17 7M17 7H8M17 7v9" />
+                  </svg>
+                </a>
+              ))}
             </div>
           </div>
 

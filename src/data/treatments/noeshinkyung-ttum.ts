@@ -15,8 +15,9 @@ export const noeshinkyungTtumData: TreatmentDetail = {
   ],
   subtitleHighlight: "기혈순환",
   heroImage: `${BASE}clinic/han_DD.png`,
-  heroVideoUrl: "",
+  heroVideoUrl: "https://youtu.be/-zEzjGjDAq4",
   heroVideoLabel: "뇌신경뜸 소개 영상 보기",
+  heroVideoNewWindow: true,
 
   // 4개 효과 — TreatmentEffectsBar가 자동으로 2×2 그리드 처리
   effects: [

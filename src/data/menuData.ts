@@ -24,7 +24,7 @@ export const menuCategories: MenuCategory[] = [
     icon: "shield",
     defaultOpen: true,
     items: [
-      { label: "Why 뷰티풀 (4가지 이유)", href: "/why", badge: "HOT" },
+      { label: "Why 뷰티풀 (5가지 이유)", href: "/why", badge: "HOT" },
       { label: "브랜드 스토리 & 철학", href: "/intro/story" },
       { label: "의료진 소개", href: "/about#doctors" },
       { label: "둘러보기 (시설)", href: "/facilities" },
