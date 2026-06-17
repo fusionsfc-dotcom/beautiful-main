@@ -592,7 +592,8 @@ function CaseEditor({
           {/* 본문 */}
           <div>
             <label className="block text-sm font-medium text-[#6A5542] mb-2">
-              치료 내용 <span className="text-[#9A856D]">*</span>
+              {isReview ? "자필 후기 내용" : "치료 내용"}{" "}
+              <span className="text-[#9A856D]">*</span>
             </label>
             <textarea
               required
