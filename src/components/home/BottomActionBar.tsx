@@ -20,7 +20,8 @@ const ACTIONS = [
   {
     id: "talk",
     label: "네이버 톡톡",
-    comingSoon: true,
+    href: "https://talk.naver.com/ct/wlny8w8",
+    external: true,
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
@@ -109,8 +110,17 @@ function BottomActionBarContent() {
             }
 
             if ("external" in action && action.external) {
+              // http(s) 외부 링크(네이버 톡톡 등)는 새 탭으로, tel: 은 현재 탭
+              const isWebLink = action.href?.startsWith("http");
               return (
-                <a key={action.id} href={action.href} className={className}>
+                <a
+                  key={action.id}
+                  href={action.href}
+                  {...(isWebLink
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
+                  className={className}
+                >
                   {action.icon}
                   <span className="text-[10px] font-medium tracking-wide leading-none">
                     {action.label}
