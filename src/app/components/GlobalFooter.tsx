@@ -14,7 +14,7 @@ const SOCIALS = [
     id: "blog",
     label: "네이버 블로그",
     sub: "암 정보·치료 소식",
-    href: "https://blog.naver.com/cancer_news",
+    href: "https://blog.naver.com/joingrace",
     brand: "#03C75A",
     icon: <span className="text-white font-black text-[16px] leading-none lowercase">b</span>,
   },
