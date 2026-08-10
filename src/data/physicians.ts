@@ -95,13 +95,13 @@ export const PHYSICIANS: PhysicianData[] = [
   },
   {
     id: "jang-youngseop",
-    name: "장영섭",
+    name: "장양섭",
     jobTitle: "의사 (일반외과 전문의)",
     schemaJobTitle: "일반외과 전문의",
     qualifications: ["일반외과 전문의", "일본 소화의과대학 의학박사"],
     imageUrl:
       "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/doc/doc3.png",
-    imageAlt: "장영섭 의사",
+    imageAlt: "장양섭 의사",
     education: [
       { text: "전남대학교 의과대학 졸업" },
       { text: "전주예수병원 일반외과 수료" },
