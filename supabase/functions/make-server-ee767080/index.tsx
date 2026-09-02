@@ -1163,31 +1163,55 @@ app.post("/make-server-ee767080/consultations", async (c) => {
       </div>
     `;
 
-    // Send emails individually to handle Resend restrictions
-    const emailRecipients = ['fusionsfc@gmail.com', 'joingrace@naver.com'];
+    // 발신 주소 / 수신자를 환경변수로 관리 (도메인 인증 후 코드 배포 없이 전환 가능)
+    //  - MAIL_FROM: 예) "뷰티풀한방병원 <no-reply@btful.co.kr>"
+    //    ⚠️ 기본값 onboarding@resend.dev 는 Resend 테스트 발신 주소로,
+    //       계정 소유자 본인 메일로만 발송됩니다(다른 수신자는 차단됨).
+    //  - MAIL_TO: 쉼표로 구분된 수신자 목록
+    const mailFrom =
+      Deno.env.get('MAIL_FROM') ??
+      'Beautiful Korean Medicine Hospital <onboarding@resend.dev>';
+    const emailRecipients = (
+      Deno.env.get('MAIL_TO') ?? 'fusionsfc@gmail.com,joingrace@naver.com'
+    )
+      .split(',')
+      .map((e) => e.trim())
+      .filter(Boolean);
+
+    console.log(`✉️ from="${mailFrom}" to=[${emailRecipients.join(', ')}]`);
     let successCount = 0;
-    
+    const failedRecipients: string[] = [];
+
     for (const recipient of emailRecipients) {
       try {
         console.log(`📤 Sending email to ${recipient}...`);
         const { data: emailData, error: emailError } = await resend.emails.send({
-          from: 'Beautiful Korean Medicine Hospital <onboarding@resend.dev>',
+          from: mailFrom,
           to: [recipient],
           subject: `[뷰티풀한방병원] 새로운 상담 요청 - ${name}님`,
           html: emailHtml,
         });
 
         if (emailError) {
+          failedRecipients.push(recipient);
           console.error(`❌ Email sending error to ${recipient}:`, emailError);
         } else {
           console.log(`✅ Email sent successfully to ${recipient}:`, emailData);
           successCount++;
         }
       } catch (emailException: any) {
+        failedRecipients.push(recipient);
         console.error(`❌ Email exception to ${recipient}:`, emailException);
       }
     }
-    
+
+    if (failedRecipients.length > 0) {
+      // 도메인 미인증 시 소유자 외 수신자가 여기로 떨어짐 → 로그로 즉시 원인 파악
+      console.error(
+        `⚠️ 발송 실패 수신자(${failedRecipients.length}/${emailRecipients.length}): ${failedRecipients.join(', ')} ` +
+          `— MAIL_FROM이 인증된 도메인인지 확인 필요 (현재: ${mailFrom})`
+      );
+    }
     if (successCount > 0) {
       console.log(`✅ Successfully sent ${successCount} out of ${emailRecipients.length} emails`);
     } else {
