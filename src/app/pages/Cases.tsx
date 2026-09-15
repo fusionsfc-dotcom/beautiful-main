@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { useSearchParams, Link } from "react-router";
-import { Plus, Pencil, Trash2, ChevronLeft } from "lucide-react";
+import { Plus, Pencil, Trash2, ChevronLeft, ChevronRight } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { supabase, Case } from "../../lib/supabase";
 import { useAuth } from "../contexts/AuthContext";
@@ -34,11 +34,6 @@ export default function Cases() {
   const [editorKind, setEditorKind] = useState<"case" | "review">("case");
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCase, setSelectedCase] = useState<Case | null>(null);
-
-  const openDetail = (item: Case) => {
-    setSelectedCase(item);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
 
   useEffect(() => {
     loadCases();
@@ -124,6 +119,24 @@ export default function Cases() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  // ── 상세 보기: 현재 탭 목록(filteredCases) 순서 기준 이전/다음 ──
+  const selectedIndex = selectedCase
+    ? filteredCases.findIndex((c) => c.id === selectedCase.id)
+    : -1;
+  const prevCase = selectedIndex > 0 ? filteredCases[selectedIndex - 1] : null;
+  const nextCase =
+    selectedIndex >= 0 && selectedIndex < filteredCases.length - 1
+      ? filteredCases[selectedIndex + 1]
+      : null;
+
+  const openDetail = (item: Case) => {
+    setSelectedCase(item);
+    // 아래 목록도 해당 글이 있는 페이지로 이동 → '지금 보는 글' 카드가 항상 보이도록
+    const idx = filteredCases.findIndex((c) => c.id === item.id);
+    if (idx >= 0) setCurrentPage(Math.floor(idx / CASES_PAGE_SIZE) + 1);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   const openEditor = (item: Case | null) => {
     const kind =
       item != null
@@ -202,13 +215,31 @@ export default function Cases() {
 
       {/* 메인 컨텐츠 */}
       <div className="py-12 px-5">
-        {selectedCase ? (
-          <CaseDetailView
-            case={selectedCase}
-            onClose={() => setSelectedCase(null)}
-          />
-        ) : (
+        {/* 상세 — 선택 시 목록 위에 표시 (목록은 아래에 항상 유지) */}
+        {selectedCase && (
+          <div className="mb-16 pb-12 border-b border-[#D8CDBE]">
+            <CaseDetailView
+              case={selectedCase}
+              onClose={() => setSelectedCase(null)}
+              prev={prevCase}
+              next={nextCase}
+              onNavigate={openDetail}
+              position={
+                selectedIndex >= 0
+                  ? { index: selectedIndex + 1, total: filteredCases.length }
+                  : null
+              }
+            />
+          </div>
+        )}
+
         <div className="max-w-screen-lg mx-auto space-y-8">
+          {selectedCase && (
+            <h2 className="text-[#6A5542] text-center">
+              {isReviewsTab ? "다른 치료후기 보기" : "다른 치료사례·치료후기 보기"}
+            </h2>
+          )}
+
           {/* 상단 필터 및 작성 버튼 */}
           <div className="flex items-center justify-between gap-4 flex-wrap">
             <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-2 flex-1">
@@ -270,8 +301,19 @@ export default function Cases() {
                 <article
                   key={caseItem.id}
                   onClick={() => openDetail(caseItem)}
-                  className="bg-white rounded-2xl overflow-hidden border border-[#D8CDBE] hover:shadow-xl transition-all group cursor-pointer"
+                  aria-current={selectedCase?.id === caseItem.id ? "true" : undefined}
+                  className={`relative bg-white rounded-2xl overflow-hidden border hover:shadow-xl transition-all group cursor-pointer ${
+                    selectedCase?.id === caseItem.id
+                      ? "border-[#8BC31F] ring-2 ring-[#8BC31F] shadow-lg"
+                      : "border-[#D8CDBE]"
+                  }`}
                 >
+                  {/* 지금 보는 글 표시 */}
+                  {selectedCase?.id === caseItem.id && (
+                    <span className="absolute top-3 left-3 z-10 px-3 py-1 bg-[#8BC31F] text-white text-xs font-bold rounded-full shadow">
+                      지금 보는 글
+                    </span>
+                  )}
                   {/* 썸네일 이미지 */}
                   {caseItem.thumbnail && (
                     <div className="relative aspect-[4/3] overflow-hidden">
@@ -336,26 +378,46 @@ export default function Cases() {
             </>
           )}
         </div>
-        )}
       </div>
     </div>
   );
 }
 
 // 치료사례·치료후기 상세 보기 (Columns의 ColumnDetailView 패턴과 동일)
-function CaseDetailView({ case: caseItem, onClose }: { case: Case; onClose: () => void }) {
+function CaseDetailView({
+  case: caseItem,
+  onClose,
+  prev,
+  next,
+  onNavigate,
+  position,
+}: {
+  case: Case;
+  onClose: () => void;
+  prev: Case | null;
+  next: Case | null;
+  onNavigate: (item: Case) => void;
+  position: { index: number; total: number } | null;
+}) {
   const { text, images } = parseCaseContent(caseItem.content, caseItem.thumbnail);
 
   return (
     <div className="max-w-4xl mx-auto">
-      {/* 뒤로가기 */}
-      <button
-        onClick={onClose}
-        className="flex items-center gap-2 text-[#756A60] hover:text-[#6A5542] mb-6 transition-colors"
-      >
-        <ChevronLeft className="w-5 h-5" />
-        목록으로 돌아가기
-      </button>
+      {/* 뒤로가기 + 현재 위치 */}
+      <div className="flex items-center justify-between mb-6">
+        <button
+          onClick={onClose}
+          className="flex items-center gap-2 text-[#756A60] hover:text-[#6A5542] transition-colors"
+        >
+          <ChevronLeft className="w-5 h-5" />
+          목록으로 돌아가기
+        </button>
+        {position && (
+          <span className="text-sm text-[#9A856D]">
+            {position.index} / {position.total}
+          </span>
+        )}
+      </div>
 
       {/* 헤더 */}
       <div className="mb-8">
@@ -388,6 +450,38 @@ function CaseDetailView({ case: caseItem, onClose }: { case: Case; onClose: () =
           </div>
         </div>
       )}
+
+      {/* 이전 / 다음 후기 — 현재 탭 목록 순서 기준 */}
+      <div className="grid grid-cols-2 gap-3 mb-10">
+        <button
+          type="button"
+          disabled={!prev}
+          onClick={() => prev && onNavigate(prev)}
+          className="text-left p-4 rounded-2xl border border-[#D8CDBE] bg-white hover:bg-[#F8F3EA] hover:border-[#9A856D] transition-colors disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:border-[#D8CDBE]"
+        >
+          <span className="flex items-center gap-1 text-xs text-[#9A856D] mb-1">
+            <ChevronLeft className="w-4 h-4" />
+            이전 후기
+          </span>
+          <span className="block text-sm font-medium text-[#6A5542] line-clamp-2">
+            {prev ? prev.title : "첫 번째 후기입니다"}
+          </span>
+        </button>
+        <button
+          type="button"
+          disabled={!next}
+          onClick={() => next && onNavigate(next)}
+          className="text-right p-4 rounded-2xl border border-[#D8CDBE] bg-white hover:bg-[#F8F3EA] hover:border-[#9A856D] transition-colors disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:border-[#D8CDBE]"
+        >
+          <span className="flex items-center justify-end gap-1 text-xs text-[#9A856D] mb-1">
+            다음 후기
+            <ChevronRight className="w-4 h-4" />
+          </span>
+          <span className="block text-sm font-medium text-[#6A5542] line-clamp-2">
+            {next ? next.title : "마지막 후기입니다"}
+          </span>
+        </button>
+      </div>
 
       {/* 하단 CTA */}
       <div className="border-t border-[#D8CDBE] pt-8">
