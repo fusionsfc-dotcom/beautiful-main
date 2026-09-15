@@ -1,7 +1,8 @@
 /** HandwrittenReviews — 자필 후기 (실제 손편지 사진 8장, 겹쳐 쌓인 연출) */
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
+import { supabase } from "../../lib/supabase";
 import HandwrittenReviewStack from "../common/HandwrittenReviewStack";
 import LoginModal from "../../app/components/LoginModal";
 import { useAuth } from "../../app/contexts/AuthContext";
@@ -22,6 +23,26 @@ export default function HandwrittenReviews() {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const [showLoginModal, setShowLoginModal] = useState(false);
+  // 실제 업로드된 치료사례 건수 — 하드코딩 대신 DB에서 조회 (prerender 시점 + 방문 시 갱신)
+  const [caseCount, setCaseCount] = useState<number | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    supabase
+      .from("cases")
+      .select("id", { count: "exact", head: true })
+      .then(({ count, error }) => {
+        if (cancelled) return;
+        if (error) {
+          console.error("❌ 치료사례 건수 조회 실패:", error);
+          return;
+        }
+        setCaseCount(count ?? 0);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const handleViewAllReviews = () => {
     if (isAuthenticated) {
@@ -63,8 +84,11 @@ export default function HandwrittenReviews() {
                   <h2 className="text-[22px] sm:text-2xl lg:text-3xl font-extrabold text-[#8BC31F] leading-none">
                     자필 후기
                   </h2>
-                  <span className="text-[40px] sm:text-4xl lg:text-5xl font-extrabold text-[#8BC31F] leading-none">
-                    100+
+                  <span
+                    className="text-[40px] sm:text-4xl lg:text-5xl font-extrabold text-[#8BC31F] leading-none"
+                    aria-live="polite"
+                  >
+                    {caseCount === null ? " " : caseCount.toLocaleString("ko-KR")}
                   </span>
                 </div>
 

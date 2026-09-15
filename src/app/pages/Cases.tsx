@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
-import { useSearchParams } from "react-router";
-import { Plus, Pencil, Trash2 } from "lucide-react";
+import { useSearchParams, Link } from "react-router";
+import { Plus, Pencil, Trash2, ChevronLeft } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { supabase, Case } from "../../lib/supabase";
 import { useAuth } from "../contexts/AuthContext";
@@ -33,6 +33,12 @@ export default function Cases() {
   const [editingCase, setEditingCase] = useState<Case | null>(null);
   const [editorKind, setEditorKind] = useState<"case" | "review">("case");
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedCase, setSelectedCase] = useState<Case | null>(null);
+
+  const openDetail = (item: Case) => {
+    setSelectedCase(item);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   useEffect(() => {
     loadCases();
@@ -196,6 +202,12 @@ export default function Cases() {
 
       {/* 메인 컨텐츠 */}
       <div className="py-12 px-5">
+        {selectedCase ? (
+          <CaseDetailView
+            case={selectedCase}
+            onClose={() => setSelectedCase(null)}
+          />
+        ) : (
         <div className="max-w-screen-lg mx-auto space-y-8">
           {/* 상단 필터 및 작성 버튼 */}
           <div className="flex items-center justify-between gap-4 flex-wrap">
@@ -257,6 +269,7 @@ export default function Cases() {
               {paginatedCases.map((caseItem) => (
                 <article
                   key={caseItem.id}
+                  onClick={() => openDetail(caseItem)}
                   className="bg-white rounded-2xl overflow-hidden border border-[#D8CDBE] hover:shadow-xl transition-all group cursor-pointer"
                 >
                   {/* 썸네일 이미지 */}
@@ -276,7 +289,7 @@ export default function Cases() {
                       {caseItem.title}
                     </h3>
                     <p className="text-sm text-[#756A60] mb-4 line-clamp-3 leading-relaxed">
-                      {caseItem.content.substring(0, 100)}...
+                      {parseCaseContent(caseItem.content, null).text.substring(0, 100)}...
                     </p>
 
                     {/* 메타 정보 */}
@@ -328,9 +341,89 @@ export default function Cases() {
             </>
           )}
         </div>
+        )}
       </div>
     </div>
   );
+}
+
+// 치료사례·치료후기 상세 보기 (Columns의 ColumnDetailView 패턴과 동일)
+function CaseDetailView({ case: caseItem, onClose }: { case: Case; onClose: () => void }) {
+  const { text, images } = parseCaseContent(caseItem.content, caseItem.thumbnail);
+
+  return (
+    <div className="max-w-4xl mx-auto">
+      {/* 뒤로가기 */}
+      <button
+        onClick={onClose}
+        className="flex items-center gap-2 text-[#756A60] hover:text-[#6A5542] mb-6 transition-colors"
+      >
+        <ChevronLeft className="w-5 h-5" />
+        목록으로 돌아가기
+      </button>
+
+      {/* 헤더 */}
+      <div className="mb-8">
+        <div className="inline-block px-3 py-1 bg-[#F5EFE6] text-[#9A856D] text-xs font-medium rounded-full mb-4">
+          {getCaseCategoryLabel(caseItem.category)}
+        </div>
+        <h1 className="text-[#6A5542] mb-4">{caseItem.title}</h1>
+        <div className="text-sm text-[#9A856D]">
+          {new Date(caseItem.created_at).toLocaleDateString("ko-KR")}
+        </div>
+      </div>
+
+      {/* 이미지 (썸네일 + 본문 첨부 이미지) */}
+      {images.length > 0 && (
+        <div className="mb-8 space-y-4">
+          {images.map((url, i) => (
+            <div key={url + i} className="rounded-2xl overflow-hidden border border-[#D8CDBE]">
+              <ImageWithFallback
+                src={url}
+                alt={`${caseItem.title} 이미지 ${i + 1}`}
+                className="w-full object-cover"
+              />
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* 본문 */}
+      {text && (
+        <div className="prose prose-lg max-w-none mb-12">
+          <div className="text-[#6A5542] leading-relaxed whitespace-pre-wrap">
+            {text}
+          </div>
+        </div>
+      )}
+
+      {/* 하단 CTA */}
+      <div className="border-t border-[#D8CDBE] pt-8">
+        <div className="bg-[#F8F3EA] rounded-2xl p-8 text-center">
+          <h3 className="text-[#6A5542] mb-3">비슷한 상황이신가요?</h3>
+          <p className="text-[#756A60] mb-6">
+            의료진과 1:1 상담으로 맞춤 회복 계획을 세워보세요
+          </p>
+          <Link
+            to="/reservation"
+            className="inline-flex items-center justify-center px-8 py-3.5 bg-[#8BC31F] text-white text-sm font-semibold rounded-full hover:bg-[#75A915] transition-colors"
+          >
+            상담 신청하기
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/** Date → "YYYY-MM-DD" (한국 시간 기준) — <input type="date"> 값용 */
+function toKstDateInput(value: string | Date): string {
+  return new Date(value).toLocaleDateString("sv-SE", { timeZone: "Asia/Seoul" });
+}
+
+/** "YYYY-MM-DD" → DB created_at 용 ISO (한국 시간 자정으로 고정, 브라우저 시간대 무관) */
+function kstDateInputToIso(date: string): string {
+  return new Date(`${date}T00:00:00+09:00`).toISOString();
 }
 
 // 치료사례·치료후기 게시글 에디터
@@ -357,6 +450,8 @@ function CaseEditor({
     title: caseItem?.title || "",
     content: parsedInitial.text,
     category: (caseItem?.category || defaultCategory) as CasePostCategoryId,
+    // 게시 날짜 — 수정 시 기존 값, 신규 작성 시 오늘(KST)
+    date: toKstDateInput(caseItem?.created_at ?? new Date()),
   });
   const [images, setImages] = useState<string[]>(parsedInitial.images);
   const [saving, setSaving] = useState(false);
@@ -426,6 +521,7 @@ function CaseEditor({
       const category = isReview ? REVIEW_CATEGORY_ID : formData.category;
       const content = buildCaseContent(formData.content, images);
       const thumbnail = images[0] || null;
+      const created_at = kstDateInputToIso(formData.date);
 
       if (caseItem) {
         // 수정
@@ -436,6 +532,7 @@ function CaseEditor({
             content,
             category,
             thumbnail,
+            created_at,
           })
           .eq('id', caseItem.id);
 
@@ -451,6 +548,7 @@ function CaseEditor({
             category,
             thumbnail,
             author_id: user.id,
+            created_at,
           });
 
         if (error) throw error;
@@ -501,6 +599,24 @@ function CaseEditor({
               className="w-full px-4 py-3 border border-[#D8CDBE] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9A856D] focus:border-transparent"
               placeholder={isReview ? "치료후기 제목을 입력하세요" : "치료사례 제목을 입력하세요"}
             />
+          </div>
+
+          {/* 게시 날짜 */}
+          <div>
+            <label className="block text-sm font-medium text-[#6A5542] mb-2">
+              게시 날짜 <span className="text-[#9A856D]">*</span>
+            </label>
+            <input
+              type="date"
+              required
+              value={formData.date}
+              max={toKstDateInput(new Date())}
+              onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+              className="w-full px-4 py-3 border border-[#D8CDBE] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9A856D] focus:border-transparent"
+            />
+            <p className="text-xs text-[#9A856D] mt-2">
+              목록에 표시되는 날짜이며, 목록은 이 날짜 순으로 정렬됩니다.
+            </p>
           </div>
 
           {/* 카테고리 */}
