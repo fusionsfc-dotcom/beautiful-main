@@ -2,19 +2,12 @@
 
 export const REVIEW_CATEGORY_ID = "review" as const;
 
-export type ClinicCaseCategoryId =
-  | "cancer"
-  | "post_surgery"
-  | "chemotherapy"
-  | "radiation";
+export type ClinicCaseCategoryId = "cancer";
 
 export type CasePostCategoryId = ClinicCaseCategoryId | typeof REVIEW_CATEGORY_ID;
 
 export const CLINIC_CASE_CATEGORIES: { id: ClinicCaseCategoryId; label: string }[] = [
   { id: "cancer", label: "뷰티풀 암케어" },
-  { id: "post_surgery", label: "수술 후 회복케어" },
-  { id: "chemotherapy", label: "항암치료 환자 케어" },
-  { id: "radiation", label: "방사선치료 환자 케어" },
 ];
 
 export const CASES_TAB_CATEGORIES: { id: "all" | typeof REVIEW_CATEGORY_ID | ClinicCaseCategoryId; label: string }[] = [

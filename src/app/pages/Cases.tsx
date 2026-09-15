@@ -687,9 +687,6 @@ function CaseEditor({
                 className="w-full px-4 py-3 border border-[#D8CDBE] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9A856D] focus:border-transparent"
               >
                 <option value="cancer">뷰티풀 암케어</option>
-                <option value="post_surgery">수술 후 회복케어</option>
-                <option value="chemotherapy">항암치료 환자 케어</option>
-                <option value="radiation">방사선치료 환자 케어</option>
               </select>
             </div>
           )}
