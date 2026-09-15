@@ -292,11 +292,6 @@ export default function Cases() {
                       {parseCaseContent(caseItem.content, null).text.substring(0, 100)}...
                     </p>
 
-                    {/* 메타 정보 */}
-                    <div className="flex items-center justify-between text-xs text-[#9A856D] mb-4">
-                      <span>{new Date(caseItem.created_at).toLocaleDateString('ko-KR')}</span>
-                    </div>
-
                     {/* 관리자 액션 버튼 */}
                     {isAdmin && (
                       <div className="flex gap-2 mb-4">
@@ -367,10 +362,7 @@ function CaseDetailView({ case: caseItem, onClose }: { case: Case; onClose: () =
         <div className="inline-block px-3 py-1 bg-[#F5EFE6] text-[#9A856D] text-xs font-medium rounded-full mb-4">
           {getCaseCategoryLabel(caseItem.category)}
         </div>
-        <h1 className="text-[#6A5542] mb-4">{caseItem.title}</h1>
-        <div className="text-sm text-[#9A856D]">
-          {new Date(caseItem.created_at).toLocaleDateString("ko-KR")}
-        </div>
+        <h1 className="text-[#6A5542]">{caseItem.title}</h1>
       </div>
 
       {/* 이미지 (썸네일 + 본문 첨부 이미지) */}
@@ -416,16 +408,6 @@ function CaseDetailView({ case: caseItem, onClose }: { case: Case; onClose: () =
   );
 }
 
-/** Date → "YYYY-MM-DD" (한국 시간 기준) — <input type="date"> 값용 */
-function toKstDateInput(value: string | Date): string {
-  return new Date(value).toLocaleDateString("sv-SE", { timeZone: "Asia/Seoul" });
-}
-
-/** "YYYY-MM-DD" → DB created_at 용 ISO (한국 시간 자정으로 고정, 브라우저 시간대 무관) */
-function kstDateInputToIso(date: string): string {
-  return new Date(`${date}T00:00:00+09:00`).toISOString();
-}
-
 // 치료사례·치료후기 게시글 에디터
 function CaseEditor({
   case: caseItem,
@@ -450,8 +432,6 @@ function CaseEditor({
     title: caseItem?.title || "",
     content: parsedInitial.text,
     category: (caseItem?.category || defaultCategory) as CasePostCategoryId,
-    // 게시 날짜 — 수정 시 기존 값, 신규 작성 시 오늘(KST)
-    date: toKstDateInput(caseItem?.created_at ?? new Date()),
   });
   const [images, setImages] = useState<string[]>(parsedInitial.images);
   const [saving, setSaving] = useState(false);
@@ -521,7 +501,6 @@ function CaseEditor({
       const category = isReview ? REVIEW_CATEGORY_ID : formData.category;
       const content = buildCaseContent(formData.content, images);
       const thumbnail = images[0] || null;
-      const created_at = kstDateInputToIso(formData.date);
 
       if (caseItem) {
         // 수정
@@ -532,7 +511,6 @@ function CaseEditor({
             content,
             category,
             thumbnail,
-            created_at,
           })
           .eq('id', caseItem.id);
 
@@ -548,7 +526,6 @@ function CaseEditor({
             category,
             thumbnail,
             author_id: user.id,
-            created_at,
           });
 
         if (error) throw error;
@@ -599,24 +576,6 @@ function CaseEditor({
               className="w-full px-4 py-3 border border-[#D8CDBE] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9A856D] focus:border-transparent"
               placeholder={isReview ? "치료후기 제목을 입력하세요" : "치료사례 제목을 입력하세요"}
             />
-          </div>
-
-          {/* 게시 날짜 */}
-          <div>
-            <label className="block text-sm font-medium text-[#6A5542] mb-2">
-              게시 날짜 <span className="text-[#9A856D]">*</span>
-            </label>
-            <input
-              type="date"
-              required
-              value={formData.date}
-              max={toKstDateInput(new Date())}
-              onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-              className="w-full px-4 py-3 border border-[#D8CDBE] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9A856D] focus:border-transparent"
-            />
-            <p className="text-xs text-[#9A856D] mt-2">
-              목록에 표시되는 날짜이며, 목록은 이 날짜 순으로 정렬됩니다.
-            </p>
           </div>
 
           {/* 카테고리 */}
