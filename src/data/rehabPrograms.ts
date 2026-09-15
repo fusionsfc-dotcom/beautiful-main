@@ -46,6 +46,7 @@ export const rehabPrograms: RehabProgram[] = [
     name: "트램폴린 재활 운동",
     subname: "(리바운딩)",
     image: "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/program/beautiful_ai_img.025.jpeg",
+    videoUrl: "https://youtube.com/shorts/w01eXIs8HG4",
     features: [
       {
         icon: "leaf",
