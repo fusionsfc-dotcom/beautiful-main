@@ -7,17 +7,17 @@ export type ClinicCaseCategoryId = "cancer";
 export type CasePostCategoryId = ClinicCaseCategoryId | typeof REVIEW_CATEGORY_ID;
 
 export const CLINIC_CASE_CATEGORIES: { id: ClinicCaseCategoryId; label: string }[] = [
-  { id: "cancer", label: "뷰티풀 암케어" },
+  { id: "cancer", label: "암치료후기" },
 ];
 
 export const CASES_TAB_CATEGORIES: { id: "all" | typeof REVIEW_CATEGORY_ID | ClinicCaseCategoryId; label: string }[] = [
   { id: "all", label: "전체" },
-  { id: REVIEW_CATEGORY_ID, label: "치료후기" },
   ...CLINIC_CASE_CATEGORIES,
+  { id: REVIEW_CATEGORY_ID, label: "기타질환후기" },
 ];
 
 export function getCaseCategoryLabel(categoryId: string): string {
-  if (categoryId === REVIEW_CATEGORY_ID) return "치료후기";
+  if (categoryId === REVIEW_CATEGORY_ID) return "기타질환후기";
   return CLINIC_CASE_CATEGORIES.find((c) => c.id === categoryId)?.label ?? categoryId;
 }
 

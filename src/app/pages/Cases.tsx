@@ -236,7 +236,7 @@ export default function Cases() {
         <div className="max-w-screen-lg mx-auto space-y-8">
           {selectedCase && (
             <h2 className="text-[#6A5542] text-center">
-              {isReviewsTab ? "다른 치료후기 보기" : "다른 치료사례·치료후기 보기"}
+              {isReviewsTab ? "다른 기타질환후기 보기" : "다른 후기 보기"}
             </h2>
           )}
 
@@ -272,7 +272,7 @@ export default function Cases() {
           {/* 로딩 상태 */}
           {loading && (
             <div className="text-center py-12 text-[#9A856D]">
-              {isReviewsTab ? "치료후기를 불러오는 중..." : "치료사례를 불러오는 중..."}
+              {isReviewsTab ? "기타질환후기를 불러오는 중..." : "후기를 불러오는 중..."}
             </div>
           )}
 
@@ -280,9 +280,9 @@ export default function Cases() {
           {!loading && filteredCases.length === 0 && (
             <div className="text-center py-12 text-[#9A856D]">
               {selectedCategory === "all"
-                ? "작성된 치료사례·치료후기가 없습니다"
+                ? "작성된 후기가 없습니다"
                 : isReviewsTab
-                  ? "작성된 치료후기가 없습니다"
+                  ? "작성된 기타질환후기가 없습니다"
                   : "작성된 치료사례가 없습니다"}
             </div>
           )}
@@ -642,10 +642,10 @@ function CaseEditor({
           <h2 className="text-[#6A5542]">
             {caseItem
               ? isReview
-                ? "치료후기 수정"
+                ? "기타질환후기 수정"
                 : "치료사례 수정"
               : isReview
-                ? "새 치료후기 작성"
+                ? "새 기타질환후기 작성"
                 : "새 치료사례 작성"}
           </h2>
           <button
@@ -668,7 +668,7 @@ function CaseEditor({
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
               className="w-full px-4 py-3 border border-[#D8CDBE] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9A856D] focus:border-transparent"
-              placeholder={isReview ? "치료후기 제목을 입력하세요" : "치료사례 제목을 입력하세요"}
+              placeholder={isReview ? "기타질환후기 제목을 입력하세요" : "치료사례 제목을 입력하세요"}
             />
           </div>
 
@@ -686,7 +686,7 @@ function CaseEditor({
                 }
                 className="w-full px-4 py-3 border border-[#D8CDBE] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9A856D] focus:border-transparent"
               >
-                <option value="cancer">뷰티풀 암케어</option>
+                <option value="cancer">암치료후기</option>
               </select>
             </div>
           )}

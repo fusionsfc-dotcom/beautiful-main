@@ -13,8 +13,8 @@ import {
 import MemberPortalAdmin from "../../components/admin/MemberPortalAdmin";
 
 const ADMIN_CATEGORIES = [
-  { id: REVIEW_CATEGORY_ID, label: "치료후기" },
   ...CLINIC_CASE_CATEGORIES,
+  { id: REVIEW_CATEGORY_ID, label: "기타질환후기" },
 ];
 
 export default function Admin() {
