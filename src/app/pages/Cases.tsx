@@ -39,9 +39,11 @@ export default function Cases() {
     loadCases();
   }, []);
 
+  // ?tab= 으로 진입 시 해당 탭 선택 (cancer=암치료후기, review=기타질환후기)
   useEffect(() => {
-    if (searchParams.get("tab") === "review") {
-      setSelectedCategory(REVIEW_CATEGORY_ID);
+    const tab = searchParams.get("tab");
+    if (tab && CASES_TAB_CATEGORIES.some((c) => c.id === tab)) {
+      setSelectedCategory(tab as CasesTabId);
     }
   }, [searchParams]);
 

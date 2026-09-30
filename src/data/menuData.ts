@@ -52,7 +52,7 @@ export const menuCategories: MenuCategory[] = [
     badge: "HOT",
     defaultOpen: true,
     items: [
-      { label: "자필 후기", href: "/cases?tab=review" },
+      { label: "자필 후기", href: "/cases?tab=cancer" },
       { label: "영상 후기", href: "/columns?tab=videos" },
     ],
   },

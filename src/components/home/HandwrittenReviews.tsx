@@ -10,7 +10,7 @@ import { useAuth } from "../../app/contexts/AuthContext";
 const REVIEW_BG_IMAGE =
   "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/te_1.jpeg";
 
-const CASES_REVIEWS_PATH = "/cases?tab=review";
+const CASES_REVIEWS_PATH = "/cases?tab=cancer";
 
 const BADGES = [
   "치료 효과",
