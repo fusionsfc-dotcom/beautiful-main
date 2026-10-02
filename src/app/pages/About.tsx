@@ -28,6 +28,7 @@ import { toast } from "sonner";
 import SEOHead from "../../components/seo/SEOHead";
 import { PHYSICIANS, toPhysicianJsonLd } from "../../data/physicians";
 import { makeBreadcrumbList } from "../../lib/schema/breadcrumb";
+import { parseCaseContent } from "../../lib/caseContentImages";
 
 const HERO_BG_URL =
   "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/yoga_s.jpeg";
@@ -154,7 +155,28 @@ function parseNoticeFeeSections(content: string): NoticeFeeSection[] | null {
   return sections;
 }
 
-function NoticeContent({ content }: { content: string }) {
+function NoticeContent({ content, title }: { content: string; title?: string }) {
+  // 본문에 마크다운 이미지(![](url))가 있으면 이미지로 표시 (예: 비급여 목록표 원본 이미지)
+  const { text: noticeText, images: noticeImages } = parseCaseContent(content, null);
+  if (noticeImages.length > 0) {
+    return (
+      <div className="space-y-6">
+        {noticeText && (
+          <p className="text-[#2F2A26] whitespace-pre-wrap leading-relaxed">{noticeText}</p>
+        )}
+        {noticeImages.map((url, i) => (
+          <img
+            key={url}
+            src={url}
+            alt={`${title ?? "공지"} ${i + 1}/${noticeImages.length}`}
+            loading="lazy"
+            className="block w-auto max-w-full h-auto mx-auto rounded-lg border border-[#D8CDBE]"
+          />
+        ))}
+      </div>
+    );
+  }
+
   const feeSections = parseNoticeFeeSections(content);
 
   if (!feeSections) {
@@ -1152,7 +1174,7 @@ function NoticesSection() {
                   {isExpanded && (
                     <div className="px-6 pb-6 pt-0 border-t border-gray-100">
                       <div className="mt-4">
-                        <NoticeContent content={notice.content} />
+                        <NoticeContent content={notice.content} title={notice.title} />
                         <div className="mt-4 flex items-center justify-between">
                           <div className="flex items-center gap-4 text-sm text-gray-500">
                             <span>
