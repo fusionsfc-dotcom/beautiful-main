@@ -7,17 +7,12 @@ import useEmblaCarousel from "embla-carousel-react";
 const SLIDES = [
   {
     number: "1",
-    title: "호텔을 리모델링한\n쾌적하고 고급스러운 입원실",
+    title: "200여 건의 자필후기\n환자분들의 이야기가 쌓인 암요양병원",
     description:
-      "프라이빗한 1인실과 호텔식 시설로\n편안한 치료와 휴식을 제공합니다.",
-    features: [
-      { icon: "🛏", text: "호텔식 고급 인테리어" },
-      { icon: "🛡", text: "감염 걱정 없는 쾌적한 환경" },
-      { icon: "🚿", text: "전체 입원실 호텔형 화장실" },
-    ],
-    // TODO: 실제 사진 교체 필요 — 1인실 침대 이미지 (창문, 베이지 톤)
-    image:
-      "https://pzivoxyngofrrpdjramu.supabase.co/storage/v1/object/public/images/room/room1.jpg",
+      "한 글자 한 글자, 직접 남겨주신 이야기.\n뷰티풀에서의 치료와 돌봄, 일상을 만나보세요.",
+    features: [] as { icon: string; text: string }[],
+    // 실제 환자 자필 후기 (유방암 치료 후 회복)
+    image: "/images/reviews/handwritten-3.png",
   },
   {
     number: "2",
@@ -123,6 +118,13 @@ export default function WhyBeautifulCarousel() {
                       {slide.title}
                     </h3>
                   </div>
+
+                  {/* 특징이 없는 슬라이드는 설명 문구를 표시 */}
+                  {slide.features.length === 0 && (
+                    <p className="text-sm lg:text-base text-[#6A5542] leading-relaxed whitespace-pre-line">
+                      {slide.description}
+                    </p>
+                  )}
 
                   {/* 특징 리스트 — 이모지 대신 단색 말머리로 통일 */}
                   <div className="flex flex-col gap-2.5">
